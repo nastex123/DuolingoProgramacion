@@ -4,8 +4,8 @@
   "code": "LUA_MOD_01",
   "slug": "fundamentos-de-lua",
   "title": "Fundamentos de Lua",
-  "objective": "Comprender qué es Lua, el concepto de chunk y ejecutar tu primer script con print y comentarios.",
-  "description": "Chunk, REPL, print, comentarios -- y --[[ ]], archivos .lua, ejecución y lectura de errores.",
+  "objective": "Conocer qué es Lua, cómo se agrupa tu código y mostrar tu primer mensaje con print y notas.",
+  "description": "Ideas agrupadas, prueba al instante, print, notas con -- y --[[ ]], archivos .lua, ejecución y lectura de mensajes de error.",
   "position": 1,
   "status": "published",
   "content_version": 1,
@@ -35,7 +35,7 @@
           "slug": "que-es-lua",
           "position": 1,
           "concept_id": "lua-fund-que-es",
-          "explanation": "¿Qué es Lua? Es un lenguaje muy pequeño y rápido. Paso 1: No es para hacer sistemas operativos. Paso 2: Se mete dentro de apps, juegos como Roblox y servidores como Nginx. Paso 3: Solo tiene 21 palabras reservadas y una estructura principal: la tabla. Por eso cabe en kilobytes.",
+          "explanation": "Vas a conocer Lua, un lenguaje pequeño y muy rápido. Paso 1: Imagina un motor diminuto que vive dentro de otra cosa, no solo. Paso 2: Tú lo encuentras dentro de juegos como Roblox y dentro de servidores que atienden webs. Paso 3: Es tan ligero que cabe en pocos archivos y arranca veloz. Por eso muchos lo eligen cuando quieren añadir código sin peso.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -45,7 +45,7 @@
               "code": "-- Lua cabe en un script de 2 líneas\nprint(\"Hola, Lua\")",
               "language": "lua",
               "output": "Hola, Lua",
-              "explanation": "Este ejemplo muestra el tamaño mínimo útil de Lua.",
+              "explanation": "Mira cómo en dos líneas Lua ya dice hola; así de ligero es.",
               "position": 1
             }
           ],
@@ -91,7 +91,7 @@
               "correct_answer_ids": [
                 "4cd2ad6b-2af8-4461-97f6-69af25d22786"
               ],
-              "explanation": "Falso. Lua es ligero y embebido, pensado para incrustarse en juegos y servidores, no para sistemas operativos.",
+              "explanation": "Falso. Lua es ligero y vive dentro de juegos y webs, no es para sistemas enormes.",
               "hints": [],
               "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
               "lesson_id": "3075f007-d5e7-4b4a-a71a-550b7a635ec3"
@@ -100,11 +100,11 @@
         },
         {
           "id": "85f7dc84-3464-406a-8099-6e316bf4738e",
-          "title": "Lua vs otros lenguajes",
+          "title": "Lua frente a otros lenguajes",
           "slug": "lua-vs-otros-lenguajes",
           "position": 2,
           "concept_id": "lua-fund-vs",
-          "explanation": "Diferencia 1: Lua cuenta desde 1. t[1] es el primero. En Python es t[0]. Diferencia 2: Comentario es --, no #. Diferencia 3: Solo nil y false son falsos. En Lua, 0 y \"\" cuentan como verdaderos. Recuerda esto y no mezclarás reglas.",
+          "explanation": "Vas a notar cómo Lua hace algunas cosas a su manera. Paso 1: En Lua cuentas 1, 2, 3; la primera casilla es la 1, no la 0. Paso 2: Para dejar una nota usas --, no #. Paso 3: Solo lo totalmente vacío y lo marcado como falso cuentan como no; el 0 y el texto vacío sí cuentan como sí. Recuerda esto y no mezclarás reglas.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -114,7 +114,7 @@
               "code": "local t = {\"a\", \"b\", \"c\"}\nprint(t[1]) -- Lua: a\n-- En Python sería t[0]",
               "language": "lua",
               "output": "a",
-              "explanation": "Lua empieza en 1, no en 0.",
+              "explanation": "En Lua la primera casilla es la 1, no la 0 como en otros.",
               "position": 1
             }
           ],
@@ -127,7 +127,7 @@
               "type": "single_choice",
               "difficulty": "easy",
               "category": "fundamentos",
-              "prompt": "¿Para qué fue diseñado principalmente Lua?",
+              "prompt": "¿Para qué usan principalmente Lua los que crean juegos y webs?",
               "prompt_code": null,
               "score": 10,
               "concept_ids": [
@@ -152,7 +152,7 @@
                   "question_id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
                   "question_version": 1,
                   "label": "B",
-                  "body": "Ser embebido en aplicaciones",
+                  "body": "Vivir dentro de juegos y apps",
                   "is_correct": true,
                   "position": 2
                 },
@@ -178,7 +178,7 @@
               "correct_answer_ids": [
                 "a853fcad-f95c-4bc2-a2ce-2fc142e87585"
               ],
-              "explanation": "Ser embebido en aplicaciones. Lua es ligero para Roblox, Nginx y juegos, no para sistemas operativos.",
+              "explanation": "Vivir dentro de juegos y apps. Lua es ligero para colarse en Roblox y servidores web.",
               "hints": [],
               "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
               "lesson_id": "85f7dc84-3464-406a-8099-6e316bf4738e"
@@ -189,7 +189,7 @@
     },
     {
       "id": "4136e84f-9683-4d7f-998b-246848474b84",
-      "title": "Chunk y REPL",
+      "title": "Cómo se organiza y prueba tu código",
       "slug": "chunk-y-repl",
       "position": 2,
       "type": "theory",
@@ -200,21 +200,21 @@
       "lessons": [
         {
           "id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
-          "title": "Qué es un chunk",
+          "title": "Cómo se agrupa tu código",
           "slug": "que-es-un-chunk",
           "position": 1,
           "concept_id": "lua-fund-chunk",
-          "explanation": "Chunk = un bloque de código que Lua ejecuta junto. Paso 1: Cada archivo .lua es un chunk. Paso 2: Cada línea del REPL también es un chunk. Paso 3: La palabra local solo vive dentro de su chunk/bloque. Así funciona el alcance.",
+          "explanation": "Vas a entender cómo Lua lee tu código en grupos. Paso 1: Piensa en una cajita de instrucciones que se ejecutan juntas; esa cajita es lo que antes llamaban chunk. Paso 2: Cada archivo que guardas es una cajita completa. Paso 3: Cada línea que pruebas al instante también es una cajita. Lo que marcas como local vive solo dentro de su cajita, no fuera.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
           "examples": [
             {
-              "title": "Chunk simple",
-              "code": "-- archivo hola.lua es un chunk\nlocal x = 10\nprint(x)",
+              "title": "Cajita simple",
+              "code": "-- archivo hola.lua es una cajita\nlocal x = 10\nprint(x)",
               "language": "lua",
               "output": "10",
-              "explanation": "El archivo completo se ejecuta como un chunk.",
+              "explanation": "Todo el archivo se ejecuta junto, como una cajita cerrada.",
               "position": 1
             }
           ],
@@ -227,7 +227,7 @@
               "type": "true_false",
               "difficulty": "easy",
               "category": "fundamentos",
-              "prompt": "Un archivo .lua completo se ejecuta como un chunk.",
+              "prompt": "Un archivo .lua completo se ejecuta todo junto como una cajita.",
               "prompt_code": null,
               "score": 10,
               "concept_ids": [
@@ -260,7 +260,7 @@
               "correct_answer_ids": [
                 "1577c6aa-dab3-48a7-b1e6-e7512c3febf4"
               ],
-              "explanation": "Verdadero. Cada archivo es un chunk que Lua carga y ejecuta.",
+              "explanation": "Verdadero. Cada archivo es una cajita que Lua lee y ejecuta toda junta.",
               "hints": [],
               "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
               "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025"
@@ -269,21 +269,21 @@
         },
         {
           "id": "092cee96-50c0-49c8-a189-b84996c1380d",
-          "title": "REPL lua -i",
+          "title": "Probar ideas al instante",
           "slug": "repl-lua-i",
           "position": 2,
           "concept_id": "lua-fund-repl",
-          "explanation": "REPL = probar sin guardar. Paso 1: Escribe lua -i en la terminal. Paso 2: Aparece > . Escribe print(\"hola\") y da Enter: se ejecuta al instante. Paso 3: Sal con Ctrl+D o escribe os.exit(). Útil para probar rápido.",
+          "explanation": "Vas a probar código sin guardar archivo, como en un cuaderno borrable. Paso 1: Abre tu terminal y escribe lua -i, verás un signo > que te invita a escribir. Paso 2: Escribe print(\"hola\") y pulsa Enter; ves el resultado al momento. Paso 3: Para salir pulsa Ctrl+D o escribe os.exit(). Es perfecto para ensayar una idea rápida antes de guardarla.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
           "examples": [
             {
-              "title": "REPL",
+              "title": "Prueba al instante",
               "code": "$ lua -i\n> print(\"hola\")\nhola",
               "language": "lua",
               "output": "hola",
-              "explanation": "El REPL ejecuta cada línea al presionar Enter.",
+              "explanation": "Cada línea que escribes se prueba al instante al pulsar Enter.",
               "position": 1
             }
           ],
@@ -296,7 +296,7 @@
               "type": "single_choice",
               "difficulty": "easy",
               "category": "fundamentos",
-              "prompt": "¿Qué comando inicia el REPL de Lua?",
+              "prompt": "¿Qué escribes en la terminal para probar código al instante sin guardar archivo?",
               "prompt_code": null,
               "score": 10,
               "concept_ids": [
@@ -347,7 +347,7 @@
               "correct_answer_ids": [
                 "a7491149-3ed2-4849-9fd2-d6e1166a2e53"
               ],
-              "explanation": "lua -i inicia el modo interactivo donde cada línea se ejecuta al instante.",
+              "explanation": "Con lua -i abres el modo de prueba al instante y cada línea se ejecuta al pulsar Enter.",
               "hints": [],
               "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
               "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d"
@@ -369,11 +369,11 @@
       "lessons": [
         {
           "id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42",
-          "title": "print con un valor",
+          "title": "Mostrar un dato en pantalla",
           "slug": "print-con-un-valor",
           "position": 1,
           "concept_id": "lua-fund-print",
-          "explanation": "print = mostrar en pantalla. Paso 1: Escribe print(\"Hola\"). Paso 2: Siempre con paréntesis. Paso 3: Cada print salta de línea. Prueba: print(\"Hola\") imprime Hola sin comillas. print(42) imprime 42.",
+          "explanation": "Vas a mostrar tu primer mensaje en pantalla con print. Paso 1: Escribe print(\"Hola\") con paréntesis y comillas para texto. Paso 2: Usa print(42) sin comillas para números. Paso 3: Cada print salta a la línea siguiente automáticamente. Es como decirle a Lua: di esto en voz alta y luego baja un renglón.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -383,7 +383,7 @@
               "code": "print(\"Hola\")\nprint(42)",
               "language": "lua",
               "output": "Hola\n42",
-              "explanation": "print muestra texto entre comillas y números sin comillas.",
+              "explanation": "Así muestras texto entre comillas y números sin comillas, cada uno en su línea.",
               "position": 1
             }
           ],
@@ -447,7 +447,7 @@
               "correct_answer_ids": [
                 "3e8b4d14-02cd-46b3-9c8c-55aad743051f"
               ],
-              "explanation": "Imprime Hola sin comillas. Las comillas delimitan el texto pero no se imprimen.",
+              "explanation": "Muestra Hola sin comillas. Las comillas solo abrazan el texto, no se imprimen.",
               "hints": [],
               "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
               "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42"
@@ -484,7 +484,7 @@
               "correct_answer_ids": [
                 "3a1b1c8b-f02d-49dd-a9ca-1844260206ff"
               ],
-              "explanation": "print es la función que escribe en pantalla y necesita paréntesis.",
+              "explanation": "La orden print es la que escribe en pantalla y siempre lleva paréntesis.",
               "hints": [],
               "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
               "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42"
@@ -493,11 +493,11 @@
         },
         {
           "id": "7106a362-69df-430d-9540-762252a20711",
-          "title": "print con múltiples valores",
+          "title": "Mostrar varios datos juntos",
           "slug": "print-multiples-valores",
           "position": 2,
           "concept_id": "lua-fund-print-multi",
-          "explanation": "print con varios valores. Paso 1: Separa con comas: print(\"Edad:\", 25). Paso 2: Lua los separa con un tabulador. No necesitas unir con .. si solo quieres ver valores. Resultado: Edad:  25.",
+          "explanation": "Vas a mostrar varios datos en una misma línea. Paso 1: Separa lo que quieres mostrar con comas, por ejemplo print(\"Edad:\", 25). Paso 2: Lua pone un espacio grande entre cada dato para que se lea bien. Paso 3: No necesitas pegar texto con otros símbolos si solo quieres ver valores. Es como poner etiquetas seguidas en una misma fila y ordenada.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -507,7 +507,7 @@
               "code": "print(\"Edad:\", 25)\n-- Salida: Edad:  25",
               "language": "lua",
               "output": "Edad:   25",
-              "explanation": "La coma separa argumentos con tab.",
+              "explanation": "La coma hace que Lua separe los datos con un espacio grande.",
               "position": 1
             }
           ],
@@ -571,7 +571,7 @@
               "correct_answer_ids": [
                 "d7b0f941-c804-4691-a945-b15f3b213669"
               ],
-              "explanation": "Imprimir con comas separa con tabulación: a b 3.",
+              "explanation": "Al separar con comas Lua pone un espacio grande: a b 3.",
               "hints": [],
               "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
               "lesson_id": "7106a362-69df-430d-9540-762252a20711"
@@ -593,11 +593,11 @@
       "lessons": [
         {
           "id": "d65a8570-c372-4914-97bb-70889762fec2",
-          "title": "Comentario de una línea",
+          "title": "Notas de una línea",
           "slug": "comentario-una-linea",
           "position": 1,
           "concept_id": "lua-fund-comentario-linea",
-          "explanation": "Comentario de una línea. Paso 1: Empieza con -- . Paso 2: Todo después de -- en esa línea se ignora. Paso 3: Úsalo para explicar POR QUÉ, no QUÉ hace la línea. Ejemplo: -- suma total",
+          "explanation": "Vas a dejar notas que Lua ignora por completo. Paso 1: Empieza tu nota con --, dos guiones seguidos. Paso 2: Todo lo que escribas después en esa misma línea Lua no lo lee. Paso 3: Úsalo para explicar por qué hiciste algo, no para repetir qué hace la línea. Es como dejar un post-it invisible para tu yo del futuro.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -607,7 +607,7 @@
               "code": "-- Esto es un comentario\nprint(\"visible\") -- comentario al final",
               "language": "lua",
               "output": "visible",
-              "explanation": "Todo tras -- es ignorado.",
+              "explanation": "Todo lo que va tras -- en esa línea Lua lo ignora.",
               "position": 1
             }
           ],
@@ -671,7 +671,7 @@
               "correct_answer_ids": [
                 "32509203-09d1-4bf7-8edf-9b8d12e38eed"
               ],
-              "explanation": "Con --. # es de Python y // de otros lenguajes.",
+              "explanation": "Con --. La # es de otro lenguaje y // también es de otros.",
               "hints": [],
               "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
               "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2"
@@ -680,11 +680,11 @@
         },
         {
           "id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
-          "title": "Comentario multilínea",
+          "title": "Notas de varias líneas",
           "slug": "comentario-multilinea",
           "position": 2,
           "concept_id": "lua-fund-comentario-bloque",
-          "explanation": "Comentario de bloque. Paso 1: Abre con --[[ . Paso 2: Cierra con ]] . Paso 3: Todo dentro se ignora, aunque sean 10 líneas. Truco: si tu bloque ya tiene ]], usa --[=[ y ]=]. Para apagar código temporal.",
+          "explanation": "Vas a apagar varias líneas a la vez sin borrarlas. Paso 1: Abre el bloque con --[[ al inicio. Paso 2: Cierra el bloque con ]] al final. Paso 3: Todo lo que quede dentro se vuelve invisible para Lua, aunque sean diez líneas. Es como tapar un capítulo con una hoja para que nadie lo lea hasta que quites la hoja.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -694,7 +694,7 @@
               "code": "--[[ Este bloque\nprint(\"no se ejecuta\")\n]]\nprint(\"sí se ejecuta\")",
               "language": "lua",
               "output": "sí se ejecuta",
-              "explanation": "El bloque entre --[[ y ]] no se ejecuta.",
+              "explanation": "Lo que está entre --[[ y ]] queda apagado y no se ejecuta.",
               "position": 1
             }
           ],
@@ -740,7 +740,7 @@
               "correct_answer_ids": [
                 "eb0231b0-3c61-4711-b883-89959d7a0e70"
               ],
-              "explanation": "Falso. Todo dentro de --[[ ]] es comentario e ignorado.",
+              "explanation": "Falso. Todo lo que está entre --[[ y ]] es nota y se ignora.",
               "hints": [],
               "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
               "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb"
@@ -762,11 +762,11 @@
       "lessons": [
         {
           "id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
-          "title": "Crear main.lua",
+          "title": "Crear tu archivo main.lua",
           "slug": "crear-main-lua",
           "position": 1,
           "concept_id": "lua-fund-archivo",
-          "explanation": "Archivo .lua. Paso 1: Crea un archivo y ponle nombre que termine en .lua, ejemplo main.lua. Paso 2: Escribe código dentro y guarda. Paso 3: Ahora puedes ejecutarlo muchas veces sin reescribir.",
+          "explanation": "Vas a guardar tu código en un archivo que puedes repetir. Paso 1: Crea un archivo nuevo y nómbralo main.lua; debe terminar en .lua. Paso 2: Escribe tu código dentro, por ejemplo print(\"Guardado\"), y guarda. Paso 3: Ahora puedes abrirlo y ejecutarlo todas las veces que quieras sin reescribir. Es como guardar una receta en tu libreta de cocina.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -776,7 +776,7 @@
               "code": "-- main.lua\nprint(\"Guardado\")",
               "language": "lua",
               "output": "Guardado (al ejecutar)",
-              "explanation": "El archivo guarda el chunk.",
+              "explanation": "Ese archivo guarda tu cajita de instrucciones para usarla luego.",
               "position": 1
             }
           ],
@@ -840,7 +840,7 @@
               "correct_answer_ids": [
                 "ec251edb-e3b1-4ffc-b8d0-ca75ef3530bd"
               ],
-              "explanation": ".lua es la extensión de Lua.",
+              "explanation": ".lua es la terminación que reconoce Lua, como .jpg para fotos.",
               "hints": [],
               "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
               "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305"
@@ -849,11 +849,11 @@
         },
         {
           "id": "dfca8071-9c1a-43e8-9ab5-c57993907fb4",
-          "title": "Estructura de carpetas",
+          "title": "Ordenar tu proyecto en carpetas",
           "slug": "estructura-carpetas",
           "position": 2,
           "concept_id": "lua-fund-archivo-struct",
-          "explanation": "Carpetas. Paso 1: Un proyecto puede tener varios .lua. Paso 2: Ejemplo: carpeta proyecto/ con main.lua y utils.lua. Paso 3: Lua busca archivos con require usando package.path. Al inicio, deja todo plano: una carpeta, un main.lua.",
+          "explanation": "Vas a ordenar tus archivos como ordenas cajones en casa. Paso 1: Un proyecto puede tener varios archivos .lua, no solo uno. Paso 2: Imagina una carpeta proyecto con main.lua y otro archivo de ayuda llamado utils.lua. Paso 3: Al inicio deja todo simple: una carpeta y un solo main.lua. Cuando crezcas, separarás por temas, como clasificar ropa por cajón.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -863,7 +863,7 @@
               "code": "proyecto/\n├── main.lua\n└── utils.lua",
               "language": "lua",
               "output": "",
-              "explanation": "Estructura mínima recomendada.",
+              "explanation": "Así ordenas tu proyecto: una carpeta con dos archivos simples.",
               "position": 1
             }
           ],
@@ -909,7 +909,7 @@
               "correct_answer_ids": [
                 "25d4bd3b-51fa-4ecb-9cbb-849193d5f93b"
               ],
-              "explanation": "Verdadero. Puedes dividir tu código en varios .lua y cargarlos con require.",
+              "explanation": "Verdadero. Puedes dividir tu código en varios archivos .lua y usarlos juntos.",
               "hints": [],
               "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
               "lesson_id": "dfca8071-9c1a-43e8-9ab5-c57993907fb4"
@@ -931,11 +931,11 @@
       "lessons": [
         {
           "id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c",
-          "title": "lua main.lua",
+          "title": "Ejecutar tu archivo",
           "slug": "lua-main-lua",
           "position": 1,
           "concept_id": "lua-fund-ejecutar",
-          "explanation": "Ejecutar. Paso 1: Abre terminal en la carpeta de main.lua. Paso 2: Escribe exactamente: lua main.lua y da Enter. Paso 3: Verás la salida de tus print. Si hay error, te dirá archivo y línea.",
+          "explanation": "Vas a hacer que Lua lea y ejecute tu archivo guardado. Paso 1: Abre la terminal en la carpeta donde guardaste main.lua. Paso 2: Escribe exactamente lua main.lua y pulsa Enter. Paso 3: Verás lo que tu programa imprimió; si algo falla, verás el nombre del archivo y la línea del problema. Es como darle al botón de play.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -945,7 +945,7 @@
               "code": "$ lua main.lua\nHola",
               "language": "lua",
               "output": "Hola",
-              "explanation": "Ejecución desde terminal.",
+              "explanation": "Asi le das al play a tu archivo desde la terminal.",
               "position": 1
             }
           ],
@@ -1009,7 +1009,7 @@
               "correct_answer_ids": [
                 "b14c0d1a-8eda-4af3-b7af-2a999c83ca9a"
               ],
-              "explanation": "lua main.lua ejecuta el archivo con el intérprete de Lua.",
+              "explanation": "Escribe lua main.lua y Lua lee tu archivo y muestra lo que imprimiste.",
               "hints": [],
               "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
               "lesson_id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c"
@@ -1018,11 +1018,11 @@
         },
         {
           "id": "015eb741-9146-44b0-8fba-fec7d74f8dc6",
-          "title": "Errores por olvidar end",
+          "title": "Cuando olvidas cerrar con end",
           "slug": "errores-olvidar-end",
           "position": 2,
           "concept_id": "lua-fund-error-end",
-          "explanation": "Error por olvidar end. Paso 1: Cada if, for, while y function NECESITA un end al final. Paso 2: Si lo olvidas, Lua dice: 'end' expected near <eof>. Paso 3: Significa: llegué al final y me faltó un end. Añádelo y ejecuta de nuevo. No es grave, le pasa a todos.",
+          "explanation": "Vas a entender el error más común al empezar. Paso 1: Cada bloque que abres con if, for o function necesita cerrarse con end, como cerrar una puerta. Paso 2: Si olvidas end, Lua te dice end expected, o sea te faltó cerrar. Paso 3: Lee el número de línea, añade el end que falta y vuelve a probar. A todos nos pasa, no te preocupes y corrige sin miedo.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -1032,7 +1032,7 @@
               "code": "if true then\n  print(\"hola\")\n-- falta end => error: 'end' expected",
               "language": "lua",
               "output": "error: 'end' expected near <eof>",
-              "explanation": "Falta end al cerrar el if.",
+              "explanation": "Sin el end de cierre Lua no sabe dónde termina el bloque y avisa.",
               "position": 1
             }
           ],
@@ -1096,7 +1096,7 @@
               "correct_answer_ids": [
                 "22e0b009-a2c3-43ba-8571-011cc8f076a7"
               ],
-              "explanation": "Falta end. Todo if necesita end para cerrarse en Lua.",
+              "explanation": "Falta end. Todo bloque que abre con if necesita end para cerrarse.",
               "hints": [],
               "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
               "lesson_id": "015eb741-9146-44b0-8fba-fec7d74f8dc6"
@@ -1142,7 +1142,7 @@
               "correct_answer_ids": [
                 "9aebee1d-e037-4913-ab18-27c7e55197cd"
               ],
-              "explanation": "Verdadero. if, for, while y function siempre cierran con end.",
+              "explanation": "Verdadero. Cada if, for o function se cierra con end, como cerrar una tapa.",
               "hints": [],
               "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
               "lesson_id": "015eb741-9146-44b0-8fba-fec7d74f8dc6"
@@ -1153,7 +1153,7 @@
     },
     {
       "id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
-      "title": "Palabras reservadas y estilo",
+      "title": "Palabras que Lua ya usa y cómo escribir ordenado",
       "slug": "palabras-reservadas-y-estilo",
       "position": 7,
       "type": "theory",
@@ -1164,11 +1164,11 @@
       "lessons": [
         {
           "id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
-          "title": "Palabras reservadas",
+          "title": "Palabras que Lua ya usa",
           "slug": "palabras-reservadas",
           "position": 1,
           "concept_id": "lua-fund-reservadas",
-          "explanation": "Palabras reservadas = no puedes usarlas como nombres. Son 21: and break do else elseif end false for function goto if in local nil not or repeat return then true until while. Si escribes local = 5 verás error: unexpected near local. Usa otro nombre.",
+          "explanation": "Vas a conocer palabras que no puedes usar como nombre. Paso 1: Lua ya usa 21 palabras para dar órdenes, como if, for y end. Paso 2: Son como los botones de un control: no puedes ponerles otro uso. Paso 3: Si escribes local = 5, Lua se confunde y marca error inesperado cerca de local. Elige otro nombre, como mi_valor, y funcionará.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -1178,7 +1178,7 @@
               "code": "local = 5 -- Error: unexpected symbol near 'local'",
               "language": "lua",
               "output": "error",
-              "explanation": "local es reservada, no puede ser variable.",
+              "explanation": "Esa palabra ya tiene trabajo en Lua, no puedes usarla como nombre.",
               "position": 1
             }
           ],
@@ -1191,7 +1191,7 @@
               "type": "single_choice",
               "difficulty": "medium",
               "category": "fundamentos",
-              "prompt": "¿Cuál NO es palabra reservada de Lua?",
+              "prompt": "¿Cuál de estas palabras SÍ puedes usar como nombre para tu cajita?",
               "prompt_code": null,
               "score": 10,
               "concept_ids": [
@@ -1242,7 +1242,7 @@
               "correct_answer_ids": [
                 "2b129d54-34a8-4f57-9ed5-73888bfca5b2"
               ],
-              "explanation": "print es una función de la librería, no una palabra reservada. Puedes redefinirla aunque no debes.",
+              "explanation": "print es una orden de la librería, no una palabra reservada; podrías cambiarla pero no conviene.",
               "hints": [],
               "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
               "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef"
@@ -1251,11 +1251,11 @@
         },
         {
           "id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
-          "title": "Estilo e indentación",
+          "title": "Escribir ordenado para no perderte",
           "slug": "estilo-e-indentacion",
           "position": 2,
           "concept_id": "lua-fund-estilo",
-          "explanation": "Estilo legible. Paso 1: Indenta 2 espacios dentro de cada bloque (después de then, do, function). Paso 2: No pongas ; al final, no hace falta. Solo si pones dos cosas en una línea: a=1; b=2 (mejor no). Así no pierdes un end.",
+          "explanation": "Vas a escribir ordenado para encontrar cada cierre sin buscar. Paso 1: Deja dos espacios al entrar en un bloque después de then, do o function, como escalones. Paso 2: No pongas ; al final, en Lua no hace falta. Paso 3: Mantén cada idea en su línea y alineada. Así ves de un vistazo dónde abre y dónde cierra cada bloque sin contar con el dedo.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -1265,7 +1265,7 @@
               "code": "if true then\n  print(\"ok\") -- indentado 2 espacios\nend",
               "language": "lua",
               "output": "ok",
-              "explanation": "Indentación de 2 espacios.",
+              "explanation": "Con dos espacios ves claro dónde empieza y termina cada bloque.",
               "position": 1
             }
           ],
@@ -1311,7 +1311,7 @@
               "correct_answer_ids": [
                 "8471abbc-5a7a-4bb4-8876-f0fc8f87b324"
               ],
-              "explanation": "Falso. El ; es opcional y raramente necesario.",
+              "explanation": "Falso. El ; casi nunca hace falta; solo si pones dos órdenes en la misma línea.",
               "hints": [],
               "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
               "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04"
@@ -1322,7 +1322,7 @@
     },
     {
       "id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
-      "title": "Kit de supervivencia",
+      "title": "Kit para entender errores",
       "slug": "kit-de-supervivencia",
       "position": 8,
       "type": "review",
@@ -1333,21 +1333,21 @@
       "lessons": [
         {
           "id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
-          "title": "Leer traceback",
+          "title": "Entender qué te dice el error",
           "slug": "leer-traceback",
           "position": 1,
           "concept_id": "lua-fund-traceback",
-          "explanation": "Traceback = dónde falló. Ejemplo: main.lua:2: attempt to call a nil value. Paso 1: main.lua:2 = archivo y línea 2. Paso 2: El resto dice el motivo. Lee de abajo hacia arriba: la última línea es donde falló.",
+          "explanation": "Vas a leer el mensaje que Lua te deja cuando algo falla. Paso 1: Arriba verás main.lua:2, que te dice archivo y línea 2. Paso 2: Abajo lees el motivo, por ejemplo intentaste usar algo vacío que no existe. Paso 3: Lee de abajo hacia arriba: la última línea es donde se rompió. Es como seguir huellas hasta el lugar exacto del tropiezo.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
           "examples": [
             {
               "title": "Traceback",
-              "code": "print(x.upper()) -- x es nil => error\n-- main.lua:1: attempt to index a nil value",
+              "code": "print(x.upper()) -- x está vacío => error\n-- main.lua:1: intento de usar algo vacío",
               "language": "lua",
               "output": "error",
-              "explanation": "El error indica línea 1 y causa.",
+              "explanation": "El mensaje te dice línea 1 y por qué falló al usar algo vacío.",
               "position": 1
             }
           ],
@@ -1360,7 +1360,7 @@
               "type": "single_choice",
               "difficulty": "easy",
               "category": "fundamentos",
-              "prompt": "Un traceback indica:",
+              "prompt": "El mensaje de error te indica:",
               "prompt_code": null,
               "score": 10,
               "concept_ids": [
@@ -1411,7 +1411,7 @@
               "correct_answer_ids": [
                 "63b56ffe-141f-4759-80b6-e0d571caf542"
               ],
-              "explanation": "Archivo, línea y motivo. Te guía exactamente donde corregir.",
+              "explanation": "Te dice archivo, línea y motivo. Así sabes exactamente dónde mirar y corregir.",
               "hints": [],
               "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
               "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d"
@@ -1420,11 +1420,11 @@
         },
         {
           "id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
-          "title": "Comentar para debug",
+          "title": "Apagar código para encontrar el fallo",
           "slug": "comentar-para-debug",
           "position": 2,
           "concept_id": "lua-fund-debug",
-          "explanation": "Debug comentando. Paso 1: ¿No sabes qué línea falla? Paso 2: Pon --[[ al inicio del bloque dudoso y ]] al final. Paso 3: Ejecuta. Si ya no falla, el error estaba ahí. Descomenta línea por línea hasta encontrarlo. Más rápido que borrar.",
+          "explanation": "Vas a usar notas para cazar errores sin borrar código. Paso 1: Si no sabes qué parte falla, tapa el bloque sospechoso con --[[ al inicio y ]] al final. Paso 2: Ejecuta; si ya no falla, el problema estaba dentro de lo tapado. Paso 3: Destapa línea por línea hasta encontrar la culpable. Es como apagar luces por zonas para ver dónde salta el fusible de casa.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -1434,7 +1434,7 @@
               "code": "--[[print(\"prueba 1\")\nprint(\"prueba 2\")]]\nprint(\"solo esto\")",
               "language": "lua",
               "output": "solo esto",
-              "explanation": "Comentar bloque aisla el problema.",
+              "explanation": "Tapar un bloque te deja ver si el fallo estaba ahí dentro.",
               "position": 1
             }
           ],
@@ -1498,7 +1498,7 @@
               "correct_answer_ids": [
                 "22e981a1-eaf8-4a1c-a78b-c52a65254354"
               ],
-              "explanation": "--[[ ]] comenta un bloque sin borrar.",
+              "explanation": "Con --[[ al inicio y ]] al final tapas el bloque sin borrar nada.",
               "hints": [],
               "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
               "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525"
@@ -1520,21 +1520,21 @@
       "lessons": [
         {
           "id": "761da355-059a-421c-90df-04698bd527cb",
-          "title": "Repaso",
+          "title": "Repaso de todo el módulo",
           "slug": "repaso",
           "position": 1,
           "concept_id": "lua-fund-check",
-          "explanation": "Repaso. Ya viste: qué es Lua, chunk, print, comentarios -- , archivos .lua, ejecutar con lua main.lua, palabras reservadas y leer errores con end. Si puedes explicar para qué sirve cada línea de tu main.lua, estás listo para el Módulo 2: Variables.",
+          "explanation": "Vas a repasar lo que ya dominas. Paso 1: Recuerda qué es Lua, cómo agrupas código en cajitas, cómo muestras texto con print y dejas notas con --. Paso 2: Repasa archivos .lua y cómo los ejecutas con lua main.lua en la terminal. Paso 3: Si puedes explicar para qué sirve cada línea de tu main.lua, estás listo para el Módulo 2, donde guardarás datos en cajitas con nombre.",
           "is_required": true,
           "status": "published",
           "content_version": 1,
           "examples": [
             {
               "title": "Mapa mental",
-              "code": "main.lua -> chunk -> print -> -- -> lua main.lua -> end",
+              "code": "main.lua -> cajita -> print -> -- -> lua main.lua -> end",
               "language": "lua",
               "output": "",
-              "explanation": "Mapa mental del módulo.",
+              "explanation": "Este mapa te recuerda el camino corto del módulo en una línea.",
               "position": 1
             }
           ],
@@ -1580,7 +1580,7 @@
               "correct_answer_ids": [
                 "4a5f05ba-e1a8-449f-8de6-27225757425f"
               ],
-              "explanation": "Verdadero. Ese comando carga y ejecuta el chunk.",
+              "explanation": "Verdadero. Ese comando le dice a Lua: lee mi archivo y ejecútalo.",
               "hints": [],
               "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
               "lesson_id": "761da355-059a-421c-90df-04698bd527cb"
@@ -1589,11 +1589,11 @@
         },
         {
           "id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
-          "title": "Mini-desafío",
+          "title": "Mini-desafío final",
           "slug": "mini-desafio",
           "position": 2,
           "concept_id": "lua-fund-desafio",
-          "explanation": "¡Desafío! Paso 1: Crea saludo.lua. Paso 2: Primera línea: -- saludo de TU_NOMBRE. Paso 3: Segunda: print(\"Hola, Lua\"). Paso 4: Tercera y cuarta: local nombre = \"TU_NOMBRE\" y print(\"Soy \" .. nombre). Ejecuta lua saludo.lua. ¿Ves 2 líneas? ¡Módulo 1 completado!",
+          "explanation": "Vas a crear tu pequeño proyecto de despedida. Paso 1: Crea saludo.lua y en la primera línea deja una nota con -- y tu nombre. Paso 2: Escribe print(\"Hola, Lua\") en la segunda línea. Paso 3: Guarda tu nombre en una cajita llamada nombre y muestra Soy más tu nombre en otra línea. Ejecuta con lua saludo.lua y verás dos líneas: ¡módulo superado!",
           "is_required": true,
           "status": "published",
           "content_version": 1,
@@ -1603,7 +1603,7 @@
               "code": "-- saludo.lua de Ana\nprint(\"Hola, Lua\")\nlocal nombre = \"Ana\"\nprint(\"Soy \" .. nombre)",
               "language": "lua",
               "output": "Hola, Lua\nSoy Ana",
-              "explanation": "Solución del desafío.",
+              "explanation": "Este es el resultado final cuando todo está bien armado.",
               "position": 1
             }
           ],
@@ -1658,7 +1658,7 @@
               "correct_answer_ids": [
                 "8fa911eb-20b0-4155-bc47-a8b0b182bd92"
               ],
-              "explanation": "Un comentario empieza con --.",
+              "explanation": "Una nota siempre empieza con --, por eso -- Ana es correcto.",
               "hints": [],
               "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
               "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816"
