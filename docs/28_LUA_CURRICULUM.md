@@ -1,9 +1,10 @@
 # 28 — Currículo de Lua (Ruta Educativa Lua)
 
-> **Estado:** Propuesta · **Versión del documento:** 1.1.0 · **Fecha:** 2026-08-30 · **Zona horaria:** America/Bogota (UTC-5)
+> **Estado:** Propuesta · **Versión del documento:** 1.2.0 · **Fecha:** 2026-08-30 · **Zona horaria:** America/Bogota (UTC-5)
 > Complementa a `01_PROJECT_OVERVIEW.md` §7.1/§30–§34, `03_OBJECTIVES.md` OT-02/OT-03, `04_SCOPE.md` §2.2/§3/§10.3, `05_FUNCTIONAL_REQUIREMENTS.md` RF-LANG/RF-MOD/RF-SEC/RF-LEC/RF-PREG/RF-ADM, `06_NON_FUNCTIONAL_REQUIREMENTS.md` RNF-006/RNF-017/RNF-031/RNF-035/RNF-036, `11_SYSTEM_ARCHITECTURE.md` §15/§18, `12_DATABASE_DESIGN.md` §6.3–§6.11, `14_LEARNING_SYSTEM.md` §2–§6/§10, `15_QUIZ_EXAM_SYSTEM.md` §3–§5, `16_GAMIFICATION.md`, `23_CONTENT_SPECIFICATION.md` y `24_CONTENT_AUTHORING_GUIDE.md`. No duplica; es la **fuente de verdad pedagógica del lenguaje Lua**.
 > **Principio rector:** `01` §31 — agregar Lua es solo `content/languages/lua/` + config; 0 cambios en `src/modules/*` (`11` §18, `06` RNF-006).
-> **Cambio v1.1.0:** se amplía cada módulo de 4-6 a **8-10 secciones** (96-120 totales) para ruta más granular y sesiones de 8-15 min, manteniendo 12 módulos. Ver §4.
+> **Cambio v1.2.0:** Se expande el Módulo 01 (Fundamentos de Lua) a un estándar de **10 micro-lecciones por sección (90 lecciones en total)** para garantizar un aprendizaje hiper-accesible desde cero sin saltos conceptuales. Ver §4.1.
+
 
 ---
 
@@ -17,10 +18,11 @@ Este documento define **cómo se enseña Lua** dentro de la jerarquía `Lenguaje
 
 **Audiencia:** autores de contenido Lua, revisores pedagógicos/técnicos y publicadores (`24` §1.1).
 
-**Justificación de 8-10 secciones por módulo:**
+**Justificación de 8-10 secciones por módulo y lecciones por sección:**
 - Sesión = 1 sección = 8-15 min (`14` §9.2). Con 4-6 sesiones, un módulo se completa en 40-90 min; con 8-10, el progreso es más visible, el `Score_repaso` es más fino y el abandono por módulo (`26` M-08) se detecta antes.
-- Total Lua: 12 módulos × 9 promedio = **108 secciones**, ~220 lecciones (2-3 por sección), ~540 ejercicios (sin contar quiz/examen). Tiempo estimado ruta completa: 14-18 h (108 × 10 min) + evaluaciones.
-- Implicación XP: con `XP-SEC +10` por sección, el módulo pasa de ~50 XP a **~90 XP** (9 secciones) sin cambiar `16` §5.2; la tabla de nivel (`16` §6) no se toca, solo acelera la progresión hacia `CODE_MASTER_PY` equivalente `CODE_MASTER_LUA`.
+- Total Lua: 12 módulos × 9 promedio = **108 secciones**. En el Módulo 01 (Fundamentos) se aplica el estándar expandido de **10 micro-lecciones atómicas por sección (90 lecciones en total)** para garantizar máxima accesibilidad a novatos absolutos sin sobrecarga cognitiva; en módulos posteriores (M02–M12) la progresión continúa en 2-4 lecciones por sección (~280 lecciones totales en la ruta). Tiempo estimado ruta completa: 16-20 h + evaluaciones.
+- Implicación XP: con `XP-SEC +10` por sección y `XP-EJ-CORR +5` por ejercicio (`16` §5.2), el Módulo 01 otorga ~540 XP (~90 XP de secciones + ~450 XP de ejercicios), impulsando al estudiante novato a través de sus primeros niveles de forma gratificante y no punitiva.
+
 
 ---
 
@@ -70,33 +72,147 @@ Este documento define **cómo se enseña Lua** dentro de la jerarquía `Lenguaje
 
 > Cada sección = 1 sesión de 8-15 min (`14` §9.2) con `concepto → explicación → ejemplo → ejercicio → feedback → recompensa`. El quiz del módulo aparece tras ~50% de secciones (`01` §13); el examen al cerrar todas. Todo `position` sin huecos y `prerequisite_module_id` DAG validado por `RF-ADM-006` (`23` V-M02/V-M03).
 
-### 4.1 Módulo 01 — Fundamentos de Lua (9 secciones)
+### 4.1 Módulo 01 — Fundamentos de Lua (9 secciones · 10 lecciones c/u · 90 lecciones en total)
 
-**Objetivo:** Entender qué es Lua, cómo se ejecuta un chunk y escribir el primer `print`. **Sin tipos aún.**
+**Objetivo:** Entender qué es Lua, cómo se ejecuta un chunk en orden secuencial, dominar `print`, notas/comentarios, gestión de archivos `.lua`, depuración básica y lectura de errores. **Sin tipos formales aún (se introducen en M02).**
 
-| # | Sección | Tipo | Lecciones (concept_id) |
-|---|---|---|---|
-| S01 | ¿Qué es Lua y dónde se usa? | theory | L01 Qué es Lua (embebido, ligero, Roblox/Nginx/Games) (`lua-fund-que-es`) · L02 Lua vs Python/JS (`lua-fund-vs`) |
-| S02 | Chunk y REPL | example | L01 Qué es un chunk · L02 REPL `lua -i` (`lua-fund-chunk`, `lua-fund-repl`) |
-| S03 | Tu primer `print` | example | L01 `print("Hola")` · L02 `print` con múltiples args (`lua-fund-print`) |
-| S04 | Comentarios | exercise | L01 `--` una línea · L02 `--[[ ]]` multilínea y `--[=[ ]=]` (`lua-fund-comentario`) |
-| S05 | Archivos `.lua` | exercise | L01 Crear `main.lua` · L02 Estructura de carpetas (`lua-fund-archivo`) |
-| S06 | Ejecutar código | exercise | L01 `lua main.lua` · L02 Mensajes de error por olvidar `end` (`lua-fund-ejecutar`, `lua-fund-error-lectura`) |
-| S07 | Palabras reservadas | theory | L01 `and/break/do/else/elseif/end/for/function/if/in/local/nil/not/or/repeat/return/then/until/while` · L02 Estilo: indentación y `;` opcional (`lua-fund-reservadas`) |
-| S08 | Kit de supervivencia | review | L01 Leer traceback · L02 Comentar para debug (`lua-fund-debug`) |
-| S09 | Checkpoint | review | L01 Repaso · L02 Mini-desafío: comentar y ejecutar (`lua-fund-check`) |
+> **Estándar Expandido:** Cada sección contiene exactamente **10 micro-lecciones atómicas** (90 lecciones en total) de 40–70 palabras, con 1 ejemplo de código directo y 1 ejercicio interactivo obligatorio (`24` §1.2). Esto elimina brechas conceptuales para personas que entran sin ningún conocimiento previo de programación.
 
-**Prerrequisito:** ninguno. **Evaluación:** quiz 10Q (4E: chunk, `print`, `--`; 4M: predecir `print` con `..`; 2H: identificar línea sin `end`). **Proyecto:** `S03→S09` = 9 sesiones → ~90 min.
+#### 4.1.1 Desglose de Secciones y Lecciones (90 lecciones)
 
-**Ejemplo (S04):**
+##### S01: ¿Qué es Lua y dónde se usa? (10 lecciones · theory)
+- **L01:** ¿Qué es un lenguaje de programación? (`lua-fund-intro-lenguaje`) — La computadora necesita órdenes claras en un idioma común.
+- **L02:** El nacimiento de Lua en Brasil (`lua-fund-historia-origen`) — Creado en la PUC-Río como software libre para ser portable.
+- **L03:** ¿Por qué Lua es tan ligero y veloz? (`lua-fund-ligereza-peso`) — Pesa menos de 300 KB y arranca al instante.
+- **L04:** Lua en videojuegos: El fenómeno Roblox (`lua-fund-roblox`) — Cómo los creadores dan vida a sus mundos con scripts en Lua.
+- **L05:** Lua en otros videojuegos famosos (`lua-fund-juegos-famosos`) — World of Warcraft, Angry Birds y motores 2D como LÖVE.
+- **L06:** ¿Qué significa que Lua es un lenguaje "incrustado"? (`lua-fund-incrustado`) — Funcionar dentro de un programa mayor sin estorbar.
+- **L07:** Lua en servidores web de alta velocidad (`lua-fund-servidores-web`) — Su uso en NGINX y Redis para procesar millones de peticiones.
+- **L08:** La primera regla especial de Lua: contamos desde el 1 (`lua-fund-indice-uno`) — En Lua la primera casilla es la 1, no la 0.
+- **L09:** Lo que es verdad y lo que es falso en Lua (`lua-fund-falsy-intro`) — Solo `false` y `nil` son falsos; todo lo demás cuenta como verdadero.
+- **L10:** Mini-repaso de la Sección 1 (`lua-fund-s01-repaso`) — Evaluación integradora de los fundamentos de Lua.
+
+##### S02: Cómo se organiza y prueba tu código (10 lecciones · example)
+- **L01:** ¿Qué es una instrucción o comando? (`lua-fund-instruccion`) — Una orden individual que le indica a la computadora qué hacer.
+- **L02:** La computadora lee en orden secuencial (`lua-fund-secuencia`) — Lectura estricta de arriba hacia abajo sin saltarse pasos.
+- **L03:** ¿Qué es un bloque de código (chunk)? (`lua-fund-chunk`) — Un conjunto de instrucciones que se evalúan juntas.
+- **L04:** Tu archivo completo es un chunk (`lua-fund-archivo-chunk`) — Todo el archivo `.lua` se procesa como una unidad.
+- **L05:** ¿Qué es la consola interactiva (REPL)? (`lua-fund-repl-intro`) — Un cuaderno borrable para probar código al vuelo.
+- **L06:** Abrir el modo interactivo con `lua -i` (`lua-fund-repl-comando`) — El comando en la terminal para entrar a Lua.
+- **L07:** El símbolo de espera `>` (`lua-fund-prompt-simbolo`) — El cursor que indica que Lua está listo para recibir tu orden.
+- **L08:** Probar tu primera orden en vivo (`lua-fund-repl-en-vivo`) — Escribir código y ver la respuesta al instante con Enter.
+- **L09:** Salir de la consola interactiva sin miedo (`lua-fund-repl-salir`) — Uso de `os.exit()` o `Ctrl + D`.
+- **L10:** Mini-repaso de la Sección 2 (`lua-fund-s02-repaso`) — Evaluación de chunks y ejecución interactiva.
+
+##### S03: Tu primer print (10 lecciones · example)
+- **L01:** ¿Para qué sirve `print`? (`lua-fund-print-para-que`) — La herramienta para que tu programa muestre mensajes en pantalla.
+- **L02:** Los paréntesis `()` en las órdenes (`lua-fund-print-parentesis`) — Encerrar los datos que la función debe procesar.
+- **L03:** Mostrar tu primer mensaje: `"Hola, mundo"` (`lua-fund-print-hola`) — La tradición universal de bienvenida.
+- **L04:** Por qué usamos comillas en los textos (`lua-fund-print-comillas`) — Delimitar el mensaje sin confundirlo con órdenes del lenguaje.
+- **L05:** Comillas dobles `""` vs comillas simples `''` (`lua-fund-comillas-tipos`) — Ambas formas son válidas e intercambiables en Lua.
+- **L06:** Mostrar números sin comillas: `print(100)` (`lua-fund-print-numeros`) — Los números se escriben directos para poder calcular con ellos.
+- **L07:** La computadora calculadora: `print(10 + 5)` (`lua-fund-print-calculo`) — Lua resuelve la operación antes de imprimir.
+- **L08:** Mostrar varios datos juntos usando comas (`lua-fund-print-multiples`) — Pasar varios argumentos: `print("Nivel:", 1)`.
+- **L09:** El espacio automático que crea la coma (`lua-fund-print-espacios`) — Cómo Lua separa automáticamente cada elemento con un espacio.
+- **L10:** Mini-repaso de la Sección 3 (`lua-fund-s03-repaso`) — Ejercicio de consolidación de salidas con `print`.
+
+##### S04: Comentarios (10 lecciones · exercise)
+- **L01:** ¿Qué es un comentario en programación? (`lua-fund-comentario-que-es`) — Notas personales que la computadora ignora por completo.
+- **L02:** Escribir notas para tu "yo del futuro" (`lua-fund-comentario-empatia`) — Documentar el motivo detrás de tu código.
+- **L03:** Comentarios de una sola línea con `--` (`lua-fund-comentario-linea`) — Dos guiones seguidos desactivan el resto del renglón.
+- **L04:** Comentarios al final de una línea (`lua-fund-comentario-inline`) — Código a la izquierda y nota explicativa a la derecha.
+- **L05:** Comentarios de bloque con `--[[` y `]]` (`lua-fund-comentario-bloque`) — Desactivar párrafos completos de varias líneas.
+- **L06:** Apagar una orden temporalmente sin borrarla (`lua-fund-debug-apagar-linea`) — Desactivar código para hacer pruebas rápidas.
+- **L07:** Apagar un bloque sospechoso de código (`lua-fund-debug-apagar-bloque`) — Aislar varias líneas dudosas con `--[[ ... ]]`.
+- **L08:** Buenas prácticas: comentar el *por qué* y no el *qué* (`lua-fund-comentario-estilo`) — Evitar comentarios obvios o redundantes.
+- **L09:** Los comentarios no hacen tu programa más lento (`lua-fund-comentario-rendimiento`) — La máquina los descarta en milisegundos.
+- **L10:** Mini-repaso de la Sección 4 (`lua-fund-s04-repaso`) — Dominio de comentarios simples y multilínea.
+
+##### S05: Archivos .lua (10 lecciones · exercise)
+- **L01:** Por qué guardamos código en archivos (`lua-fund-archivo-por-que`) — Conservar tu trabajo para reutilizarlo cuantas veces quieras.
+- **L02:** La extensión `.lua`: la etiqueta de tu código (`lua-fund-archivo-extension`) — Indicar al sistema operativo el tipo de archivo.
+- **L03:** Editores de código vs procesadores de texto (`lua-fund-editores-vs-word`) — Por qué programamos en editores puros y no en Word.
+- **L04:** El archivo principal: por qué lo llamamos `main.lua` (`lua-fund-archivo-main`) — La convención estándar para el punto de arranque.
+- **L05:** Guardar cambios antes de ejecutar (`lua-fund-archivo-guardar`) — El hábito esencial de pulsar `Ctrl + S`.
+- **L06:** Dónde vive tu archivo (Carpetas y rutas) (`lua-fund-carpetas-rutas`) — Conocer la ubicación exacta de tus scripts en disco.
+- **L07:** Múltiples archivos en un mismo proyecto (`lua-fund-multiples-archivos`) — Separar personajes, niveles y utilidades en archivos distintos.
+- **L08:** Nombres limpios para archivos (`lua-fund-nombres-archivos`) — Evitar espacios, tildes y caracteres extraños (`juego_01.lua`).
+- **L09:** Consola interactiva vs archivo guardado (`lua-fund-repl-vs-archivo`) — Probar ideas al vuelo vs construir aplicaciones duraderas.
+- **L10:** Mini-repaso de la Sección 5 (`lua-fund-s05-repaso`) — Gestión de archivos y carpetas en Lua.
+
+##### S06: Ejecutar código (10 lecciones · exercise)
+- **L01:** Abrir la terminal en tu carpeta de trabajo (`lua-fund-terminal-abrir`) — Situar la consola en la carpeta de tu script.
+- **L02:** El comando maestro: `lua main.lua` (`lua-fund-comando-ejecutar`) — Ordenar al intérprete leer y ejecutar tu archivo.
+- **L03:** Qué ocurre por dentro al pulsar Enter (`lua-fund-ejecucion-interna`) — Cómo Lua traduce tu texto a acciones de la máquina.
+- **L04:** Ver el resultado de tu programa en la terminal (`lua-fund-leer-terminal`) — Comprobar la salida limpia de tus prints.
+- **L05:** Ejecutar archivos con otros nombres (`lua-fund-ejecutar-otros`) — Usar `lua otro_script.lua`.
+- **L06:** Qué es un bloque con apertura y cierre (`lua-fund-bloque-apertura`) — Estructuras que agrupan órdenes dependientes.
+- **L07:** La palabra obligatoria `end` (`lua-fund-palabra-end`) — Cerrar la puerta con llave al terminar cada bloque (`if`, `function`).
+- **L08:** El error más famoso: `'end' expected` (`lua-fund-error-end-expected`) — Por qué ocurre y cómo solucionarlo en segundos.
+- **L09:** El ciclo de trabajo del programador (`lua-fund-ciclo-desarrollo`) — Editar → Guardar (`Ctrl+S`) → Ejecutar en terminal → Verificar.
+- **L10:** Mini-repaso de la Sección 6 (`lua-fund-s06-repaso`) — Ejecución de scripts y prevención de errores de bloque.
+
+##### S07: Palabras reservadas y Estilo limpio (10 lecciones · theory)
+- **L01:** ¿Qué son las palabras reservadas? (`lua-fund-reservadas-concepto`) — Las 21 palabras que el lenguaje se reserva para sus propias reglas.
+- **L02:** Palabras prohibidas para nombres: `local`, `if`, `while`, `function` (`lua-fund-palabras-prohibidas`) — Por qué no puedes bautizar variables con ellas.
+- **L03:** Qué ocurre si usas una palabra reservada (`lua-fund-error-reservada`) — El error de sintaxis inesperado (`unexpected symbol`).
+- **L04:** Reglas para inventar nombres válidos (`lua-fund-nombres-reglas`) — Solo letras, números y el guión bajo `_`.
+- **L05:** La regla prohibida: nunca empezar un nombre con número (`lua-fund-nombres-no-numero`) — `nivel1` es válido; `1nivel` es un error.
+- **L06:** Nombres claros y expresivos (`lua-fund-nombres-claros`) — Escribir `puntos_vida` en lugar de letras misteriosas como `p`.
+- **L07:** La sangría o indentación de 2 espacios (`lua-fund-indentacion`) — Escalonar el código hacia adentro para leer la jerarquía visual.
+- **L08:** Lua es libre: el punto y coma `;` no es obligatorio (`lua-fund-puntoycoma-opcional`) — Escribir código limpio y despejado sin `;`.
+- **L09:** Mayúsculas y minúsculas: Lua distingue cada letra (`lua-fund-case-sensitive`) — `jugador`, `Jugador` y `JUGADOR` son tres cosas distintas.
+- **L10:** Mini-repaso de la Sección 7 (`lua-fund-s07-repaso`) — Reglas de estilo y nombres limpios.
+
+##### S08: Kit para entender errores (10 lecciones · review)
+- **L01:** Perder el miedo a los errores (`lua-fund-perder-miedo-error`) — En programación, equivocarse es parte natural del aprendizaje.
+- **L02:** ¿Qué es un traceback? (`lua-fund-traceback-concepto`) — El mapa de pistas que Lua te entrega cuando algo tropieza.
+- **L03:** Anatomía del mensaje de error (`lua-fund-anatomia-error`) — Cómo leer `archivo.lua:línea: descripción del problema`.
+- **L04:** Error al escribir (Syntax Error) (`lua-fund-syntax-error`) — Cuando falta cerrar una comilla o un paréntesis antes de ejecutar.
+- **L05:** Error al ejecutar (Runtime Error) (`lua-fund-runtime-error`) — Cuando la sintaxis es correcta pero la orden intenta algo imposible.
+- **L06:** El error `attempt to index a nil value` (`lua-fund-error-nil-index`) — Qué significa intentar usar una caja vacía que no existe.
+- **L07:** La técnica detectivesca de apagar líneas con `--[[ ]]` (`lua-fund-debug-aislar-error`) — Aislar fallos desactivando secciones sospechosas.
+- **L08:** Depuración con `print` (`lua-fund-debug-con-print`) — Colocar `print("pasó por aquí")` para saber hasta dónde llegó la computadora.
+- **L09:** Probar la sospecha en la consola `lua -i` (`lua-fund-debug-repl`) — Verificar una sola orden aislada antes de modificar el archivo.
+- **L10:** Mini-repaso de la Sección 8 (`lua-fund-s08-repaso`) — Tu botiquín de primeros auxilios para resolver fallos.
+
+##### S09: Checkpoint y Proyecto Integrador (10 lecciones · review)
+- **L01:** Mapa mental general de Fundamentos (`lua-fund-mapa-mental`) — Los 8 grandes pilares aprendidos en el Módulo 01.
+- **L02:** Repaso activo 1: La naturaleza de Lua (`lua-fund-repaso-naturaleza`) — Consolidar qué es Lua y por qué se usa en videojuegos.
+- **L03:** Repaso activo 2: De la terminal al archivo (`lua-fund-repaso-archivos`) — Consolidar el REPL `lua -i` y los archivos `.lua`.
+- **L04:** Repaso activo 3: La salida con `print` (`lua-fund-repaso-print`) — Consolidar textos, números y comas.
+- **L05:** Repaso activo 4: El valor de las notas (`lua-fund-repaso-comentarios`) — Consolidar comentarios de una línea y de bloque.
+- **L06:** Repaso activo 5: La regla del cierre con `end` (`lua-fund-repaso-cierre-end`) — Consolidar la estructura de bloques sin olvidar el `end`.
+- **L07:** Repaso activo 6: Nombres legales y estilo (`lua-fund-repaso-estilo`) — Consolidar palabras reservadas e indentación limpia.
+- **L08:** Repaso activo 7: Diagnóstico de fallos (`lua-fund-repaso-diagnostico`) — Consolidar la lectura de tracebacks y depuración.
+- **L09:** Gran Desafío Práctico: Tu primer script firmado (`lua-fund-desafio-integrador`) — Escribir tu presentación con comentarios y cálculos.
+- **L10:** Graduación del Módulo 01 y bienvenida al Módulo 02 (`lua-fund-graduacion-m01`) — Resumen de logros y qué descubrirás en Variables y Tipos.
+
+---
+
+**Prerrequisito:** ninguno. **Evaluación:** Quiz del módulo con 15 preguntas y examen final con 20 preguntas calibradas. **Dedicación estimada:** 9 secciones × 10–12 min = ~90–110 min totales.
+
+**Ejemplo representativo del Módulo 01 (Script de Graduación):**
 ```lua
--- comentario de una línea
-local nombre = "Brandon"  -- local: variable propia de este chunk
-print(nombre)             -- Salida: Brandon
---[[ multilínea
-     con niveles ]=] ]]
-print("Hola, " .. nombre) -- Salida: Hola, Brandon
+-- ==========================================
+-- Mi Primer Programa en Lua
+-- Autor: Nuevo Programador
+-- ==========================================
+
+print("¡Hola, mundo!")
+print("Estoy aprendiendo Lua para crear videojuegos.")
+print("Mi nivel inicial es:", 1)
+
+-- Operación matemática básica directa:
+print("Horas dedicadas hoy:", 1 + 1)
+
+--[[
+  Todo este bloque está comentado temporalmente.
+  No se ejecutará hasta que retiremos los corchetes.
+]]
+print("¡Listo para el Módulo 02: Variables y Tipos de Datos!")
 ```
+
 
 ### 4.2 Módulo 02 — Variables y tipos de datos (10 secciones)
 
