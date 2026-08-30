@@ -517,8 +517,7 @@ function highlightLua(code){
   const placeholders=[];
   function ph(html){ const k="__PH"+placeholders.length+"__"; placeholders.push(html); return k; }
   esc = esc.replace(/--\[\[.*?\]\]/gs, m=>ph('<span class="tok-comment">'+m+'</span>'));
-  esc = esc.replace(/--[^
-]*/g, m=>ph('<span class="tok-comment">'+m+'</span>'));
+  esc = esc.replace(/--[^\n]*/g, m=>ph('<span class="tok-comment">'+m+'</span>'));
   esc = esc.replace(/&quot;.*?&quot;/g, m=>ph('<span class="tok-string">'+m+'</span>'));
   esc = esc.replace(/&#39;.*?&#39;/g, m=>ph('<span class="tok-string">'+m+'</span>'));
   esc = esc.replace(/\b(local|function|if|then|else|elseif|end|for|while|repeat|until|do|return|break|in|and|or|not|nil|true|false|goto)\b/g, m=>ph('<span class="tok-keyword">'+m+'</span>'));
