@@ -1,9 +1,9 @@
 # 28 — Currículo de Lua (Ruta Educativa Lua)
 
-> **Estado:** Propuesta · **Versión del documento:** 1.2.0 · **Fecha:** 2026-08-30 · **Zona horaria:** America/Bogota (UTC-5)
+> **Estado:** Propuesta · **Versión del documento:** 1.3.0 · **Fecha:** 2026-08-30 · **Zona horaria:** America/Bogota (UTC-5)
 > Complementa a `01_PROJECT_OVERVIEW.md` §7.1/§30–§34, `03_OBJECTIVES.md` OT-02/OT-03, `04_SCOPE.md` §2.2/§3/§10.3, `05_FUNCTIONAL_REQUIREMENTS.md` RF-LANG/RF-MOD/RF-SEC/RF-LEC/RF-PREG/RF-ADM, `06_NON_FUNCTIONAL_REQUIREMENTS.md` RNF-006/RNF-017/RNF-031/RNF-035/RNF-036, `11_SYSTEM_ARCHITECTURE.md` §15/§18, `12_DATABASE_DESIGN.md` §6.3–§6.11, `14_LEARNING_SYSTEM.md` §2–§6/§10, `15_QUIZ_EXAM_SYSTEM.md` §3–§5, `16_GAMIFICATION.md`, `23_CONTENT_SPECIFICATION.md` y `24_CONTENT_AUTHORING_GUIDE.md`. No duplica; es la **fuente de verdad pedagógica del lenguaje Lua**.
 > **Principio rector:** `01` §31 — agregar Lua es solo `content/languages/lua/` + config; 0 cambios en `src/modules/*` (`11` §18, `06` RNF-006).
-> **Cambio v1.2.0:** Se expande el Módulo 01 (Fundamentos de Lua) a un estándar de **10 micro-lecciones por sección (90 lecciones en total)** para garantizar un aprendizaje hiper-accesible desde cero sin saltos conceptuales. Ver §4.1.
+> **Cambio v1.3.0:** Se expande el Módulo 02 (Variables y Tipos de Datos) a un estándar de **10 micro-lecciones por sección (100 lecciones en total)** con secuencia pedagógica optimizada: variables directas sin 'local' en S01-S03, tipos concretos en S04-S06, e introducción formal de 'nil' y 'local' en S07 tras booleanos. Ver §4.2.
 
 
 ---
@@ -214,24 +214,169 @@ print("¡Listo para el Módulo 02: Variables y Tipos de Datos!")
 ```
 
 
-### 4.2 Módulo 02 — Variables y tipos de datos (10 secciones)
+### 4.2 Módulo 02 — Variables y tipos de datos (10 secciones · 100 lecciones)
 
-**Objetivo:** Dominar `local` vs global, los 8 tipos y `type()`.
+**Código:** `LUA_MOD_02` · **Slug:** `variables-y-tipos-de-datos` · **Posición:** 2
+**Objetivo:** Dominar el almacenamiento de datos en memoria, asignación, reasignación, el sistema completo de 8 tipos nativos de Lua, la inspectora `type()`, la regla de oro de *falsy*, la palabra clave obligatoria `local` (introducida junto con `nil` en S07), y conversiones seguras.
 
-| # | Sección | Tipo | Lecciones |
-|---|---|---|---|
-| S01 | Variables y `local` | theory | L01 `local` vs global (`_G`) · L02 Por qué `local` por defecto (`lua-var-local`, `lua-var-global`) |
-| S02 | Reasignación y shadowing | example | L01 Reasignación · L02 Shadowing en `do end` (`lua-var-reasignacion`, `lua-var-shadow`) |
-| S03 | El sistema de 8 tipos | theory | L01 `nil/boolean/number/string/table/function/thread/userdata` · L02 `type(v)` (`lua-type-sistema`, `lua-type-typeof`) |
-| S04 | `nil` como ausencia | exercise | L01 `nil` y variable no inicializada · L02 Borrar clave con `nil` (`lua-type-nil`) |
-| S05 | Números | example | L01 `number` (int 64b / float) · L02 Notación científica, `0x` hex (`lua-type-number`) |
-| S06 | Cadenas | example | L01 `"" '' [[]] [=[ ]=]` · L02 Escape `\n \t` (`lua-type-string`) |
-| S07 | Conversión | exercise | L01 `tostring/tonumber` · L02 Coerción automática (`lua-type-coercion`) |
-| S08 | Booleanos y falsy | exercise | L01 `true/false` · L02 `nil/false` únicos falsos (`0` y `""` son verdaderos) (`lua-type-boolean`, `lua-type-falsy`) |
-| S09 | `local` en la práctica | exercise | L01 Declarar kit de variables · L02 Inspeccionar `_G` contaminado (`lua-var-practica`) |
-| S10 | Checkpoint tipos | review | L01 Predecir `type()` · L02 Quiz de tipos (`lua-var-check`) |
+**Progresión Pedagógica Específica:**
+- **S01 a S03 (Intuición pura sin `local`):** El estudiante aprende qué es una variable (`nombre = "Ana"`, `vidas = 3`), cómo reasignar valores y cómo consultar tipos con `type()` sin ruido sintáctico ni sobrecarga cognitiva de alcance (*scope*).
+- **S04 a S06 (Tipos tangibles y lógica binaria):** Números enteros y decimales en S04, cadenas de texto y bloques multilínea `[[ ]]` en S05, y valores booleanos con `true`, `false` y `not` en S06.
+- **S07 (La llegada de `nil` y la revelación de `local`):** Conexión inmediata con booleanos (los únicos dos falsos son `false` y `nil`). Se introduce `local` demostrando que una variable declarada vacía (`local x`) contiene `nil`. A partir de este momento, se establece `local` como el estándar profesional para evitar fugas en el entorno global.
+- **S08 a S10 (Conversiones, tipos avanzados y graduación):** Conversión con `tostring` y `tonumber`, vista previa a `table` y `function`, y Proyecto Integrador de Ficha de Héroe RPG.
 
-**Regla crítica:** todo ejemplo usa `local`; global se muestra como anti-patrón.
+---
+
+#### Mapa de Secciones y Lecciones del Módulo 02:
+
+##### S01: ¿Qué es una variable y cómo guardar datos? (10 lecciones · theory)
+- **L01:** ¿Qué es una variable? La cajita con etiqueta (`lua-var-concepto`) — Guardar datos en memoria para reutilizarlos.
+- **L02:** Guardar un número en una variable: `vidas = 3` (`lua-var-guardar-numero`) — Tu primera asignación numérica.
+- **L03:** El operador de asignación `=` (`lua-var-operador-asignacion`) — La flecha que guarda lo de la derecha en la caja de la izquierda.
+- **L04:** Leer el valor guardado con `print(vidas)` (`lua-var-leer-print`) — Mostrar lo que está adentro de la cajita.
+- **L05:** Guardar texto en una variable: `nombre = "Ana"` (`lua-var-guardar-texto`) — Variables con cadenas protegidas por comillas.
+- **L06:** La diferencia entre `"palabra"` con comillas y `palabra` variable (`lua-var-vs-string`) — Texto literal vs identificador.
+- **L07:** Nombres de variables descriptivos y claros (`lua-var-nombres-descriptivos`) — Escribir `puntos_oro` en vez de `p`.
+- **L08:** Crear varias variables en renglones separados (`lua-var-varias-lineas`) — Organizar el estado de tu programa.
+- **L09:** Usar el valor de una variable en cálculos: `print(puntos + 10)` (`lua-var-usar-calculos`) — Operar con datos almacenados.
+- **L10:** Mini-repaso de la Sección 1 (`lua-var-s01-repaso`) — Variables y asignación directa dominadas.
+
+##### S02: Reasignación y cambio de valores (10 lecciones · example)
+- **L01:** ¿Qué significa reasignar una variable? (`lua-var-reasignar-concepto`) — Sobrescribir el contenido de la cajita.
+- **L02:** Cambiar el valor: de `vidas = 3` a `vidas = 2` (`lua-var-cambiar-valor`) — El paso del tiempo en el programa.
+- **L03:** Las variables solo recuerdan su último valor (`lua-var-ultimo-valor`) — La memoria reemplaza lo anterior por completo.
+- **L04:** Incrementar un contador: `puntos = puntos + 1` (`lua-var-contador-incrementar`) — Tomar el valor actual y sumarle uno.
+- **L05:** Reducir un contador: `vidas = vidas - 1` (`lua-var-contador-reducir`) — Restar unidades al recibir daño.
+- **L06:** Copiar el valor de una variable en otra (`lua-var-copiar-variable`) — `copia = original`.
+- **L07:** Las variables copiadas son independientes (`lua-var-independencia-copias`) — Modificar la copia no altera la original.
+- **L08:** Cambiar de tipo de dato sobre la marcha (`lua-var-cambio-tipo-dinamico`) — Lua es de tipado dinámico.
+- **L09:** El orden secuencial importa al leer y reasignar (`lua-var-secuencia-reasignar`) — La lectura depende del momento exacto.
+- **L10:** Mini-repaso de la Sección 2 (`lua-var-s02-repaso`) — Reasignación y contadores dominados.
+
+##### S03: El sistema de tipos y la función `type()` (10 lecciones · theory)
+- **L01:** ¿Qué es un "tipo de dato"? (`lua-type-concepto-tipo`) — La naturaleza de lo que guardas en la cajita.
+- **L02:** El catálogo completo: los 8 tipos nativos de Lua (`lua-type-ocho-tipos`) — nil, boolean, number, string, table, function, thread, userdata.
+- **L03:** Conoce la función inspectora: `type()` (`lua-type-funcion-inspectora`) — La lupa para saber qué tipo es cualquier valor.
+- **L04:** `type()` siempre responde con una palabra de texto (`lua-type-retorna-string`) — El resultado siempre es un string.
+- **L05:** Inspeccionar números: `type(100)` devuelve `"number"` (`lua-type-test-number`) — Reconocimiento numérico.
+- **L06:** Inspeccionar textos: `type("hola")` devuelve `"string"` (`lua-type-test-string`) — Reconocimiento de cadenas.
+- **L07:** Inspeccionar booleanos: `type(true)` devuelve `"boolean"` (`lua-type-test-boolean`) — Reconocimiento booleano.
+- **L08:** Inspeccionar variables: `type(vidas)` consulta el valor adentro (`lua-type-test-variable`) — Las variables no tienen tipo fijo; el valor sí.
+- **L09:** Errores comunes al comparar el resultado de `type()` (`lua-type-errores-comparar`) — Comparar con `"number"` con comillas.
+- **L10:** Mini-repaso de la Sección 3 (`lua-type-s03-repaso`) — La inspectora de tipos dominada.
+
+##### S04: El tipo `number`: Enteros y decimales (10 lecciones · example)
+- **L01:** Números enteros (`integer`) en Lua (`lua-num-enteros`) — Cifras exactas sin decimales (1, 42, 1000).
+- **L02:** Números decimales (`float`) con punto `.` (`lua-num-decimales`) — Usar punto y nunca coma para decimales (3.14).
+- **L03:** Números negativos con el signo menos `-` (`lua-num-negativos`) — Valores bajo cero (-10, -0.5).
+- **L04:** Notación científica para números gigantes (`1e6`) (`lua-num-cientifica`) — Representar millones de forma compacta.
+- **L05:** Números hexadecimales con `0x` (`lua-num-hexadecimal`) — Base 16 para colores y memoria (`0xFF`).
+- **L06:** Precisión y límites numéricos de 64 bits (`lua-num-limites-64bit`) — La inmensa capacidad numérica de Lua moderno.
+- **L07:** División entera `//` vs división decimal `/` (`lua-num-division-entera`) — Obtener cocientes enteros limpios.
+- **L08:** El operador módulo `%` para residuos (`lua-num-modulo-residuo`) — Detectar números pares y ciclos de juego.
+- **L09:** La potencia con el acento circunflejo `^` (`lua-num-potencia`) — Elevar al cuadrado o al cubo (`2^3 = 8`).
+- **L10:** Mini-repaso de la Sección 4 (`lua-num-s04-repaso`) — Números y matemáticas en Lua dominados.
+
+##### S05: El tipo `string`: Textos y bloques (10 lecciones · example)
+- **L01:** Qué es una cadena o `string` (`lua-str-concepto`) — Secuencias de letras, números y símbolos.
+- **L02:** Comillas dobles `""` para textos directos (`lua-str-comillas-dobles`) — El estándar más habitual.
+- **L03:** Comillas simples `''` para textos con comillas dobles (`lua-str-comillas-simples`) — Anidar diálogos sin romper el código.
+- **L04:** Salto de línea con `\n` (`lua-str-escape-newline`) — Bajar de renglón dentro del mismo texto.
+- **L05:** Tabulador con `\t` para columnas limpias (`lua-str-escape-tab`) — Alinear tablas y datos en consola.
+- **L06:** Escapar comillas con barra invertida `\"` (`lua-str-escape-comilla`) — Proteger comillas internas.
+- **L07:** Cadenas multilínea con corchetes dobles `[[ ]]` (`lua-str-bloque-multilinea`) — Párrafos enteros sin caracteres de escape.
+- **L08:** Conservar saltos exactos en bloques `[[ ]]` (`lua-str-bloque-saltos`) — Arte ASCII y diálogos largos de RPG.
+- **L09:** El operador longitud `#` para contar letras (`lua-str-longitud-hash`) — `#"hola"` devuelve 4.
+- **L10:** Mini-repaso de la Sección 5 (`lua-str-s05-repaso`) — Cadenas y textos dominados.
+
+##### S06: El tipo `boolean`: La lógica de la verdad (10 lecciones · exercise)
+- **L01:** Qué es un valor booleano (`lua-bool-concepto`) — La toma de decisiones en dos estados.
+- **L02:** Los únicos dos estados: `true` y `false` (`lua-bool-estados`) — Encendido o apagado, sí o no.
+- **L03:** La regla de oro: los únicos dos falsos son `false` y `nil` (`lua-bool-regla-falsy`) — El pilar fundamental de Lua.
+- **L04:** El número `0` cuenta como verdadero en Lua (`lua-bool-cero-es-true`) — Cero es un número real y no apaga condiciones.
+- **L05:** El texto vacío `""` cuenta como verdadero en Lua (`lua-bool-vacio-es-true`) — Una cadena existe aunque no tenga letras.
+- **L06:** El operador lógico `not` para invertir verdades (`lua-bool-operador-not`) — `not true` es `false`.
+- **L07:** Doble negación `not not x` para extraer el booleano (`lua-bool-doble-not`) — Convertir cualquier valor a true/false puro.
+- **L08:** Comparaciones directas que producen booleanos (`lua-bool-comparacion-resultado`) — `vidas > 0` produce true.
+- **L09:** Errores clásicos de los que vienen de Python o JS (`lua-bool-comparativa-lenguajes`) — Evitar trampas de falsy ajenas.
+- **L10:** Mini-repaso de la Sección 6 (`lua-bool-s06-repaso`) — La lógica booleana dominada.
+
+##### S07: El tipo `nil` y la llegada de `local` (10 lecciones · exercise)
+- **L01:** ¿Qué es `nil`? La ausencia total de valor (`lua-nil-concepto-vacio`) — El vacío de la cajita.
+- **L02:** Presentando a `local`: la palabra clave para crear variables seguras (`lua-var-intro-local`) — El estándar profesional.
+- **L03:** Declarar `local x` sin valor inicial: ¡adentro hay `nil`! (`lua-nil-local-sin-valor`) — La cajita existe pero no tiene dato.
+- **L04:** `type(nil)` devuelve la palabra `"nil"` (`lua-nil-type-inspect`) — El octavo tipo inspectable.
+- **L05:** `nil` no es el número `0` ni el texto vacío `""` (`lua-nil-vs-cero-y-vacio`) — La nada vs valores existentes vacíos.
+- **L06:** Conexión con booleanos: `false` y `nil` como los únicos falsos (`lua-nil-falsy-conexion`) — Unión de conceptos.
+- **L07:** Borrar una variable asignándole `nil` (`lua-nil-borrar-variable`) — Eliminar el dato de la memoria.
+- **L08:** Por qué a partir de ahora siempre usaremos `local` (`lua-var-por-que-local-siempre`) — Aislamiento y rendimiento.
+- **L09:** El peligro de olvidar `local` (fugas globales en `_G`) (`lua-var-peligro-global-intro`) — Contaminación de scripts ajenos.
+- **L10:** Mini-repaso de la Sección 7 (`lua-nil-s07-repaso`) — `nil` y variables locales dominados.
+
+##### S08: Conversión de tipos y Coerción (10 lecciones · exercise)
+- **L01:** Por qué necesitamos convertir tipos (`lua-conv-por-que-convertir`) — Adaptar datos de entrada a operaciones.
+- **L02:** De número a texto con `tostring()` (`lua-conv-tostring`) — Convertir 100 en "100" para imprimirlo o unirlo.
+- **L03:** De texto a número con `tonumber()` (`lua-conv-tonumber`) — Convertir "50" en 50 para sumarlo.
+- **L04:** Qué pasa si `tonumber()` no puede convertir (devuelve `nil`) (`lua-conv-tonumber-falla-nil`) — Validar entradas no numéricas.
+- **L05:** Conversión en bases numéricas con `tonumber(str, base)` (`lua-conv-tonumber-bases`) — Convertir binario y hexadecimal.
+- **L06:** La coerción implícita: cuando Lua intenta adivinar (`lua-conv-coercion-implicita`) — Operaciones mixtas automáticas.
+- **L07:** El peligro de sumar texto y número (`"5" + 2`) (`lua-conv-peligro-coercion`) — Errores sutiles y buenas prácticas.
+- **L08:** Diferencia entre sumar `+` y concatenar `..` (`lua-conv-suma-vs-concat`) — Sumar calcula cifras; concatenar une textos.
+- **L09:** Buenas prácticas: nunca depender de la coerción mágica (`lua-conv-buenas-practicas`) — Usar conversiones explícitas siempre.
+- **L10:** Mini-repaso de la Sección 8 (`lua-conv-s08-repaso`) — Conversiones seguras dominadas.
+
+##### S09: Vistazo a los 4 tipos avanzados (10 lecciones · theory)
+- **L01:** Los tipos simples vs los tipos contenedores (`lua-adv-simples-vs-complejos`) — Valores atómicos vs estructuras.
+- **L02:** `table`: La estructura reina de Lua (`lua-adv-intro-table`) — El único contenedor nativo para listas y mapas.
+- **L03:** Una tabla vacía `{}` y qué dice `type({})` (`lua-adv-tabla-vacia`) — Declarar una tabla y verificar `"table"`.
+- **L04:** `function`: El código como valor de primera clase (`lua-adv-intro-function`) — Las funciones son valores manipulables.
+- **L05:** Guardar una función en una variable local (`lua-adv-funcion-en-variable`) — `local saludar = function() ... end`.
+- **L06:** Qué dice `type()` sobre una función (`lua-adv-type-function`) — Verifica `"function"`.
+- **L07:** `thread`: Introducción conceptual a corrutinas (`lua-adv-intro-thread`) — Tareas concurrentes cooperativas.
+- **L08:** `userdata`: Datos externos que vienen de C/C++ (`lua-adv-intro-userdata`) — Objetos nativos del motor gráfico.
+- **L09:** Resumen de los 8 tipos nativos conviviendo juntos (`lua-adv-ocho-conviviendo`) — El ecosistema completo de tipos.
+- **L10:** Mini-repaso de la Sección 9 (`lua-adv-s09-repaso`) — Los 8 tipos identificados al 100%.
+
+##### S10: Checkpoint, Proyecto RPG y Graduación (10 lecciones · review)
+- **L01:** Gran mapa mental de Variables y Tipos (`lua-mod02-mapa-mental`) — Síntesis de los 10 temas del Módulo 02.
+- **L02:** Repaso activo 1: Asignaciones y nombres claros (`lua-mod02-repaso-asignacion`) — Crear variables puras.
+- **L03:** Repaso activo 2: Reasignación y contadores (`lua-mod02-repaso-contadores`) — Modificar valores en el tiempo.
+- **L04:** Repaso activo 3: La inspectora `type()` (`lua-mod02-repaso-type`) — Clasificar cualquier dato.
+- **L05:** Repaso activo 4: `nil` y la seguridad de `local` (`lua-mod02-repaso-nil-local`) — Ausencia de valor y variables seguras.
+- **L06:** Repaso activo 5: Números y cadenas (`lua-mod02-repaso-num-str`) — Manipular cifras y textos.
+- **L07:** Repaso activo 6: Booleanos y la regla falsy (`lua-mod02-repaso-bool`) — Tomar decisiones con verdad y mentira.
+- **L08:** Repaso activo 7: Conversiones con `tostring` y `tonumber` (`lua-mod02-repaso-conv`) — Transformar datos con seguridad.
+- **L09:** Gran Desafío Práctico: Ficha de Personaje RPG en Lua (`lua-mod02-desafio-rpg`) — Script integrador completo con múltiples tipos.
+- **L10:** Graduación del Módulo 02 y Bienvenida al Módulo 03: Operadores (`lua-mod02-graduacion`) — Celebración y preparación para expresiones.
+
+---
+
+**Prerrequisito:** Módulo 01 (Fundamentos de Lua). **Evaluación:** Quiz del módulo con 15 preguntas y examen final con 20 preguntas calibradas. **Dedicación estimada:** 10 secciones × 10–12 min = ~100–120 min totales.
+
+**Ejemplo representativo del Módulo 02 (Ficha de Personaje RPG):**
+```lua
+-- ==========================================
+-- Ficha de Héroe RPG - Módulo 02
+-- ==========================================
+
+-- Variables con diferentes tipos de datos:
+local nombre = "Aria la Valiente"   -- string
+local nivel = 5                      -- number (entero)
+local salud = 98.5                   -- number (decimal)
+local esta_vivo = true               -- boolean
+local gremio = nil                   -- nil (aún no pertenece a ningún clan)
+
+print("Héroe:", nombre)
+print("Nivel:", nivel, "| Tipo:", type(nivel))
+print("Salud:", salud)
+print("¿Está en combate?:", esta_vivo)
+print("Clan:", gremio) -- Muestra: nil
+
+-- Reasignación dinámica al subir de nivel:
+nivel = nivel + 1
+print("¡Subiste de nivel! Nuevo nivel:", nivel)
+```
+
 
 ### 4.3 Módulo 03 — Operadores (9 secciones)
 

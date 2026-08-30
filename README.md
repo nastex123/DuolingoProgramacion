@@ -4,9 +4,17 @@
 
 [![Lua Version](https://img.shields.io/badge/Lua-5.4-blue.svg?logo=lua&logoColor=white)](https://www.lua.org)
 [![Módulo 01](https://img.shields.io/badge/Módulo%2001-90%20Lecciones-success.svg)](content/languages/lua/modules/01_fundamentos/module.json)
-[![Arquitectura](https://img.shields.io/badge/Frontend-Vanilla%20Desktop%20App-orange.svg)](test_m01.html)
+[![Módulo 02](https://img.shields.io/badge/Módulo%2002-100%20Lecciones-success.svg)](content/languages/lua/modules/02_variables/module.json)
+[![Arquitectura](https://img.shields.io/badge/Frontend-Prototipo%20de%20Prueba%20HTML-orange.svg)](test_m01.html)
 [![Documentación](https://img.shields.io/badge/Docs-29%20Especificaciones-purple.svg)](docs/)
+[![Estado](https://img.shields.io/badge/Estado-Documentación%20y%20Pruebas-yellow.svg)](README.md)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-green.svg)](LICENSE)
+
+> [!IMPORTANT]
+> ### ⚠️ Aviso sobre el Estado del Proyecto (Sujeto a Cambios)
+> - **Todo está sujeto a cambios continuos:** La arquitectura, currículo, módulos, mecánicas pedagógicas y código expuestos en este repositorio se encuentran en constante iteración y refinamiento.
+> - **Fase actual de documentación:** Únicamente se está llevando a cabo la **respectiva investigación, diseño curricular y documentación técnica** formal del proyecto.
+> - **HTML netamente de prueba:** Los archivos HTML interactivos ([`test_m01.html`](test_m01.html), [`test_m02.html`](test_m02.html)) son **prototipos netamente de prueba y experimentación local** para validar flujos de usuario, visualizadores WebGL y dinámicas de micro-lecciones. No representan la versión final ni el producto de producción definitivo.
 
 ---
 
@@ -16,8 +24,9 @@ La mayoría de cursos y plataformas de programación asumen conocimientos previo
 
 - **Micro-Lecciones Atómicas:** Cada lección tiene entre 40 y 70 palabras en segunda persona (*"tú"*), estructurada en un máximo de 3 pasos lógicos.
 - **Un Concepto, Una Lección, Una Práctica Obligatoria:** Cada lección enseña una única idea atómica y la evalúa de inmediato con un ejercicio interactivo.
-- **Sin Bloqueo Cognitivo:** Cero jerga críptica sin explicar. Los conceptos abstractos (como *chunks*, *tracebacks* o *REPL*) se introducen mediante analogías cotidianas y visuales.
-- **Gamificación Formativa y No Punitiva:** Sistema de experiencia (+10 XP por sección, +5 XP por ejercicio), niveles dinámicos, rachas de estudio y retroalimentación que orienta con pistas en lugar de castigar el error.
+- **Sin Bloqueo Cognitivo:** Cero jerga críptica sin explicar. Los conceptos abstractos (como *chunks*, *tracebacks*, *REPL* o *nil*) se introducen mediante analogías cotidianas y visuales.
+- **Sistema de Errores Formativo y Sin Spoilers:** Al equivocarse, el estudiante ve una pista formativa pero **nunca se le revela la respuesta correcta**. La pregunta se encola en la **Ronda de Repaso Final** con **opciones barajadas** aleatoriamente, otorgando +2 XP de recuperación.
+- **Gamificación No Punitiva:** Sistema de experiencia (+10 XP por sección, +5 XP por ejercicio, +2 XP por repaso), niveles dinámicos, rachas de estudio y un **Cuaderno de Repaso persistente** para practicar fallos en cualquier momento.
 
 ---
 
@@ -56,9 +65,46 @@ El **Módulo 01** (`LUA_MOD_01`) establece los cimientos lógicos y operativos e
 
 ---
 
-## 💻 Arquitectura de la Aplicación de Escritorio (`test_m01.html`)
+## 🗺️ Currículo Oficial: Módulo 02 — Variables y Tipos de Datos
 
-El proyecto incluye un entorno standalone interactivo con **arquitectura completa de aplicación web de escritorio**:
+El **Módulo 02** (`LUA_MOD_02`) enseña el almacenamiento de datos en memoria, la reasignación, el sistema completo de los 8 tipos nativos de Lua, la regla sagrada de *falsy*, la palabra clave obligatoria `local` y conversiones seguras en **100 lecciones atómicas** distribuidas en 10 secciones:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│              MÓDULO 02: VARIABLES Y TIPOS DE DATOS (100 LECCIONES)              │
+├─────────┬──────────────────────────────────────────┬───────────┬────────────────┤
+│ Sección │ Título Didáctico                         │ Lecciones │ Enfoque        │
+├─────────┼──────────────────────────────────────────┼───────────┼────────────────┤
+│ S01     │ ¿Qué es una variable y cómo guardar?     │ 10        │ Asignación pura│
+│ S02     │ Reasignación y cambio de valores         │ 10        │ Contadores     │
+│ S03     │ El sistema de tipos y type()             │ 10        │ Inspectora     │
+│ S04     │ El tipo number: Enteros y decimales      │ 10        │ Operaciones    │
+│ S05     │ El tipo string: Textos y bloques         │ 10        │ Cadenas y [[ ]]│
+│ S06     │ El tipo boolean: Lógica de la verdad     │ 10        │ true, false    │
+│ S07     │ El tipo nil y la llegada de local        │ 10        │ nil y local    │
+│ S08     │ Conversión de tipos y Coerción           │ 10        │ tostring/number│
+│ S09     │ Vistazo a los 4 tipos avanzados          │ 10        │ table, function│
+│ S10     │ Checkpoint, Proyecto RPG y Graduación    │ 10        │ Ficha de Héroe │
+└─────────┴──────────────────────────────────────────┴───────────┴────────────────┘
+```
+
+### Detalle Pedagógico de Secciones de M02:
+1. **S01 — ¿Qué es una variable y cómo guardar datos?** Concepto de la cajita con etiqueta en memoria, operador de asignación `=`, lectura con `print(x)` sin comillas, textos vs variables, nombres descriptivos y cálculos con variables (enseñado de forma directa pura, sin `local` todavía para no abrumar al novato).
+2. **S02 — Reasignación y cambio de valores:** La variable varía en el tiempo, último valor guardado, contadores acumulativos (`puntos = puntos + 1`), reducción (`vidas = vidas - 1`), copia independiente de variables, tipado dinámico y secuencia de ejecución.
+3. **S03 — El sistema de tipos y la función `type()`:** Naturaleza de los datos, los 8 tipos nativos, función inspectora `type(x)`, por qué `type()` siempre responde con una palabra entre comillas (`"number"`, `"string"`, `"boolean"`) y cómo evitar errores de comparación.
+4. **S04 — El tipo `number`: Enteros y decimales:** Cifras enteras (`integer` de 64 bits), decimales con punto `.`, negativos con `-`, notación científica compacta (`1e6`), hexadecimales con `0x`, división entera `//`, operador módulo `%` y potencias `^`.
+5. **S05 — El tipo `string`: Textos y bloques:** Cadenas de caracteres, comillas dobles `""`, simples `''`, saltos con `\n`, tabuladores con `\t`, escape con `\"`, bloques multilínea con corchetes dobles `[[ ]]` para arte ASCII y operador longitud `#` para conteo de letras.
+6. **S06 — El tipo `boolean`: La lógica de la verdad:** La toma de decisiones, estados `true` y `false`, la regla de oro: solo `false` y `nil` son falsos; `0` y `""` son verdaderos, operador lógico `not`, doble negación `not not x` y comparaciones numéricas.
+7. **S07 — El tipo `nil` y la llegada de `local`:** `nil` como la ausencia absoluta de valor o borrador mágico, conexión con booleanos (`false` y `nil`), e **introducción estelar de `local`** demostrando que `local x` sin inicializar contiene `nil`, estableciendo `local` como escudo de seguridad para evitar contaminar `_G`.
+8. **S08 — Conversión de tipos y Coerción:** Por qué convertir tipos, `tostring()`, `tonumber()`, falla controlada devolviendo `nil`, bases numéricas binarias/hex, los peligros de la coerción automática (`"5" + 2`), y diferencia sagrada entre sumar `+` y concatenar `..`.
+9. **S09 — Vistazo a los 4 tipos avanzados:** Tipos simples vs contenedores, `table` como la estructura reina de Lua y único contenedor nativo `{}` (`type({}) == "table"`), `function` como valor de primera clase que se guarda en variables (`type(f) == "function"`), `thread` para corrutinas y `userdata` para conectar con C/C++.
+10. **S10 — Checkpoint, Proyecto RPG y Graduación:** Síntesis en 7 repasos activos progresivos, Gran Desafío Práctico de Ficha de Héroe RPG (`nombre`, `nivel`, `hp`, `en_combate`, `clan`), y graduación con honores hacia el Módulo 03: Operadores.
+
+---
+
+## 💻 Prototipo Interactivo de Prueba para Escritorio (HTML Sandbox)
+
+Como parte del proceso de validación temprana de la documentación y dinámicas de interfaz, el repositorio incluye un **entorno de prueba netamente experimental** ([`test_m01.html`](test_m01.html) y [`test_m02.html`](test_m02.html)) con arquitectura visual de aplicación de escritorio:
 
 ```
 ┌─────────────────┬────────────────────────────────────────────────────────────────────────┐
@@ -107,16 +153,17 @@ duolingo-de-programacion/
 │   ├── 24_CONTENT_AUTHORING_GUIDE.md   # Estándares pedagógicos de redacción
 │   ├── 27_UI_UX_SPECIFICATION.md       # Guía de diseño de interfaz
 │   └── 28_LUA_CURRICULUM.md            # Mapeo curricular oficial (v1.2.0)
-├── test_m01.html                       # Visor interactivo standalone para escritorio y móvil
+├── test_m01.html                       # Prototipo HTML netamente de prueba (Módulo 01)
+├── test_m02.html                       # Prototipo HTML netamente de prueba (Módulo 02)
 ├── CHANGELOG.md                        # Bitácora estricta de cambios con zona America/Bogota
 └── README.md                           # Documentación principal del proyecto
 ```
 
 ---
 
-## 🚀 Cómo Probar el Proyecto Localmente
+## 🚀 Cómo Probar los Prototipos de Prueba Localmente
 
-No se requieren gestores de paquetes pesados ni configuraciones complejas para ejecutar el visor:
+Los archivos HTML son **herramientas de prueba exploratoria** para validar de forma tangible las micro-lecciones documentadas. No se requieren compiladores ni dependencias pesadas:
 
 ### Opción 1: Con Live Server (Recomendada en VS Code)
 1. Abre el repositorio en [Visual Studio Code](https://code.visualstudio.com/).
