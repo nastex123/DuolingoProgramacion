@@ -1,0 +1,28 @@
+{
+  "quiz": {
+    "single_choice": 3,
+    "true_false": 2,
+    "predict_output": 2,
+    "fill_blank": 1,
+    "find_error": 1,
+    "select_code": 1
+  },
+  "exam": {
+    "single_choice": 5,
+    "predict_output": 5,
+    "fill_blank": 3,
+    "find_error": 2,
+    "true_false": 5
+  },
+  "exam_variant": {
+    "single_choice": 4,
+    "true_false": 3,
+    "fill_blank": 3,
+    "predict_output": 4,
+    "find_error": 2,
+    "order_lines": 1,
+    "select_code": 1,
+    "matching": 1,
+    "small_problem": 1
+  }
+}

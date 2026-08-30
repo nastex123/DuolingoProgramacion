@@ -1,0 +1,3329 @@
+[
+  {
+    "id": "bf4c031d-0261-40de-a544-2fc02c62763d",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué inicia un comentario de una línea en Lua?",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "5666aafb-b6a8-4d41-9251-026e700e30e7",
+        "question_id": "bf4c031d-0261-40de-a544-2fc02c62763d",
+        "question_version": 1,
+        "label": "A",
+        "body": "--",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "09ce2874-f2ea-4ff3-86fd-6bb699614521",
+        "question_id": "bf4c031d-0261-40de-a544-2fc02c62763d",
+        "question_version": 1,
+        "label": "B",
+        "body": "#",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "3437230b-4d71-4673-84e7-8699baf98378",
+        "question_id": "bf4c031d-0261-40de-a544-2fc02c62763d",
+        "question_version": 1,
+        "label": "C",
+        "body": "//",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "22cba4dc-54ef-4b2b-9ce6-c7f22b3f17e1",
+        "question_id": "bf4c031d-0261-40de-a544-2fc02c62763d",
+        "question_version": 1,
+        "label": "D",
+        "body": "/*",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "5666aafb-b6a8-4d41-9251-026e700e30e7"
+    ],
+    "explanation": "Con --.",
+    "hints": []
+  },
+  {
+    "id": "fc44bb82-387f-4dba-ace4-f091289bed0e",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
+    "type": "true_false",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "En Lua, '--' inicia un comentario.",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "6c060055-5946-4c9f-9e13-91d169e6064f",
+        "question_id": "fc44bb82-387f-4dba-ace4-f091289bed0e",
+        "question_version": 1,
+        "label": "A",
+        "body": "Verdadero",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "222b06fd-bf51-4380-8fac-b9cec9499b03",
+        "question_id": "fc44bb82-387f-4dba-ace4-f091289bed0e",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falso",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "6c060055-5946-4c9f-9e13-91d169e6064f"
+    ],
+    "explanation": "Verdadero.",
+    "hints": []
+  },
+  {
+    "id": "ae553a15-cd2a-454c-83c9-b54c456a7f1c",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+    "lesson_id": "3075f007-d5e7-4b4a-a71a-550b7a635ec3",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué extensión usa Lua?",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-archivo"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "4860555b-865c-4c6b-b517-5191c6990143",
+        "question_id": "ae553a15-cd2a-454c-83c9-b54c456a7f1c",
+        "question_version": 1,
+        "label": "A",
+        "body": ".lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "f74bf688-5c98-4ddf-9f66-55f2612b9502",
+        "question_id": "ae553a15-cd2a-454c-83c9-b54c456a7f1c",
+        "question_version": 1,
+        "label": "B",
+        "body": ".py",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "72fe2030-e06c-444c-983d-02a6ff6393e7",
+        "question_id": "ae553a15-cd2a-454c-83c9-b54c456a7f1c",
+        "question_version": 1,
+        "label": "C",
+        "body": ".js",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "232cfc37-600b-4df6-9d4d-3a9f58f52dae",
+        "question_id": "ae553a15-cd2a-454c-83c9-b54c456a7f1c",
+        "question_version": 1,
+        "label": "D",
+        "body": ".txt",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "4860555b-865c-4c6b-b517-5191c6990143"
+    ],
+    "explanation": ".lua",
+    "hints": []
+  },
+  {
+    "id": "2a6dce38-a1ca-4ed9-8f20-7659204ca96b",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2",
+    "type": "predict_output",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime?",
+    "prompt_code": "print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "21542268-18c4-4c0c-a0b1-c86d0114524b",
+        "question_id": "2a6dce38-a1ca-4ed9-8f20-7659204ca96b",
+        "question_version": 1,
+        "label": "A",
+        "body": "hola",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "21863c9c-de52-49a5-84fd-c28ab89e3758",
+        "question_id": "2a6dce38-a1ca-4ed9-8f20-7659204ca96b",
+        "question_version": 1,
+        "label": "B",
+        "body": "\"hola\"",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "ee6480b4-97b7-4c22-bf81-2559cc6f8ad9",
+        "question_id": "2a6dce38-a1ca-4ed9-8f20-7659204ca96b",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "21542268-18c4-4c0c-a0b1-c86d0114524b"
+    ],
+    "explanation": "Sin comillas.",
+    "hints": []
+  },
+  {
+    "id": "bb3e60ce-8551-4476-9ba6-52e9a926873a",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+    "lesson_id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "Completa: --[[ bloque ]] es un comentario ___",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "621508bf-7c87-4aac-96d7-3d7b822b7187",
+        "question_id": "bb3e60ce-8551-4476-9ba6-52e9a926873a",
+        "question_version": 1,
+        "label": null,
+        "body": "multilínea",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "621508bf-7c87-4aac-96d7-3d7b822b7187"
+    ],
+    "explanation": "Multilínea.",
+    "hints": []
+  },
+  {
+    "id": "2f2f435d-5fa6-40e6-b268-c1d4580a923e",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+    "lesson_id": "85f7dc84-3464-406a-8099-6e316bf4738e",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué comando ejecuta main.lua?",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "f72be7e8-d66c-4c22-a9b9-3141054cbeff",
+        "question_id": "2f2f435d-5fa6-40e6-b268-c1d4580a923e",
+        "question_version": 1,
+        "label": "A",
+        "body": "lua main.lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "4ad85ca5-2fe1-47c8-9de2-1a90357d143f",
+        "question_id": "2f2f435d-5fa6-40e6-b268-c1d4580a923e",
+        "question_version": 1,
+        "label": "B",
+        "body": "run main.lua",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "1b9727d1-7e57-4040-afb1-b33ac3245f7a",
+        "question_id": "2f2f435d-5fa6-40e6-b268-c1d4580a923e",
+        "question_version": 1,
+        "label": "C",
+        "body": "lua -i",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "351da227-2baa-4509-ac46-5d42f6ee0906",
+        "question_id": "2f2f435d-5fa6-40e6-b268-c1d4580a923e",
+        "question_version": 1,
+        "label": "D",
+        "body": "start lua",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "f72be7e8-d66c-4c22-a9b9-3141054cbeff"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "e4f38812-fbee-41a6-9771-1143464dbd5c",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué inicia un comentario de una línea en Lua? (7)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "ad93b1d0-6d8f-4601-927f-9c73a0625a8b",
+        "question_id": "e4f38812-fbee-41a6-9771-1143464dbd5c",
+        "question_version": 1,
+        "label": "A",
+        "body": "--",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "c3134168-1173-491a-a6c2-966f19aac950",
+        "question_id": "e4f38812-fbee-41a6-9771-1143464dbd5c",
+        "question_version": 1,
+        "label": "B",
+        "body": "#",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "45964b49-d738-4a23-906d-a0958d2e0836",
+        "question_id": "e4f38812-fbee-41a6-9771-1143464dbd5c",
+        "question_version": 1,
+        "label": "C",
+        "body": "//",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "a0522a82-f422-4e1c-a197-dfb4963c3be3",
+        "question_id": "e4f38812-fbee-41a6-9771-1143464dbd5c",
+        "question_version": 1,
+        "label": "D",
+        "body": "/*",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "ad93b1d0-6d8f-4601-927f-9c73a0625a8b"
+    ],
+    "explanation": "Con --.",
+    "hints": []
+  },
+  {
+    "id": "a2fdb8ce-f87a-4190-aae2-b785df99548b",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+    "lesson_id": "015eb741-9146-44b0-8fba-fec7d74f8dc6",
+    "type": "true_false",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "En Lua, '--' inicia un comentario. (8)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "94800325-5f1e-4646-ad38-20b22736ea02",
+        "question_id": "a2fdb8ce-f87a-4190-aae2-b785df99548b",
+        "question_version": 1,
+        "label": "A",
+        "body": "Verdadero",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "e8aa30bd-64a1-404b-a4b9-7c6f9f033cc2",
+        "question_id": "a2fdb8ce-f87a-4190-aae2-b785df99548b",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falso",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "94800325-5f1e-4646-ad38-20b22736ea02"
+    ],
+    "explanation": "Verdadero.",
+    "hints": []
+  },
+  {
+    "id": "a390d6df-7cb5-4f2e-852b-612fb86daf37",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+    "lesson_id": "85f7dc84-3464-406a-8099-6e316bf4738e",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué extensión usa Lua? (9)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-archivo"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "d03219b7-59e2-4525-a5a9-e1d48726bf35",
+        "question_id": "a390d6df-7cb5-4f2e-852b-612fb86daf37",
+        "question_version": 1,
+        "label": "A",
+        "body": ".lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "c1091f46-7bf9-4848-95a9-736c9c9f647c",
+        "question_id": "a390d6df-7cb5-4f2e-852b-612fb86daf37",
+        "question_version": 1,
+        "label": "B",
+        "body": ".py",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "fba55e64-012a-40b2-a374-7e81a839932e",
+        "question_id": "a390d6df-7cb5-4f2e-852b-612fb86daf37",
+        "question_version": 1,
+        "label": "C",
+        "body": ".js",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "5ee98150-0827-474e-8863-b029c9c3bf42",
+        "question_id": "a390d6df-7cb5-4f2e-852b-612fb86daf37",
+        "question_version": 1,
+        "label": "D",
+        "body": ".txt",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "d03219b7-59e2-4525-a5a9-e1d48726bf35"
+    ],
+    "explanation": ".lua",
+    "hints": []
+  },
+  {
+    "id": "ce152750-9f07-4ee4-b1d5-5fe4c6a5e7bb",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
+    "type": "predict_output",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (10)",
+    "prompt_code": "print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "3b515fc7-6483-413c-89b8-9ebb8509d87d",
+        "question_id": "ce152750-9f07-4ee4-b1d5-5fe4c6a5e7bb",
+        "question_version": 1,
+        "label": "A",
+        "body": "hola",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "7d945a19-906f-4597-b53e-594c3716dd7f",
+        "question_id": "ce152750-9f07-4ee4-b1d5-5fe4c6a5e7bb",
+        "question_version": 1,
+        "label": "B",
+        "body": "\"hola\"",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "3a9de800-1686-4495-9b52-9e44810d2c41",
+        "question_id": "ce152750-9f07-4ee4-b1d5-5fe4c6a5e7bb",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "3b515fc7-6483-413c-89b8-9ebb8509d87d"
+    ],
+    "explanation": "Sin comillas.",
+    "hints": []
+  },
+  {
+    "id": "5d6fa31a-a8fa-44ad-a031-331f755b559a",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "Completa: --[[ bloque ]] es un comentario ___ (11)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "0b7ffe38-f896-4647-bd77-79f66a72e8fb",
+        "question_id": "5d6fa31a-a8fa-44ad-a031-331f755b559a",
+        "question_version": 1,
+        "label": null,
+        "body": "multilínea",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "0b7ffe38-f896-4647-bd77-79f66a72e8fb"
+    ],
+    "explanation": "Multilínea.",
+    "hints": []
+  },
+  {
+    "id": "fb20086b-0d48-4b66-870e-22d40c05a821",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué comando ejecuta main.lua? (12)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "58d0f196-c400-4916-99ba-05d71cc62e29",
+        "question_id": "fb20086b-0d48-4b66-870e-22d40c05a821",
+        "question_version": 1,
+        "label": "A",
+        "body": "lua main.lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "9b567412-1070-4b53-8be7-eb36af0e9e5c",
+        "question_id": "fb20086b-0d48-4b66-870e-22d40c05a821",
+        "question_version": 1,
+        "label": "B",
+        "body": "run main.lua",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "d85dbe00-162d-4adf-acd2-12010192f2b5",
+        "question_id": "fb20086b-0d48-4b66-870e-22d40c05a821",
+        "question_version": 1,
+        "label": "C",
+        "body": "lua -i",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "b01ef3ea-e2fa-47e2-a66c-eb5a76764aef",
+        "question_id": "fb20086b-0d48-4b66-870e-22d40c05a821",
+        "question_version": 1,
+        "label": "D",
+        "body": "start lua",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "58d0f196-c400-4916-99ba-05d71cc62e29"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "6dc678a3-7900-4b65-a051-116b94e2d6d2",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+    "lesson_id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué inicia un comentario de una línea en Lua? (13)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "26851ff0-d02c-419c-87db-19d92c37675b",
+        "question_id": "6dc678a3-7900-4b65-a051-116b94e2d6d2",
+        "question_version": 1,
+        "label": "A",
+        "body": "--",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "fae237d0-b67b-44b4-a08a-08322f4313e0",
+        "question_id": "6dc678a3-7900-4b65-a051-116b94e2d6d2",
+        "question_version": 1,
+        "label": "B",
+        "body": "#",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "269e4bf1-df9a-43f9-a341-de4f998a65ad",
+        "question_id": "6dc678a3-7900-4b65-a051-116b94e2d6d2",
+        "question_version": 1,
+        "label": "C",
+        "body": "//",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "665069ea-76d1-4182-b392-5a85baf7606a",
+        "question_id": "6dc678a3-7900-4b65-a051-116b94e2d6d2",
+        "question_version": 1,
+        "label": "D",
+        "body": "/*",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "26851ff0-d02c-419c-87db-19d92c37675b"
+    ],
+    "explanation": "Con --.",
+    "hints": []
+  },
+  {
+    "id": "5af1ccab-2f98-46a0-9f28-58dd1207692d",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+    "lesson_id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c",
+    "type": "true_false",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "En Lua, '--' inicia un comentario. (14)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-linea"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "708948ca-d8f4-4bd6-9a35-a06ba63ac501",
+        "question_id": "5af1ccab-2f98-46a0-9f28-58dd1207692d",
+        "question_version": 1,
+        "label": "A",
+        "body": "Verdadero",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "bb0f928d-27ef-40a3-9c94-38b2646f5b60",
+        "question_id": "5af1ccab-2f98-46a0-9f28-58dd1207692d",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falso",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "708948ca-d8f4-4bd6-9a35-a06ba63ac501"
+    ],
+    "explanation": "Verdadero.",
+    "hints": []
+  },
+  {
+    "id": "2fed0b8e-3d47-4fc9-890d-ab6cba616eb5",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué extensión usa Lua? (15)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-archivo"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "0bc5ce99-7b9e-4466-bb43-de22bc609c95",
+        "question_id": "2fed0b8e-3d47-4fc9-890d-ab6cba616eb5",
+        "question_version": 1,
+        "label": "A",
+        "body": ".lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "11f634af-ed9f-48e7-8b3d-a4a3ab913070",
+        "question_id": "2fed0b8e-3d47-4fc9-890d-ab6cba616eb5",
+        "question_version": 1,
+        "label": "B",
+        "body": ".py",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "4cfc2598-c0ac-4442-95c2-6d05bdfb1960",
+        "question_id": "2fed0b8e-3d47-4fc9-890d-ab6cba616eb5",
+        "question_version": 1,
+        "label": "C",
+        "body": ".js",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "50660e53-f801-4f09-96ee-da09e58d1536",
+        "question_id": "2fed0b8e-3d47-4fc9-890d-ab6cba616eb5",
+        "question_version": 1,
+        "label": "D",
+        "body": ".txt",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "0bc5ce99-7b9e-4466-bb43-de22bc609c95"
+    ],
+    "explanation": ".lua",
+    "hints": []
+  },
+  {
+    "id": "53a47149-3a11-45c5-ae6d-6e1e173359e4",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "predict_output",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (16)",
+    "prompt_code": "print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "3e155439-69d8-4f01-ba89-412a686cfd75",
+        "question_id": "53a47149-3a11-45c5-ae6d-6e1e173359e4",
+        "question_version": 1,
+        "label": "A",
+        "body": "hola",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "4f5263d2-5c2e-4c94-aac3-37b784fa6d5c",
+        "question_id": "53a47149-3a11-45c5-ae6d-6e1e173359e4",
+        "question_version": 1,
+        "label": "B",
+        "body": "\"hola\"",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "1e75ff1c-2495-469b-9571-9f0196b6e052",
+        "question_id": "53a47149-3a11-45c5-ae6d-6e1e173359e4",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "3e155439-69d8-4f01-ba89-412a686cfd75"
+    ],
+    "explanation": "Sin comillas.",
+    "hints": []
+  },
+  {
+    "id": "28cc0b6d-419f-4f3c-8c50-a64da7f648d5",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "Completa: --[[ bloque ]] es un comentario ___ (17)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "4494aa0c-3f9c-4905-94aa-9945b787800d",
+        "question_id": "28cc0b6d-419f-4f3c-8c50-a64da7f648d5",
+        "question_version": 1,
+        "label": null,
+        "body": "multilínea",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "4494aa0c-3f9c-4905-94aa-9945b787800d"
+    ],
+    "explanation": "Multilínea.",
+    "hints": []
+  },
+  {
+    "id": "577cf416-edc5-4f83-b8c8-118d04c471c6",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
+    "type": "single_choice",
+    "difficulty": "easy",
+    "category": "fundamentos",
+    "prompt": "¿Qué comando ejecuta main.lua? (18)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 30,
+    "answers": [
+      {
+        "id": "bb61ff3d-aa12-41d4-aaa4-1921e6dbf062",
+        "question_id": "577cf416-edc5-4f83-b8c8-118d04c471c6",
+        "question_version": 1,
+        "label": "A",
+        "body": "lua main.lua",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "2da3d374-1112-48cc-a02e-0f48cae391ce",
+        "question_id": "577cf416-edc5-4f83-b8c8-118d04c471c6",
+        "question_version": 1,
+        "label": "B",
+        "body": "run main.lua",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "bc4f9502-f7eb-4d96-9a23-4d880670b221",
+        "question_id": "577cf416-edc5-4f83-b8c8-118d04c471c6",
+        "question_version": 1,
+        "label": "C",
+        "body": "lua -i",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "4a005828-cfbc-4e45-a6fd-c7ceda924985",
+        "question_id": "577cf416-edc5-4f83-b8c8-118d04c471c6",
+        "question_version": 1,
+        "label": "D",
+        "body": "start lua",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "bb61ff3d-aa12-41d4-aaa4-1921e6dbf062"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "ad8b7914-f056-46c9-904b-6aa2c637ff97",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime?",
+    "prompt_code": "local x = \"5\"\nprint(x + 2)",
+    "score": 10,
+    "concept_ids": [
+      "lua-op-coercion"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "3215bf90-d360-425d-aff2-5958fd906696",
+        "question_id": "ad8b7914-f056-46c9-904b-6aa2c637ff97",
+        "question_version": 1,
+        "label": "A",
+        "body": "7",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "c6b24b31-142f-4376-97b2-92ade9ef0b9b",
+        "question_id": "ad8b7914-f056-46c9-904b-6aa2c637ff97",
+        "question_version": 1,
+        "label": "B",
+        "body": "52",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "7005247a-5e53-48bf-baac-6e4aa02d4055",
+        "question_id": "ad8b7914-f056-46c9-904b-6aa2c637ff97",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "3215bf90-d360-425d-aff2-5958fd906696"
+    ],
+    "explanation": "Coerción: \"5\"+2=7.",
+    "hints": []
+  },
+  {
+    "id": "d0d6305e-2d7e-40de-9dd8-735d391bfdd9",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
+    "type": "find_error",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Dónde está el error?",
+    "prompt_code": "if true then\n  print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "2d33bedb-b41d-4341-8b26-194aa1407dd8",
+        "question_id": "d0d6305e-2d7e-40de-9dd8-735d391bfdd9",
+        "question_version": 1,
+        "label": "A",
+        "body": "Falta 'then'",
+        "is_correct": false,
+        "position": 1
+      },
+      {
+        "id": "ead48c1b-1f48-49bb-adc2-54eb80b432b5",
+        "question_id": "d0d6305e-2d7e-40de-9dd8-735d391bfdd9",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falta 'end'",
+        "is_correct": true,
+        "position": 2
+      },
+      {
+        "id": "68b3d219-ed89-4b59-a41c-4756810b4af1",
+        "question_id": "d0d6305e-2d7e-40de-9dd8-735d391bfdd9",
+        "question_version": 1,
+        "label": "C",
+        "body": "Falta ','",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "ead48c1b-1f48-49bb-adc2-54eb80b432b5"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "c45a6b1e-5f14-43e3-8dde-802c519d208c",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Cuál NO es palabra reservada?",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-reservadas"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "9057b5ad-a281-41a9-9f41-34762c12636b",
+        "question_id": "c45a6b1e-5f14-43e3-8dde-802c519d208c",
+        "question_version": 1,
+        "label": "A",
+        "body": "print",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "fe1ac3e3-128f-4423-a2c3-3efff04a0aa4",
+        "question_id": "c45a6b1e-5f14-43e3-8dde-802c519d208c",
+        "question_version": 1,
+        "label": "B",
+        "body": "and",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "5fbb45ac-cf55-4ec1-897e-38b0112e81bb",
+        "question_id": "c45a6b1e-5f14-43e3-8dde-802c519d208c",
+        "question_version": 1,
+        "label": "C",
+        "body": "while",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "ee8dba5e-2232-45bb-8e69-6d4e0ba48359",
+        "question_id": "c45a6b1e-5f14-43e3-8dde-802c519d208c",
+        "question_version": 1,
+        "label": "D",
+        "body": "local",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "9057b5ad-a281-41a9-9f41-34762c12636b"
+    ],
+    "explanation": "print es función.",
+    "hints": []
+  },
+  {
+    "id": "b4af013e-79cd-4147-b67a-9e5885872d56",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime?",
+    "prompt_code": "local a=nil\nlocal b=false\nif a then print(\"A\") elseif b then print(\"B\") else print(\"C\") end",
+    "score": 10,
+    "concept_ids": [
+      "lua-type-falsy"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "e11fcaa2-0763-4f58-9602-0c31600c9968",
+        "question_id": "b4af013e-79cd-4147-b67a-9e5885872d56",
+        "question_version": 1,
+        "label": "A",
+        "body": "C",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "1406eb53-18f0-4628-853d-37f59f53453d",
+        "question_id": "b4af013e-79cd-4147-b67a-9e5885872d56",
+        "question_version": 1,
+        "label": "B",
+        "body": "A",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "84b42e2e-0b82-4695-95a3-a82db0823803",
+        "question_id": "b4af013e-79cd-4147-b67a-9e5885872d56",
+        "question_version": 1,
+        "label": "C",
+        "body": "B",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "e11fcaa2-0763-4f58-9602-0c31600c9968"
+    ],
+    "explanation": "nil y false falsos.",
+    "hints": []
+  },
+  {
+    "id": "1c6cd9ef-f127-41d9-8e13-5ba826ec75ca",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+    "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Completa para ejecutar: ___ main.lua",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "01859122-e3fe-41cc-8819-3df49153f4d0",
+        "question_id": "1c6cd9ef-f127-41d9-8e13-5ba826ec75ca",
+        "question_version": 1,
+        "label": null,
+        "body": "lua",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "01859122-e3fe-41cc-8819-3df49153f4d0"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "6a7e027b-c8e3-4a62-9320-41c25346eece",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
+    "type": "select_code",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Elige el comentario bloque correcto:",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "c5b5ef30-78b5-4995-9464-f3ec5666f96b",
+        "question_id": "6a7e027b-c8e3-4a62-9320-41c25346eece",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ a ]] ",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "a3666843-20c2-495f-a32a-38cc4dab3cc0",
+        "question_id": "6a7e027b-c8e3-4a62-9320-41c25346eece",
+        "question_version": 1,
+        "label": "B",
+        "body": "/* a */",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "632774ec-698f-43d7-8f13-1cd4957c37e9",
+        "question_id": "6a7e027b-c8e3-4a62-9320-41c25346eece",
+        "question_version": 1,
+        "label": "C",
+        "body": "# a",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "cc6f02f3-dbca-4d25-861f-d9673a890000",
+        "question_id": "6a7e027b-c8e3-4a62-9320-41c25346eece",
+        "question_version": 1,
+        "label": "D",
+        "body": "// a",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "c5b5ef30-78b5-4995-9464-f3ec5666f96b"
+    ],
+    "explanation": "--[[ ]] es bloque.",
+    "hints": []
+  },
+  {
+    "id": "b83de42d-6a0f-4f8c-b187-2abce89e7725",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+    "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Para desactivar 5 líneas temporalmente:",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-debug"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "2de246e6-0df3-46da-97d3-4ded43735f28",
+        "question_id": "b83de42d-6a0f-4f8c-b187-2abce89e7725",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ al inicio y ]] al final",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "560ee1a3-d3b0-48c9-8dfc-e57fec1c6690",
+        "question_id": "b83de42d-6a0f-4f8c-b187-2abce89e7725",
+        "question_version": 1,
+        "label": "B",
+        "body": "Borrar líneas",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "5c7bb6e5-c76a-43a8-a986-a205259fb529",
+        "question_id": "b83de42d-6a0f-4f8c-b187-2abce89e7725",
+        "question_version": 1,
+        "label": "C",
+        "body": "# cada línea",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "9f398303-6f54-4c79-b135-927b92192e90",
+        "question_id": "b83de42d-6a0f-4f8c-b187-2abce89e7725",
+        "question_version": 1,
+        "label": "D",
+        "body": "//",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "2de246e6-0df3-46da-97d3-4ded43735f28"
+    ],
+    "explanation": "--[[ ]] bloque.",
+    "hints": []
+  },
+  {
+    "id": "05c641d6-b3a1-41e6-b875-cfd7c2984380",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+    "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? --[[print(\"a\")]]\nprint(\"b\")",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "ad77b777-61de-438a-a8e2-b690b6c14217",
+        "question_id": "05c641d6-b3a1-41e6-b875-cfd7c2984380",
+        "question_version": 1,
+        "label": "A",
+        "body": "b",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "94170a05-2f69-4ed7-979c-89ebb28faf6a",
+        "question_id": "05c641d6-b3a1-41e6-b875-cfd7c2984380",
+        "question_version": 1,
+        "label": "B",
+        "body": "a",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "409a782f-6d2f-4fbc-9562-1a2a98909f0c",
+        "question_id": "05c641d6-b3a1-41e6-b875-cfd7c2984380",
+        "question_version": 1,
+        "label": "C",
+        "body": "a b",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "ad77b777-61de-438a-a8e2-b690b6c14217"
+    ],
+    "explanation": "Bloque comentado no ejecuta.",
+    "hints": []
+  },
+  {
+    "id": "32b52a59-a7b0-4dc3-8d85-1abcb3abe41b",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+    "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (9)",
+    "prompt_code": "local x = \"5\"\nprint(x + 2)",
+    "score": 10,
+    "concept_ids": [
+      "lua-op-coercion"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "8832f956-6dd0-4915-991d-afed83c0ea35",
+        "question_id": "32b52a59-a7b0-4dc3-8d85-1abcb3abe41b",
+        "question_version": 1,
+        "label": "A",
+        "body": "7",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "bd0190ce-673a-44d9-9ac8-14f15b82f5d1",
+        "question_id": "32b52a59-a7b0-4dc3-8d85-1abcb3abe41b",
+        "question_version": 1,
+        "label": "B",
+        "body": "52",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "6613fdbd-a5e1-490c-826e-678be045900e",
+        "question_id": "32b52a59-a7b0-4dc3-8d85-1abcb3abe41b",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "8832f956-6dd0-4915-991d-afed83c0ea35"
+    ],
+    "explanation": "Coerción: \"5\"+2=7.",
+    "hints": []
+  },
+  {
+    "id": "f7c7d3d2-84aa-47a7-be87-6fdb35b9f1f7",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "find_error",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Dónde está el error? (10)",
+    "prompt_code": "if true then\n  print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "72311509-41fc-40f6-a685-3844987a7ad3",
+        "question_id": "f7c7d3d2-84aa-47a7-be87-6fdb35b9f1f7",
+        "question_version": 1,
+        "label": "A",
+        "body": "Falta 'then'",
+        "is_correct": false,
+        "position": 1
+      },
+      {
+        "id": "28526baf-c99b-48e6-9e1c-bf496e4a93f3",
+        "question_id": "f7c7d3d2-84aa-47a7-be87-6fdb35b9f1f7",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falta 'end'",
+        "is_correct": true,
+        "position": 2
+      },
+      {
+        "id": "f0c7b49f-d9e2-49b8-a970-2d111aba82a1",
+        "question_id": "f7c7d3d2-84aa-47a7-be87-6fdb35b9f1f7",
+        "question_version": 1,
+        "label": "C",
+        "body": "Falta ','",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "28526baf-c99b-48e6-9e1c-bf496e4a93f3"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "5f6e1667-67ad-4fda-b547-761ddf29ee60",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Cuál NO es palabra reservada? (11)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-reservadas"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "5b8533cf-3739-4c13-853f-2710165b9556",
+        "question_id": "5f6e1667-67ad-4fda-b547-761ddf29ee60",
+        "question_version": 1,
+        "label": "A",
+        "body": "print",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "4edfa32a-f11d-4f46-9253-afab47f59382",
+        "question_id": "5f6e1667-67ad-4fda-b547-761ddf29ee60",
+        "question_version": 1,
+        "label": "B",
+        "body": "and",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "49f1a4ed-4e5f-40f9-85e3-ec9cd93485a4",
+        "question_id": "5f6e1667-67ad-4fda-b547-761ddf29ee60",
+        "question_version": 1,
+        "label": "C",
+        "body": "while",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "6a421fcc-1939-4596-8523-da5237bce44d",
+        "question_id": "5f6e1667-67ad-4fda-b547-761ddf29ee60",
+        "question_version": 1,
+        "label": "D",
+        "body": "local",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "5b8533cf-3739-4c13-853f-2710165b9556"
+    ],
+    "explanation": "print es función.",
+    "hints": []
+  },
+  {
+    "id": "1cdc1703-14fd-449b-b842-88f5140b5020",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (12)",
+    "prompt_code": "local a=nil\nlocal b=false\nif a then print(\"A\") elseif b then print(\"B\") else print(\"C\") end",
+    "score": 10,
+    "concept_ids": [
+      "lua-type-falsy"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "09c5846b-dffa-4b0e-b61c-a34206574577",
+        "question_id": "1cdc1703-14fd-449b-b842-88f5140b5020",
+        "question_version": 1,
+        "label": "A",
+        "body": "C",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "d8e70133-2927-4de6-b2b2-6a62b65044d5",
+        "question_id": "1cdc1703-14fd-449b-b842-88f5140b5020",
+        "question_version": 1,
+        "label": "B",
+        "body": "A",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "3485561b-148b-4b07-a4e9-d5df587f02de",
+        "question_id": "1cdc1703-14fd-449b-b842-88f5140b5020",
+        "question_version": 1,
+        "label": "C",
+        "body": "B",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "09c5846b-dffa-4b0e-b61c-a34206574577"
+    ],
+    "explanation": "nil y false falsos.",
+    "hints": []
+  },
+  {
+    "id": "326214f1-0737-4c07-acdb-9e9804332bb9",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Completa para ejecutar: ___ main.lua (13)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "a37d0044-f9dc-4179-82ef-b5a808113d3c",
+        "question_id": "326214f1-0737-4c07-acdb-9e9804332bb9",
+        "question_version": 1,
+        "label": null,
+        "body": "lua",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "a37d0044-f9dc-4179-82ef-b5a808113d3c"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "76cd17fc-cc95-4bbe-a3f4-1c756870141b",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
+    "type": "select_code",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Elige el comentario bloque correcto: (14)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "fa1b00f9-7177-4d1f-ad38-dda8fe2e67d1",
+        "question_id": "76cd17fc-cc95-4bbe-a3f4-1c756870141b",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ a ]] ",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "59083cb5-ca50-4d32-bbaa-b3135eb76eae",
+        "question_id": "76cd17fc-cc95-4bbe-a3f4-1c756870141b",
+        "question_version": 1,
+        "label": "B",
+        "body": "/* a */",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "be8feda5-3c39-43dc-997c-de05190d1386",
+        "question_id": "76cd17fc-cc95-4bbe-a3f4-1c756870141b",
+        "question_version": 1,
+        "label": "C",
+        "body": "# a",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "0d5eca9c-c726-476f-9736-0afcb2cdd787",
+        "question_id": "76cd17fc-cc95-4bbe-a3f4-1c756870141b",
+        "question_version": 1,
+        "label": "D",
+        "body": "// a",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "fa1b00f9-7177-4d1f-ad38-dda8fe2e67d1"
+    ],
+    "explanation": "--[[ ]] es bloque.",
+    "hints": []
+  },
+  {
+    "id": "cb24cf7c-5040-4b0c-828a-ade77bd2e353",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Para desactivar 5 líneas temporalmente: (15)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-debug"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "50f28272-b58e-4131-bc15-a387b5d33c2b",
+        "question_id": "cb24cf7c-5040-4b0c-828a-ade77bd2e353",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ al inicio y ]] al final",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "f37391c6-d0fa-440a-b0df-c35501523a3c",
+        "question_id": "cb24cf7c-5040-4b0c-828a-ade77bd2e353",
+        "question_version": 1,
+        "label": "B",
+        "body": "Borrar líneas",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "a7110e02-5db5-4168-9b87-b5747b5b4305",
+        "question_id": "cb24cf7c-5040-4b0c-828a-ade77bd2e353",
+        "question_version": 1,
+        "label": "C",
+        "body": "# cada línea",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "002ed5a5-11fd-4425-b8af-7d2abac35c01",
+        "question_id": "cb24cf7c-5040-4b0c-828a-ade77bd2e353",
+        "question_version": 1,
+        "label": "D",
+        "body": "//",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "50f28272-b58e-4131-bc15-a387b5d33c2b"
+    ],
+    "explanation": "--[[ ]] bloque.",
+    "hints": []
+  },
+  {
+    "id": "4af99402-08a9-4edc-a492-230f4748e783",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? --[[print(\"a\")]]\nprint(\"b\") (16)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "bbe997cd-ef45-4604-bbfc-d11d7299086c",
+        "question_id": "4af99402-08a9-4edc-a492-230f4748e783",
+        "question_version": 1,
+        "label": "A",
+        "body": "b",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "b7dc7ce4-e803-4e73-9f2a-f60c9063c920",
+        "question_id": "4af99402-08a9-4edc-a492-230f4748e783",
+        "question_version": 1,
+        "label": "B",
+        "body": "a",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "65ee2d56-2b2b-4f04-9dd2-dae4b0fd09c0",
+        "question_id": "4af99402-08a9-4edc-a492-230f4748e783",
+        "question_version": 1,
+        "label": "C",
+        "body": "a b",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "bbe997cd-ef45-4604-bbfc-d11d7299086c"
+    ],
+    "explanation": "Bloque comentado no ejecuta.",
+    "hints": []
+  },
+  {
+    "id": "9cf364da-cd44-4ec7-ad7d-412e5158e795",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (17)",
+    "prompt_code": "local x = \"5\"\nprint(x + 2)",
+    "score": 10,
+    "concept_ids": [
+      "lua-op-coercion"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "ba265cfe-0aaa-4f25-a311-0ffac491ef7d",
+        "question_id": "9cf364da-cd44-4ec7-ad7d-412e5158e795",
+        "question_version": 1,
+        "label": "A",
+        "body": "7",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "c61363fc-762d-4e81-a3ac-8c8f9a9b6134",
+        "question_id": "9cf364da-cd44-4ec7-ad7d-412e5158e795",
+        "question_version": 1,
+        "label": "B",
+        "body": "52",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "a4690a50-9998-43db-b7b6-76fb526185d2",
+        "question_id": "9cf364da-cd44-4ec7-ad7d-412e5158e795",
+        "question_version": 1,
+        "label": "C",
+        "body": "Error",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "ba265cfe-0aaa-4f25-a311-0ffac491ef7d"
+    ],
+    "explanation": "Coerción: \"5\"+2=7.",
+    "hints": []
+  },
+  {
+    "id": "e76daf52-4452-45bb-9420-ee1ced29887a",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "find_error",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Dónde está el error? (18)",
+    "prompt_code": "if true then\n  print(\"hola\")",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "edcd042d-555c-4add-968e-d4b6392052d5",
+        "question_id": "e76daf52-4452-45bb-9420-ee1ced29887a",
+        "question_version": 1,
+        "label": "A",
+        "body": "Falta 'then'",
+        "is_correct": false,
+        "position": 1
+      },
+      {
+        "id": "1b46b0db-1cc2-45fa-ac75-cb1eb7b9dac0",
+        "question_id": "e76daf52-4452-45bb-9420-ee1ced29887a",
+        "question_version": 1,
+        "label": "B",
+        "body": "Falta 'end'",
+        "is_correct": true,
+        "position": 2
+      },
+      {
+        "id": "514e7c6c-5bc1-41b7-88d6-a333d802fc1c",
+        "question_id": "e76daf52-4452-45bb-9420-ee1ced29887a",
+        "question_version": 1,
+        "label": "C",
+        "body": "Falta ','",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "1b46b0db-1cc2-45fa-ac75-cb1eb7b9dac0"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "ab8249f5-9e2f-4610-9bad-4f0898c3ac7d",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+    "lesson_id": "7106a362-69df-430d-9540-762252a20711",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Cuál NO es palabra reservada? (19)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-reservadas"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "057669ce-0a4a-43a4-ad74-57363f77215d",
+        "question_id": "ab8249f5-9e2f-4610-9bad-4f0898c3ac7d",
+        "question_version": 1,
+        "label": "A",
+        "body": "print",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "ecfb4342-6af0-46f8-a625-e4ad87a81a22",
+        "question_id": "ab8249f5-9e2f-4610-9bad-4f0898c3ac7d",
+        "question_version": 1,
+        "label": "B",
+        "body": "and",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "261c151f-fdda-4e7f-b58e-35ac9d2076aa",
+        "question_id": "ab8249f5-9e2f-4610-9bad-4f0898c3ac7d",
+        "question_version": 1,
+        "label": "C",
+        "body": "while",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "f56347d3-53fc-47fb-8d1f-620fae6f4611",
+        "question_id": "ab8249f5-9e2f-4610-9bad-4f0898c3ac7d",
+        "question_version": 1,
+        "label": "D",
+        "body": "local",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "057669ce-0a4a-43a4-ad74-57363f77215d"
+    ],
+    "explanation": "print es función.",
+    "hints": []
+  },
+  {
+    "id": "f64f33f6-e879-4028-b25f-5d7758c3a6eb",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+    "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (20)",
+    "prompt_code": "local a=nil\nlocal b=false\nif a then print(\"A\") elseif b then print(\"B\") else print(\"C\") end",
+    "score": 10,
+    "concept_ids": [
+      "lua-type-falsy"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "3a9e9968-602d-45c3-88db-0faaa1fd97b9",
+        "question_id": "f64f33f6-e879-4028-b25f-5d7758c3a6eb",
+        "question_version": 1,
+        "label": "A",
+        "body": "C",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "994cd0a1-0cd5-4f9e-b9a0-c722ae992e2e",
+        "question_id": "f64f33f6-e879-4028-b25f-5d7758c3a6eb",
+        "question_version": 1,
+        "label": "B",
+        "body": "A",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "6969370b-ef93-4d1d-a3e1-db0a7e75ac2f",
+        "question_id": "f64f33f6-e879-4028-b25f-5d7758c3a6eb",
+        "question_version": 1,
+        "label": "C",
+        "body": "B",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "3a9e9968-602d-45c3-88db-0faaa1fd97b9"
+    ],
+    "explanation": "nil y false falsos.",
+    "hints": []
+  },
+  {
+    "id": "cd547099-9a51-46d9-a0d1-7f363ef408a5",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Completa para ejecutar: ___ main.lua (21)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-ejecutar"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "368d3428-7326-4893-86c9-1087dd369988",
+        "question_id": "cd547099-9a51-46d9-a0d1-7f363ef408a5",
+        "question_version": 1,
+        "label": null,
+        "body": "lua",
+        "is_correct": true,
+        "position": 1
+      }
+    ],
+    "correct_answer_ids": [
+      "368d3428-7326-4893-86c9-1087dd369988"
+    ],
+    "explanation": "lua main.lua",
+    "hints": []
+  },
+  {
+    "id": "0a9d0b58-900b-4790-95e7-36a93eb9eca8",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2",
+    "type": "select_code",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Elige el comentario bloque correcto: (22)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "f1c92b7f-e607-467f-aa76-c5005171edbe",
+        "question_id": "0a9d0b58-900b-4790-95e7-36a93eb9eca8",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ a ]] ",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "ce7f11d4-0f49-4efc-9cbb-f754bce406b9",
+        "question_id": "0a9d0b58-900b-4790-95e7-36a93eb9eca8",
+        "question_version": 1,
+        "label": "B",
+        "body": "/* a */",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "9a07afbe-3208-4267-8dfc-ee0e47eeb71f",
+        "question_id": "0a9d0b58-900b-4790-95e7-36a93eb9eca8",
+        "question_version": 1,
+        "label": "C",
+        "body": "# a",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "e80e7f1a-70e1-472b-bf0c-e35c0640b8b6",
+        "question_id": "0a9d0b58-900b-4790-95e7-36a93eb9eca8",
+        "question_version": 1,
+        "label": "D",
+        "body": "// a",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "f1c92b7f-e607-467f-aa76-c5005171edbe"
+    ],
+    "explanation": "--[[ ]] es bloque.",
+    "hints": []
+  },
+  {
+    "id": "a95f8223-5a28-439d-bed7-1a4acb31b1fc",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "single_choice",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "Para desactivar 5 líneas temporalmente: (23)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-debug"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "187eca0e-0274-4f5f-be9d-d5437e4a8616",
+        "question_id": "a95f8223-5a28-439d-bed7-1a4acb31b1fc",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ al inicio y ]] al final",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "1311e099-f495-4672-8db1-b8291e8a76f0",
+        "question_id": "a95f8223-5a28-439d-bed7-1a4acb31b1fc",
+        "question_version": 1,
+        "label": "B",
+        "body": "Borrar líneas",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "e3f406d4-10b6-4dac-8975-b1da5d0bfe60",
+        "question_id": "a95f8223-5a28-439d-bed7-1a4acb31b1fc",
+        "question_version": 1,
+        "label": "C",
+        "body": "# cada línea",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "d59a4342-a6bb-451e-8cb4-485c2050a327",
+        "question_id": "a95f8223-5a28-439d-bed7-1a4acb31b1fc",
+        "question_version": 1,
+        "label": "D",
+        "body": "//",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "187eca0e-0274-4f5f-be9d-d5437e4a8616"
+    ],
+    "explanation": "--[[ ]] bloque.",
+    "hints": []
+  },
+  {
+    "id": "5b62d080-f660-428b-a5d0-263dc1acd6eb",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+    "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+    "type": "predict_output",
+    "difficulty": "medium",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? --[[print(\"a\")]]\nprint(\"b\") (24)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 60,
+    "answers": [
+      {
+        "id": "69421e92-9ecc-4691-a57a-e02e00c17ad6",
+        "question_id": "5b62d080-f660-428b-a5d0-263dc1acd6eb",
+        "question_version": 1,
+        "label": "A",
+        "body": "b",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "01ba3e8b-c741-4ba8-8bcb-8e0ea652e6c3",
+        "question_id": "5b62d080-f660-428b-a5d0-263dc1acd6eb",
+        "question_version": 1,
+        "label": "B",
+        "body": "a",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "144ff0d7-c6d1-48bb-873c-782b2bad3bfd",
+        "question_id": "5b62d080-f660-428b-a5d0-263dc1acd6eb",
+        "question_version": 1,
+        "label": "C",
+        "body": "a b",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "69421e92-9ecc-4691-a57a-e02e00c17ad6"
+    ],
+    "explanation": "Bloque comentado no ejecuta.",
+    "hints": []
+  },
+  {
+    "id": "1f1d900d-5938-4623-949d-0e73190d5c79",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime?",
+    "prompt_code": "local x=5\n--[[x=10]]\nprint(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "8e7fe3ac-3795-4612-973c-0501ef87f6d5",
+        "question_id": "1f1d900d-5938-4623-949d-0e73190d5c79",
+        "question_version": 1,
+        "label": "A",
+        "body": "5",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "96d68124-23dd-41a7-8d52-6a88e992c49a",
+        "question_id": "1f1d900d-5938-4623-949d-0e73190d5c79",
+        "question_version": 1,
+        "label": "B",
+        "body": "10",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "a56c4301-9d7e-4f39-ad64-a7ea2f92a081",
+        "question_id": "1f1d900d-5938-4623-949d-0e73190d5c79",
+        "question_version": 1,
+        "label": "C",
+        "body": "nil",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "9cc6cd9f-b0d8-4bce-9463-e05cc1ff13f7",
+        "question_id": "1f1d900d-5938-4623-949d-0e73190d5c79",
+        "question_version": 1,
+        "label": "D",
+        "body": "Error",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "8e7fe3ac-3795-4612-973c-0501ef87f6d5"
+    ],
+    "explanation": "Bloque comentado no afecta.",
+    "hints": []
+  },
+  {
+    "id": "d851b9e2-3c5d-4493-b9cc-ff943ada8eb7",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Ordena para que imprima 'Hola' después de definir x:",
+    "prompt_code": "print(x)\nlocal x=\"Hola\"\n-- Orden correcto:",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-orden"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "5c925148-96a0-4010-a236-a900e5572b78",
+        "question_id": "d851b9e2-3c5d-4493-b9cc-ff943ada8eb7",
+        "question_version": 1,
+        "label": "A",
+        "body": "local x=\"Hola\" -> print(x)",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "54bcc87c-6b4a-414a-a0ed-0cbfba13db47",
+        "question_id": "d851b9e2-3c5d-4493-b9cc-ff943ada8eb7",
+        "question_version": 1,
+        "label": "B",
+        "body": "print(x) -> local x=\"Hola\"",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "5c925148-96a0-4010-a236-a900e5572b78"
+    ],
+    "explanation": "Define antes de usar.",
+    "hints": []
+  },
+  {
+    "id": "23dcb2c4-fe25-4ce4-bb97-06b91c7ec460",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+    "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+    "type": "find_error",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué falta para que este if sea válido?",
+    "prompt_code": "if x > 5 then\n  print(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "49bfef61-2900-4baf-ad77-85d8f240804c",
+        "question_id": "23dcb2c4-fe25-4ce4-bb97-06b91c7ec460",
+        "question_version": 1,
+        "label": "A",
+        "body": "end",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "ff042139-aeaa-440e-8f7e-0bdf1edb0fd8",
+        "question_id": "23dcb2c4-fe25-4ce4-bb97-06b91c7ec460",
+        "question_version": 1,
+        "label": "B",
+        "body": "then",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "99ae4ee8-1e5c-48c1-9a9b-9ed425513c7b",
+        "question_id": "23dcb2c4-fe25-4ce4-bb97-06b91c7ec460",
+        "question_version": 1,
+        "label": "C",
+        "body": "do",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "ebe85071-26d0-4c6a-b5f2-6020b2078016",
+        "question_id": "23dcb2c4-fe25-4ce4-bb97-06b91c7ec460",
+        "question_version": 1,
+        "label": "D",
+        "body": "}",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "49bfef61-2900-4baf-ad77-85d8f240804c"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "ca43b78c-0c96-4503-93b6-9c610d82567a",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? print(\"a\", \"b\", 3)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print-multi"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "1b52770b-9f05-4813-9d7e-cbed885a8f61",
+        "question_id": "ca43b78c-0c96-4503-93b6-9c610d82567a",
+        "question_version": 1,
+        "label": "A",
+        "body": "a b 3 con tab",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "87cdc600-499e-4b61-8d00-3a2ac30da569",
+        "question_id": "ca43b78c-0c96-4503-93b6-9c610d82567a",
+        "question_version": 1,
+        "label": "B",
+        "body": "ab3",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "ddff31c0-b372-41e8-85d9-52206efae35d",
+        "question_id": "ca43b78c-0c96-4503-93b6-9c610d82567a",
+        "question_version": 1,
+        "label": "C",
+        "body": "a, b, 3",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "1b52770b-9f05-4813-9d7e-cbed885a8f61"
+    ],
+    "explanation": "Tab entre args.",
+    "hints": []
+  },
+  {
+    "id": "52dad299-c12d-4823-b91c-3017dab9f8b5",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué hace? local a=nil; print(type(a))",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-type-nil"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "badc45be-824d-4aea-b6d8-92dde733803b",
+        "question_id": "52dad299-c12d-4823-b91c-3017dab9f8b5",
+        "question_version": 1,
+        "label": "A",
+        "body": "nil",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "930ccbc8-8781-4d01-b45e-9c87bcf18b85",
+        "question_id": "52dad299-c12d-4823-b91c-3017dab9f8b5",
+        "question_version": 1,
+        "label": "B",
+        "body": "null",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "92d735bb-8793-47cf-b97b-a5e7a3f007d1",
+        "question_id": "52dad299-c12d-4823-b91c-3017dab9f8b5",
+        "question_version": 1,
+        "label": "C",
+        "body": "undefined",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "badc45be-824d-4aea-b6d8-92dde733803b"
+    ],
+    "explanation": "type(nil)-> nil",
+    "hints": []
+  },
+  {
+    "id": "31d2ae46-5850-4183-9477-b063f5741385",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+    "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Relaciona: -- → una línea, --[[ ]] → ?",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "21809128-132f-4a84-b6fa-c497a3821d76",
+        "question_id": "31d2ae46-5850-4183-9477-b063f5741385",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ ]] multilínea",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "ef24e9a5-7c39-4e84-9616-12426f634442",
+        "question_id": "31d2ae46-5850-4183-9477-b063f5741385",
+        "question_version": 1,
+        "label": "B",
+        "body": "-- multilínea",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "21809128-132f-4a84-b6fa-c497a3821d76"
+    ],
+    "explanation": "Bloque.",
+    "hints": []
+  },
+  {
+    "id": "5331cc53-665c-463d-a2a6-89d6493ba100",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (7)",
+    "prompt_code": "local x=5\n--[[x=10]]\nprint(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "c9c559a5-ea3c-4c44-a79f-418bca1d3c08",
+        "question_id": "5331cc53-665c-463d-a2a6-89d6493ba100",
+        "question_version": 1,
+        "label": "A",
+        "body": "5",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "bec88eb0-69d9-495b-b270-40fc77ac6247",
+        "question_id": "5331cc53-665c-463d-a2a6-89d6493ba100",
+        "question_version": 1,
+        "label": "B",
+        "body": "10",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "3661b433-1d74-44ab-bec6-16e443586ab9",
+        "question_id": "5331cc53-665c-463d-a2a6-89d6493ba100",
+        "question_version": 1,
+        "label": "C",
+        "body": "nil",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "43b80c63-6865-495f-a4f1-46bdc78d7aba",
+        "question_id": "5331cc53-665c-463d-a2a6-89d6493ba100",
+        "question_version": 1,
+        "label": "D",
+        "body": "Error",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "c9c559a5-ea3c-4c44-a79f-418bca1d3c08"
+    ],
+    "explanation": "Bloque comentado no afecta.",
+    "hints": []
+  },
+  {
+    "id": "b02cdbb4-bbb8-4424-b037-5ad05bab267b",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+    "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Ordena para que imprima 'Hola' después de definir x: (8)",
+    "prompt_code": "print(x)\nlocal x=\"Hola\"\n-- Orden correcto:",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-orden"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "847e3ac9-b2a5-449c-90ad-2376183621a6",
+        "question_id": "b02cdbb4-bbb8-4424-b037-5ad05bab267b",
+        "question_version": 1,
+        "label": "A",
+        "body": "local x=\"Hola\" -> print(x)",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "77b5bd26-87fa-4f66-9ac3-448846a75222",
+        "question_id": "b02cdbb4-bbb8-4424-b037-5ad05bab267b",
+        "question_version": 1,
+        "label": "B",
+        "body": "print(x) -> local x=\"Hola\"",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "847e3ac9-b2a5-449c-90ad-2376183621a6"
+    ],
+    "explanation": "Define antes de usar.",
+    "hints": []
+  },
+  {
+    "id": "56aaa3aa-1536-4960-b564-43927577b38d",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "find_error",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué falta para que este if sea válido? (9)",
+    "prompt_code": "if x > 5 then\n  print(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "44d4885d-ef3e-4c83-be45-6a321c793fc6",
+        "question_id": "56aaa3aa-1536-4960-b564-43927577b38d",
+        "question_version": 1,
+        "label": "A",
+        "body": "end",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "bc13040b-3549-477e-83b4-5feaed1e13a2",
+        "question_id": "56aaa3aa-1536-4960-b564-43927577b38d",
+        "question_version": 1,
+        "label": "B",
+        "body": "then",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "bb3a447e-a005-453c-9739-dcc9d61301c4",
+        "question_id": "56aaa3aa-1536-4960-b564-43927577b38d",
+        "question_version": 1,
+        "label": "C",
+        "body": "do",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "3863aa22-c89a-488b-91a4-13e8ce86c188",
+        "question_id": "56aaa3aa-1536-4960-b564-43927577b38d",
+        "question_version": 1,
+        "label": "D",
+        "body": "}",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "44d4885d-ef3e-4c83-be45-6a321c793fc6"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "5b11099b-d62a-45b7-9494-7e8ae5caf4b4",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+    "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? print(\"a\", \"b\", 3) (10)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print-multi"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "aa3272b2-c5bf-4d89-93ee-4b55a41c45d7",
+        "question_id": "5b11099b-d62a-45b7-9494-7e8ae5caf4b4",
+        "question_version": 1,
+        "label": "A",
+        "body": "a b 3 con tab",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "ad1b5466-2000-4a12-8107-009f381db328",
+        "question_id": "5b11099b-d62a-45b7-9494-7e8ae5caf4b4",
+        "question_version": 1,
+        "label": "B",
+        "body": "ab3",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "3904e878-d127-4f1c-ae5a-df0833e50ec2",
+        "question_id": "5b11099b-d62a-45b7-9494-7e8ae5caf4b4",
+        "question_version": 1,
+        "label": "C",
+        "body": "a, b, 3",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "aa3272b2-c5bf-4d89-93ee-4b55a41c45d7"
+    ],
+    "explanation": "Tab entre args.",
+    "hints": []
+  },
+  {
+    "id": "f6459760-4d6f-4c11-9c66-042e5da21709",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+    "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué hace? local a=nil; print(type(a)) (11)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-type-nil"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "6284391c-c575-49f6-87fd-a3861ee3cef1",
+        "question_id": "f6459760-4d6f-4c11-9c66-042e5da21709",
+        "question_version": 1,
+        "label": "A",
+        "body": "nil",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "bb60830b-722f-4032-8464-e80345839a54",
+        "question_id": "f6459760-4d6f-4c11-9c66-042e5da21709",
+        "question_version": 1,
+        "label": "B",
+        "body": "null",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "749ca92c-9fc6-4d53-9c2f-0a05b73fb78f",
+        "question_id": "f6459760-4d6f-4c11-9c66-042e5da21709",
+        "question_version": 1,
+        "label": "C",
+        "body": "undefined",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "6284391c-c575-49f6-87fd-a3861ee3cef1"
+    ],
+    "explanation": "type(nil)-> nil",
+    "hints": []
+  },
+  {
+    "id": "23fcfa2f-9ba5-4b5f-b72a-b1adf38d8536",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Relaciona: -- → una línea, --[[ ]] → ? (12)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "fe7cad9b-29db-4b26-b1ec-6e7bdf81c67d",
+        "question_id": "23fcfa2f-9ba5-4b5f-b72a-b1adf38d8536",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ ]] multilínea",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "4271a248-6830-4011-b4d2-a7abaedfd2d9",
+        "question_id": "23fcfa2f-9ba5-4b5f-b72a-b1adf38d8536",
+        "question_version": 1,
+        "label": "B",
+        "body": "-- multilínea",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "fe7cad9b-29db-4b26-b1ec-6e7bdf81c67d"
+    ],
+    "explanation": "Bloque.",
+    "hints": []
+  },
+  {
+    "id": "eec6da89-d465-4118-8392-3203961fad72",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? (13)",
+    "prompt_code": "local x=5\n--[[x=10]]\nprint(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "9e271dec-ca75-49d3-b321-74469d0f1510",
+        "question_id": "eec6da89-d465-4118-8392-3203961fad72",
+        "question_version": 1,
+        "label": "A",
+        "body": "5",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "325363b5-a264-465d-821f-edf3af4ec650",
+        "question_id": "eec6da89-d465-4118-8392-3203961fad72",
+        "question_version": 1,
+        "label": "B",
+        "body": "10",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "e6eb5994-4a5a-4b18-82fb-77626386d8f6",
+        "question_id": "eec6da89-d465-4118-8392-3203961fad72",
+        "question_version": 1,
+        "label": "C",
+        "body": "nil",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "ef529e60-fc73-4c99-9d0b-5bbe7ea6dfe9",
+        "question_id": "eec6da89-d465-4118-8392-3203961fad72",
+        "question_version": 1,
+        "label": "D",
+        "body": "Error",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "9e271dec-ca75-49d3-b321-74469d0f1510"
+    ],
+    "explanation": "Bloque comentado no afecta.",
+    "hints": []
+  },
+  {
+    "id": "2f889a5e-61f1-4ac0-99ca-8e791c2bbf95",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+    "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Ordena para que imprima 'Hola' después de definir x: (14)",
+    "prompt_code": "print(x)\nlocal x=\"Hola\"\n-- Orden correcto:",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-orden"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "1fdfaeae-44c5-4c85-aa73-f7b002cc0e21",
+        "question_id": "2f889a5e-61f1-4ac0-99ca-8e791c2bbf95",
+        "question_version": 1,
+        "label": "A",
+        "body": "local x=\"Hola\" -> print(x)",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "de88510c-5ed9-4ae0-853a-a1484335125b",
+        "question_id": "2f889a5e-61f1-4ac0-99ca-8e791c2bbf95",
+        "question_version": 1,
+        "label": "B",
+        "body": "print(x) -> local x=\"Hola\"",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "1fdfaeae-44c5-4c85-aa73-f7b002cc0e21"
+    ],
+    "explanation": "Define antes de usar.",
+    "hints": []
+  },
+  {
+    "id": "a66ccedd-8964-4f25-91c6-9715c8c9823a",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
+    "type": "find_error",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué falta para que este if sea válido? (15)",
+    "prompt_code": "if x > 5 then\n  print(x)",
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-error-end"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "cab2f6e7-3e9e-4ad6-b805-17da0851d29d",
+        "question_id": "a66ccedd-8964-4f25-91c6-9715c8c9823a",
+        "question_version": 1,
+        "label": "A",
+        "body": "end",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "1430f1ad-810d-4f80-8b9e-3ef1a6f162d4",
+        "question_id": "a66ccedd-8964-4f25-91c6-9715c8c9823a",
+        "question_version": 1,
+        "label": "B",
+        "body": "then",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "c95c0258-e36b-4388-8796-6ced6d6d5c62",
+        "question_id": "a66ccedd-8964-4f25-91c6-9715c8c9823a",
+        "question_version": 1,
+        "label": "C",
+        "body": "do",
+        "is_correct": false,
+        "position": 3
+      },
+      {
+        "id": "cdc2fdc8-98c3-4898-9702-97e07bab1053",
+        "question_id": "a66ccedd-8964-4f25-91c6-9715c8c9823a",
+        "question_version": 1,
+        "label": "D",
+        "body": "}",
+        "is_correct": false,
+        "position": 4
+      }
+    ],
+    "correct_answer_ids": [
+      "cab2f6e7-3e9e-4ad6-b805-17da0851d29d"
+    ],
+    "explanation": "Falta end.",
+    "hints": []
+  },
+  {
+    "id": "fe3583ce-ebd9-4d19-a515-92e28c8d73eb",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+    "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué imprime? print(\"a\", \"b\", 3) (16)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-print-multi"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "c74eac68-b8c6-4b6a-bb6d-318114565c90",
+        "question_id": "fe3583ce-ebd9-4d19-a515-92e28c8d73eb",
+        "question_version": 1,
+        "label": "A",
+        "body": "a b 3 con tab",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "55cb9241-d98d-4c16-a1ad-9ea8e280aebe",
+        "question_id": "fe3583ce-ebd9-4d19-a515-92e28c8d73eb",
+        "question_version": 1,
+        "label": "B",
+        "body": "ab3",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "badfd525-fa1e-4642-bbbf-420ac73d2357",
+        "question_id": "fe3583ce-ebd9-4d19-a515-92e28c8d73eb",
+        "question_version": 1,
+        "label": "C",
+        "body": "a, b, 3",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "c74eac68-b8c6-4b6a-bb6d-318114565c90"
+    ],
+    "explanation": "Tab entre args.",
+    "hints": []
+  },
+  {
+    "id": "95434cde-16cb-401f-bcbd-9d09b04b4c23",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+    "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+    "type": "predict_output",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "¿Qué hace? local a=nil; print(type(a)) (17)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-type-nil"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "49a9b11f-5cf4-46d2-8bbe-bc9528f9e2d0",
+        "question_id": "95434cde-16cb-401f-bcbd-9d09b04b4c23",
+        "question_version": 1,
+        "label": "A",
+        "body": "nil",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "1d425c5f-da8b-4c87-b77f-3a6106d40557",
+        "question_id": "95434cde-16cb-401f-bcbd-9d09b04b4c23",
+        "question_version": 1,
+        "label": "B",
+        "body": "null",
+        "is_correct": false,
+        "position": 2
+      },
+      {
+        "id": "a1cafb4d-3f62-410e-acbb-af86db57f664",
+        "question_id": "95434cde-16cb-401f-bcbd-9d09b04b4c23",
+        "question_version": 1,
+        "label": "C",
+        "body": "undefined",
+        "is_correct": false,
+        "position": 3
+      }
+    ],
+    "correct_answer_ids": [
+      "49a9b11f-5cf4-46d2-8bbe-bc9528f9e2d0"
+    ],
+    "explanation": "type(nil)-> nil",
+    "hints": []
+  },
+  {
+    "id": "f954a711-cf21-48fe-865e-6073621343e0",
+    "version": 1,
+    "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+    "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
+    "type": "single_choice",
+    "difficulty": "hard",
+    "category": "fundamentos",
+    "prompt": "Relaciona: -- → una línea, --[[ ]] → ? (18)",
+    "prompt_code": null,
+    "score": 10,
+    "concept_ids": [
+      "lua-fund-comentario-bloque"
+    ],
+    "status": "published",
+    "content_version": 1,
+    "is_diagnostic": false,
+    "time_estimated_seconds": 90,
+    "answers": [
+      {
+        "id": "2ff884ef-6c8a-42b1-b30e-b6ede3b6120b",
+        "question_id": "f954a711-cf21-48fe-865e-6073621343e0",
+        "question_version": 1,
+        "label": "A",
+        "body": "--[[ ]] multilínea",
+        "is_correct": true,
+        "position": 1
+      },
+      {
+        "id": "a7a1a63a-ed7c-4523-93e0-3387d484b227",
+        "question_id": "f954a711-cf21-48fe-865e-6073621343e0",
+        "question_version": 1,
+        "label": "B",
+        "body": "-- multilínea",
+        "is_correct": false,
+        "position": 2
+      }
+    ],
+    "correct_answer_ids": [
+      "2ff884ef-6c8a-42b1-b30e-b6ede3b6120b"
+    ],
+    "explanation": "Bloque.",
+    "hints": []
+  }
+]

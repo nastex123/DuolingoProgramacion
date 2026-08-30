@@ -1,0 +1,1706 @@
+{
+  "id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+  "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+  "code": "LUA_MOD_01",
+  "slug": "fundamentos-de-lua",
+  "title": "Fundamentos de Lua",
+  "objective": "Comprender qué es Lua, el concepto de chunk y ejecutar tu primer script con print y comentarios.",
+  "description": "Chunk, REPL, print, comentarios -- y --[[ ]], archivos .lua, ejecución y lectura de errores.",
+  "position": 1,
+  "status": "published",
+  "content_version": 1,
+  "prerequisite_module_id": null,
+  "thresholds": {
+    "quiz": 70,
+    "exam": 80
+  },
+  "xp": {
+    "on_pass": 150
+  },
+  "sections": [
+    {
+      "id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+      "title": "¿Qué es Lua y dónde se usa?",
+      "slug": "que-es-lua-y-donde-se-usa",
+      "position": 1,
+      "type": "theory",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 10,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "3075f007-d5e7-4b4a-a71a-550b7a635ec3",
+          "title": "Qué es Lua",
+          "slug": "que-es-lua",
+          "position": 1,
+          "concept_id": "lua-fund-que-es",
+          "explanation": "¿Qué es Lua? Es un lenguaje muy pequeño y rápido. Paso 1: No es para hacer sistemas operativos. Paso 2: Se mete dentro de apps, juegos como Roblox y servidores como Nginx. Paso 3: Solo tiene 21 palabras reservadas y una estructura principal: la tabla. Por eso cabe en kilobytes.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Lua en pocas líneas",
+              "code": "-- Lua cabe en un script de 2 líneas\nprint(\"Hola, Lua\")",
+              "language": "lua",
+              "output": "Hola, Lua",
+              "explanation": "Este ejemplo muestra el tamaño mínimo útil de Lua.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "0e2069ea-7181-4243-abae-c02b0a7981cf",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Lua es un lenguaje pesado diseñado para sistemas operativos completos.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-que-es"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "570fd0ef-e780-4061-a1fd-86142506987b",
+                  "question_id": "0e2069ea-7181-4243-abae-c02b0a7981cf",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "4cd2ad6b-2af8-4461-97f6-69af25d22786",
+                  "question_id": "0e2069ea-7181-4243-abae-c02b0a7981cf",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": true,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "4cd2ad6b-2af8-4461-97f6-69af25d22786"
+              ],
+              "explanation": "Falso. Lua es ligero y embebido, pensado para incrustarse en juegos y servidores, no para sistemas operativos.",
+              "hints": [],
+              "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+              "lesson_id": "3075f007-d5e7-4b4a-a71a-550b7a635ec3"
+            }
+          ]
+        },
+        {
+          "id": "85f7dc84-3464-406a-8099-6e316bf4738e",
+          "title": "Lua vs otros lenguajes",
+          "slug": "lua-vs-otros-lenguajes",
+          "position": 2,
+          "concept_id": "lua-fund-vs",
+          "explanation": "Diferencia 1: Lua cuenta desde 1. t[1] es el primero. En Python es t[0]. Diferencia 2: Comentario es --, no #. Diferencia 3: Solo nil y false son falsos. En Lua, 0 y \"\" cuentan como verdaderos. Recuerda esto y no mezclarás reglas.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Índices diferentes",
+              "code": "local t = {\"a\", \"b\", \"c\"}\nprint(t[1]) -- Lua: a\n-- En Python sería t[0]",
+              "language": "lua",
+              "output": "a",
+              "explanation": "Lua empieza en 1, no en 0.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Para qué fue diseñado principalmente Lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-que-es"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "47b8f878-d780-4c22-83a6-3c03b910dbd9",
+                  "question_id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Sistemas operativos",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "a853fcad-f95c-4bc2-a2ce-2fc142e87585",
+                  "question_id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Ser embebido en aplicaciones",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "02592ccf-fffd-43ef-9360-16333d60fc6f",
+                  "question_id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "Inteligencia artificial",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "eb7b3776-39c5-4792-a2f1-747deae47efb",
+                  "question_id": "848c6a7f-55b0-40f3-bd9f-d5baa4220f36",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "Diseño gráfico",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "a853fcad-f95c-4bc2-a2ce-2fc142e87585"
+              ],
+              "explanation": "Ser embebido en aplicaciones. Lua es ligero para Roblox, Nginx y juegos, no para sistemas operativos.",
+              "hints": [],
+              "section_id": "9ce3363b-9d43-4f42-8245-d69a4af22823",
+              "lesson_id": "85f7dc84-3464-406a-8099-6e316bf4738e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4136e84f-9683-4d7f-998b-246848474b84",
+      "title": "Chunk y REPL",
+      "slug": "chunk-y-repl",
+      "position": 2,
+      "type": "theory",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 8,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "5e7dcf8c-af44-4cae-b848-cc742b77f025",
+          "title": "Qué es un chunk",
+          "slug": "que-es-un-chunk",
+          "position": 1,
+          "concept_id": "lua-fund-chunk",
+          "explanation": "Chunk = un bloque de código que Lua ejecuta junto. Paso 1: Cada archivo .lua es un chunk. Paso 2: Cada línea del REPL también es un chunk. Paso 3: La palabra local solo vive dentro de su chunk/bloque. Así funciona el alcance.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Chunk simple",
+              "code": "-- archivo hola.lua es un chunk\nlocal x = 10\nprint(x)",
+              "language": "lua",
+              "output": "10",
+              "explanation": "El archivo completo se ejecuta como un chunk.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "c51a03b6-9c09-4697-832a-a0c488534be4",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Un archivo .lua completo se ejecuta como un chunk.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-chunk"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "1577c6aa-dab3-48a7-b1e6-e7512c3febf4",
+                  "question_id": "c51a03b6-9c09-4697-832a-a0c488534be4",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": true,
+                  "position": 1
+                },
+                {
+                  "id": "de1154e3-dd4a-48aa-97ac-465a14889454",
+                  "question_id": "c51a03b6-9c09-4697-832a-a0c488534be4",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": false,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "1577c6aa-dab3-48a7-b1e6-e7512c3febf4"
+              ],
+              "explanation": "Verdadero. Cada archivo es un chunk que Lua carga y ejecuta.",
+              "hints": [],
+              "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+              "lesson_id": "5e7dcf8c-af44-4cae-b848-cc742b77f025"
+            }
+          ]
+        },
+        {
+          "id": "092cee96-50c0-49c8-a189-b84996c1380d",
+          "title": "REPL lua -i",
+          "slug": "repl-lua-i",
+          "position": 2,
+          "concept_id": "lua-fund-repl",
+          "explanation": "REPL = probar sin guardar. Paso 1: Escribe lua -i en la terminal. Paso 2: Aparece > . Escribe print(\"hola\") y da Enter: se ejecuta al instante. Paso 3: Sal con Ctrl+D o escribe os.exit(). Útil para probar rápido.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "REPL",
+              "code": "$ lua -i\n> print(\"hola\")\nhola",
+              "language": "lua",
+              "output": "hola",
+              "explanation": "El REPL ejecuta cada línea al presionar Enter.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "8ab4c4d2-68c9-4d25-8d95-9f06e101e6c5",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Qué comando inicia el REPL de Lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-repl"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "3804ca9d-60bf-494f-b720-c54cdd0056a2",
+                  "question_id": "8ab4c4d2-68c9-4d25-8d95-9f06e101e6c5",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "lua",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "a7491149-3ed2-4849-9fd2-d6e1166a2e53",
+                  "question_id": "8ab4c4d2-68c9-4d25-8d95-9f06e101e6c5",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "lua -i",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "64291adf-4c68-4eeb-8bbb-c10a198f1327",
+                  "question_id": "8ab4c4d2-68c9-4d25-8d95-9f06e101e6c5",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "luar",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "e457f200-8f64-4cb9-90de-d2f1a3d45bb6",
+                  "question_id": "8ab4c4d2-68c9-4d25-8d95-9f06e101e6c5",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "lua repl",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "a7491149-3ed2-4849-9fd2-d6e1166a2e53"
+              ],
+              "explanation": "lua -i inicia el modo interactivo donde cada línea se ejecuta al instante.",
+              "hints": [],
+              "section_id": "4136e84f-9683-4d7f-998b-246848474b84",
+              "lesson_id": "092cee96-50c0-49c8-a189-b84996c1380d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+      "title": "Tu primer print",
+      "slug": "tu-primer-print",
+      "position": 3,
+      "type": "example",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 8,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42",
+          "title": "print con un valor",
+          "slug": "print-con-un-valor",
+          "position": 1,
+          "concept_id": "lua-fund-print",
+          "explanation": "print = mostrar en pantalla. Paso 1: Escribe print(\"Hola\"). Paso 2: Siempre con paréntesis. Paso 3: Cada print salta de línea. Prueba: print(\"Hola\") imprime Hola sin comillas. print(42) imprime 42.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Hola mundo",
+              "code": "print(\"Hola\")\nprint(42)",
+              "language": "lua",
+              "output": "Hola\n42",
+              "explanation": "print muestra texto entre comillas y números sin comillas.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "68f0c3af-431d-45a8-9c3e-ea40fe2f13ec",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "predict_output",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Qué imprime este programa?",
+              "prompt_code": "print(\"Hola\")",
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-print"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "4008732c-e795-460e-bd45-e92b6c6b9752",
+                  "question_id": "68f0c3af-431d-45a8-9c3e-ea40fe2f13ec",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "\"Hola\"",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "3e8b4d14-02cd-46b3-9c8c-55aad743051f",
+                  "question_id": "68f0c3af-431d-45a8-9c3e-ea40fe2f13ec",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Hola",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "aaf42006-51e6-4e19-ab1f-fdaf0fda12f5",
+                  "question_id": "68f0c3af-431d-45a8-9c3e-ea40fe2f13ec",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "'Hola'",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "dea122e7-4bd3-4d78-95f5-745ac8d33fde",
+                  "question_id": "68f0c3af-431d-45a8-9c3e-ea40fe2f13ec",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "Error",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "3e8b4d14-02cd-46b3-9c8c-55aad743051f"
+              ],
+              "explanation": "Imprime Hola sin comillas. Las comillas delimitan el texto pero no se imprimen.",
+              "hints": [],
+              "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+              "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42"
+            },
+            {
+              "id": "d41c9517-c9b6-4a70-b5e9-10799ce0eef2",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "fill_blank",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Completa para mostrar Hola en pantalla:",
+              "prompt_code": "____(\"Hola\")",
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-print"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "3a1b1c8b-f02d-49dd-a9ca-1844260206ff",
+                  "question_id": "d41c9517-c9b6-4a70-b5e9-10799ce0eef2",
+                  "question_version": 1,
+                  "label": null,
+                  "body": "print",
+                  "is_correct": true,
+                  "position": 1
+                }
+              ],
+              "correct_answer_ids": [
+                "3a1b1c8b-f02d-49dd-a9ca-1844260206ff"
+              ],
+              "explanation": "print es la función que escribe en pantalla y necesita paréntesis.",
+              "hints": [],
+              "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+              "lesson_id": "b048b521-fd5c-4bc3-9673-ed2fbb71ef42"
+            }
+          ]
+        },
+        {
+          "id": "7106a362-69df-430d-9540-762252a20711",
+          "title": "print con múltiples valores",
+          "slug": "print-multiples-valores",
+          "position": 2,
+          "concept_id": "lua-fund-print-multi",
+          "explanation": "print con varios valores. Paso 1: Separa con comas: print(\"Edad:\", 25). Paso 2: Lua los separa con un tabulador. No necesitas unir con .. si solo quieres ver valores. Resultado: Edad:  25.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Varios valores",
+              "code": "print(\"Edad:\", 25)\n-- Salida: Edad:  25",
+              "language": "lua",
+              "output": "Edad:   25",
+              "explanation": "La coma separa argumentos con tab.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "8850be07-a15b-4180-9b2a-6cc04a7aa6a0",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "predict_output",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Qué imprime?",
+              "prompt_code": "print(\"a\", \"b\", 3)",
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-print-multi"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "d7b0f941-c804-4691-a945-b15f3b213669",
+                  "question_id": "8850be07-a15b-4180-9b2a-6cc04a7aa6a0",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "a b 3",
+                  "is_correct": true,
+                  "position": 1
+                },
+                {
+                  "id": "fc7657e9-94b2-43bb-99e7-e0000b759730",
+                  "question_id": "8850be07-a15b-4180-9b2a-6cc04a7aa6a0",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "ab3",
+                  "is_correct": false,
+                  "position": 2
+                },
+                {
+                  "id": "a5e1d7f1-65ac-4e59-bb14-a6a49fa941d0",
+                  "question_id": "8850be07-a15b-4180-9b2a-6cc04a7aa6a0",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "a, b, 3",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "aff49853-c06d-4847-99d3-8dd737b4edcd",
+                  "question_id": "8850be07-a15b-4180-9b2a-6cc04a7aa6a0",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "Error",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "d7b0f941-c804-4691-a945-b15f3b213669"
+              ],
+              "explanation": "Imprimir con comas separa con tabulación: a b 3.",
+              "hints": [],
+              "section_id": "45fcbbf2-bbf7-453e-8f85-cc80041839a5",
+              "lesson_id": "7106a362-69df-430d-9540-762252a20711"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+      "title": "Comentarios",
+      "slug": "comentarios",
+      "position": 4,
+      "type": "exercise",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 7,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "d65a8570-c372-4914-97bb-70889762fec2",
+          "title": "Comentario de una línea",
+          "slug": "comentario-una-linea",
+          "position": 1,
+          "concept_id": "lua-fund-comentario-linea",
+          "explanation": "Comentario de una línea. Paso 1: Empieza con -- . Paso 2: Todo después de -- en esa línea se ignora. Paso 3: Úsalo para explicar POR QUÉ, no QUÉ hace la línea. Ejemplo: -- suma total",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "--",
+              "code": "-- Esto es un comentario\nprint(\"visible\") -- comentario al final",
+              "language": "lua",
+              "output": "visible",
+              "explanation": "Todo tras -- es ignorado.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "90626721-9b30-4236-94d0-4f5dcfcdcb5f",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Cómo inicia un comentario de una línea en Lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-comentario-linea"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "6537c8dd-54f6-443b-81e1-d169cd4da3b1",
+                  "question_id": "90626721-9b30-4236-94d0-4f5dcfcdcb5f",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "#",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "32509203-09d1-4bf7-8edf-9b8d12e38eed",
+                  "question_id": "90626721-9b30-4236-94d0-4f5dcfcdcb5f",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "--",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "12288b0c-9dbe-43c4-b39c-8d55dd4c7026",
+                  "question_id": "90626721-9b30-4236-94d0-4f5dcfcdcb5f",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "//",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "5a498017-9fc2-4b57-abdb-de500517bd22",
+                  "question_id": "90626721-9b30-4236-94d0-4f5dcfcdcb5f",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "/*",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "32509203-09d1-4bf7-8edf-9b8d12e38eed"
+              ],
+              "explanation": "Con --. # es de Python y // de otros lenguajes.",
+              "hints": [],
+              "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+              "lesson_id": "d65a8570-c372-4914-97bb-70889762fec2"
+            }
+          ]
+        },
+        {
+          "id": "332b85e7-abb7-449a-ae19-edc8efd120bb",
+          "title": "Comentario multilínea",
+          "slug": "comentario-multilinea",
+          "position": 2,
+          "concept_id": "lua-fund-comentario-bloque",
+          "explanation": "Comentario de bloque. Paso 1: Abre con --[[ . Paso 2: Cierra con ]] . Paso 3: Todo dentro se ignora, aunque sean 10 líneas. Truco: si tu bloque ya tiene ]], usa --[=[ y ]=]. Para apagar código temporal.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Bloque",
+              "code": "--[[ Este bloque\nprint(\"no se ejecuta\")\n]]\nprint(\"sí se ejecuta\")",
+              "language": "lua",
+              "output": "sí se ejecuta",
+              "explanation": "El bloque entre --[[ y ]] no se ejecuta.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "89d20904-89c6-4e5a-908d-d8bdeca12950",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "El bloque --[[ print(\"hola\") ]] se ejecuta.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-comentario-bloque"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "102465d9-ab59-410a-be8f-cb2785beaed7",
+                  "question_id": "89d20904-89c6-4e5a-908d-d8bdeca12950",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "eb0231b0-3c61-4711-b883-89959d7a0e70",
+                  "question_id": "89d20904-89c6-4e5a-908d-d8bdeca12950",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": true,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "eb0231b0-3c61-4711-b883-89959d7a0e70"
+              ],
+              "explanation": "Falso. Todo dentro de --[[ ]] es comentario e ignorado.",
+              "hints": [],
+              "section_id": "77f1181d-c778-4de5-aaf4-27492c974acd",
+              "lesson_id": "332b85e7-abb7-449a-ae19-edc8efd120bb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cc75971b-33cd-4850-acf8-ceb493267680",
+      "title": "Archivos .lua",
+      "slug": "archivos-lua",
+      "position": 5,
+      "type": "exercise",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 8,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "3ac78e9a-0924-4927-a733-c76e7f8b2305",
+          "title": "Crear main.lua",
+          "slug": "crear-main-lua",
+          "position": 1,
+          "concept_id": "lua-fund-archivo",
+          "explanation": "Archivo .lua. Paso 1: Crea un archivo y ponle nombre que termine en .lua, ejemplo main.lua. Paso 2: Escribe código dentro y guarda. Paso 3: Ahora puedes ejecutarlo muchas veces sin reescribir.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "main.lua",
+              "code": "-- main.lua\nprint(\"Guardado\")",
+              "language": "lua",
+              "output": "Guardado (al ejecutar)",
+              "explanation": "El archivo guarda el chunk.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "95e43ded-e4b1-40fc-91de-95818cf7aef2",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Qué extensión usan los archivos de Lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-archivo"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "59cac4ce-d728-4b52-bbb8-dea2efb6b694",
+                  "question_id": "95e43ded-e4b1-40fc-91de-95818cf7aef2",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": ".py",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "ec251edb-e3b1-4ffc-b8d0-ca75ef3530bd",
+                  "question_id": "95e43ded-e4b1-40fc-91de-95818cf7aef2",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": ".lua",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "02a9f4dd-9d74-475f-a5d7-c1c7f659b19f",
+                  "question_id": "95e43ded-e4b1-40fc-91de-95818cf7aef2",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": ".js",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "784fb556-f762-4c79-83af-8d4393e6f75b",
+                  "question_id": "95e43ded-e4b1-40fc-91de-95818cf7aef2",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": ".txt",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "ec251edb-e3b1-4ffc-b8d0-ca75ef3530bd"
+              ],
+              "explanation": ".lua es la extensión de Lua.",
+              "hints": [],
+              "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+              "lesson_id": "3ac78e9a-0924-4927-a733-c76e7f8b2305"
+            }
+          ]
+        },
+        {
+          "id": "dfca8071-9c1a-43e8-9ab5-c57993907fb4",
+          "title": "Estructura de carpetas",
+          "slug": "estructura-carpetas",
+          "position": 2,
+          "concept_id": "lua-fund-archivo-struct",
+          "explanation": "Carpetas. Paso 1: Un proyecto puede tener varios .lua. Paso 2: Ejemplo: carpeta proyecto/ con main.lua y utils.lua. Paso 3: Lua busca archivos con require usando package.path. Al inicio, deja todo plano: una carpeta, un main.lua.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Estructura",
+              "code": "proyecto/\n├── main.lua\n└── utils.lua",
+              "language": "lua",
+              "output": "",
+              "explanation": "Estructura mínima recomendada.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "69832c9e-928d-4c91-8353-744a438a150e",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Un proyecto Lua puede tener varios archivos .lua.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-archivo-struct"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "25d4bd3b-51fa-4ecb-9cbb-849193d5f93b",
+                  "question_id": "69832c9e-928d-4c91-8353-744a438a150e",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": true,
+                  "position": 1
+                },
+                {
+                  "id": "c08ec515-2ad6-4f26-8c8b-18f58aba2dc2",
+                  "question_id": "69832c9e-928d-4c91-8353-744a438a150e",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": false,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "25d4bd3b-51fa-4ecb-9cbb-849193d5f93b"
+              ],
+              "explanation": "Verdadero. Puedes dividir tu código en varios .lua y cargarlos con require.",
+              "hints": [],
+              "section_id": "cc75971b-33cd-4850-acf8-ceb493267680",
+              "lesson_id": "dfca8071-9c1a-43e8-9ab5-c57993907fb4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+      "title": "Ejecutar código",
+      "slug": "ejecutar-codigo",
+      "position": 6,
+      "type": "exercise",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 9,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c",
+          "title": "lua main.lua",
+          "slug": "lua-main-lua",
+          "position": 1,
+          "concept_id": "lua-fund-ejecutar",
+          "explanation": "Ejecutar. Paso 1: Abre terminal en la carpeta de main.lua. Paso 2: Escribe exactamente: lua main.lua y da Enter. Paso 3: Verás la salida de tus print. Si hay error, te dirá archivo y línea.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Ejecución",
+              "code": "$ lua main.lua\nHola",
+              "language": "lua",
+              "output": "Hola",
+              "explanation": "Ejecución desde terminal.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "e8d085d2-0d43-45b5-a9d6-e828686a60f2",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "¿Qué comando ejecuta main.lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-ejecutar"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "1d7f1098-fbca-4c7d-a52e-7447eae47d53",
+                  "question_id": "e8d085d2-0d43-45b5-a9d6-e828686a60f2",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "run main.lua",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "b14c0d1a-8eda-4af3-b7af-2a999c83ca9a",
+                  "question_id": "e8d085d2-0d43-45b5-a9d6-e828686a60f2",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "lua main.lua",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "d122a964-a614-4b93-8c9a-ffc2fb7d962f",
+                  "question_id": "e8d085d2-0d43-45b5-a9d6-e828686a60f2",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "lua run main.lua",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "695eefc2-8cc6-471e-98a5-196c12480cf7",
+                  "question_id": "e8d085d2-0d43-45b5-a9d6-e828686a60f2",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "execute main.lua",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "b14c0d1a-8eda-4af3-b7af-2a999c83ca9a"
+              ],
+              "explanation": "lua main.lua ejecuta el archivo con el intérprete de Lua.",
+              "hints": [],
+              "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+              "lesson_id": "4398b8b1-9feb-44f7-9d46-7b59ebb30d3c"
+            }
+          ]
+        },
+        {
+          "id": "015eb741-9146-44b0-8fba-fec7d74f8dc6",
+          "title": "Errores por olvidar end",
+          "slug": "errores-olvidar-end",
+          "position": 2,
+          "concept_id": "lua-fund-error-end",
+          "explanation": "Error por olvidar end. Paso 1: Cada if, for, while y function NECESITA un end al final. Paso 2: Si lo olvidas, Lua dice: 'end' expected near <eof>. Paso 3: Significa: llegué al final y me faltó un end. Añádelo y ejecuta de nuevo. No es grave, le pasa a todos.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Error común",
+              "code": "if true then\n  print(\"hola\")\n-- falta end => error: 'end' expected",
+              "language": "lua",
+              "output": "error: 'end' expected near <eof>",
+              "explanation": "Falta end al cerrar el if.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "a0035951-4c17-4831-b73b-c3a458c17559",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "find_error",
+              "difficulty": "medium",
+              "category": "fundamentos",
+              "prompt": "¿Dónde está el error?",
+              "prompt_code": "if true then\n  print(\"hola\")",
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-error-end"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 60,
+              "answers": [
+                {
+                  "id": "485f9c6c-56de-4ace-bbe2-1e516dd5f6fb",
+                  "question_id": "a0035951-4c17-4831-b73b-c3a458c17559",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Falta 'then'",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "22e0b009-a2c3-43ba-8571-011cc8f076a7",
+                  "question_id": "a0035951-4c17-4831-b73b-c3a458c17559",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falta 'end'",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "2c488aad-f80a-4a79-a9fc-2df19d01f467",
+                  "question_id": "a0035951-4c17-4831-b73b-c3a458c17559",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "Falta ','",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "50fa24ed-6712-435b-8108-5812e1cdf4ec",
+                  "question_id": "a0035951-4c17-4831-b73b-c3a458c17559",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "No hay error",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "22e0b009-a2c3-43ba-8571-011cc8f076a7"
+              ],
+              "explanation": "Falta end. Todo if necesita end para cerrarse en Lua.",
+              "hints": [],
+              "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+              "lesson_id": "015eb741-9146-44b0-8fba-fec7d74f8dc6"
+            },
+            {
+              "id": "1f228078-5ffd-4b26-8a5b-d2c15a1b6064",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "En Lua, cada 'if' debe cerrarse con 'end'.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-error-end"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "9aebee1d-e037-4913-ab18-27c7e55197cd",
+                  "question_id": "1f228078-5ffd-4b26-8a5b-d2c15a1b6064",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": true,
+                  "position": 1
+                },
+                {
+                  "id": "0c10fa19-2a92-4f53-9b76-6c510f142a86",
+                  "question_id": "1f228078-5ffd-4b26-8a5b-d2c15a1b6064",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": false,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "9aebee1d-e037-4913-ab18-27c7e55197cd"
+              ],
+              "explanation": "Verdadero. if, for, while y function siempre cierran con end.",
+              "hints": [],
+              "section_id": "f9369da6-1e58-4168-b023-c7b7cf116180",
+              "lesson_id": "015eb741-9146-44b0-8fba-fec7d74f8dc6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+      "title": "Palabras reservadas y estilo",
+      "slug": "palabras-reservadas-y-estilo",
+      "position": 7,
+      "type": "theory",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 7,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "22f3f3a4-e294-47a3-930f-e071c324dbef",
+          "title": "Palabras reservadas",
+          "slug": "palabras-reservadas",
+          "position": 1,
+          "concept_id": "lua-fund-reservadas",
+          "explanation": "Palabras reservadas = no puedes usarlas como nombres. Son 21: and break do else elseif end false for function goto if in local nil not or repeat return then true until while. Si escribes local = 5 verás error: unexpected near local. Usa otro nombre.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Reservada",
+              "code": "local = 5 -- Error: unexpected symbol near 'local'",
+              "language": "lua",
+              "output": "error",
+              "explanation": "local es reservada, no puede ser variable.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "afe8d297-3147-4064-8c1d-9f3cbcc9842d",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "medium",
+              "category": "fundamentos",
+              "prompt": "¿Cuál NO es palabra reservada de Lua?",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-reservadas"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 60,
+              "answers": [
+                {
+                  "id": "affa8d39-dfea-4a18-b6e7-7543a90b19c1",
+                  "question_id": "afe8d297-3147-4064-8c1d-9f3cbcc9842d",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "and",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "beb3c544-5c4f-48f5-a786-ff141d9e8ea2",
+                  "question_id": "afe8d297-3147-4064-8c1d-9f3cbcc9842d",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "local",
+                  "is_correct": false,
+                  "position": 2
+                },
+                {
+                  "id": "2b129d54-34a8-4f57-9ed5-73888bfca5b2",
+                  "question_id": "afe8d297-3147-4064-8c1d-9f3cbcc9842d",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "print",
+                  "is_correct": true,
+                  "position": 3
+                },
+                {
+                  "id": "b7267af8-9b05-4925-a647-0b09d348438e",
+                  "question_id": "afe8d297-3147-4064-8c1d-9f3cbcc9842d",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "while",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "2b129d54-34a8-4f57-9ed5-73888bfca5b2"
+              ],
+              "explanation": "print es una función de la librería, no una palabra reservada. Puedes redefinirla aunque no debes.",
+              "hints": [],
+              "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+              "lesson_id": "22f3f3a4-e294-47a3-930f-e071c324dbef"
+            }
+          ]
+        },
+        {
+          "id": "90e007b3-8ebb-4187-891a-9fce3df19b04",
+          "title": "Estilo e indentación",
+          "slug": "estilo-e-indentacion",
+          "position": 2,
+          "concept_id": "lua-fund-estilo",
+          "explanation": "Estilo legible. Paso 1: Indenta 2 espacios dentro de cada bloque (después de then, do, function). Paso 2: No pongas ; al final, no hace falta. Solo si pones dos cosas en una línea: a=1; b=2 (mejor no). Así no pierdes un end.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Estilo",
+              "code": "if true then\n  print(\"ok\") -- indentado 2 espacios\nend",
+              "language": "lua",
+              "output": "ok",
+              "explanation": "Indentación de 2 espacios.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "d90ff1d4-2ee0-4555-934f-f53834fd9efa",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "En Lua, el ';' al final de cada línea es obligatorio.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-estilo"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "e904b0be-392a-4fea-8475-4aa4d7932168",
+                  "question_id": "d90ff1d4-2ee0-4555-934f-f53834fd9efa",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "8471abbc-5a7a-4bb4-8876-f0fc8f87b324",
+                  "question_id": "d90ff1d4-2ee0-4555-934f-f53834fd9efa",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": true,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "8471abbc-5a7a-4bb4-8876-f0fc8f87b324"
+              ],
+              "explanation": "Falso. El ; es opcional y raramente necesario.",
+              "hints": [],
+              "section_id": "bb82c06d-c86c-4177-807f-fc07386dc5a2",
+              "lesson_id": "90e007b3-8ebb-4187-891a-9fce3df19b04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+      "title": "Kit de supervivencia",
+      "slug": "kit-de-supervivencia",
+      "position": 8,
+      "type": "review",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 8,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "838a268f-6ab2-4e5e-b658-b46b1d52609d",
+          "title": "Leer traceback",
+          "slug": "leer-traceback",
+          "position": 1,
+          "concept_id": "lua-fund-traceback",
+          "explanation": "Traceback = dónde falló. Ejemplo: main.lua:2: attempt to call a nil value. Paso 1: main.lua:2 = archivo y línea 2. Paso 2: El resto dice el motivo. Lee de abajo hacia arriba: la última línea es donde falló.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Traceback",
+              "code": "print(x.upper()) -- x es nil => error\n-- main.lua:1: attempt to index a nil value",
+              "language": "lua",
+              "output": "error",
+              "explanation": "El error indica línea 1 y causa.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "abaa626e-36e0-44aa-a25a-c2b5ec013553",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Un traceback indica:",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-traceback"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "0490443c-6c5e-4bb5-850c-f88c46aa70c9",
+                  "question_id": "abaa626e-36e0-44aa-a25a-c2b5ec013553",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Solo el número de línea",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "63b56ffe-141f-4759-80b6-e0d571caf542",
+                  "question_id": "abaa626e-36e0-44aa-a25a-c2b5ec013553",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Archivo, línea y motivo del error",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "4c250e92-e478-4550-a0e4-73c2255a3067",
+                  "question_id": "abaa626e-36e0-44aa-a25a-c2b5ec013553",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "Solo el motivo",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "d6a6d679-e878-4525-a84e-8728a794c538",
+                  "question_id": "abaa626e-36e0-44aa-a25a-c2b5ec013553",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "Nada útil",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "63b56ffe-141f-4759-80b6-e0d571caf542"
+              ],
+              "explanation": "Archivo, línea y motivo. Te guía exactamente donde corregir.",
+              "hints": [],
+              "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+              "lesson_id": "838a268f-6ab2-4e5e-b658-b46b1d52609d"
+            }
+          ]
+        },
+        {
+          "id": "0b2b258e-a226-46c7-9ef7-314dbae5a525",
+          "title": "Comentar para debug",
+          "slug": "comentar-para-debug",
+          "position": 2,
+          "concept_id": "lua-fund-debug",
+          "explanation": "Debug comentando. Paso 1: ¿No sabes qué línea falla? Paso 2: Pon --[[ al inicio del bloque dudoso y ]] al final. Paso 3: Ejecuta. Si ya no falla, el error estaba ahí. Descomenta línea por línea hasta encontrarlo. Más rápido que borrar.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Debug",
+              "code": "--[[print(\"prueba 1\")\nprint(\"prueba 2\")]]\nprint(\"solo esto\")",
+              "language": "lua",
+              "output": "solo esto",
+              "explanation": "Comentar bloque aisla el problema.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "6e46ce8e-0045-4557-b0bb-24d567ecd074",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "single_choice",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Para desactivar temporalmente un bloque de 5 líneas, lo ideal es:",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-debug"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "8c2f31d2-a1cc-451e-867e-e7d3b8d97988",
+                  "question_id": "6e46ce8e-0045-4557-b0bb-24d567ecd074",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Borrar las líneas",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "22e981a1-eaf8-4a1c-a78b-c52a65254354",
+                  "question_id": "6e46ce8e-0045-4557-b0bb-24d567ecd074",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Añadir --[[ al inicio y ]] al final",
+                  "is_correct": true,
+                  "position": 2
+                },
+                {
+                  "id": "ccbe87b7-86fb-4d83-8159-65e3c70443a3",
+                  "question_id": "6e46ce8e-0045-4557-b0bb-24d567ecd074",
+                  "question_version": 1,
+                  "label": "C",
+                  "body": "Añadir # al inicio",
+                  "is_correct": false,
+                  "position": 3
+                },
+                {
+                  "id": "e8e7f97f-caf9-4fe5-aa2f-9829a00b8659",
+                  "question_id": "6e46ce8e-0045-4557-b0bb-24d567ecd074",
+                  "question_version": 1,
+                  "label": "D",
+                  "body": "Nada",
+                  "is_correct": false,
+                  "position": 4
+                }
+              ],
+              "correct_answer_ids": [
+                "22e981a1-eaf8-4a1c-a78b-c52a65254354"
+              ],
+              "explanation": "--[[ ]] comenta un bloque sin borrar.",
+              "hints": [],
+              "section_id": "d35989c6-0c4c-4b6d-a46b-e0980f17f147",
+              "lesson_id": "0b2b258e-a226-46c7-9ef7-314dbae5a525"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+      "title": "Checkpoint",
+      "slug": "checkpoint",
+      "position": 9,
+      "type": "review",
+      "status": "published",
+      "content_version": 1,
+      "estimated_minutes": 10,
+      "xp_on_complete": 10,
+      "lessons": [
+        {
+          "id": "761da355-059a-421c-90df-04698bd527cb",
+          "title": "Repaso",
+          "slug": "repaso",
+          "position": 1,
+          "concept_id": "lua-fund-check",
+          "explanation": "Repaso. Ya viste: qué es Lua, chunk, print, comentarios -- , archivos .lua, ejecutar con lua main.lua, palabras reservadas y leer errores con end. Si puedes explicar para qué sirve cada línea de tu main.lua, estás listo para el Módulo 2: Variables.",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Mapa mental",
+              "code": "main.lua -> chunk -> print -> -- -> lua main.lua -> end",
+              "language": "lua",
+              "output": "",
+              "explanation": "Mapa mental del módulo.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "ea0a4401-bbdb-4aad-9720-71d09c5f9e17",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "true_false",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Para ejecutar main.lua se usa 'lua main.lua' en la terminal.",
+              "prompt_code": null,
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-check"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "4a5f05ba-e1a8-449f-8de6-27225757425f",
+                  "question_id": "ea0a4401-bbdb-4aad-9720-71d09c5f9e17",
+                  "question_version": 1,
+                  "label": "A",
+                  "body": "Verdadero",
+                  "is_correct": true,
+                  "position": 1
+                },
+                {
+                  "id": "bedb42ca-2609-4a41-96a2-c10d5f6bc0f0",
+                  "question_id": "ea0a4401-bbdb-4aad-9720-71d09c5f9e17",
+                  "question_version": 1,
+                  "label": "B",
+                  "body": "Falso",
+                  "is_correct": false,
+                  "position": 2
+                }
+              ],
+              "correct_answer_ids": [
+                "4a5f05ba-e1a8-449f-8de6-27225757425f"
+              ],
+              "explanation": "Verdadero. Ese comando carga y ejecuta el chunk.",
+              "hints": [],
+              "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+              "lesson_id": "761da355-059a-421c-90df-04698bd527cb"
+            }
+          ]
+        },
+        {
+          "id": "191e1b4c-499f-4d24-b4a4-4e368594d816",
+          "title": "Mini-desafío",
+          "slug": "mini-desafio",
+          "position": 2,
+          "concept_id": "lua-fund-desafio",
+          "explanation": "¡Desafío! Paso 1: Crea saludo.lua. Paso 2: Primera línea: -- saludo de TU_NOMBRE. Paso 3: Segunda: print(\"Hola, Lua\"). Paso 4: Tercera y cuarta: local nombre = \"TU_NOMBRE\" y print(\"Soy \" .. nombre). Ejecuta lua saludo.lua. ¿Ves 2 líneas? ¡Módulo 1 completado!",
+          "is_required": true,
+          "status": "published",
+          "content_version": 1,
+          "examples": [
+            {
+              "title": "Desafío",
+              "code": "-- saludo.lua de Ana\nprint(\"Hola, Lua\")\nlocal nombre = \"Ana\"\nprint(\"Soy \" .. nombre)",
+              "language": "lua",
+              "output": "Hola, Lua\nSoy Ana",
+              "explanation": "Solución del desafío.",
+              "position": 1
+            }
+          ],
+          "exercises": [
+            {
+              "id": "149ddaf5-2857-4f1a-9bd4-e1bf42b444b1",
+              "version": 1,
+              "language_id": "a0e1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+              "module_id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+              "type": "fill_blank",
+              "difficulty": "easy",
+              "category": "fundamentos",
+              "prompt": "Completa para comentar tu nombre:",
+              "prompt_code": "-- _____ Ana",
+              "score": 10,
+              "concept_ids": [
+                "lua-fund-desafio"
+              ],
+              "status": "published",
+              "content_version": 1,
+              "is_diagnostic": false,
+              "time_estimated_seconds": 30,
+              "answers": [
+                {
+                  "id": "6b155415-dff3-4aeb-a0cd-eda8a91ae645",
+                  "question_id": "149ddaf5-2857-4f1a-9bd4-e1bf42b444b1",
+                  "question_version": 1,
+                  "label": null,
+                  "body": "Ana",
+                  "is_correct": false,
+                  "position": 1
+                },
+                {
+                  "id": "1ae73fc1-99ec-41b3-9c91-49d0ff13d820",
+                  "question_id": "149ddaf5-2857-4f1a-9bd4-e1bf42b444b1",
+                  "question_version": 1,
+                  "label": null,
+                  "body": "nombre Ana",
+                  "is_correct": false,
+                  "position": 2
+                },
+                {
+                  "id": "8fa911eb-20b0-4155-bc47-a8b0b182bd92",
+                  "question_id": "149ddaf5-2857-4f1a-9bd4-e1bf42b444b1",
+                  "question_version": 1,
+                  "label": null,
+                  "body": "Ana",
+                  "is_correct": true,
+                  "position": 3
+                }
+              ],
+              "correct_answer_ids": [
+                "8fa911eb-20b0-4155-bc47-a8b0b182bd92"
+              ],
+              "explanation": "Un comentario empieza con --.",
+              "hints": [],
+              "section_id": "905b546a-6ed8-4058-a1c3-59f69abfa1c4",
+              "lesson_id": "191e1b4c-499f-4d24-b4a4-4e368594d816"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "quiz_refs": [
+    {
+      "id": "9d6cdbee-a27e-494c-b89e-040db6d64212",
+      "title": "Quiz — Fundamentos de Lua",
+      "slug": "quiz-fundamentos",
+      "position": 1,
+      "status": "published",
+      "content_version": 1,
+      "threshold": 70,
+      "composition": {
+        "single_choice": 3,
+        "true_false": 2,
+        "predict_output": 2,
+        "fill_blank": 1,
+        "find_error": 1,
+        "select_code": 1
+      }
+    }
+  ],
+  "exam_ref": {
+    "id": "ba7d6b6b-9610-402b-aef3-9e1d71c6023b",
+    "title": "Examen — Fundamentos de Lua",
+    "slug": "examen-fundamentos",
+    "status": "published",
+    "content_version": 1,
+    "threshold": 80,
+    "distribution": {
+      "single_choice": 5,
+      "predict_output": 5,
+      "fill_blank": 3,
+      "find_error": 2,
+      "true_false": 5
+    },
+    "total_questions": 20
+  }
+}
