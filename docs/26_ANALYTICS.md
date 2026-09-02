@@ -17,7 +17,7 @@ Este documento es la **fuente de verdad de analítica**. Especifica el modelo de
 
 **Dentro del alcance:** catálogo de métricas de producto/aprendizaje/gamificación/monetización, fórmulas deterministas y reproducibles, eventos origen (`12`/`13`), dashboards MVP, retención y seudonimización, antipatrones de tracking.
 
-**Fuera del alcance:** implementación del pipeline ETL/BI concreto (requiere ADR en `09-decisions/`), modelo relacional físico extendido (ver `12`), contratos OpenAPI de lectura de progreso/gamificación (ver `13`), wireframes de dashboards (ver `27_UI_DESIGN.md`).
+**Fuera del alcance:** implementación del pipeline ETL/BI concreto (requiere ADR en `09-decisions/`), modelo relacional físico extendido (ver `12`), contratos OpenAPI de lectura de progreso/gamificación (ver `13`), wireframes de dashboards (ver `27_UI_UX_SPECIFICATION.md`).
 
 **Principio rector:** medir lo esencial para mejorar el aprendizaje con **minimización de datos** (`06` RNF-037/039/040). Ninguna métrica justifica fingerprinting, tracking cross-site ni compartir progreso con redes de anuncios.
 

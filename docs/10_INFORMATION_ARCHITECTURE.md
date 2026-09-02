@@ -3,7 +3,7 @@
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > **Complementa a:** `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md` (`RF-*`), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (`RNF-*`), `07_USER_STORIES.md` (`US-*`), `08_USE_CASES.md`, `09_USER_FLOWS.md`.
 > **Responde a:** ¿Dónde está cada cosa dentro de la aplicación?
-> No duplica requisitos funcionales ni casos de uso; los referencia y los ubica en la interfaz. El diseño visual se detalla en `27_UI_DESIGN.md`; la navegación técnica (rutas/URL) en `11_SYSTEM_ARCHITECTURE.md` y `13_API_SPEC.md`.
+> No duplica requisitos funcionales ni casos de uso; los referencia y los ubica en la interfaz. El diseño visual se detalla en `27_UI_UX_SPECIFICATION.md`; la navegación técnica (rutas/URL) en `11_SYSTEM_ARCHITECTURE.md` y `13_API_SPECIFICATION.md`.
 
 ---
 
@@ -532,7 +532,7 @@ Touch targets ≥44×44 px en todos los viewports (`06` RNF-027). Zoom 200% sin 
 - **Contraste:** AA mínimo; estados no dependen solo de color (`06` RNF-026).
 - **Lector de pantalla:** cada card de módulo anuncia `Módulo 02, Variables, En progreso, 40 por ciento, disponible`.
 
-Ver detalle en `27_UI_DESIGN.md` y auditoría `06` RNF-024 (axe/Lighthouse ≥95).
+Ver detalle en `27_UI_UX_SPECIFICATION.md` y auditoría `06` RNF-024 (axe/Lighthouse ≥95).
 
 ---
 
@@ -597,11 +597,11 @@ Ver detalle en `27_UI_DESIGN.md` y auditoría `06` RNF-024 (axe/Lighthouse ≥95
 | `08_USE_CASES.md` | Casos UC-* que ejercitan cada pantalla (cuando exista). |
 | `09_USER_FLOWS.md` | Flujos navegables que complementan este mapa estático. |
 | `11_SYSTEM_ARCHITECTURE.md` | Rutas/URL técnicas y desacoplo de motores. |
-| `12_DATA_MODEL.md` | Entidades que respaldan cada nivel de la jerarquía. |
-| `13_API_SPEC.md` | Contratos OpenAPI por pantalla (paginación, idempotencia). |
+| `12_DATABASE_DESIGN.md` | Entidades que respaldan cada nivel de la jerarquía. |
+| `13_API_SPECIFICATION.md` | Contratos OpenAPI por pantalla (paginación, idempotencia). |
 | `23_CONTENT_SPECIFICATION.md` | Formato declarativo de lenguaje/módulo/sección/lección/pregunta. |
 | `25_ADMIN_SYSTEM.md` | Flujos de publicación que afectan visibilidad en la IA. |
-| `27_UI_DESIGN.md` | Sistema visual, landmarks y responsive detallado. |
+| `27_UI_UX_SPECIFICATION.md` | Sistema visual, landmarks y responsive detallado. |
 
 ---
 

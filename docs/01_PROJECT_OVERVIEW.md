@@ -8,8 +8,8 @@
 
 | Campo | Valor |
 |---|---|
-| Nombre del proyecto | [Nombre provisional del proyecto] |
-| Nombre corto / código | [Nombre corto / código del proyecto] |
+| Nombre del proyecto | Koda (Duolingo de Programación) |
+| Nombre corto / código | KODA (prefijo de certificados: CQ) |
 | Tipo de proyecto | Plataforma educativa interactiva y gamificada |
 | Categoría | Educación / Programación / Tecnología |
 | Estado | En planificación |
@@ -458,7 +458,9 @@ Mínimo viable:
 - Registro de progreso
 - Certificado PDF
 
-Lenguaje recomendado para MVP: **Python**.
+Lenguajes del MVP:
+- **Lua 5.4 (Piloto Pedagógico Operativo):** 190 micro-lecciones atómicas listas en M01 (Fundamentos) y M02 (Variables y Tipos), validando la pedagogía de micro-lecciones sin fricción en WebAssembly (`wasmoon`). Ver [`ADR-005`](adr/ADR-005-lua-curriculo-piloto-validacion-pedagogica.md) y [`28_LUA_CURRICULUM.md`](28_LUA_CURRICULUM.md).
+- **Python (Ruta Troncal de Expansión):** Currículo completo de 12 módulos para escalamiento del contenido declarativo.
 
 ---
 

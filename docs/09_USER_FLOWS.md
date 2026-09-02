@@ -2,13 +2,13 @@
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > **Zona horaria:** America/Bogota (UTC-5)
-> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md` y `07_USER_STORIES.md`. No duplica su contenido; lo materializa en flujos navegables. Cada flujo traza a ≥1 `RF-*` (`05`), ≥1 `UC-*` (`08` previsto) y ≥1 `US-*` (`07`). Los contratos de API se detallan en `13_API_SPEC.md` y el modelo de datos en `12_DATA_MODEL.md`.
+> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md` y `07_USER_STORIES.md`. No duplica su contenido; lo materializa en flujos navegables. Cada flujo traza a ≥1 `RF-*` (`05`), ≥1 `UC-*` (`08` previsto) y ≥1 `US-*` (`07`). Los contratos de API se detallan en `13_API_SPECIFICATION.md` y el modelo de datos en `12_DATABASE_DESIGN.md`.
 
 ---
 
 ## 1. Propósito y alcance
 
-Este documento define **cómo navega el usuario** por la plataforma, paso a paso, con decisiones, estados y diagramas verificables. Es la referencia para diseño de UI (`10_INFORMATION_ARCHITECTURE.md`, `27_UI_DESIGN.md`), implementación de motores (`11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`) y pruebas E2E (`20_TESTING.md`).
+Este documento define **cómo navega el usuario** por la plataforma, paso a paso, con decisiones, estados y diagramas verificables. Es la referencia para diseño de UI (`10_INFORMATION_ARCHITECTURE.md`, `27_UI_UX_SPECIFICATION.md`), implementación de motores (`11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`) y pruebas E2E (`20_TESTING.md`).
 
 **Fuera de alcance:** especificación de endpoints (`13`), esquema de BD (`12`), lógica interna de calificación (`15_QUIZ_EXAM_SYSTEM.md`) y analítica (`26_ANALYTICS.md`) — aquí solo se referencian.
 
@@ -1061,7 +1061,7 @@ stateDiagram-v2
 - `06_NON_FUNCTIONAL_REQUIREMENTS.md` — RNF-001..045, verificación §5
 - `07_USER_STORIES.md` — 72 US, épicas E01–E10, trazabilidad §5
 - `08_USE_CASES.md` — pendiente (UC previstos en `05`/`07`)
-- `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATA_MODEL.md`, `13_API_SPEC.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md` — detalle de implementación de cada flujo
+- `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md` — detalle de implementación de cada flujo
 
 ---
 

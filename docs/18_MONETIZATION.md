@@ -437,7 +437,7 @@ SELECT EXISTS (
 
 ---
 
-## 11. API y contratos (referencia para `13_API_SPEC.md`)
+## 11. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
 ### 11.1 Endpoints de monetización
 

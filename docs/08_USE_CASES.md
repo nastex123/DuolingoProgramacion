@@ -960,8 +960,8 @@ Un `UC` se considera **aceptado** solo si:
 - `07_USER_STORIES.md` — 72 US por épica
 - `09_USER_FLOWS.md` — flujos navegables con Mermaid
 - `11_SYSTEM_ARCHITECTURE.md` — motores desacoplados
-- `12_DATA_MODEL.md` — persistencia y FKs
-- `13_API_SPEC.md` — contratos OpenAPI
+- `12_DATABASE_DESIGN.md` — persistencia y FKs
+- `13_API_SPECIFICATION.md` — contratos OpenAPI
 - `15_QUIZ_EXAM_SYSTEM.md` — evaluación y umbrales
 - `16_GAMIFICATION.md` — XP, rachas, logros
 - `17_CERTIFICATION.md` — certificados y PDF

@@ -70,20 +70,20 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 > Ninguna elección se asume. Cada fila propone una opción para MVP y exige ADR si es arquitectónica (`11` §19). La alternativa queda documentada para no re-decidir sin evidencia.
 
-| Capa | Opciones evaluadas | Recomendación MVP | Justificación | ADR requerido |
+| Capa | Opciones evaluadas | Decisión Oficial Koda | Justificación | ADR Vinculante |
 |---|---|---|---|---|
-| **Contenedores** | Docker + Compose / Podman / sin contenedores | **Docker + Compose** | Artefacto inmutable (P-02), paridad `dev`≈`staging`≈`prod`, `Dockerfile` multi-stage cacheable; evita deriva de "funciona en mi máquina". Sin contenedores se pierde reproducibilidad. | No (ya decidido por P-02) |
-| **Orquestación MVP** | Compose en VM / Kubernetes (k3s/EKS/GKE) / PaaS (Fly/Render) | **Compose en VM (1–2 nodos) + reverse proxy** | Menor costo operativo en MVP con 100 concurrentes (`06` RNF-001); cumple `RNF-005` con 2 réplicas tras balanceador sin la complejidad de K8s. K8s se adopta solo si `26` muestra necesidad de HPA o si un motor se extrae a servicio (`11` §2.1). | Sí si se elige K8s en MVP |
-| **Reverse proxy / TLS** | Caddy / Nginx / Traefik | **Caddy o Nginx** (el equipo elige uno) | Terminación TLS, `Cache-Control`/`ETag`, cabeceras de seguridad y balanceo a réplicas. Caddy gestiona Let's Encrypt automático; Nginx es alternativa madura. Se exige uno, no ambos. | Sí (elección) |
-| **Runtime backend** | Node.js (NestJS) / Python (FastAPI) | **Uno de los dos, a elegir con ADR** (`11` §4.2) | Ambos generan OpenAPI, validan DTOs y cumplen p95 < 300 ms con 100 concurrentes. La elección se justifica por contratación y cobertura ≥70% (`06` RNF-016), no por preferencia. | Sí |
-| **Frontend build** | Vite / Next.js / CRA | **Vite + SPA con code-splitting por ruta** (`11` §3.2) | Carga inicial < 1,5 s en 4G (`06` RNF-011); SSR solo si SEO lo exige. | No |
-| **BD** | PostgreSQL ≥15 / MySQL 8 | **PostgreSQL ≥15** (`11` §5.2, `12` §3) | FKs, `JSONB`, `GIN`, `EXCLUDE`, `TIMESTAMPTZ`, `pgcrypto`; cubre `RNF-033`–`RNF-036` sin extensiones exóticas. MySQL válido con ADR y adaptación de `12` §10. | Sí si se elige MySQL |
-| **Migraciones** | Flyway / Liquibase / Prisma Migrate / Knex | **Una de ellas, versionada** | Migraciones reproducibles `V{YYYYMMDD}_{NNN}__*.sql` (`12` §2.1); ninguna herramienta se impone aquí. | No |
-| **KV / Cache** | Redis / Memcached / KV embebido | **Redis (o equivalente KV)** (`11` §5.2) | Rate limit, refresh rotativo, cache de `content_version` y ` streak grace`. Memcached válido si el equipo lo opera. | Sí |
-| **Object Storage** | S3 / R2 / GCS / MinIO | **Interfaz S3-compatible** (`11` §5.2) | PDFs y avatares fuera de BD (`05` RF-PDF-004, `06` RNF-004); en `dev` MinIO, en `staging`/`prod` bucket S3/R2. Abstraído por adapter, sin hardcodeo de proveedor. | Sí (elección de proveedor) |
-| **Imágenes / build** | `node:20-alpine` / `python:3.11-slim` multi-stage | **Multi-stage** | Imagen final sin toolchain; `npm ci --omit=dev` o `pip install --no-cache`. Reduce superficie y tiempo de pull. | No |
-| **CI/CD** | GitHub Actions / GitLab CI / Jenkins | **GitHub Actions (o el forge del repo)** | Pipeline declarativo (lint → test → build → scan → push → deploy). Cualquier CI que ejecute el mismo `workflow.yaml` es válido. | No |
-| **CDN estático** | Cloudflare / CloudFront / sin CDN en MVP | **Sin CDN obligatorio en MVP; `Cache-Control` + `ETag` sí** (`06` RNF-004) | `RNF-004` es recomendación; CDN se añade Post-MVP si `staging` muestra TTFB > 300 ms. | Sí si se añade CDN en MVP |
+| **Contenedores** | Docker + Compose / Podman / sin contenedores | **Docker + Compose** | Artefacto inmutable (P-02), paridad `dev`≈`staging`≈`prod`, `Dockerfile` multi-stage cacheable; evita deriva de "funciona en mi máquina". | Decidido por P-02 |
+| **Orquestación MVP** | Compose en VM / Kubernetes (k3s/EKS/GKE) / PaaS | **Compose en VM (1–2 nodos) + reverse proxy** | Menor costo operativo en MVP con 100 concurrentes (`06` RNF-001); cumple `RNF-005` con 2 réplicas tras balanceador. | No requiere K8s en MVP |
+| **Reverse proxy / TLS** | Caddy / Nginx / Traefik | **Caddy o Nginx** | Terminación TLS, `Cache-Control`/`ETag`, cabeceras de seguridad y balanceo a réplicas. Caddy gestiona Let's Encrypt automático. | Operativo |
+| **Runtime backend** | Node.js (NestJS) / Python (FastAPI) | **Node.js (NestJS Modular Monolith)** | Monolito de 9 motores desacoplados, contratos compartidos `@koda/types`, OpenAPI Swagger v2.0.0 nativo y compatibilidad multi-core. | [`ADR-001`](adr/ADR-001-monorepo-pnpm-workspaces.md) |
+| **Frontend build** | Vite / Next.js 15 / CRA | **Next.js 15 (App Router + React 19)** | SSG/ISR para páginas de verificación pública de certificados (`/verificar/[code]`), SEO optimizado y soporte para PixiJS v7. | [`ADR-001`](adr/ADR-001-monorepo-pnpm-workspaces.md) |
+| **BD** | PostgreSQL ≥15 / MySQL 8 | **Supabase (PostgreSQL 15+)** | Triggers PL/pgSQL transaccionales para recálculo de estrellas y candados ($\ge 80\%$), JSONB indexable y RLS. | [`ADR-002`](adr/ADR-002-persistencia-supabase-postgresql.md) |
+| **Migraciones** | Flyway / Liquibase / Supabase Migrations | **Migraciones SQL versionadas (`V*.sql`)** | Migraciones reproducibles `V{YYYYMMDD}_{NNN}__*.sql` (`12` §2.1) gestionadas con Supabase CLI o script de arranque. | [`ADR-002`](adr/ADR-002-persistencia-supabase-postgresql.md) |
+| **KV / Cache** | Redis / Memcached / KV embebido | **Redis (o equivalente KV)** | Rate limit por ventana deslizante, tokens rotativos, caché de progreso e idempotencia. | Aprobado (`11` §5.2) |
+| **Storage de Certificados** | S3 / R2 / Google Drive API | **Google Drive API v3 (Service Account)** | Emisión 100% en backend, sin egress fees en MVP, carpetas estructuradas y deduplicación por `pdf_sha256`. | [`ADR-003`](adr/ADR-003-certificados-backend-google-drive-storage.md) |
+| **Motor Gráfico Mascotas** | CSS / Three.js / PixiJS | **PixiJS v7 (WebGL 2D Acelerado)** | 60 FPS estables para Koda 🦊, física de flotación continua, expresiones emocionales en tiempo real y emisión de confeti. | [`ADR-004`](adr/ADR-004-motor-grafico-pixijs-mascota-koda.md) |
+| **Imágenes / build** | `node:20-alpine` multi-stage | **Multi-stage (`node:20-alpine`)** | Imagen final sin toolchain de desarrollo; `pnpm prune --prod`. Reduce superficie y tiempo de pull. | No |
+| **CI/CD** | GitHub Actions / GitLab CI | **GitHub Actions** | Pipeline declarativo (lint → test → build → scan → push → deploy) con pnpm cacheado. | Operativo |
 
 ---
 

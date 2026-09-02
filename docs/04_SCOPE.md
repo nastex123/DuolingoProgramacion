@@ -6,7 +6,7 @@
 
 ## 1. Principio
 
-Priorizar un **MVP funcional con un solo lenguaje (Python)** que valide el núcleo educativo. Todo lo demás es roadmap, no MVP. Ver detalle de fases en `22_ROADMAP.md`.
+Priorizar un **MVP funcional con validación pedagógica inicial (Lua 5.4)** y ruta troncal de 12 módulos (Python), demostrando la promesa arquitectónica de contenido pedagógico desacoplado (`RNF-006`). Ver detalle en `22_ROADMAP.md` y [`ADR-005`](adr/ADR-005-lua-curriculo-piloto-validacion-pedagogica.md).
 
 ---
 
@@ -19,10 +19,10 @@ Funcionalidad mínima que debe estar completa y probada para considerar el MVP e
 - Perfil: nombre, avatar, XP, nivel, rachas, progreso por lenguaje, logros, certificados.
 
 ### 2.2 Aprendizaje base
-- Selección de lenguaje (solo Python en MVP) y declaración de nivel (Beginner/Medium/Semi-Pro/Professional).
+- Selección de lenguaje (Lua 5.4 como curso piloto operativo con 190 lecciones y Python como ruta troncal) y declaración de nivel (Beginner/Medium/Semi-Pro/Professional).
 - Diagnóstico inicial y recomendación de punto de entrada (ver `14_LEARNING_SYSTEM.md`).
-- Jerarquía `Lenguaje → Módulo → Sección → Lección` con 12 módulos Python (`01` §34).
-- Sesiones reanudables y lección con explicación → ejemplo → ejercicio → feedback.
+- Jerarquía `Lenguaje → Módulo → Sección → Lección` con arquitectura desacoplada (`23_CONTENT_SPECIFICATION.md`).
+- Sesiones reanudables y lección con explicación → ejemplo → ejercicio → feedback formativo sin spoilers.
 
 ### 2.3 Evaluación
 - Banco de preguntas tipificadas (ver `15_QUIZ_EXAM_SYSTEM.md`).

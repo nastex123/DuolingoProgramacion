@@ -19,7 +19,7 @@ Este documento define el **Gamification Engine** (`01` §28): cómo se gana, cal
 - Configurabilidad sin despliegue (`05` RF-ADM-004, RF-XP-004).
 - Trazabilidad a RF/US y criterios de aceptación.
 
-**Fuera de alcance:** modelo de datos físico (`12_DATA_MODEL.md`), contratos OpenAPI (`13_API_SPEC.md`), UI exacta (`27_UI_DESIGN.md`) y analytics detallado (`26_ANALYTICS.md`) — aquí se referencian sin duplicarlos.
+**Fuera de alcance:** modelo de datos físico (`12_DATABASE_DESIGN.md`), contratos OpenAPI (`13_API_SPECIFICATION.md`), UI exacta (`27_UI_UX_SPECIFICATION.md`) y analytics detallado (`26_ANALYTICS.md`) — aquí se referencian sin duplicarlos.
 
 ---
 
@@ -469,7 +469,7 @@ events: []
 
 ## 14. Modelo de datos (referencia, no DDL)
 
-> DDL definitivo en `12_DATA_MODEL.md`. Aquí solo entidades y campos mínimos para implementar este documento.
+> DDL definitivo en `12_DATABASE_DESIGN.md`. Aquí solo entidades y campos mínimos para implementar este documento.
 
 - `xp_event(id, user_id, language_id, action_id, xp_awarded, multiplier, config_version, content_version, ref_type, ref_id, created_at)`
 - `user_progress(user_id, language_id, xp_total, level, current_streak, max_streak, freeze_tokens, timezone, updated_at)`
@@ -482,7 +482,7 @@ events: []
 
 ---
 
-## 15. API y contratos (referencia para `13_API_SPEC.md`)
+## 15. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
 - `POST /v1/xp/events` — solo interno (Evaluation → Gamification); no expuesto a cliente para otorgar XP.
 - `GET /v1/users/me/gamification` — XP total, nivel, progreso al siguiente, racha actual/máxima, freezes, config_version.
@@ -560,4 +560,4 @@ Eventos a registrar (seudonimizados, RNF-040):
 
 ---
 
-*Fin de `16_GAMIFICATION.md` — cualquier cambio en valores, fórmulas o catálogo requiere actualizar este documento, `05_FUNCTIONAL_REQUIREMENTS.md` si afecta RF, `12_DATA_MODEL.md` / `13_API_SPEC.md` si afecta contratos, y `CHANGELOG.md` con fecha `America/Bogota`.*
+*Fin de `16_GAMIFICATION.md` — cualquier cambio en valores, fórmulas o catálogo requiere actualizar este documento, `05_FUNCTIONAL_REQUIREMENTS.md` si afecta RF, `12_DATABASE_DESIGN.md` / `13_API_SPECIFICATION.md` si afecta contratos, y `CHANGELOG.md` con fecha `America/Bogota`.*

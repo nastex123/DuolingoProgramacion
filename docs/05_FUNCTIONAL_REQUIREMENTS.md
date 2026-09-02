@@ -88,7 +88,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | RF-AUTH-007 | El sistema debe gestionar expiración y renovación de sesión sin obligar a re-login durante una lección activa (refresh silencioso). | Should | RF-AUTH-002 | MVP | UC-AUTH-02 |
 | RF-AUTH-008 | El sistema debe registrar eventos de autenticación (registro, login, fallo, recuperación) con marca temporal para auditoría y soporte, sin almacenar contraseñas en claro. | Must | RF-AUTH-001, RF-AUTH-002 | MVP | UC-AUTH-04 |
 
-### 4.2 Usuarios (`RF-USR`) — ver `01` §5, `04` §2.1, `12_DATA_MODEL.md`
+### 4.2 Usuarios (`RF-USR`) — ver `01` §5, `04` §2.1, `12_DATABASE_DESIGN.md`
 
 | ID | Descripción | Prioridad | Depende de | Entrega | UC previsto |
 |---|---|---|---|---|---|
@@ -411,4 +411,4 @@ Cada `RF` se considera aceptado solo si:
 
 ---
 
-*Fin de `05_FUNCTIONAL_REQUIREMENTS.md` — cualquier adición requiere actualizar este documento, `08_USE_CASES.md`, `12_DATA_MODEL.md`, `13_API_SPEC.md` y `CHANGELOG.md`.*
+*Fin de `05_FUNCTIONAL_REQUIREMENTS.md` — cualquier adición requiere actualizar este documento, `08_USE_CASES.md`, `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md` y `CHANGELOG.md`.*

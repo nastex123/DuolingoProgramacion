@@ -52,13 +52,13 @@
 |---|---|---|
 | S-Login/Registro | Autenticación | Form + validación inline + CTA social (post-MVP) |
 | S-Biblioteca | Elegir lenguaje | Grid de cards lenguaje + filtro + badge "En progreso" |
-| S-Ruta Python | Ver avance | Stepper 12 módulos + XP/racha + CTA "Continuar" |
+| S-Ruta | Ver avance | Stepper de módulos + XP/racha + CTA "Continuar" |
 | S-Lección | Aprender | Explicación + ejemplo código + ejercicio + feedback + recompensa +10 XP |
 | S-Quiz | Evaluar parcial | Lista preguntas + timer opcional + revisión inmediata |
 | S-Examen | Evaluar módulo | 20 preguntas + resumen por tipo/dificultad + 80% umbral |
 | S-Repaso | Reforzar | 5-10 preguntas priorizadas por Score_repaso (ver `14`) |
 | S-Perfil | Identidad | Tabs: progreso/racha/logros/certificados/estadísticas |
-| S-Certificado | Verificar | PDF + QR + código `CQ-PY-000001` + botón Exportar |
+| S-Certificado | Verificar | PDF + QR + código `CQ-{LANG}-{SEQ6}` + botón Exportar |
 | S-Premium | Monetización | Tabla comparativa + CTA USD $1/mes |
 
 ---
@@ -81,7 +81,7 @@ Header, Bottom nav, Stepper ruta, Lección layout (2 col desktop / stacked móvi
 | Estado | Tratamiento |
 |---|---|
 | **Loading** | Skeleton + spinner con `aria-busy`; no bloquear navegación global. |
-| **Empty** | Ilustración + mensaje + CTA ("Aún no has iniciado Python → Explorar Ruta"). |
+| **Empty** | Ilustración + mensaje + CTA ("Aún no has iniciado esta ruta → Explorar Ruta"). |
 | **Error** | Mensaje humano + código `ERR-XXX` + CTA reintentar; nunca stacktrace al usuario (ver `19`). |
 | **Success** | Toast 3 s + animación XP sutil (sin distraer). |
 | **Disabled** | `aria-disabled` + tooltip "Completa el módulo anterior". |
@@ -167,11 +167,59 @@ Sin emojis en tokens ni en código; flame/racha es texto con clase.
 
 | Requisito | Cubierto en |
 |---|---|
-| RNF-010 < 1 s feedback | §7 |
-| RNF-021 usabilidad | §1-§5 |
-| RNF-022 accesibilidad AA | §12 |
-| RNF-023 responsive | §11 |
+| RNF-010 < 1 s feedback | §7, §16 |
+| RNF-021 usabilidad | §1-§5, §15 |
+| RNF-022 accesibilidad AA | §12, §17 |
+| RNF-023 responsive | §11, §15 |
 | US-010..US-050 | §4 pantallas |
 | UC-005..UC-013 | §4 + §6-7 |
 
+---
+
+## 15. Workspace de Escritorio Split-Screen 50/50 y Stepper
+
+Para viewports de escritorio ($\ge 820\text{ px}$), la vista de lección se organiza en un espacio de trabajo dividido simétrico que elimina scrolls innecesarios:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🧭 Stepper de Sección: [✓] [✓] [✓] [● Lección Activa] [5] [6] [7] [8] [9] [10] │
+├──────────────────────────────────────┬──────────────────────────────────────┤
+│ 📖 COLUMNA IZQUIERDA (50%): TEORÍA   │ 🧠 COLUMNA DERECHA (50%): PRÁCTICA   │
+│ • Título didáctico y número          │ • Enunciado claro y sin spoilers     │
+│ • Micro-explicación (40-70 palabras) │ • Opciones A, B, C, D (teclas 1-4)   │
+│ • Editor de código resaltado         │ • Botón "Comprobar respuesta"        │
+│ • Consola de salida esperada         │ • Feedback / Pista formativa         │
+│ • Tip formativo destacado            │ • Botón "Siguiente lección →"        │
+└──────────────────────────────────────┴──────────────────────────────────────┘
+```
+
+- **Stepper Superior:** 10 píldoras interactivas con estados (`✓` completada con acierto, `!` corregida en repaso, `●` activa, `5-10` pendientes).
+- **Sticky Viewport:** Ambas columnas mantienen su contexto visible simultáneamente, permitiendo al usuario contrastar la teoría y el código mientras responde el desafío práctico.
+
+---
+
+## 16. Motor de Mascota WebGL PixiJS v7 (Koda 🦊)
+
+La mascota Koda acompaña al estudiante en la barra lateral o cabecera, renderizada mediante `PIXI.Application` con aceleración GPU a 60 FPS ([`ADR-004`](adr/ADR-004-motor-grafico-pixijs-mascota-koda.md)):
+
+| Estado Emocional | Disparador / Evento | Comportamiento Visual en PixiJS |
+|---|---|---|
+| **IDLE / Neutro** | Navegación regular o lectura | Respiración rítmica y física senoidal de flotación (`ticker.add`). |
+| **HAPPY / Celebración** | Respuesta correcta en primer intento | Ojos cerrados en arco de felicidad, sonrisa amplia y pulso elástico. |
+| **THINKING / Reflexión** | Selección errónea | Mirada curiosa y cejas expresivas empáticas; sin gestos de regaño o enfado. |
+| **EXCITED / Checkpoint** | Sección o módulo completado | Animación de salto acrobático y emisión masiva de partículas de confeti acelerado por hardware. |
+
+---
+
+## 17. Atajos de Teclado Ergonómicos (Desktop)
+
+Para maximizar la ergonomía y velocidad de aprendizaje en computadoras de escritorio:
+
+- `1`, `2`, `3`, `4` o `A`, `B`, `C`, `D`: Seleccionar opción de respuesta correspondiente.
+- `Enter`: Comprobar respuesta seleccionada o avanzar a la siguiente lección si el feedback está abierto.
+- `Flecha Izquierda (←)`: Navegar a la lección anterior del stepper.
+- `Flecha Derecha (→)`: Navegar a la lección siguiente habilitada.
+- `Escape (Esc)`: Cerrar modales de celebración de logro o ayuda.
+
 > Fuente de verdad visual: este documento + `10_INFORMATION_ARCHITECTURE.md`. Implementación no debe asumir librería UI sin ADR.
+

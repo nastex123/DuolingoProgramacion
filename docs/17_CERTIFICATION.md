@@ -18,7 +18,7 @@ Este documento es la **fuente de verdad de certificación**. Define bajo qué co
 - Contratos de API, modelo de datos y trazabilidad RF/RNF.
 
 **Fuera del alcance:**
-- Calificación de quizzes/exámenes (ver `15`), cálculo de progreso adaptativo (ver `14`), pagos/premium (ver `11` §14) y diseño visual fino (ver `27_UI_DESIGN.md`). La verificación pública externa es Post-MVP (`04` §3).
+- Calificación de quizzes/exámenes (ver `15`), cálculo de progreso adaptativo (ver `14`), pagos/premium (ver `11` §14) y diseño visual fino (ver `27_UI_UX_SPECIFICATION.md`). La verificación pública externa es Post-MVP (`04` §3).
 
 **Principio rector:** el certificado acredita **comprensión verificada en servidor**. Nunca se emite por tiempo en plataforma, por pago, ni por diagnóstico (`05` RF-DIAG-006); solo por exámenes aprobados con trazabilidad de versión y umbral.
 
@@ -48,7 +48,7 @@ Este documento es la **fuente de verdad de certificación**. Define bajo qué co
 | Qué acredita | Que el titular completó y aprobó todos los módulos y exámenes de un lenguaje dentro de la plataforma, conforme a `14` y `15`. |
 | Qué no acredita | Equivalencia a título universitario, técnico, ni certificación profesional oficial de terceros (`04` §6). |
 | Validez | Interna a la plataforma; verificable por ID/QR dentro de la plataforma. Verificación pública externa es Post-MVP. |
-| Texto obligatorio en PDF y verificación | *"Certificado de finalización emitido por [Nombre de la Plataforma]. No constituye título profesional oficial ni certificación académica externa. Verificable en [url_verificacion] con código CQ-..."* |
+| Texto obligatorio en PDF y verificación | *"Certificado de finalización emitido por Koda. No constituye título profesional oficial ni certificación académica externa. Verificable en https://koda.app/verificar/{code} con código CQ-..."* |
 | Uso recomendado | Portafolio personal, perfil, LinkedIn como evidencia de finalización; no como credencial regulada. |
 
 Esta aclaración debe aparecer **siempre** en el PDF (§10) y en la vista de verificación (§11), y nunca puede omitirse por configuración de plantilla.
@@ -518,7 +518,7 @@ Aprendizaje → Exámenes aprobados → ELEGIBLE → EMITIENDO → VALIDO
 
 ---
 
-## 15. API y contratos (referencia para `13_API_SPEC.md`)
+## 15. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
 ### 15.1 Endpoints
 

@@ -16,7 +16,7 @@ Este documento define **la estructura canónica del contenido educativo** —qu�
 
 **Sí incluye:** jerarquía `Lenguaje → Módulo → Sección → Lección → Ejemplos → Ejercicios/Preguntas → Respuestas → Explicaciones`, atributos por entidad, niveles de `Dificultad` y `Prerrequisitos`, formato físico (JSON/YAML) con ejemplo conceptual completo `language→module→section→lesson→examples→questions`, esquema JSON Schema con validaciones sintácticas/semánticas/pedagógicas, procedimiento para agregar un lenguaje sin tocar el motor y trazabilidad a `RF/RNF`.
 
-**No incluye:** la tipificación fina renderizable de cada pregunta (detalle en `24_QUESTION_SYSTEM.md`), la lógica de calificación (ver `15`), el modelo relacional DDL (ver `12`) ni la UI (ver `27`).
+**No incluye:** la tipificación fina renderizable de cada pregunta (detalle en `24_CONTENT_AUTHORING_GUIDE.md`), la lógica de calificación (ver `15`), el modelo relacional DDL (ver `12`) ni la UI (ver `27`).
 
 ---
 
@@ -171,7 +171,7 @@ Bloque ilustrativo dentro de una lección.
 
 ### 4.6 Ejercicio / Pregunta (Question)
 
-Instancia tipificada. No se redefine aquí el catálogo completo; toda pregunta cumple `24_QUESTION_SYSTEM.md`. Campos canónicos (`05` RF-PREG-002):
+Instancia tipificada. No se redefine aquí el catálogo completo; toda pregunta cumple `24_CONTENT_AUTHORING_GUIDE.md`. Campos canónicos (`05` RF-PREG-002):
 
 | Campo | Tipo | Requerido | Validación | Descripción |
 |---|---|---|---|---|
@@ -972,10 +972,10 @@ defaults globales (content/config.yaml)
 | `06_NON_FUNCTIONAL_REQUIREMENTS.md` | RNF-006 (escalar en contenido), RNF-017 (config sin deploy), RNF-031 (desacoplo), RNF-035/036 |
 | `11_SYSTEM_ARCHITECTURE.md` §15/§18 | Content Engine y procedimiento de 10 pasos para nuevo lenguaje |
 | `12_DATABASE_DESIGN.md` §6.3–§6.11 | Entidades `programming_languages`/`modules`/`sections`/`lessons`/`questions`/`answers` |
-| `13_API_SPEC.md` §5 | Endpoints `GET /languages`, `/modules`, `/lessons`, `/admin/content/*` |
+| `13_API_SPECIFICATION.md` §5 | Endpoints `GET /languages`, `/modules`, `/lessons`, `/admin/content/*` |
 | `14_LEARNING_SYSTEM.md` §2–§4 | Modelo jerárquico, estados y reglas de desbloqueo que el contenido debe respetar |
 | `15_QUIZ_EXAM_SYSTEM.md` §3–§5 | Tipos, dificultades, cantidades, selección, B_MIN y anti-fácil que el banco debe cumplir |
-| `24_QUESTION_SYSTEM.md` (futuro) | Tipificación renderizable y validadores por tipo |
+| `24_CONTENT_AUTHORING_GUIDE.md` (futuro) | Tipificación renderizable y validadores por tipo |
 | `25_ADMIN_SYSTEM.md` (futuro) | Flujos de validación/publicación/ocultamiento y auditoría |
 
 ---

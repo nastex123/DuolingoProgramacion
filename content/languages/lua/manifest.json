@@ -4,9 +4,9 @@
   "slug": "lua",
   "name": "Lua",
   "description": "Lenguaje ligero y embebido. De fundamentos a metatablas y corrutinas.",
-  "status": "coming_soon",
-  "sort_order": 2,
-  "content_version": 1,
+  "status": "available",
+  "sort_order": 1,
+  "content_version": 2,
   "is_active": true,
   "config": {
     "thresholds": {
@@ -38,5 +38,30 @@
       }
     }
   },
-  "modules": []
+  "modules": [
+    {
+      "id": "b1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "code": "LUA_MOD_01",
+      "slug": "fundamentos-de-lua",
+      "title": "Fundamentos de Lua",
+      "description": "90 lecciones atómicas diseñadas para personas sin conocimientos previos de programación.",
+      "position": 1,
+      "total_sections": 9,
+      "total_lessons": 90,
+      "status": "published",
+      "path": "modules/01_fundamentos"
+    },
+    {
+      "id": "c2f3e4d5-a6b7-4c8d-9e0f-1a2b3c4d5e6f",
+      "code": "LUA_MOD_02",
+      "slug": "variables-y-tipos-de-datos",
+      "title": "Variables y Tipos de Datos",
+      "description": "100 lecciones atómicas que cubren memoria, los 8 tipos nativos, nil, local y proyecto RPG.",
+      "position": 2,
+      "total_sections": 10,
+      "total_lessons": 100,
+      "status": "published",
+      "path": "modules/02_variables"
+    }
+  ]
 }

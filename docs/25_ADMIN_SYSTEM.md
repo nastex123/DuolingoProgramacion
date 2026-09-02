@@ -2,7 +2,7 @@
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > **Zona horaria:** America/Bogota (UTC-5)
-> Complementa a `01_PROJECT_OVERVIEW.md` §24 y §31, `03_OBJECTIVES.md` OE-03/OE-08/OT-01/OT-02, `04_SCOPE.md` §2.7 y §10, `05_FUNCTIONAL_REQUIREMENTS.md` RF-ADM-001–009 / RF-AUTH-002 / RF-USR-004 / RF-CERT-005 / RF-LOGRO-004, `06_NON_FUNCTIONAL_REQUIREMENTS.md` RNF-006/RNF-008/RNF-009/RNF-017/RNF-031/RNF-036/RNF-041/RNF-042/RNF-045, `07_USER_STORIES.md` US-067–US-072, `08_USE_CASES.md` UC-016–UC-020, `09_USER_FLOWS.md`, `10_INFORMATION_ARCHITECTURE.md` S-31, `11_SYSTEM_ARCHITECTURE.md` §15 (Content Engine), `12_DATA_MODEL.md` §6, `13_API_SPECIFICATION.md` §5 recurso Admin, `14_LEARNING_SYSTEM.md` §13, `15_QUIZ_EXAM_SYSTEM.md` §18, `16_GAMIFICATION.md` §9 y §13. No duplica su contenido; lo formaliza como subsistema operable.
+> Complementa a `01_PROJECT_OVERVIEW.md` §24 y §31, `03_OBJECTIVES.md` OE-03/OE-08/OT-01/OT-02, `04_SCOPE.md` §2.7 y §10, `05_FUNCTIONAL_REQUIREMENTS.md` RF-ADM-001–009 / RF-AUTH-002 / RF-USR-004 / RF-CERT-005 / RF-LOGRO-004, `06_NON_FUNCTIONAL_REQUIREMENTS.md` RNF-006/RNF-008/RNF-009/RNF-017/RNF-031/RNF-036/RNF-041/RNF-042/RNF-045, `07_USER_STORIES.md` US-067–US-072, `08_USE_CASES.md` UC-016–UC-020, `09_USER_FLOWS.md`, `10_INFORMATION_ARCHITECTURE.md` S-31, `11_SYSTEM_ARCHITECTURE.md` §15 (Content Engine), `12_DATABASE_DESIGN.md` §6, `13_API_SPECIFICATION.md` §5 recurso Admin, `14_LEARNING_SYSTEM.md` §13, `15_QUIZ_EXAM_SYSTEM.md` §18, `16_GAMIFICATION.md` §9 y §13. No duplica su contenido; lo formaliza como subsistema operable.
 
 ---
 
@@ -20,7 +20,7 @@ Este documento es la **fuente de verdad del subsistema administrativo**. Define 
 - Gestión de logros (catálogo, condiciones, XP bono).
 - Matriz RBAC, flujos con Mermaid, validaciones, auditoría y contratos API.
 
-**Fuera de alcance:** ejecución de código en sandbox (Post-MVP, `04` §4), marketplace de cursos de terceros (Post-MVP, `04` §3), verificación pública externa de certificados (Post-MVP, `04` §3), diseño visual fino (`27_UI_DESIGN.md`) y analítica avanzada (`26_ANALYTICS.md`) — aquí solo se referencian.
+**Fuera de alcance:** ejecución de código en sandbox (Post-MVP, `04` §4), marketplace de cursos de terceros (Post-MVP, `04` §3), verificación pública externa de certificados (Post-MVP, `04` §3), diseño visual fino (`27_UI_UX_SPECIFICATION.md`) y analítica avanzada (`26_ANALYTICS.md`) — aquí solo se referencian.
 
 ---
 
@@ -731,7 +731,7 @@ Config combinada se refleja en `content_versions.config_snapshot` para trazabili
 05_FUNCTIONAL_REQUIREMENTS.md ──→ 25 (materializa RF-ADM-*)
 08_USE_CASES.md UC-016–020 ──→ 25 (formaliza flujos A–E)
 11_SYSTEM_ARCHITECTURE.md §15 ──→ 25 (Content Engine es el ejecutor)
-12_DATA_MODEL.md ◄── 25 (gobierna 18 entidades + audit/config)
+12_DATABASE_DESIGN.md ◄── 25 (gobierna 18 entidades + audit/config)
 13_API_SPECIFICATION.md ◄── 25 (contratos /admin/*)
 14_LEARNING_SYSTEM.md ◄── 25 (no romper desbloqueo/versionado)
 15_QUIZ_EXAM_SYSTEM.md ◄── 25 (no romper B_min/composición/pesos)

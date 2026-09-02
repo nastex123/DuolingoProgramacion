@@ -1,7 +1,7 @@
 # 11 — Arquitectura del Sistema
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> Complementa a `01_PROJECT_OVERVIEW.md` §24–§31, `03_OBJECTIVES.md` §6 (OT-01 a OT-04), `04_SCOPE.md` §5 y §9, `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF) y `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-005/006/030–032). No duplica su contenido; lo materializa en decisiones, componentes y flujos verificables. El detalle de datos, API y cada motor se expande en `12_DATA_MODEL.md`, `13_API_SPEC.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
+> Complementa a `01_PROJECT_OVERVIEW.md` §24–§31, `03_OBJECTIVES.md` §6 (OT-01 a OT-04), `04_SCOPE.md` §5 y §9, `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF) y `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-005/006/030–032). No duplica su contenido; lo materializa en decisiones, componentes y flujos verificables. El detalle de datos, API y cada motor se expande en `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
 
 ---
 
@@ -291,7 +291,7 @@ Persistencia autoritativa (source of truth) de usuarios, progreso, estrellas, ca
 | **Almacenamiento de Certificados (PDF)** | **Google Drive API v3 (Service Account)** | Guardado automático 100% en backend en carpetas organizadas (`CodeQuest_Certificados/{lang}/`). Caching por `google_drive_file_id` para evitar re-generaciones y entrega mediante streaming autenticado. |
 | **Caché y Rate Limiting** | **Redis** | Rate limit en ventanas deslizantes y caché de contenido publicado sin sobrecargar la base de datos. |
 
-### 5.3 Entidades principales (resumen — detalle en `12_DATA_MODEL.md`)
+### 5.3 Entidades principales (resumen — detalle en `12_DATABASE_DESIGN.md`)
 
 ```
 users ──< user_languages ──> languages ──< modules ──< sections ──< lessons
@@ -333,7 +333,7 @@ Contrato estable entre frontend y backend. Versionada, autenticada y documentada
 | Paginación | offset / cursor | **Cursor para historiales; offset para catálogos pequeños** | `RNF-003` — ningún listado > 100 ítems sin paginación. |
 | Errores | Envelope estándar | **Envelope `{ code, message, request_id, details? }`** | `RNF-041` — nunca stack traces al cliente. |
 
-### 6.3 Grupos de endpoints (resumen — detalle en `13_API_SPEC.md`)
+### 6.3 Grupos de endpoints (resumen — detalle en `13_API_SPECIFICATION.md`)
 
 | Grupo | Prefijo | Auth | RF principal |
 |---|---|---|---|

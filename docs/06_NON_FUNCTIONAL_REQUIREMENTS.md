@@ -57,7 +57,7 @@ Cuando se menciona una técnica o herramienta (ej. CDN, caché, WAF, S3-compatib
 |---|---|---|---|---|---|
 | RNF-005 | La arquitectura debe permitir escalar horizontalmente la capa de aplicación sin re-arquitectura. | Obligatorio | Añadir una réplica de app reduce p95 de latencia bajo carga o aumenta throughput linealmente en prueba controlada; sin estado local pegajoso que impida balanceo. | ADR de arquitectura (`11`); prueba de escalado en `staging` con 1→2 réplicas; verificación de sesiones stateless (JWT/token) y almacenamiento externo. | MVP |
 | RNF-006 | El contenido debe escalar sin tocar el motor. | Obligatorio | Agregar un lenguaje nuevo = solo contenido + configuración + migración de datos de contenido; 0 cambios en código del motor; tiempo de incorporación de un lenguaje de referencia < 5 días-hombre de autoría (no incluye creación pedagógica). | Ensayo en `staging` con lenguaje de prueba (ej. Lua mínimo con 1 módulo); checklist de `23_CONTENT_SPECIFICATION.md`; revisión de que no hay hardcodeo de `Python` en el motor. | MVP |
-| RNF-007 | El sistema debe escalar en datos sin degradar consultas críticas. | Recomendación | Consultas de progreso/ruta por usuario < 100 ms p95 con 100k intentos en tabla de intentos; índices y plan de consulta documentados. | `EXPLAIN ANALYZE` en `staging` con dataset sintético; pruebas de volumen en `20`; revisión de `12_DATA_MODEL.md`. | MVP (índices base) → Post-MVP (particionado si se justifica) |
+| RNF-007 | El sistema debe escalar en datos sin degradar consultas críticas. | Recomendación | Consultas de progreso/ruta por usuario < 100 ms p95 con 100k intentos en tabla de intentos; índices y plan de consulta documentados. | `EXPLAIN ANALYZE` en `staging` con dataset sintético; pruebas de volumen en `20`; revisión de `12_DATABASE_DESIGN.md`. | MVP (índices base) → Post-MVP (particionado si se justifica) |
 
 ### 3.3 Seguridad
 
@@ -104,7 +104,7 @@ Cuando se menciona una técnica o herramienta (ej. CDN, caché, WAF, S3-compatib
 
 | ID | Descripción | Tipo | Métrica objetivo | Cómo se verifica | Entrega |
 |---|---|---|---|---|---|
-| RNF-024 | Cumplimiento de accesibilidad base. | Obligatorio | WCAG 2.1 AA en flujos críticos (registro, lección, quiz, examen, perfil, certificado) — ver `03` OUX-06. | Auditoría con axe/Lighthouse accessibility ≥ 95 en `staging`; revisión manual de teclado y lector de pantalla en flujos críticos; checklist en `27_UI_DESIGN.md`. | MVP |
+| RNF-024 | Cumplimiento de accesibilidad base. | Obligatorio | WCAG 2.1 AA en flujos críticos (registro, lección, quiz, examen, perfil, certificado) — ver `03` OUX-06. | Auditoría con axe/Lighthouse accessibility ≥ 95 en `staging`; revisión manual de teclado y lector de pantalla en flujos críticos; checklist en `27_UI_UX_SPECIFICATION.md`. | MVP |
 | RNF-025 | Navegación por teclado y foco visible. | Obligatorio | Todos los controles interactivos alcanzables por teclado en orden lógico; foco visible; sin trampas de teclado. | Test manual con solo teclado + axe; test E2E que navega quiz completo sin mouse. | MVP |
 | RNF-026 | Contraste y tipografía legible. | Obligatorio | Contraste AA, tipografía escalable y espaciado que no rompe layout a 200% de zoom. | Lighthouse + inspección visual a 200% en `staging`; guía de `27`. | MVP |
 

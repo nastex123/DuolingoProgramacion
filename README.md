@@ -7,7 +7,7 @@
 [![Módulo 02](https://img.shields.io/badge/Módulo%2002-100%20Lecciones-success.svg)](content/languages/lua/modules/02_variables/module.json)
 [![Arquitectura](https://img.shields.io/badge/Arquitectura-Monolito%20Modular%20(Next.js%20%2B%20NestJS)-indigo.svg)](docs/11_SYSTEM_ARCHITECTURE.md)
 [![Base de Datos](https://img.shields.io/badge/Database-Supabase%20(PostgreSQL%2015)-emerald.svg)](docs/12_DATABASE_DESIGN.md)
-[![Documentación](https://img.shields.io/badge/Docs-29%20Especificaciones-purple.svg)](docs/)
+[![Documentación](https://img.shields.io/badge/Docs-Hub%20de%20Especificaciones-purple.svg)](docs/README.md)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-green.svg)](LICENSE)
 
 > [!IMPORTANT]
@@ -133,21 +133,24 @@ El repositorio incluye visores interactivos de escritorio ([`test_m01.html`](tes
 
 ```
 DuolingoProgramacion/
+├── apps/                               # Aplicaciones del Monorepo
+│   ├── api/                            # Backend NestJS (REST API v2 + Swagger OpenAPI)
+│   └── web/                            # Frontend Next.js 15 (React 19 + PixiJS + Tailwind)
+├── packages/                           # Paquetes y Contratos Compartidos
+│   └── types/                          # Definiciones TypeScript compartidas (@koda/types)
 ├── content/                            # Contenido pedagógico declarativo desacoplado
 │   └── languages/
 │       └── lua/
-│           ├── config/
-│           │   └── thresholds.json     # Umbrales, XP y reglas de estrellas
+│           ├── manifest.json           # Registro del curso y módulos
+│           ├── config/                 # Umbrales, XP y composiciones de examen
 │           └── modules/
 │               ├── 01_fundamentos/     # 90 lecciones atómicas + banco
-│               │   ├── module.json
-│               │   └── bank.json
 │               └── 02_variables/       # 100 lecciones atómicas + banco
-│                   ├── module.json
-│                   └── bank.json
-├── docs/                               # 29 especificaciones técnicas completas
-│   ├── 01_PROJECT_OVERVIEW.md          # Visión general del producto y principios
-│   ├── 11_SYSTEM_ARCHITECTURE.md       # Arquitectura técnica, motores y stack
+├── docs/                               # Hub de Documentación y Especificaciones
+│   ├── README.md                       # Índice maestro y mapa de lectura por rol
+│   ├── adr/                            # Registro de decisiones de arquitectura (ADR-001..006)
+│   ├── 01_PROJECT_OVERVIEW.md          # Visión general y filosofía pedagógica
+│   ├── 11_SYSTEM_ARCHITECTURE.md       # Arquitectura técnica, motores y stack oficial
 │   ├── 12_DATABASE_DESIGN.md           # Modelo relacional Supabase v2.0.0
 │   ├── 13_API_SPECIFICATION.md         # Especificación REST v2.0.0 (44 endpoints)
 │   ├── 14_LEARNING_SYSTEM.md           # Máquinas de estado y lógica pedagógica
@@ -155,17 +158,52 @@ DuolingoProgramacion/
 │   ├── 17_CERTIFICATION.md             # Motor de certificación y Google Drive
 │   ├── 27_UI_UX_SPECIFICATION.md       # Sistema de diseño de interfaz
 │   └── 28_LUA_CURRICULUM.md            # Currículo formativo oficial de Lua
-├── test_m01.html                       # Sandbox interactivo del Módulo 01
-├── test_m02.html                       # Sandbox interactivo del Módulo 02
+├── test_m01.html                       # Sandbox interactivo del Módulo 01 (PixiJS)
+├── test_m02.html                       # Sandbox interactivo del Módulo 02 (PixiJS)
+├── CONTRIBUTING.md                     # Guía de contribución y estándares de código
 ├── CHANGELOG.md                        # Bitácora estricta de cambios (America/Bogota)
-└── README.md                           # Documentación general del proyecto
+├── LICENSE                             # Licencia de código abierto MIT
+└── README.md                           # Documentación principal del proyecto
 ```
 
 ---
 
-## 🚀 Cómo Probar los Prototipos Localmente
+## 🛠️ Inicio Rápido con el Monorepo (Next.js + NestJS)
 
-Para abrir y experimentar con los visores interactivos sin necesidad de dependencias complejas:
+Para ejecutar la aplicación completa en tu entorno local:
+
+### 1. Requisitos Previos
+- **Node.js** `>= 20.0.0`
+- **pnpm** `>= 9.0.0` (recomendado: `npm i -g pnpm`)
+
+### 2. Instalación y Compilación
+```bash
+# Instalar todas las dependencias del monorepo
+pnpm install
+
+# Compilar los paquetes de contratos TypeScript
+pnpm --filter "@koda/types" build
+```
+
+### 3. Ejecución en Desarrollo
+```bash
+# Iniciar frontend y backend en paralelo
+pnpm dev
+
+# O iniciar servicios de forma individual:
+pnpm dev:web    # Inicia Next.js en http://localhost:3000
+pnpm dev:api    # Inicia NestJS en http://localhost:4000
+```
+
+- 🌐 **Frontend (Next.js):** [http://localhost:3000](http://localhost:3000)
+- ⚙️ **Backend API (REST v2):** [http://localhost:4000/api/v1](http://localhost:4000/api/v1)
+- 📚 **Swagger UI (OpenAPI 3.0):** [http://localhost:4000/api/docs](http://localhost:4000/api/docs)
+
+---
+
+## 💻 Cómo Probar los Prototipos Rápidos (Sandboxes HTML)
+
+Si deseas probar la experiencia pedagógica, atajos de teclado y la mascota Koda en PixiJS de forma inmediata sin necesidad de levantar servidores:
 
 ### Opción 1: Con Live Server (Recomendado en VS Code)
 1. Abre el proyecto en **Visual Studio Code**.
@@ -177,22 +215,16 @@ python3 -m http.server 8080
 # Abre http://localhost:8080/test_m01.html en tu navegador
 ```
 
-### Opción 3: Con Node.js
-```bash
-npx serve .
-# Abre la URL que muestre la consola y selecciona el módulo a probar
-```
-
 ---
 
 ## 🤝 Contribuciones y Colaboración
 
-¡Las contribuciones y sugerencias son bienvenidas!
-1. Para reportar dudas o inconsistencias pedagógicas, abre un [Issue](https://github.com/nastex123/DuolingoProgramacion/issues).
-2. Para proponer mejoras a las especificaciones o al contenido declarativo, crea un Fork y envía un Pull Request siguiendo las guías de `docs/24_CONTENT_AUTHORING_GUIDE.md`.
+¡Las contribuciones son bienvenidas! Consulta [`CONTRIBUTING.md`](CONTRIBUTING.md) para conocer las pautas de estilo, convención de commits y el flujo de trabajo con ramas.
+
+Para proponer nuevo contenido pedagógico, consulta la guía de autoría en [`docs/24_CONTENT_AUTHORING_GUIDE.md`](docs/24_CONTENT_AUTHORING_GUIDE.md).
 
 ---
 
 ## 📜 Licencia
 
-Distribuido bajo la Licencia **MIT**. Consulta el archivo `LICENSE` para más detalles.
+Distribuido bajo la Licencia **MIT**. Consulta el archivo [`LICENSE`](LICENSE) para más detalles.

@@ -1,7 +1,7 @@
 # 14 — Sistema de Aprendizaje (Learning System)
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md` y materializa los requisitos `RF-LANG`, `RF-LVL`, `RF-DIAG`, `RF-RUTA`, `RF-MOD`, `RF-SEC`, `RF-LEC`, `RF-REP`, `RF-PROG` y `RF-EVAL` de `05_FUNCTIONAL_REQUIREMENTS.md`. Define la lógica educativa que consumen `11_SYSTEM_ARCHITECTURE.md` (Learning Engine), `12_DATA_MODEL.md`, `13_API_SPEC.md`, `15_QUIZ_EXAM_SYSTEM.md` y `16_GAMIFICATION.md`. No duplica `23_CONTENT_SPECIFICATION.md` ni `24_QUESTION_SYSTEM.md`; los referencia como fuente de formato de contenido.
+> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md` y materializa los requisitos `RF-LANG`, `RF-LVL`, `RF-DIAG`, `RF-RUTA`, `RF-MOD`, `RF-SEC`, `RF-LEC`, `RF-REP`, `RF-PROG` y `RF-EVAL` de `05_FUNCTIONAL_REQUIREMENTS.md`. Define la lógica educativa que consumen `11_SYSTEM_ARCHITECTURE.md` (Learning Engine), `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `15_QUIZ_EXAM_SYSTEM.md` y `16_GAMIFICATION.md`. No duplica `23_CONTENT_SPECIFICATION.md` ni `24_CONTENT_AUTHORING_GUIDE.md`; los referencia como fuente de formato de contenido.
 
 ---
 
@@ -833,9 +833,9 @@ I8: Score_repaso(c) solo se calcula para conceptos ya vistos
 15_QUIZ_EXAM_SYSTEM.md ──→ 14 (consume umbrales y estados)
 16_GAMIFICATION.md ──→ 14 (consume progreso y eventos)
 23_CONTENT_SPECIFICATION.md ──→ 14 (formato de contenido versionado)
-24_QUESTION_SYSTEM.md ──→ 14 (tipificación y banco)
-12_DATA_MODEL.md ◄── 14 (entidades y estados)
-13_API_SPEC.md  ◄── 14 (contratos de desbloqueo, diagnóstico y repaso)
+24_CONTENT_AUTHORING_GUIDE.md ──→ 14 (tipificación y banco)
+12_DATABASE_DESIGN.md ◄── 14 (entidades y estados)
+13_API_SPECIFICATION.md  ◄── 14 (contratos de desbloqueo, diagnóstico y repaso)
 ```
 
 ---

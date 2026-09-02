@@ -1649,4 +1649,4 @@ FOR EACH ROW EXECUTE FUNCTION fn_recalculate_module_progress();
 
 ---
 
-*Fin de `12_DATABASE_DESIGN.md` — cualquier adición requiere actualizar `05_FUNCTIONAL_REQUIREMENTS.md`, `11_SYSTEM_ARCHITECTURE.md`, `13_API_SPEC.md`, `20_TESTING.md` y `CHANGELOG.md`.*
+*Fin de `12_DATABASE_DESIGN.md` — cualquier adición requiere actualizar `05_FUNCTIONAL_REQUIREMENTS.md`, `11_SYSTEM_ARCHITECTURE.md`, `13_API_SPECIFICATION.md`, `20_TESTING.md` y `CHANGELOG.md`.*
