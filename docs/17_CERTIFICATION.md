@@ -286,38 +286,76 @@ stateDiagram-v2
 
 ---
 
-## 10. Generación de PDF
+## 10. Generación de PDF y Almacenamiento en Google Drive
 
-### 10.1 Pipeline (RF-PDF-001–004)
+### 10.1 Pipeline 100% Backend (NestJS CertificationModule, RF-PDF-001–004)
+
+Por motivos de seguridad e integridad criptográfica, **el frontend NUNCA genera el archivo PDF ni tiene acceso a las credenciales de almacenamiento**. Todo el ciclo de validación, renderizado, almacenamiento y entrega se realiza exclusivamente en el backend (NestJS):
 
 ```
-Certification Engine (server)
-  → 1. Validar C-01..C-07 + idempotencia
-  → 2. Reservar SEQ (certificate_sequences) + INSERT certificates (valid)
-  → 3. Render PDF con plantilla versionada (pdf_version) + datos congelados + QR
-  → 4. Calcular SHA-256 del PDF + upload a Object Storage (S3-compatible) → pdf_object_key
-  → 5. UPDATE certificates SET pdf_object_key, pdf_version, qr_payload
-  → 6. Retornar 201 { code, pdf_url firmada temporal }
+                                  [Usuario solicita PDF]
+                                             │
+                                             ▼
+                          [GET /api/v1/certificates/{id}/pdf]
+                                             │
+                                             ▼
+                           ┌───────────────────────────────────┐
+                           │ ¿Ya existe certificado 'valid'    │
+                           │ con google_drive_file_id en BD?   │
+                           └─────────────────┬─────────────────┘
+                                             │
+                       ┌─────────────────────┴─────────────────────┐
+                       ▼ SÍ (Caché / Pre-existente)                ▼ NO (Primera emisión)
+       ┌───────────────────────────────────────┐   ┌───────────────────────────────────────┐
+       │ 1. Descargar stream de Google Drive   │   │ 1. Validar C-01..C-07 en Supabase     │
+       │    (drive.files.get alt='media')      │   │ 2. Reservar SEQ atómico (CQ-LUA-000001)
+       │ 2. Pipe directo a HTTP Response       │   │ 3. Renderizar PDF + QR en Node.js     │
+       │    (Descarga inmediata en <200 ms)    │   │ 4. Subir a Google Drive (Service Acc) │
+       └───────────────────────────────────────┘   │ 5. Guardar google_drive_file_id y SHA │
+                                                   │ 6. Pipe del binario a HTTP Response   │
+                                                   └───────────────────────────────────────┘
 ```
 
-- **Plantilla versionada:** cada `pdf_version` es un artefacto versionado (`RF-PDF-001`); el PDF guarda `pdf_version` para trazabilidad. Cambiar plantilla no re-renderiza PDFs ya emitidos salvo re-emisión.
-- **Fidelidad bit-a-bit:** `RF-PDF-003` — el PDF descargado corresponde exactamente a `certificates.metadata + code + issued_at + language_content_version + qr_payload` del registro `valid`. Test de certificación compara `SHA-256(pdf_bytes) == metadata.pdf_sha256`.
-- **Almacenamiento abstracto:** interfaz `StorageAdapter` S3-compatible (`11` §5.4, `05` RF-PDF-004); sin hardcodear proveedor. `pdf_object_key` ej. `certs/py/CQ-PY-000001_v1.pdf`.
-- **Descarga autenticada:** solo titular (`user_id` del certificado) o admin; URL firmada con TTL corto (ej. 10 min). Verificación pública no descarga PDF, solo confirma datos (§11).
+### 10.2 Reglas de Caché e Idempotencia (Sin Re-generación)
 
-### 10.2 Contenido del PDF
+1. **Detección Previa de PDF:** Antes de renderizar cualquier PDF, el servicio `CertificationService` consulta en Supabase:
+   ```sql
+   SELECT id, code, google_drive_file_id, status 
+   FROM certificates 
+   WHERE id = $1 AND user_id = $2 AND status = 'valid';
+   ```
+2. **Reutilización Inmediata:** Si el registro ya posee un `google_drive_file_id` válido, se omite por completo el proceso de renderizado con `@react-pdf/renderer` o `pdfkit` y la llamada de subida a Drive. El backend únicamente solicita el stream de lectura a Google Drive API v3 y lo transmite al cliente.
+3. **Ahorro de Recursos:** Garantiza 0 duplicados de archivos en Google Drive y latencia de respuesta mínima ($< 200\text{ ms}$).
+
+### 10.3 Integración con Google Drive API v3 (Service Account)
+
+- **Autenticación del Servidor:** Se utiliza una Cuenta de Servicio (*Google Cloud Service Account*) con permisos limitados sobre una carpeta raíz designada (`GOOGLE_DRIVE_ROOT_FOLDER_ID`).
+- **Estructura de Carpetas:**
+  ```
+  Google Drive: CodeQuest_Certificados/
+  ├── lua/
+  │   ├── CQ-LUA-000001_v1.pdf
+  │   └── CQ-LUA-000002_v1.pdf
+  └── python/
+      ├── CQ-PY-000001_v1.pdf
+      └── CQ-PY-000002_v1.pdf
+  ```
+- **Metadatos en Supabase:** Se almacena `google_drive_file_id`, el hash `pdf_sha256` y `storage_provider = 'google_drive'`.
+- **Descarga Autenticada:** El endpoint `GET /api/v1/certificates/{id}/pdf` exige `Authorization: Bearer <token>` y valida que `user_id == req.user.id` (salvo administradores). No se expone ningún enlace público de Google Drive al cliente.
+
+### 10.4 Contenido del PDF
 
 Todo PDF incluye (§7.1 + §3):
 
-- Encabezado: nombre de la plataforma + logo.
+- Encabezado: nombre de la plataforma + logo oficial de CodeQuest.
 - Título: "Certificado de Finalización".
 - Cuerpo: "Se certifica que **[titular_nombre]** (Documento: [documento]) completó y aprobó todos los módulos del lenguaje **[lenguaje_nombre]** el **[fecha_finalizacion America/Bogota]**.".
-- Identificador: `CQ-PY-000001` destacado.
+- Identificador: `CQ-LUA-000001` / `CQ-PY-000001` destacado.
 - Estado: VÁLIDO.
-- Código QR (ver §12) + URL de verificación.
-- Aclaración no oficial (§3) en pie de página.
-- Firma/ sello de la plataforma (imagen) + `pdf_version` y `language_content_version`.
-- Metadatos PDF: `Title`, `Author=Plataforma`, `Subject=lenguaje`, `Keywords=code`.
+- Código QR (ver §12) con URL de verificación interna (`https://codequest.dev/verificar/CQ-...`).
+- Aclaración normativa no oficial (§3) en pie de página.
+- Sello y firma digital de la plataforma + `pdf_version` y `language_content_version`.
+- Metadatos del documento: `Title`, `Author=CodeQuest`, `Subject=Certificado [Lenguaje]`, `Keywords=code, lua, python`.
 
 ### 10.3 Ejemplo de PDF (representación textual)
 

@@ -264,20 +264,49 @@ Cuenta **una** por día, sin importar cuántas se hagan (evita farm):
 
 ---
 
-## 8. Puntos vs. XP — Distinción operativa
+## 8. Sistema de Calificación por Estrellas (1 a 3 ⭐)
 
-| Concepto | Dónde vive | Para qué sirve | Se acumula | Afecta nivel |
-|---|---|---|---|---|
-| **Puntos de evaluación** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
-| **XP** | Cuenta global + por lenguaje | Progresión y nivel | Sí, indefinidamente | Sí |
-| **% de progreso** | Módulo/Lenguaje | Visualizar avance (`RF-PROG-002`) | Sí, hasta 100% | No |
-| **Racha** | Cuenta global | Hábito | Días consecutivos | No |
+Inspirado en la mecánica de progresión de juegos tácticos y de habilidad (como *"Score!"*), las estrellas representan el **nivel de maestría formativa** alcanzado en cada unidad educativa.
 
-> Nunca se convierte puntos de examen en XP de forma proporcional; la XP de examen es fija por aprobación (evita “farmear” reprobados con 60%).
+### 8.1 Escala de Estrellas y Criterio de Otorgamiento
+
+| Estrellas | Nivel de Dominio | Criterio de Evaluación | Recompensa Visual |
+|---|---|---|---|
+| ⭐⭐⭐ **(3 Estrellas)** | **Maestría Impecable** | 100% de respuestas correctas al primer intento (0 errores cometidos). | Confeti de PixiJS + Celebración eufórica de Koda 🦊 |
+| ⭐⭐ **(2 Estrellas)** | **Buen Desempeño** | 1 error cometido y resuelto con éxito en la Ronda de Repaso (80%–99% efectividad). | Gesto positivo y guiño de Koda 🦊 |
+| ⭐ **(1 Estrella)** | **Superación con Ayuda** | 2 o más errores cometidos, superados tras repasos (60%–79% efectividad). | Gesto de apoyo y aliento de Koda 🦊 |
+| **0 Estrellas** | **No Completado** | Unidad abandonada, no intentada o con efectividad < 60%. | Candado `🔒` o nodo gris sin iluminar |
+
+### 8.2 Acumulación y Requisito de Desbloqueo de Módulos
+
+1. **Total de Estrellas por Módulo:**
+   $$\text{Estrellas}_{\text{max}}(M) = \text{Secciones}(M) \times 3$$
+   *(Ejemplo: M01 de 9 secciones = 27 estrellas máximas).*
+2. **Umbral de Desbloqueo del Módulo Siguiente:**
+   Para desbloquear el Módulo $M_{i+1}$, el estudiante debe:
+   - Completar y aprobar el 100% de las secciones del Módulo $M_i$.
+   - Aprobar el Examen Final del Módulo con $\ge 80\%$.
+   - Acumular al menos el **80% de las estrellas totales** del módulo ($\text{Estrellas}_{\text{obtenidas}} \ge \lceil 0.80 \times \text{Estrellas}_{\text{max}} \rceil$).
+   *(En un módulo de 27 estrellas, se requieren mínimo 22 estrellas para abrir el siguiente módulo).*
+3. **Rejugabilidad:** Si un usuario completa todas las secciones pero acumula solo 19 estrellas, el siguiente módulo permanece con candado (`🔒`). El usuario puede rejugar cualquier sección con 1⭐ o 2⭐ para intentar obtener las 3⭐ y desbloquear el nuevo módulo.
 
 ---
 
-## 9. Logros (Achievements)
+## 9. Puntos vs. XP vs. Estrellas — Distinción operativa
+
+| Concepto | Dónde vive | Para qué sirve | Se acumula | Afecta nivel / Desbloqueo |
+|---|---|---|---|---|
+| **Puntos de evaluación** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
+| **XP** | Cuenta global + por lenguaje | Progresión y nivel de maestría | Sí, indefinidamente | Sí (determina nivel) |
+| **Estrellas (⭐)** | Por Lección, Sección y Módulo | Calificar precisión y desbloquear módulos | Sí, por módulo y total global | **Sí (desbloquea módulos)** |
+| **% de progreso** | Módulo/Lenguaje | Visualizar avance (`RF-PROG-002`) | Sí, hasta 100% | No |
+| **Racha (🔥)** | Cuenta global | Forjar el hábito diario de estudio | Días consecutivos | No |
+
+> Las estrellas no sustituyen a la XP ni a los exámenes: son la llave de acceso de maestría requerida para avanzar de módulo en el Roadmap.
+
+---
+
+## 10. Logros (Achievements)
 
 ### 9.1 Reglas generales
 

@@ -60,6 +60,25 @@ Este documento define **cómo se enseña Lua** dentro de la jerarquía `Lenguaje
 
 > **Justificación del orden:** M07/M08 separan la tabla en dos modelos mentales (array vs mapa) — patrón validado en enseñanza de Lua (Lua PIL). M09 antes de errores permite practicar `string` sin `pcall`; M10 antes de POO porque POO en Lua exige entender `pcall` y `require` para no confundir `:` con `.`.
 
+### 3.1 Matriz de Progresión Desbloqueable y Estrellas Mínimas
+
+El roadmap se visualiza completo en la interfaz. El acceso a cada módulo requiere **100% de secciones completadas del módulo anterior + examen aprobado + umbral mínimo de estrellas ($\ge 80\%$)**:
+
+| Módulo | Nombre | Secciones | Lecciones | Estrellas Máx (Secciones) | Estrellas Mín Requeridas (80%) | Estado Inicial |
+|---|---|---|---|---|---|---|
+| **M01** | Fundamentos de Lua | 9 | 90 | 27 ⭐ | 22 ⭐ (para desbloquear M02) | 🟢 **Desbloqueado (S01 abierta)** |
+| **M02** | Variables y Tipos | 10 | 100 | 30 ⭐ | 24 ⭐ (para desbloquear M03) | 🔒 *Bloqueado (Requiere M01 + 22⭐)* |
+| **M03** | Operadores | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M04) | 🔒 *Bloqueado (Requiere M02 + 24⭐)* |
+| **M04** | Condicionales | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M05) | 🔒 *Bloqueado (Requiere M03 + 22⭐)* |
+| **M05** | Bucles | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M06) | 🔒 *Bloqueado (Requiere M04 + 22⭐)* |
+| **M06** | Funciones | 10 | ~35 | 30 ⭐ | 24 ⭐ (para desbloquear M07) | 🔒 *Bloqueado (Requiere M05 + 22⭐)* |
+| **M07** | Tablas como Arreglos | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M08) | 🔒 *Bloqueado (Requiere M06 + 24⭐)* |
+| **M08** | Tablas como Mapas | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M09) | 🔒 *Bloqueado (Requiere M07 + 22⭐)* |
+| **M09** | Cadenas y Libs | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M10) | 🔒 *Bloqueado (Requiere M08 + 22⭐)* |
+| **M10** | Errores y Módulos | 9 | ~30 | 27 ⭐ | 22 ⭐ (para desbloquear M11) | 🔒 *Bloqueado (Requiere M09 + 22⭐)* |
+| **M11** | Metatablas y POO | 10 | ~35 | 30 ⭐ | 24 ⭐ (para desbloquear M12) | 🔒 *Bloqueado (Requiere M10 + 22⭐)* |
+| **M12** | Corrutinas e IO | 8 | ~25 | 24 ⭐ | 20 ⭐ (Certificación Final) | 🔒 *Bloqueado (Requiere M11 + 24⭐)* |
+
 **Glosario mapeado (`24` §11.3):**
 - `lista` (Python) → `tabla (array)` (Lua, `ipairs`)
 - `diccionario` (Python) → `tabla (mapa)` (Lua, `pairs`)

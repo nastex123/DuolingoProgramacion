@@ -26,9 +26,13 @@
 - **Breadcrumbs:** `Biblioteca › Python › Módulo 3 › Sección 2 › Lección 4` (trunca en móvil, landmarks ARIA).
 - **Regla 3 clics:** cualquier lección accesible en ≤ 3 clics desde Mi Ruta.
 
-### 2.2 Navegación contextual
-- **Ruta:** stepper vertical de 12 módulos con estados `bloqueado/disponible/en_progreso/aprobado`.
-- **Lección:** anterior/siguiente, índice de secciones, CTA "Marcar completada".
+### 2.2 Navegación contextual y Roadmap Desbloqueable
+- **Ruta / Roadmap Completo:** Visualización completa del camino de aprendizaje con todos sus módulos (1 a 12) y secciones.
+  - **Nodo Bloqueado (`🔒`):** Opacidad al 50%, icono de candado, interacción deshabilitada y tooltip indicando prerrequisitos ("Completa la Sección X y alcanza Y ⭐ para desbloquear").
+  - **Nodo Disponible / Activo:** Iluminado con borde de acento y pulso visual sutil.
+  - **Nodo Completado:** Muestra la insignia de calificación obtenida (**1 a 3 Estrellas: ⭐ / ⭐⭐ / ⭐⭐⭐**).
+  - **Banner de Módulo:** Muestra el total de estrellas acumuladas vs. estrellas mínimas requeridas para desbloquear el siguiente módulo ($\ge 80\%$).
+- **Lección:** Layout split-screen 50/50, selector stepper superior de 10 píldoras de lección con estados, atajos de teclado ergonómicos (`1-4`, `A-D`, flechas `←/→`).
 - **Evaluación:** paginación, progreso `3/10`, botón "Enviar intento" con confirmación.
 
 ---
@@ -65,7 +69,7 @@
 Botón (primary/secondary/ghost, estados default/hover/active/disabled/loading), Input, Select, Badge, Chip, Progress bar, Skeleton, Toast, Tooltip.
 
 ### 5.2 Moleculares
-Card lenguaje, Card módulo (con barra %), Pregunta renderer (11 tipos en `15`), Feedback inline (acierto con explicación + error con pista), Streak flame `🔥 7 días` (solo texto, no emoji en código), XP toast `+10 XP`.
+Card lenguaje, Card módulo (con barra % y contador de estrellas acumuladas vs. requeridas), Card sección con candado `🔒` o estrellas (`⭐⭐⭐`), Pregunta renderer (11 tipos en `15`), Feedback inline (acierto con explicación + error con pista anti-spoilers), Mascota compañera interactiva (**Koda 🦊** con WebGL PixiJS y reacciones anímicas en tiempo real), Streak flame `🔥 7 días`, XP toast `+10 XP`, Star rating badge `⭐⭐⭐`.
 
 ### 5.3 Organismos
 Header, Bottom nav, Stepper ruta, Lección layout (2 col desktop / stacked móvil), Quiz/Examen shell, Perfil dashboard, Certificado viewer.

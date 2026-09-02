@@ -636,6 +636,184 @@
     justify-content: space-between;
     align-items: center;
   }
+  /* ROADMAP MACRO TRACK (12 MÓDULOS) */
+  .roadmap-macro-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .roadmap-macro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .roadmap-macro-header h3 {
+    font-size: 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .roadmap-track-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .roadmap-mod-pill {
+    flex: 0 0 auto;
+    width: 140px;
+    background: var(--bg-card-alt);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .roadmap-mod-pill:hover:not(.locked) {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .roadmap-mod-pill.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-border);
+  }
+  .roadmap-mod-pill.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--bg);
+    border-style: dashed;
+  }
+  .roadmap-mod-pill.completed {
+    border-color: var(--success);
+  }
+  .mod-pill-code {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+  }
+  .mod-pill-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mod-pill-stars {
+    font-size: 11px;
+    font-weight: 700;
+    color: #F59E0B;
+  }
+
+  /* ESTRELLAS Y ESTADOS DE CARDS DE SECCIÓN */
+  .sec-card-box.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--bg);
+    border-style: dashed;
+  }
+  .sec-card-box.locked:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #EF4444;
+  }
+  .sec-card-box.available {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-border);
+  }
+  .stars-row {
+    display: inline-flex;
+    gap: 3px;
+    color: #F59E0B;
+    font-size: 14px;
+  }
+  .stars-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-alt);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+  }
+  .stars-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F59E0B, #10B981);
+    transition: width 0.4s ease;
+  }
+
+  /* MODAL CELEBRACIÓN DE ESTRELLAS */
+  .celebration-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+  }
+  .celebration-modal-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    animation: scaleUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes scaleUp {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 38px;
+    margin: 12px 0 6px 0;
+  }
+  .star-icon.active {
+    color: #F59E0B;
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+  }
+  .star-icon.inactive {
+    color: #475569;
+  }
+  .star-icon.animate-pop {
+    animation: popStar 0.4s ease forwards;
+  }
+  @keyframes popStar {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.3); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .modal-feedback-box {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
   .sections-grid-3col {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -706,9 +884,9 @@
   </div>
 
   <!-- MASCOTA COMPANION CON PIXIJS -->
-  <div class="sidebar-pixi-container" title="¡Haz clic en tu compañero!">
+  <div class="sidebar-pixi-container" title="¡Haz clic en Koda!">
     <canvas id="pixi-mascot-canvas"></canvas>
-    <span class="mascot-label" id="mascot-status-txt">🌸 Chibi-chan (PixiJS)</span>
+    <span class="mascot-label" id="mascot-status-txt">🦊 Koda (PixiJS)</span>
   </div>
 
   <nav class="sidebar-nav">
@@ -759,6 +937,10 @@
     </div>
 
     <div class="header-stats">
+      <div class="stat-pill" title="Estrellas de Maestría del Módulo">
+        <span style="color:#F59E0B;">⭐</span>
+        <span id="stat-stars">0/27</span>
+      </div>
       <div class="stat-pill" title="Puntos de Experiencia">
         <span>⚡</span>
         <span id="stat-xp">0</span> XP
@@ -800,6 +982,24 @@ let MOD = ALL_MODULES[currentModKey] || ALL_MODULES['01_fundamentos'];
 let BANK = ALL_BANKS[currentModKey] || ALL_BANKS['01_fundamentos'];
 
 // =========================================================
+// ROADMAP MACRO (12 MÓDULOS DE LUA) Y REGLAS DE ESTRELLAS
+// =========================================================
+const LUA_ROADMAP_12_MODULES = [
+  { key: '01_fundamentos', code: 'M01', name: 'Fundamentos de Lua', sections: 9, maxStars: 27, minStars: 22, icon: '🌱', ready: true },
+  { key: '02_variables', code: 'M02', name: 'Variables y Tipos', sections: 10, maxStars: 30, minStars: 24, icon: '📦', ready: true },
+  { key: '03_operadores', code: 'M03', name: 'Operadores y Expresiones', sections: 9, maxStars: 27, minStars: 22, icon: '⚡', ready: false },
+  { key: '04_condicionales', code: 'M04', name: 'Condicionales y Control', sections: 9, maxStars: 27, minStars: 22, icon: '🔀', ready: false },
+  { key: '05_bucles', code: 'M05', name: 'Bucles y Ciclos', sections: 9, maxStars: 27, minStars: 22, icon: '🔁', ready: false },
+  { key: '06_funciones', code: 'M06', name: 'Funciones y Alcance', sections: 10, maxStars: 30, minStars: 24, icon: '🧩', ready: false },
+  { key: '07_tablas_arreglos', code: 'M07', name: 'Tablas como Arreglos', sections: 9, maxStars: 27, minStars: 22, icon: '📊', ready: false },
+  { key: '08_tablas_mapas', code: 'M08', name: 'Tablas como Diccionarios', sections: 9, maxStars: 27, minStars: 22, icon: '🗺️', ready: false },
+  { key: '09_cadenas_libs', code: 'M09', name: 'Cadenas y Librerías', sections: 9, maxStars: 27, minStars: 22, icon: '📜', ready: false },
+  { key: '10_errores_modulos', code: 'M10', name: 'Errores y Módulos', sections: 9, maxStars: 27, minStars: 22, icon: '🛡️', ready: false },
+  { key: '11_metatablas_poo', code: 'M11', name: 'Metatablas y POO', sections: 10, maxStars: 30, minStars: 24, icon: '🔮', ready: false },
+  { key: '12_proyecto_final', code: 'M12', name: 'Archivos e Integración', sections: 8, maxStars: 24, minStars: 20, icon: '👑', ready: false }
+];
+
+// =========================================================
 // ESTADO GLOBAL Y PERSISTENCIA
 // =========================================================
 const STORAGE_KEY = 'codequest_unified_state_v3';
@@ -809,7 +1009,9 @@ let state = {
   ans: {},
   secDone: {},
   pendingReviews: {},
-  mistakes: {}
+  mistakes: {},
+  stars: {},
+  secErrors: {}
 };
 
 function loadState() {
@@ -819,6 +1021,8 @@ function loadState() {
       state = { ...state, ...JSON.parse(raw) };
       state.pendingReviews = state.pendingReviews || {};
       state.mistakes = state.mistakes || {};
+      state.stars = state.stars || {};
+      state.secErrors = state.secErrors || {};
     }
   } catch(e) { console.error(e); }
 }
@@ -836,7 +1040,52 @@ function addXP(n) {
   saveState();
 }
 
+function getModuleStars(modKey) {
+  const targetMod = ALL_MODULES[modKey];
+  const meta = LUA_ROADMAP_12_MODULES.find(m => m.key === modKey);
+  if(!targetMod) {
+    return {
+      earned: 0,
+      max: meta ? meta.maxStars : 27,
+      minReq: meta ? meta.minStars : 22,
+      pct: 0,
+      allSecsDone: false
+    };
+  }
+  let earned = 0;
+  let allSecsDone = true;
+  targetMod.sections.forEach(s => {
+    earned += (state.stars && state.stars[s.id]) || 0;
+    if(!state.secDone || !state.secDone[s.id]) allSecsDone = false;
+  });
+  const max = targetMod.sections.length * 3;
+  const minReq = meta ? meta.minStars : Math.ceil(max * 0.8);
+  const pct = max > 0 ? Math.round((earned / max) * 100) : 0;
+  return { earned, max, minReq, pct, allSecsDone };
+}
+
+function isModuleUnlocked(modKey) {
+  if(modKey === '01_fundamentos') return true;
+  if(modKey === '02_variables') {
+    const m01Stats = getModuleStars('01_fundamentos');
+    return m01Stats.allSecsDone && m01Stats.earned >= m01Stats.minReq;
+  }
+  return false;
+}
+
+function isSectionUnlocked(modKey, secPosition) {
+  if(secPosition === 1) return true;
+  const targetMod = ALL_MODULES[modKey];
+  if(!targetMod) return false;
+  const prevSec = targetMod.sections.find(s => s.position === secPosition - 1);
+  if(!prevSec) return false;
+  return !!(state.secDone && state.secDone[prevSec.id]);
+}
+
 function updateHeaderStats() {
+  const mStats = getModuleStars(currentModKey);
+  const starsEl = document.getElementById('stat-stars');
+  if(starsEl) starsEl.textContent = `${mStats.earned}/${mStats.max}`;
   document.getElementById('stat-xp').textContent = state.xp || 0;
   document.getElementById('stat-streak').textContent = state.streak || 0;
   document.getElementById('stat-level').textContent = Math.floor((state.xp || 0) / 100) + 1;
@@ -877,7 +1126,24 @@ function shuffleArray(arr) {
 }
 
 function switchModule(modKey) {
-  if(!ALL_MODULES[modKey]) return;
+  const targetMod = ALL_MODULES[modKey];
+  const meta = LUA_ROADMAP_12_MODULES.find(m => m.key === modKey);
+  
+  if(!targetMod) {
+    triggerMascotReaction('wrong');
+    showToast(`🔒 ${meta ? meta.name : 'Módulo'} en desarrollo. ¡Pronto disponible!`);
+    return;
+  }
+
+  if(!isModuleUnlocked(modKey)) {
+    const sel = document.getElementById('module-select');
+    if(sel) sel.value = currentModKey;
+    const m01Stats = getModuleStars('01_fundamentos');
+    triggerMascotReaction('wrong');
+    showToast(`🔒 ${targetMod.title} Bloqueado: Requiere completar todas las secciones de M01 y tener al menos ${m01Stats.minReq} ⭐ (Tienes ${m01Stats.earned}/${m01Stats.minReq} ⭐).`);
+    return;
+  }
+
   currentModKey = modKey;
   localStorage.setItem('codequest_active_mod', modKey);
   MOD = ALL_MODULES[modKey];
@@ -1013,7 +1279,7 @@ function initPixiMascot() {
     // Clic en la mascota para saludar
     canvas.addEventListener('click', () => {
       triggerMascotReaction('correct');
-      showToast('🌸 Chibi-chan: ¡Sigue adelante, lo estás haciendo genial!');
+      showToast('🦊 Koda: ¡Sigue adelante, lo estás haciendo genial!');
     });
 
   } catch(e) {
@@ -1078,7 +1344,7 @@ function triggerMascotReaction(type) {
     setTimeout(() => {
       drawMascotEyes('normal');
       drawMascotMouth('smile');
-      document.getElementById('mascot-status-txt').textContent = '🌸 Chibi-chan (PixiJS)';
+      document.getElementById('mascot-status-txt').textContent = '🦊 Koda (PixiJS)';
       document.getElementById('mascot-status-txt').style.color = 'var(--muted)';
     }, 2200);
 
@@ -1091,7 +1357,7 @@ function triggerMascotReaction(type) {
     setTimeout(() => {
       drawMascotEyes('normal');
       drawMascotMouth('smile');
-      document.getElementById('mascot-status-txt').textContent = '🌸 Chibi-chan (PixiJS)';
+      document.getElementById('mascot-status-txt').textContent = '🦊 Koda (PixiJS)';
       document.getElementById('mascot-status-txt').style.color = 'var(--muted)';
     }, 2500);
   }
@@ -1140,53 +1406,129 @@ function viewRuta() {
   let totalPending = 0;
   Object.values(modPending).forEach(arr => totalPending += arr.length);
 
-  let html = `
-  <div class="ruta-hero">
-    <div>
-      <span class="badge-tag" style="background:#3B82F6;color:#fff;">${escapeHtml(MOD.code)}</span>
-      <h2 style="font-size:24px;font-weight:800;margin:6px 0;">${escapeHtml(MOD.title)}</h2>
-      <p style="font-size:14px;color:#94A3B8;max-width:600px;">${escapeHtml(MOD.description)}</p>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:28px;font-weight:800;color:#3B82F6;">${pct}%</div>
-      <div style="font-size:12px;color:#94A3B8;">${doneL}/${totalL} Lecciones</div>
-      ${totalPending > 0 ? `<div style="font-size:12px;color:#F59E0B;font-weight:700;margin-top:4px;">🔁 ${totalPending} Repasos pendientes</div>` : ''}
-    </div>
-  </div>
+  const mStats = getModuleStars(currentModKey);
 
-  <div class="sections-grid-3col">
+  // 1. Render Macro 12-Module Track
+  let macroHtml = `
+  <div class="roadmap-macro-container">
+    <div class="roadmap-macro-header">
+      <h3><span>🗺️</span> Roadmap Completo de Lua (12 Módulos)</h3>
+      <span style="font-size:12px;font-weight:700;color:var(--muted);">Progresión Desbloqueable por Estrellas (80% Mín)</span>
+    </div>
+    <div class="roadmap-track-scroll">
   `;
 
+  LUA_ROADMAP_12_MODULES.forEach(m => {
+    const isCur = m.key === currentModKey;
+    const isUnl = isModuleUnlocked(m.key);
+    const modStars = getModuleStars(m.key);
+    const isDone = modStars.allSecsDone;
+
+    let statusCls = isCur ? 'active' : (isUnl ? (isDone ? 'completed' : '') : 'locked');
+    let starsDisplay = isUnl ? (modStars.earned > 0 ? `⭐ ${modStars.earned}/${modStars.max}` : `${m.minStars} ⭐ req`) : `🔒 ${m.minStars} ⭐ req`;
+
+    macroHtml += `
+      <div class="roadmap-mod-pill ${statusCls}" onclick="switchModule('${m.key}')" title="${escapeHtml(m.name)} - ${isUnl ? 'Disponible' : 'Bloqueado'}">
+        <div class="mod-pill-code">
+          <span>${m.code}</span>
+          <span>${isCur ? '▶' : (isDone ? '✓' : (isUnl ? m.icon : '🔒'))}</span>
+        </div>
+        <div class="mod-pill-title">${m.icon} ${escapeHtml(m.name)}</div>
+        <div class="mod-pill-stars">${starsDisplay}</div>
+      </div>
+    `;
+  });
+
+  macroHtml += `
+    </div>
+  </div>
+  `;
+
+  // 2. Current Module Hero & Stars Progress Banner
+  let heroHtml = `
+  <div class="ruta-hero">
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span class="badge-tag" style="background:#3B82F6;color:#fff;">${escapeHtml(MOD.code)}</span>
+        <span style="font-size:13px;font-weight:700;color:#F59E0B;">⭐ ${mStats.earned} / ${mStats.max} Estrellas acumuladas</span>
+      </div>
+      <h2 style="font-size:24px;font-weight:800;margin:6px 0;">${escapeHtml(MOD.title)}</h2>
+      <p style="font-size:14px;color:#94A3B8;max-width:650px;">${escapeHtml(MOD.description)}</p>
+      
+      <!-- BARRA DE REQUISITO DE ESTRELLAS PARA DESBLOQUEAR SIGUIENTE MÓDULO -->
+      <div style="margin-top:14px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;max-width:540px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
+          <span>Requisito para Módulo Siguiente (Mín. ${mStats.minReq} ⭐):</span>
+          <span style="color:${mStats.earned >= mStats.minReq ? 'var(--success)' : '#F59E0B'};">
+            ${mStats.earned >= mStats.minReq ? '✓ ¡Meta de Estrellas Alcanzada!' : `Faltan ${mStats.minReq - mStats.earned} ⭐`}
+          </span>
+        </div>
+        <div class="stars-bar-track">
+          <div class="stars-bar-fill" style="width:${Math.min(100, Math.round((mStats.earned / mStats.max) * 100))}%;"></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:right;margin-left:20px;">
+      <div style="font-size:32px;font-weight:800;color:#3B82F6;">${pct}%</div>
+      <div style="font-size:12px;color:#94A3B8;">${doneL}/${totalL} Lecciones</div>
+      ${totalPending > 0 ? `<div style="font-size:12px;color:#F59E0B;font-weight:700;margin-top:6px;">🔁 ${totalPending} Repasos pendientes</div>` : ''}
+    </div>
+  </div>
+  `;
+
+  // 3. Grid of Sections with Locks & Stars
+  let gridHtml = `<div class="sections-grid-3col">`;
+
   MOD.sections.forEach(sec => {
-    const isDone = !!state.secDone[sec.id];
-    let secDone = 0;
+    const isDone = !!(state.secDone && state.secDone[sec.id]);
+    const isUnlocked = isSectionUnlocked(currentModKey, sec.position);
+    const secStars = (state.stars && state.stars[sec.id]) || 0;
+    
+    let secDoneCount = 0;
     sec.lessons.forEach(l => {
-      if(l.exercises.every(q => !!state.ans[l.id + '::' + q.id])) secDone++;
+      if(l.exercises.every(q => !!state.ans[l.id + '::' + q.id])) secDoneCount++;
     });
-    const secPct = Math.round((secDone / sec.lessons.length) * 100);
+    const secPct = Math.round((secDoneCount / sec.lessons.length) * 100);
     const pendingList = modPending[sec.id] || [];
 
-    html += `
-      <div class="sec-card-box ${isDone ? 'completed' : ''}" onclick="openLessonBySec('${sec.id}')">
+    let starIcons = '';
+    if(isDone) {
+      for(let i = 1; i <= 3; i++) {
+        starIcons += i <= secStars ? '⭐' : '☆';
+      }
+    }
+
+    let cardClass = isDone ? 'completed' : (isUnlocked ? 'available' : 'locked');
+
+    gridHtml += `
+      <div class="sec-card-box ${cardClass}" onclick="openLessonBySec('${sec.id}')">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;">Sección ${sec.position}</span>
-            <span style="font-size:11px;font-weight:700;color:${isDone ? 'var(--success)' : 'var(--muted)'};">
-              ${isDone ? '✓ Dominada' : (pendingList.length > 0 ? `🔁 ${pendingList.length} Repasos` : `${secPct}%`)}
+            <span style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;">
+              Sección ${sec.position}
+            </span>
+            <span style="font-size:12px;font-weight:700;">
+              ${!isUnlocked ? '<span style="color:#EF4444;">🔒 Bloqueada</span>' : (isDone ? `<span class="stars-row">${starIcons}</span>` : (pendingList.length > 0 ? `<span style="color:#F59E0B;">🔁 ${pendingList.length} Repasos</span>` : `<span style="color:var(--muted);">${secPct}%</span>`))}
             </span>
           </div>
-          <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">${escapeHtml(sec.title)}</h4>
-          <p style="font-size:13px;color:var(--muted);line-height:1.5;">${sec.lessons.length} micro-lecciones con ejercicios interactivos y salida en terminal.</p>
+          <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">
+            ${!isUnlocked ? '🔒 ' : ''}${escapeHtml(sec.title)}
+          </h4>
+          <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+            ${!isUnlocked ? `Completa la Sección ${sec.position - 1} para desbloquear este nivel de aprendizaje.` : `${sec.lessons.length} micro-lecciones con ejercicios interactivos y salida en terminal.`}
+          </p>
         </div>
-        <div style="margin-top:16px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">
-          <span>${secDone}/${sec.lessons.length} completadas</span>
-          <span style="color:var(--primary);">+${sec.xp_on_complete || 10} XP</span>
+        <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">
+          <span>${!isUnlocked ? 'Requiere Sec ' + (sec.position - 1) : `${secDoneCount}/${sec.lessons.length} completadas`}</span>
+          <span style="color:${isDone ? '#F59E0B' : 'var(--primary)'};">
+            ${isDone ? (secStars < 3 ? '🔄 Rejugar para 3⭐' : '✓ 3⭐ Dominado') : `+${sec.xp_on_complete || 10} XP`}
+          </span>
         </div>
       </div>
     `;
   });
 
-  html += `</div>`;
+  html = macroHtml + heroHtml + gridHtml + `</div>`;
   document.getElementById('view').innerHTML = html;
   updateHeaderStats();
 }
@@ -1203,8 +1545,13 @@ let currentSecId = null;
 let currentLesIdx = 0;
 
 function openLessonBySec(secId) {
-  currentSecId = secId;
   const sec = MOD.sections.find(s => s.id === secId) || MOD.sections[0];
+  if(!isSectionUnlocked(currentModKey, sec.position)) {
+    triggerMascotReaction('wrong');
+    showToast(`🔒 Sección ${sec.position} bloqueada: Debes completar y dominar la Sección ${sec.position - 1} primero.`);
+    return;
+  }
+  currentSecId = secId;
   let firstPending = sec.lessons.findIndex(l => !l.exercises.every(q => !!state.ans[l.id + '::' + q.id]));
   if(firstPending === -1) firstPending = 0;
   viewLeccion(sec, firstPending);
@@ -1414,6 +1761,9 @@ function answerChoice(lesId, qId, aId) {
     showToast('¡Respuesta correcta! +5 XP 🎉');
   } else {
     triggerMascotReaction('wrong');
+    state.secErrors = state.secErrors || {};
+    state.secErrors[sec.id] = (state.secErrors[sec.id] || 0) + 1;
+
     state.pendingReviews = state.pendingReviews || {};
     state.pendingReviews[currentModKey] = state.pendingReviews[currentModKey] || {};
     state.pendingReviews[currentModKey][sec.id] = state.pendingReviews[currentModKey][sec.id] || [];
@@ -1457,6 +1807,9 @@ function answerFill(lesId, qId) {
     showToast('¡Respuesta correcta! +5 XP 🎉');
   } else {
     triggerMascotReaction('wrong');
+    state.secErrors = state.secErrors || {};
+    state.secErrors[sec.id] = (state.secErrors[sec.id] || 0) + 1;
+
     state.pendingReviews = state.pendingReviews || {};
     state.pendingReviews[currentModKey] = state.pendingReviews[currentModKey] || {};
     state.pendingReviews[currentModKey][sec.id] = state.pendingReviews[currentModKey][sec.id] || [];
@@ -1490,19 +1843,102 @@ function completeSection(secId) {
     return;
   }
 
+  const errorsCount = (state.secErrors && state.secErrors[secId]) || 0;
+  let earnedStars = 3;
+  if(errorsCount === 1) earnedStars = 2;
+  else if(errorsCount >= 2) earnedStars = 1;
+
+  state.stars = state.stars || {};
+  const prevStars = state.stars[secId] || 0;
+  state.stars[secId] = Math.max(prevStars, earnedStars);
+
   if(!state.secDone[secId]) {
     state.secDone[secId] = true;
     state.streak = (state.streak || 0) + 1;
     addXP(sec.xp_on_complete || 10);
-    triggerMascotReaction('correct');
-    showToast('🎉 ¡Sección 100% Dominada! +10 XP y Racha +1 🔥');
   }
 
-  const sIdx = MOD.sections.findIndex(s => s.id === secId);
-  if(sIdx < MOD.sections.length - 1) {
-    openLessonBySec(MOD.sections[sIdx + 1].id);
+  // Reiniciar contador de errores para futuras partidas de perfeccionamiento
+  state.secErrors[secId] = 0;
+  saveState();
+  triggerMascotReaction('correct');
+
+  // Mostrar modal de celebración con estrellas y avance de Koda
+  showSectionCelebrationModal(sec, earnedStars, errorsCount, prevStars);
+}
+
+function showSectionCelebrationModal(sec, starsEarned, errorsCount, prevStars) {
+  const mStats = getModuleStars(currentModKey);
+  const existing = document.getElementById('celebration-modal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'celebration-modal';
+  modal.className = 'celebration-modal-overlay';
+  
+  let starsHtml = '';
+  for(let i = 1; i <= 3; i++) {
+    if(i <= starsEarned) {
+      starsHtml += `<span class="star-icon active animate-pop" style="animation-delay:${i * 0.15}s">⭐</span>`;
+    } else {
+      starsHtml += `<span class="star-icon inactive">☆</span>`;
+    }
+  }
+
+  let feedbackTxt = '';
+  if(starsEarned === 3) {
+    feedbackTxt = '🎉 ¡Desempeño Impecable! Respondiste todos los ejercicios al primer intento sin errores.';
+  } else if(starsEarned === 2) {
+    feedbackTxt = '💡 ¡Muy buen trabajo! Cometiste 1 fallo y lo superaste en el repaso. ¡Puedes rejugar esta sección cuando quieras para obtener las 3 estrellas!';
   } else {
+    feedbackTxt = '💪 ¡Superado con esfuerzo! Cometiste 2 o más fallos. Recuerda que puedes reintentar para mejorar tu calificación de estrellas.';
+  }
+
+  const sIdx = MOD.sections.findIndex(s => s.id === sec.id);
+  const hasNext = sIdx < MOD.sections.length - 1;
+  const nextSec = hasNext ? MOD.sections[sIdx + 1] : null;
+
+  modal.innerHTML = `
+    <div class="celebration-modal-card">
+      <div style="font-size:44px;margin-bottom:4px;">🦊</div>
+      <h3 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;">¡Sección ${sec.position} Superada!</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">${escapeHtml(sec.title)}</p>
+      
+      <div class="modal-stars-row">
+        ${starsHtml}
+      </div>
+      <div style="font-size:14px;font-weight:800;color:#F59E0B;margin-bottom:12px;">${starsEarned} de 3 Estrellas Obtenidas</div>
+      
+      <div class="modal-feedback-box">
+        ${feedbackTxt}
+      </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 16px;text-align:left;margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px;">
+          <span>Estrellas en ${escapeHtml(MOD.title)}:</span>
+          <span style="color:${mStats.earned >= mStats.minReq ? 'var(--success)' : '#F59E0B'};">${mStats.earned} / ${mStats.max} ⭐ (Mín. ${mStats.minReq} ⭐)</span>
+        </div>
+        <div class="stars-bar-track">
+          <div class="stars-bar-fill" style="width:${Math.min(100, Math.round((mStats.earned / mStats.max) * 100))}%;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn-step" style="background:var(--bg-card-alt);border:1px solid var(--border);color:var(--text);" onclick="closeCelebrationModal(true)">Ver Ruta 🗺️</button>
+        ${hasNext ? `<button class="btn-step" style="background:var(--primary);color:#fff;border:none;font-weight:800;" onclick="closeCelebrationModal(false, '${nextSec.id}')">Siguiente Sección 🚀</button>` : `<button class="btn-step" style="background:var(--success);color:#fff;border:none;font-weight:800;" onclick="closeCelebrationModal(true)">¡Módulo Finalizado! 🏆</button>`}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeCelebrationModal(goToRuta, nextSecId) {
+  const modal = document.getElementById('celebration-modal');
+  if(modal) modal.remove();
+  if(goToRuta || !nextSecId) {
     viewRuta();
+  } else {
+    openLessonBySec(nextSecId);
   }
 }
 

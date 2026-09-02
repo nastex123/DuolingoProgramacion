@@ -636,6 +636,184 @@
     justify-content: space-between;
     align-items: center;
   }
+  /* ROADMAP MACRO TRACK (12 MÓDULOS) */
+  .roadmap-macro-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .roadmap-macro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .roadmap-macro-header h3 {
+    font-size: 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .roadmap-track-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .roadmap-mod-pill {
+    flex: 0 0 auto;
+    width: 140px;
+    background: var(--bg-card-alt);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .roadmap-mod-pill:hover:not(.locked) {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .roadmap-mod-pill.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-border);
+  }
+  .roadmap-mod-pill.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--bg);
+    border-style: dashed;
+  }
+  .roadmap-mod-pill.completed {
+    border-color: var(--success);
+  }
+  .mod-pill-code {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+  }
+  .mod-pill-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mod-pill-stars {
+    font-size: 11px;
+    font-weight: 700;
+    color: #F59E0B;
+  }
+
+  /* ESTRELLAS Y ESTADOS DE CARDS DE SECCIÓN */
+  .sec-card-box.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--bg);
+    border-style: dashed;
+  }
+  .sec-card-box.locked:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #EF4444;
+  }
+  .sec-card-box.available {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-border);
+  }
+  .stars-row {
+    display: inline-flex;
+    gap: 3px;
+    color: #F59E0B;
+    font-size: 14px;
+  }
+  .stars-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-card-alt);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+  }
+  .stars-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F59E0B, #10B981);
+    transition: width 0.4s ease;
+  }
+
+  /* MODAL CELEBRACIÓN DE ESTRELLAS */
+  .celebration-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+  }
+  .celebration-modal-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    animation: scaleUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes scaleUp {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 38px;
+    margin: 12px 0 6px 0;
+  }
+  .star-icon.active {
+    color: #F59E0B;
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+  }
+  .star-icon.inactive {
+    color: #475569;
+  }
+  .star-icon.animate-pop {
+    animation: popStar 0.4s ease forwards;
+  }
+  @keyframes popStar {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.3); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .modal-feedback-box {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
   .sections-grid-3col {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -706,9 +884,9 @@
   </div>
 
   <!-- MASCOTA COMPANION CON PIXIJS -->
-  <div class="sidebar-pixi-container" title="¡Haz clic en tu compañero!">
+  <div class="sidebar-pixi-container" title="¡Haz clic en Koda!">
     <canvas id="pixi-mascot-canvas"></canvas>
-    <span class="mascot-label" id="mascot-status-txt">🌸 Chibi-chan (PixiJS)</span>
+    <span class="mascot-label" id="mascot-status-txt">🦊 Koda (PixiJS)</span>
   </div>
 
   <nav class="sidebar-nav">
@@ -759,6 +937,10 @@
     </div>
 
     <div class="header-stats">
+      <div class="stat-pill" title="Estrellas de Maestría del Módulo">
+        <span style="color:#F59E0B;">⭐</span>
+        <span id="stat-stars">0/30</span>
+      </div>
       <div class="stat-pill" title="Puntos de Experiencia">
         <span>⚡</span>
         <span id="stat-xp">0</span> XP
@@ -795,9 +977,27 @@ const ALL_BANKS = {
   '02_variables': [{"id":"03fe4042-1911-4aaf-86cb-18e2c6f2279e","type":"single_choice","prompt":"¿Cuál es la función principal de una variable en Lua?","prompt_code":null,"answers":[{"id":"fd6fffe0-0c39-445d-918d-f0575e714895","label":"A","body":"Almacenar un dato en memoria bajo un nombre para reutilizarlo","is_correct":true},{"id":"5335b998-2733-4f50-b873-4eef09a16ebc","label":"B","body":"Apagar la computadora al terminar","is_correct":false},{"id":"6016c5a7-8076-4321-ab11-12069b6603b4","label":"C","body":"Conectar el teclado a internet","is_correct":false},{"id":"dededef8-7d69-49b9-9f96-ea6a8e6946be","label":"D","body":"Reproducir música","is_correct":false}],"explanation":"Una variable es un contenedor con nombre para almacenar datos en memoria."},{"id":"a4908049-b6c0-4f66-919b-1c4bfc71c0bc","type":"predict_output","prompt":"¿Qué número mostrará este código al reasignar la variable?","prompt_code":"local x = 10\nx = 25\nprint(x)","answers":[{"id":"6d133d1c-3868-4c28-930a-a56241d4694f","label":"A","body":"10","is_correct":false},{"id":"f8811e02-2e2c-44fa-8ff4-3b6b59767cef","label":"B","body":"25","is_correct":true},{"id":"a929bae6-6858-4ae2-a9f6-1110dfb9c1b9","label":"C","body":"35","is_correct":false},{"id":"23d9de72-d289-4419-9c1f-009a63172c47","label":"D","body":"Error","is_correct":false}],"explanation":"La reasignación reemplaza el valor anterior con el nuevo valor 25."},{"id":"5f294b02-41cf-44f1-b51e-e730c3a8fc12","type":"single_choice","prompt":"¿Cuántos tipos de datos nativos existen en total en el lenguaje Lua?","prompt_code":null,"answers":[{"id":"5e49ccc0-42fb-4698-b6ca-be270668e6ec","label":"A","body":"4","is_correct":false},{"id":"c6e67b6e-8a25-4811-ba2b-6acd95e75b92","label":"B","body":"8","is_correct":true},{"id":"9481bd9a-6105-4c13-b8c7-1412651ab792","label":"C","body":"16","is_correct":false},{"id":"b2baf2f6-6135-4b78-9164-785311685506","label":"D","body":"Infinitos","is_correct":false}],"explanation":"Lua tiene exactamente 8 tipos nativos: nil, boolean, number, string, table, function, thread y userdata."},{"id":"6a9a9f40-47ab-4e82-9aa1-f792f3f4b8fc","type":"predict_output","prompt":"¿Qué resultado devolverá la función type(100)?","prompt_code":"print(type(100))","answers":[{"id":"852fb681-dc3b-4241-af95-c5a23135f64f","label":"A","body":"100","is_correct":false},{"id":"b98922db-c812-451b-910e-210271d5bc87","label":"B","body":"int","is_correct":false},{"id":"ab072881-c4f3-4be8-8db2-18e7ae15d654","label":"C","body":"number","is_correct":true},{"id":"7b21ea19-80f3-498f-b2df-5b956e60bcb5","label":"D","body":"integer","is_correct":false}],"explanation":"Todos los números en Lua pertenecen al tipo nativo number."},{"id":"af8ddd0b-6f9b-47da-bdc7-69e25238134b","type":"predict_output","prompt":"¿Qué tipo de dato devolverá type(\"42\") con comillas?","prompt_code":"print(type(\"42\"))","answers":[{"id":"81a297ec-6be4-41da-bb81-501ec09dcefe","label":"A","body":"number","is_correct":false},{"id":"e659b55d-d7bf-4961-8ffa-711f8f328b44","label":"B","body":"cifra","is_correct":false},{"id":"4ba2d3cf-ce31-40f8-b445-9ab383876bf9","label":"C","body":"string","is_correct":true},{"id":"fc926c5b-91be-4518-a31b-5bd37587479d","label":"D","body":"boolean","is_correct":false}],"explanation":"Al estar envuelto entre comillas, su tipo es string."},{"id":"69ee4cda-fb6c-485c-b83f-57ee0e71dcdf","type":"single_choice","prompt":"¿Cuáles son las ÚNICAS dos cosas que se evalúan como falsas en las condiciones de Lua?","prompt_code":null,"answers":[{"id":"1c25d968-a361-49b5-b17b-009cd2ec07a0","label":"A","body":"El número 0 y el texto vacío","is_correct":false},{"label":"B","body":"Únicamente false y nil","is_correct":true},{"label":"C","body":"Cualquier número negativo","is_correct":false},{"label":"D","body":"Las tablas vacías","is_correct":false}],"explanation":"En Lua únicamente false y nil son falsos. El 0 y el texto vacío \"\" son verdaderos."},{"id":"496d197a-c7eb-496c-975a-1d05841a22c9","type":"predict_output","prompt":"¿Qué valor contendrá una variable declarada con local x si no se le asigna nada?","prompt_code":"local x\nprint(x)","answers":[{"id":"69884213-bf9e-4644-a954-87bf9b6d1670","label":"A","body":"0","is_correct":false},{"id":"8b37cc40-0e63-4a54-93b0-56e5e90a9978","label":"B","body":"\"\"","is_correct":false},{"id":"f2ee816e-4186-49a7-8389-bc1387a439e6","label":"C","body":"nil","is_correct":true},{"id":"4e9d3681-be95-4a12-9b97-d3cb114a2992","label":"D","body":"false","is_correct":false}],"explanation":"Toda variable declarada sin inicializar contiene nil por defecto."},{"id":"da4405e9-5d0a-40df-8e69-503c8a9cd7dc","type":"single_choice","prompt":"¿Por qué en Lua moderno se recomienda declarar siempre las variables con local?","prompt_code":null,"answers":[{"id":"518270b4-cb9a-48ca-9d54-4869b45282e2","label":"A","body":"Para aislarlas a su ámbito y evitar fugas peligrosas en el entorno global _G","is_correct":true},{"id":"261f93f2-a314-4b85-bc22-5aabd00e4e45","label":"B","body":"Porque si no se usa local no se pueden sumar números","is_correct":false},{"id":"9de96315-dff8-4d5b-91a1-7e3936d9f13e","label":"C","body":"Porque hace que el texto se imprima en mayúsculas","is_correct":false},{"id":"b2f6e150-363b-44da-950f-882f51c45820","label":"D","body":"Para que el juego pese el doble","is_correct":false}],"explanation":"local previene la contaminación del entorno global y mejora la velocidad de ejecución."},{"id":"625b8b62-bb49-4df4-95b0-03a7cb22700c","type":"predict_output","prompt":"¿Qué número mostrará la división entera 15 // 4?","prompt_code":"print(15 // 4)","answers":[{"id":"96050f18-e55c-4b36-9fe8-25eb8cf86d25","label":"A","body":"3.75","is_correct":false},{"id":"0c5d1a5a-f20f-4a1d-92e2-7a0f315e87f4","label":"B","body":"4","is_correct":false},{"id":"7b6ec4bd-ddcb-43b2-8aaf-d18e9fc692ec","label":"C","body":"3","is_correct":true},{"id":"d1f8ddbd-846d-462b-ae07-6c65f2cbf32b","label":"D","body":"0","is_correct":false}],"explanation":"15 entre 4 cabe 3 veces enteras; // descarta los decimales."},{"id":"4263001c-0f0e-46ad-9097-7c40a0a9f512","type":"predict_output","prompt":"¿Qué resultado devolverá el operador módulo en 10 % 3?","prompt_code":"print(10 % 3)","answers":[{"id":"51a4c502-8a46-434a-b4d3-fabd9ac7ca45","label":"A","body":"3","is_correct":false},{"id":"a73cf45d-818a-4c28-bd76-1a126f67a4ae","label":"B","body":"1","is_correct":true},{"id":"33ce9cd8-6cac-4212-b8c0-7c1668d30c64","label":"C","body":"0","is_correct":false},{"id":"e7b33aa8-acee-4c54-8ec1-bdd03c3d3c36","label":"D","body":"3.33","is_correct":false}],"explanation":"10 dividido 3 da 3 con un residuo de 1; % devuelve 1."},{"id":"96064a60-5ed8-421e-be37-9dfb8512549b","type":"predict_output","prompt":"¿Qué longitud devolverá el operador # sobre la palabra 'Roblox'?","prompt_code":"print(#\"Roblox\")","answers":[{"id":"85b181df-bf12-4faf-a6ab-97aaaeeb60af","label":"A","body":"5","is_correct":false},{"id":"0b9ec2d8-0d45-4722-932e-8af37f651d1d","label":"B","body":"6","is_correct":true},{"id":"7f0efcbb-b8f3-46f5-91f6-b3e82a45690e","label":"C","body":"7","is_correct":false},{"id":"2b77d2a3-fac3-4ab1-8ea1-54a3523226fe","label":"D","body":"Roblox","is_correct":false}],"explanation":"'Roblox' tiene 6 caracteres; # devuelve 6."},{"id":"76719027-031c-47f3-b366-95f1c5ebb529","type":"predict_output","prompt":"¿Qué salida producirá print(not true)?","prompt_code":"print(not true)","answers":[{"id":"2ca53dc9-15aa-49a7-872a-3dbcdc2925ef","label":"A","body":"true","is_correct":false},{"id":"7181c49f-083c-441f-8cdc-2e11ae0e9a43","label":"B","body":"false","is_correct":true},{"id":"f2e88fdc-17f6-478d-bd39-d3ac3f0a085e","label":"C","body":"nil","is_correct":false},{"id":"c8f0954a-d14b-4c98-a79a-56502317ef11","label":"D","body":"0","is_correct":false}],"explanation":"not invierte true a false."},{"id":"7cc52502-bda3-4a49-a24c-4975ffe2e5f8","type":"predict_output","prompt":"¿Qué devolverá print(not not 0)?","prompt_code":"print(not not 0)","answers":[{"id":"6d28eca2-3ba7-4beb-ab8d-e8a41d16ac71","label":"A","body":"false","is_correct":false},{"id":"df465f23-ef53-4d4c-a8b1-a8b05c285209","label":"B","body":"0","is_correct":false},{"id":"60031aba-12ff-4e7d-be64-786f0d7d6ee2","label":"C","body":"true","is_correct":true},{"id":"1470f719-0dd9-41d8-be64-a3ba59154f7a","label":"D","body":"nil","is_correct":false}],"explanation":"Como 0 es verdadero en Lua, not not 0 devuelve true."},{"id":"eca1dc4c-9d7c-4bfa-a45c-e04b7849feb3","type":"single_choice","prompt":"¿Cómo se elimina o borra el valor de una variable en Lua?","prompt_code":null,"answers":[{"id":"076e79b4-8972-4987-8dae-4a7fdf1d4645","label":"A","body":"Asignándole el valor nil (ej: x = nil)","is_correct":true},{"id":"37874f62-43ad-4e05-9f70-cd7181135921","label":"B","body":"Escribiendo x = 0","is_correct":false},{"id":"b4f23161-13aa-49a8-9463-d568c5f2e28a","label":"C","body":"Borrando el archivo del disco","is_correct":false},{"id":"92e7365d-31d0-49b9-9520-448423b0ddec","label":"D","body":"Escribiendo x = \"borrado\"","is_correct":false}],"explanation":"Asignar nil elimina el valor y libera la referencia en memoria."},{"id":"003302af-994f-479f-951f-4223793b7e82","type":"predict_output","prompt":"¿Qué valor devuelve tonumber(\"100\") + 50?","prompt_code":"print(tonumber(\"100\") + 50)","answers":[{"id":"1e6ba2f9-b915-448d-bddf-392d79f50748","label":"A","body":"\"10050\"","is_correct":false},{"id":"2f3767b6-5e4e-4b24-b378-66cb561c2b31","label":"B","body":"100","is_correct":false},{"id":"c683dd29-8e41-45c1-81b8-fb795c33549b","label":"C","body":"150","is_correct":true},{"id":"bfb6a907-73f6-4308-9df2-61f9771d328c","label":"D","body":"nil","is_correct":false}],"explanation":"tonumber(\"100\") devuelve el número 100, que sumado a 50 resulta 150."},{"id":"5cb41e63-45ae-45d0-b882-26635897da80","type":"predict_output","prompt":"¿Qué valor devuelve tonumber(\"dragón\")?","prompt_code":"print(tonumber(\"dragón\"))","answers":[{"id":"3424e704-7548-4189-bdf0-bfb6820d59f3","label":"A","body":"0","is_correct":false},{"id":"e1b2093a-784b-4f23-a965-c64cbf47d6f1","label":"B","body":"dragón","is_correct":false},{"id":"a8c66fc2-36cb-46ad-a4f5-7328d7112e8e","label":"C","body":"nil","is_correct":true},{"id":"810ede1c-5947-4a33-9b39-1577be668248","label":"D","body":"Error fatal","is_correct":false}],"explanation":"Si el texto no contiene un número válido, tonumber devuelve nil."},{"id":"363f9316-7b39-4e9a-8434-c2f8707e38ec","type":"single_choice","prompt":"En Lua, ¿cuál es el operador para concatenar (unir) dos cadenas de texto?","prompt_code":null,"answers":[{"id":"75deeba4-4938-4160-a249-4d4b333156d2","label":"A","body":"+","is_correct":false},{"id":"dc4d5f57-4834-4edc-937b-4b7b1a7ca4b7","label":"B","body":".. (dos puntos seguidos)","is_correct":true},{"id":"2ffd1abf-3237-4eed-8065-8c40157de8ba","label":"C","body":"&","is_correct":false},{"id":"d7575cfe-7c58-4293-8183-56e8627cee44","label":"D","body":"~","is_correct":false}],"explanation":"En Lua, dos puntos seguidos .. es el operador de concatenación de texto."},{"id":"2ef1b610-95e1-4bda-85cf-c3750b28250a","type":"predict_output","prompt":"¿Qué salida producirá print(\"Nivel: \" .. 5)?","prompt_code":"print(\"Nivel: \" .. 5)","answers":[{"id":"7ce45615-74dc-40cc-9379-1f193939376a","label":"A","body":"Nivel: 5","is_correct":true},{"id":"adae2018-1b0f-4c00-b4d8-84d05925fb4a","label":"B","body":"Nivel: + 5","is_correct":false},{"id":"7cc0bb77-4033-415d-93bf-1bba71a202a7","label":"C","body":"Error","is_correct":false},{"id":"0d10f4c0-9dc4-4fdc-a8c1-94834fbcbc07","label":"D","body":"5","is_correct":false}],"explanation":"El operador .. une el texto con el número produciendo 'Nivel: 5'."},{"id":"35defd9a-2c4e-435a-bdc3-0a6edfa24bd2","type":"single_choice","prompt":"¿Cuál es la estructura reina y único contenedor nativo en Lua para manejar listas y mapas?","prompt_code":null,"answers":[{"id":"e62db44a-7f51-4d64-b63f-a3d69df1c962","label":"A","body":"array","is_correct":false},{"id":"2b004f6c-ff6f-46d0-bccb-6911eedca438","label":"B","body":"table","is_correct":true},{"id":"bd72ad4f-b626-47c9-8a55-043c9516bcab","label":"C","body":"dict","is_correct":false},{"id":"a534ff5e-7946-43db-af9e-374e9561da73","label":"D","body":"list","is_correct":false}],"explanation":"table es el único tipo contenedor nativo de Lua."},{"id":"74f3a7aa-9544-4f9b-83e7-b29361af19c8","type":"predict_output","prompt":"¿Qué tipo de dato devuelve la función type sobre una tabla vacía {}?","prompt_code":"print(type({}))","answers":[{"id":"d9d013ac-0d90-465b-ad5e-219dcd424e2d","label":"A","body":"empty","is_correct":false},{"id":"ddcb0c03-89be-459c-8553-0e7bf7c2ff90","label":"B","body":"list","is_correct":false},{"id":"214ee439-7e1d-43bd-af3b-79e18585349a","label":"C","body":"table","is_correct":true},{"id":"c5e7693d-a6a7-4a02-b9c2-12f4a4331b60","label":"D","body":"nil","is_correct":false}],"explanation":"Las llaves {} crean un valor de tipo table."}]
 };
 
-let currentModKey = '02_variables';
-let MOD = ALL_MODULES[currentModKey] || ALL_MODULES['01_fundamentos'];
-let BANK = ALL_BANKS[currentModKey] || ALL_BANKS['01_fundamentos'];
+// =========================================================
+// ROADMAP MACRO (12 MÓDULOS DE LUA) Y REGLAS DE ESTRELLAS
+// =========================================================
+const LUA_ROADMAP_12_MODULES = [
+  { key: '01_fundamentos', code: 'M01', name: 'Fundamentos de Lua', sections: 9, maxStars: 27, minStars: 22, icon: '🌱', ready: true },
+  { key: '02_variables', code: 'M02', name: 'Variables y Tipos', sections: 10, maxStars: 30, minStars: 24, icon: '📦', ready: true },
+  { key: '03_operadores', code: 'M03', name: 'Operadores y Expresiones', sections: 9, maxStars: 27, minStars: 22, icon: '⚡', ready: false },
+  { key: '04_condicionales', code: 'M04', name: 'Condicionales y Control', sections: 9, maxStars: 27, minStars: 22, icon: '🔀', ready: false },
+  { key: '05_bucles', code: 'M05', name: 'Bucles y Ciclos', sections: 9, maxStars: 27, minStars: 22, icon: '🔁', ready: false },
+  { key: '06_funciones', code: 'M06', name: 'Funciones y Alcance', sections: 10, maxStars: 30, minStars: 24, icon: '🧩', ready: false },
+  { key: '07_tablas_arreglos', code: 'M07', name: 'Tablas como Arreglos', sections: 9, maxStars: 27, minStars: 22, icon: '📊', ready: false },
+  { key: '08_tablas_mapas', code: 'M08', name: 'Tablas como Diccionarios', sections: 9, maxStars: 27, minStars: 22, icon: '🗺️', ready: false },
+  { key: '09_cadenas_libs', code: 'M09', name: 'Cadenas y Librerías', sections: 9, maxStars: 27, minStars: 22, icon: '📜', ready: false },
+  { key: '10_errores_modulos', code: 'M10', name: 'Errores y Módulos', sections: 9, maxStars: 27, minStars: 22, icon: '🛡️', ready: false },
+  { key: '11_metatablas_poo', code: 'M11', name: 'Metatablas y POO', sections: 10, maxStars: 30, minStars: 24, icon: '🔮', ready: false },
+  { key: '12_proyecto_final', code: 'M12', name: 'Archivos e Integración', sections: 8, maxStars: 24, minStars: 20, icon: '👑', ready: false }
+];
+
+let currentModKey = localStorage.getItem('codequest_active_mod') || '02_variables';
+let MOD = ALL_MODULES[currentModKey] || ALL_MODULES['02_variables'];
+let BANK = ALL_BANKS[currentModKey] || ALL_BANKS['02_variables'];
 
 // =========================================================
 // ESTADO GLOBAL Y PERSISTENCIA
@@ -809,7 +1009,9 @@ let state = {
   ans: {},
   secDone: {},
   pendingReviews: {},
-  mistakes: {}
+  mistakes: {},
+  stars: {},
+  secErrors: {}
 };
 
 function loadState() {
@@ -819,6 +1021,8 @@ function loadState() {
       state = { ...state, ...JSON.parse(raw) };
       state.pendingReviews = state.pendingReviews || {};
       state.mistakes = state.mistakes || {};
+      state.stars = state.stars || {};
+      state.secErrors = state.secErrors || {};
     }
   } catch(e) { console.error(e); }
 }
@@ -836,7 +1040,53 @@ function addXP(n) {
   saveState();
 }
 
+function getModuleStars(modKey) {
+  const targetMod = ALL_MODULES[modKey];
+  const meta = LUA_ROADMAP_12_MODULES.find(m => m.key === modKey);
+  if(!targetMod) {
+    return {
+      earned: 0,
+      max: meta ? meta.maxStars : 30,
+      minReq: meta ? meta.minStars : 24,
+      pct: 0,
+      allSecsDone: false
+    };
+  }
+  let earned = 0;
+  let allSecsDone = true;
+  targetMod.sections.forEach(s => {
+    earned += (state.stars && state.stars[s.id]) || 0;
+    if(!state.secDone || !state.secDone[s.id]) allSecsDone = false;
+  });
+  const max = targetMod.sections.length * 3;
+  const minReq = meta ? meta.minStars : Math.ceil(max * 0.8);
+  const pct = max > 0 ? Math.round((earned / max) * 100) : 0;
+  return { earned, max, minReq, pct, allSecsDone };
+}
+
+function isModuleUnlocked(modKey) {
+  if(modKey === '01_fundamentos') return true;
+  if(modKey === '02_variables') {
+    const m01Stats = getModuleStars('01_fundamentos');
+    // Para entornos de prueba local de m02, permitimos explorar o verificar
+    return (m01Stats.allSecsDone && m01Stats.earned >= m01Stats.minReq) || currentModKey === '02_variables';
+  }
+  return false;
+}
+
+function isSectionUnlocked(modKey, secPosition) {
+  if(secPosition === 1) return true;
+  const targetMod = ALL_MODULES[modKey];
+  if(!targetMod) return false;
+  const prevSec = targetMod.sections.find(s => s.position === secPosition - 1);
+  if(!prevSec) return false;
+  return !!(state.secDone && state.secDone[prevSec.id]);
+}
+
 function updateHeaderStats() {
+  const mStats = getModuleStars(currentModKey);
+  const starsEl = document.getElementById('stat-stars');
+  if(starsEl) starsEl.textContent = `${mStats.earned}/${mStats.max}`;
   document.getElementById('stat-xp').textContent = state.xp || 0;
   document.getElementById('stat-streak').textContent = state.streak || 0;
   document.getElementById('stat-level').textContent = Math.floor((state.xp || 0) / 100) + 1;
@@ -877,7 +1127,24 @@ function shuffleArray(arr) {
 }
 
 function switchModule(modKey) {
-  if(!ALL_MODULES[modKey]) return;
+  const targetMod = ALL_MODULES[modKey];
+  const meta = LUA_ROADMAP_12_MODULES.find(m => m.key === modKey);
+  
+  if(!targetMod) {
+    triggerMascotReaction('wrong');
+    showToast(`🔒 ${meta ? meta.name : 'Módulo'} en desarrollo. ¡Pronto disponible!`);
+    return;
+  }
+
+  if(!isModuleUnlocked(modKey)) {
+    const sel = document.getElementById('module-select');
+    if(sel) sel.value = currentModKey;
+    const m01Stats = getModuleStars('01_fundamentos');
+    triggerMascotReaction('wrong');
+    showToast(`🔒 ${targetMod.title} Bloqueado: Requiere completar todas las secciones de M01 y tener al menos ${m01Stats.minReq} ⭐.`);
+    return;
+  }
+
   currentModKey = modKey;
   localStorage.setItem('codequest_active_mod', modKey);
   MOD = ALL_MODULES[modKey];
@@ -1013,7 +1280,7 @@ function initPixiMascot() {
     // Clic en la mascota para saludar
     canvas.addEventListener('click', () => {
       triggerMascotReaction('correct');
-      showToast('🌸 Chibi-chan: ¡Sigue adelante, lo estás haciendo genial!');
+      showToast('🦊 Koda: ¡Sigue adelante, lo estás haciendo genial!');
     });
 
   } catch(e) {
@@ -1078,7 +1345,7 @@ function triggerMascotReaction(type) {
     setTimeout(() => {
       drawMascotEyes('normal');
       drawMascotMouth('smile');
-      document.getElementById('mascot-status-txt').textContent = '🌸 Chibi-chan (PixiJS)';
+      document.getElementById('mascot-status-txt').textContent = '🦊 Koda (PixiJS)';
       document.getElementById('mascot-status-txt').style.color = 'var(--muted)';
     }, 2200);
 
@@ -1091,7 +1358,7 @@ function triggerMascotReaction(type) {
     setTimeout(() => {
       drawMascotEyes('normal');
       drawMascotMouth('smile');
-      document.getElementById('mascot-status-txt').textContent = '🌸 Chibi-chan (PixiJS)';
+      document.getElementById('mascot-status-txt').textContent = '🦊 Koda (PixiJS)';
       document.getElementById('mascot-status-txt').style.color = 'var(--muted)';
     }, 2500);
   }
@@ -1140,53 +1407,129 @@ function viewRuta() {
   let totalPending = 0;
   Object.values(modPending).forEach(arr => totalPending += arr.length);
 
-  let html = `
-  <div class="ruta-hero">
-    <div>
-      <span class="badge-tag" style="background:#3B82F6;color:#fff;">${escapeHtml(MOD.code)}</span>
-      <h2 style="font-size:24px;font-weight:800;margin:6px 0;">${escapeHtml(MOD.title)}</h2>
-      <p style="font-size:14px;color:#94A3B8;max-width:600px;">${escapeHtml(MOD.description)}</p>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:28px;font-weight:800;color:#3B82F6;">${pct}%</div>
-      <div style="font-size:12px;color:#94A3B8;">${doneL}/${totalL} Lecciones</div>
-      ${totalPending > 0 ? `<div style="font-size:12px;color:#F59E0B;font-weight:700;margin-top:4px;">🔁 ${totalPending} Repasos pendientes</div>` : ''}
-    </div>
-  </div>
+  const mStats = getModuleStars(currentModKey);
 
-  <div class="sections-grid-3col">
+  // 1. Render Macro 12-Module Track
+  let macroHtml = `
+  <div class="roadmap-macro-container">
+    <div class="roadmap-macro-header">
+      <h3><span>🗺️</span> Roadmap Completo de Lua (12 Módulos)</h3>
+      <span style="font-size:12px;font-weight:700;color:var(--muted);">Progresión Desbloqueable por Estrellas (80% Mín)</span>
+    </div>
+    <div class="roadmap-track-scroll">
   `;
 
+  LUA_ROADMAP_12_MODULES.forEach(m => {
+    const isCur = m.key === currentModKey;
+    const isUnl = isModuleUnlocked(m.key);
+    const modStars = getModuleStars(m.key);
+    const isDone = modStars.allSecsDone;
+
+    let statusCls = isCur ? 'active' : (isUnl ? (isDone ? 'completed' : '') : 'locked');
+    let starsDisplay = isUnl ? (modStars.earned > 0 ? `⭐ ${modStars.earned}/${modStars.max}` : `${m.minStars} ⭐ req`) : `🔒 ${m.minStars} ⭐ req`;
+
+    macroHtml += `
+      <div class="roadmap-mod-pill ${statusCls}" onclick="switchModule('${m.key}')" title="${escapeHtml(m.name)} - ${isUnl ? 'Disponible' : 'Bloqueado'}">
+        <div class="mod-pill-code">
+          <span>${m.code}</span>
+          <span>${isCur ? '▶' : (isDone ? '✓' : (isUnl ? m.icon : '🔒'))}</span>
+        </div>
+        <div class="mod-pill-title">${m.icon} ${escapeHtml(m.name)}</div>
+        <div class="mod-pill-stars">${starsDisplay}</div>
+      </div>
+    `;
+  });
+
+  macroHtml += `
+    </div>
+  </div>
+  `;
+
+  // 2. Current Module Hero & Stars Progress Banner
+  let heroHtml = `
+  <div class="ruta-hero">
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span class="badge-tag" style="background:#3B82F6;color:#fff;">${escapeHtml(MOD.code)}</span>
+        <span style="font-size:13px;font-weight:700;color:#F59E0B;">⭐ ${mStats.earned} / ${mStats.max} Estrellas acumuladas</span>
+      </div>
+      <h2 style="font-size:24px;font-weight:800;margin:6px 0;">${escapeHtml(MOD.title)}</h2>
+      <p style="font-size:14px;color:#94A3B8;max-width:650px;">${escapeHtml(MOD.description)}</p>
+      
+      <!-- BARRA DE REQUISITO DE ESTRELLAS PARA DESBLOQUEAR SIGUIENTE MÓDULO -->
+      <div style="margin-top:14px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;max-width:540px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
+          <span>Requisito para Módulo Siguiente (Mín. ${mStats.minReq} ⭐):</span>
+          <span style="color:${mStats.earned >= mStats.minReq ? 'var(--success)' : '#F59E0B'};">
+            ${mStats.earned >= mStats.minReq ? '✓ ¡Meta de Estrellas Alcanzada!' : `Faltan ${mStats.minReq - mStats.earned} ⭐`}
+          </span>
+        </div>
+        <div class="stars-bar-track">
+          <div class="stars-bar-fill" style="width:${Math.min(100, Math.round((mStats.earned / mStats.max) * 100))}%;"></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:right;margin-left:20px;">
+      <div style="font-size:32px;font-weight:800;color:#3B82F6;">${pct}%</div>
+      <div style="font-size:12px;color:#94A3B8;">${doneL}/${totalL} Lecciones</div>
+      ${totalPending > 0 ? `<div style="font-size:12px;color:#F59E0B;font-weight:700;margin-top:6px;">🔁 ${totalPending} Repasos pendientes</div>` : ''}
+    </div>
+  </div>
+  `;
+
+  // 3. Grid of Sections with Locks & Stars
+  let gridHtml = `<div class="sections-grid-3col">`;
+
   MOD.sections.forEach(sec => {
-    const isDone = !!state.secDone[sec.id];
-    let secDone = 0;
+    const isDone = !!(state.secDone && state.secDone[sec.id]);
+    const isUnlocked = isSectionUnlocked(currentModKey, sec.position);
+    const secStars = (state.stars && state.stars[sec.id]) || 0;
+    
+    let secDoneCount = 0;
     sec.lessons.forEach(l => {
-      if(l.exercises.every(q => !!state.ans[l.id + '::' + q.id])) secDone++;
+      if(l.exercises.every(q => !!state.ans[l.id + '::' + q.id])) secDoneCount++;
     });
-    const secPct = Math.round((secDone / sec.lessons.length) * 100);
+    const secPct = Math.round((secDoneCount / sec.lessons.length) * 100);
     const pendingList = modPending[sec.id] || [];
 
-    html += `
-      <div class="sec-card-box ${isDone ? 'completed' : ''}" onclick="openLessonBySec('${sec.id}')">
+    let starIcons = '';
+    if(isDone) {
+      for(let i = 1; i <= 3; i++) {
+        starIcons += i <= secStars ? '⭐' : '☆';
+      }
+    }
+
+    let cardClass = isDone ? 'completed' : (isUnlocked ? 'available' : 'locked');
+
+    gridHtml += `
+      <div class="sec-card-box ${cardClass}" onclick="openLessonBySec('${sec.id}')">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;">Sección ${sec.position}</span>
-            <span style="font-size:11px;font-weight:700;color:${isDone ? 'var(--success)' : 'var(--muted)'};">
-              ${isDone ? '✓ Dominada' : (pendingList.length > 0 ? `🔁 ${pendingList.length} Repasos` : `${secPct}%`)}
+            <span style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;">
+              Sección ${sec.position}
+            </span>
+            <span style="font-size:12px;font-weight:700;">
+              ${!isUnlocked ? '<span style="color:#EF4444;">🔒 Bloqueada</span>' : (isDone ? `<span class="stars-row">${starIcons}</span>` : (pendingList.length > 0 ? `<span style="color:#F59E0B;">🔁 ${pendingList.length} Repasos</span>` : `<span style="color:var(--muted);">${secPct}%</span>`))}
             </span>
           </div>
-          <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">${escapeHtml(sec.title)}</h4>
-          <p style="font-size:13px;color:var(--muted);line-height:1.5;">${sec.lessons.length} micro-lecciones con ejercicios interactivos y salida en terminal.</p>
+          <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">
+            ${!isUnlocked ? '🔒 ' : ''}${escapeHtml(sec.title)}
+          </h4>
+          <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+            ${!isUnlocked ? `Completa la Sección ${sec.position - 1} para desbloquear este nivel de aprendizaje.` : `${sec.lessons.length} micro-lecciones con ejercicios interactivos y salida en terminal.`}
+          </p>
         </div>
-        <div style="margin-top:16px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">
-          <span>${secDone}/${sec.lessons.length} completadas</span>
-          <span style="color:var(--primary);">+${sec.xp_on_complete || 10} XP</span>
+        <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">
+          <span>${!isUnlocked ? 'Requiere Sec ' + (sec.position - 1) : `${secDoneCount}/${sec.lessons.length} completadas`}</span>
+          <span style="color:${isDone ? '#F59E0B' : 'var(--primary)'};">
+            ${isDone ? (secStars < 3 ? '🔄 Rejugar para 3⭐' : '✓ 3⭐ Dominado') : `+${sec.xp_on_complete || 10} XP`}
+          </span>
         </div>
       </div>
     `;
   });
 
-  html += `</div>`;
+  html = macroHtml + heroHtml + gridHtml + `</div>`;
   document.getElementById('view').innerHTML = html;
   updateHeaderStats();
 }
@@ -1203,8 +1546,13 @@ let currentSecId = null;
 let currentLesIdx = 0;
 
 function openLessonBySec(secId) {
-  currentSecId = secId;
   const sec = MOD.sections.find(s => s.id === secId) || MOD.sections[0];
+  if(!isSectionUnlocked(currentModKey, sec.position)) {
+    triggerMascotReaction('wrong');
+    showToast(`🔒 Sección ${sec.position} bloqueada: Debes completar y dominar la Sección ${sec.position - 1} primero.`);
+    return;
+  }
+  currentSecId = secId;
   let firstPending = sec.lessons.findIndex(l => !l.exercises.every(q => !!state.ans[l.id + '::' + q.id]));
   if(firstPending === -1) firstPending = 0;
   viewLeccion(sec, firstPending);
@@ -1414,6 +1762,9 @@ function answerChoice(lesId, qId, aId) {
     showToast('¡Respuesta correcta! +5 XP 🎉');
   } else {
     triggerMascotReaction('wrong');
+    state.secErrors = state.secErrors || {};
+    state.secErrors[sec.id] = (state.secErrors[sec.id] || 0) + 1;
+
     state.pendingReviews = state.pendingReviews || {};
     state.pendingReviews[currentModKey] = state.pendingReviews[currentModKey] || {};
     state.pendingReviews[currentModKey][sec.id] = state.pendingReviews[currentModKey][sec.id] || [];
@@ -1457,6 +1808,9 @@ function answerFill(lesId, qId) {
     showToast('¡Respuesta correcta! +5 XP 🎉');
   } else {
     triggerMascotReaction('wrong');
+    state.secErrors = state.secErrors || {};
+    state.secErrors[sec.id] = (state.secErrors[sec.id] || 0) + 1;
+
     state.pendingReviews = state.pendingReviews || {};
     state.pendingReviews[currentModKey] = state.pendingReviews[currentModKey] || {};
     state.pendingReviews[currentModKey][sec.id] = state.pendingReviews[currentModKey][sec.id] || [];
@@ -1490,19 +1844,102 @@ function completeSection(secId) {
     return;
   }
 
+  const errorsCount = (state.secErrors && state.secErrors[secId]) || 0;
+  let earnedStars = 3;
+  if(errorsCount === 1) earnedStars = 2;
+  else if(errorsCount >= 2) earnedStars = 1;
+
+  state.stars = state.stars || {};
+  const prevStars = state.stars[secId] || 0;
+  state.stars[secId] = Math.max(prevStars, earnedStars);
+
   if(!state.secDone[secId]) {
     state.secDone[secId] = true;
     state.streak = (state.streak || 0) + 1;
     addXP(sec.xp_on_complete || 10);
-    triggerMascotReaction('correct');
-    showToast('🎉 ¡Sección 100% Dominada! +10 XP y Racha +1 🔥');
   }
 
-  const sIdx = MOD.sections.findIndex(s => s.id === secId);
-  if(sIdx < MOD.sections.length - 1) {
-    openLessonBySec(MOD.sections[sIdx + 1].id);
+  // Reiniciar contador de errores para futuras partidas de perfeccionamiento
+  state.secErrors[secId] = 0;
+  saveState();
+  triggerMascotReaction('correct');
+
+  // Mostrar modal de celebración con estrellas y avance de Koda
+  showSectionCelebrationModal(sec, earnedStars, errorsCount, prevStars);
+}
+
+function showSectionCelebrationModal(sec, starsEarned, errorsCount, prevStars) {
+  const mStats = getModuleStars(currentModKey);
+  const existing = document.getElementById('celebration-modal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'celebration-modal';
+  modal.className = 'celebration-modal-overlay';
+  
+  let starsHtml = '';
+  for(let i = 1; i <= 3; i++) {
+    if(i <= starsEarned) {
+      starsHtml += `<span class="star-icon active animate-pop" style="animation-delay:${i * 0.15}s">⭐</span>`;
+    } else {
+      starsHtml += `<span class="star-icon inactive">☆</span>`;
+    }
+  }
+
+  let feedbackTxt = '';
+  if(starsEarned === 3) {
+    feedbackTxt = '🎉 ¡Desempeño Impecable! Respondiste todos los ejercicios al primer intento sin errores.';
+  } else if(starsEarned === 2) {
+    feedbackTxt = '💡 ¡Muy buen trabajo! Cometiste 1 fallo y lo superaste en el repaso. ¡Puedes rejugar esta sección cuando quieras para obtener las 3 estrellas!';
   } else {
+    feedbackTxt = '💪 ¡Superado con esfuerzo! Cometiste 2 o más fallos. Recuerda que puedes reintentar para mejorar tu calificación de estrellas.';
+  }
+
+  const sIdx = MOD.sections.findIndex(s => s.id === sec.id);
+  const hasNext = sIdx < MOD.sections.length - 1;
+  const nextSec = hasNext ? MOD.sections[sIdx + 1] : null;
+
+  modal.innerHTML = `
+    <div class="celebration-modal-card">
+      <div style="font-size:44px;margin-bottom:4px;">🦊</div>
+      <h3 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;">¡Sección ${sec.position} Superada!</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">${escapeHtml(sec.title)}</p>
+      
+      <div class="modal-stars-row">
+        ${starsHtml}
+      </div>
+      <div style="font-size:14px;font-weight:800;color:#F59E0B;margin-bottom:12px;">${starsEarned} de 3 Estrellas Obtenidas</div>
+      
+      <div class="modal-feedback-box">
+        ${feedbackTxt}
+      </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 16px;text-align:left;margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px;">
+          <span>Estrellas en ${escapeHtml(MOD.title)}:</span>
+          <span style="color:${mStats.earned >= mStats.minReq ? 'var(--success)' : '#F59E0B'};">${mStats.earned} / ${mStats.max} ⭐ (Mín. ${mStats.minReq} ⭐)</span>
+        </div>
+        <div class="stars-bar-track">
+          <div class="stars-bar-fill" style="width:${Math.min(100, Math.round((mStats.earned / mStats.max) * 100))}%;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn-step" style="background:var(--bg-card-alt);border:1px solid var(--border);color:var(--text);" onclick="closeCelebrationModal(true)">Ver Ruta 🗺️</button>
+        ${hasNext ? `<button class="btn-step" style="background:var(--primary);color:#fff;border:none;font-weight:800;" onclick="closeCelebrationModal(false, '${nextSec.id}')">Siguiente Sección 🚀</button>` : `<button class="btn-step" style="background:var(--success);color:#fff;border:none;font-weight:800;" onclick="closeCelebrationModal(true)">¡Módulo Finalizado! 🏆</button>`}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeCelebrationModal(goToRuta, nextSecId) {
+  const modal = document.getElementById('celebration-modal');
+  if(modal) modal.remove();
+  if(goToRuta || !nextSecId) {
     viewRuta();
+  } else {
+    openLessonBySec(nextSecId);
   }
 }
 
