@@ -9,6 +9,9 @@ Zona horaria: America/Bogota (UTC-5)
 
 ## [Unreleased]
 
+### Fixed
+- [2026-09-03 11:26] [Fixed] Se corrigió el script de ejecución concurrente `pnpm dev` agregando `"dev": "nest start --watch"` en `apps/api/package.json` y asegurando la pre-compilación de `@koda/types`. Causa: `apps/api` solo tenía definido `"start:dev"`, por lo que el comando paralelo `pnpm --parallel --filter "./apps/*" dev` ignoraba el backend y levantaba únicamente el frontend Next.js. Fix: estandarizar el script `"dev"` en ambas aplicaciones.
+
 ### Added
 - [2026-09-02 18:15] [Docs] Se completó la auditoría y modernización integral de la documentación del proyecto Koda:
   - **Hub Central de Documentación:** Se creó `docs/README.md` como índice maestro estructurado en 5 dominios y rutas de lectura sugeridas por rol (Frontend, Backend, Diseñador Instruccional, DevOps/QA).

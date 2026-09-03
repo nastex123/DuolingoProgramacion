@@ -4,9 +4,9 @@
   "private": true,
   "description": "Koda — Plataforma educativa interactiva y gamificada para aprender programación",
   "scripts": {
-    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "dev": "pnpm --filter \"@koda/types\" build && pnpm --parallel --filter \"./apps/*\" dev",
     "dev:web": "pnpm --filter web dev",
-    "dev:api": "pnpm --filter api start:dev",
+    "dev:api": "pnpm --filter api dev",
     "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
     "build:web": "pnpm --filter web build",
     "build:api": "pnpm --filter api build",
