@@ -293,12 +293,12 @@ Contenido publicado (v1) ── ADMIN edita ──► Contenido v2 (nueva fila/v
 | Operación | Endpoint | Detalle |
 |---|---|---|
 | **Listar** | `GET /admin/certificates?language_id=&status=&q=` | `status ∈ {valid,revoked,obsolete}`, `code CQ-{LANG}-{SEQ}` (`01` §22), `language_content_version` |
-| **Ver detalle** | `GET /admin/certificates/{id}` | `user_id`, `language_id`, `code`, `status`, `issued_at`, `revoked_at`, `pdf_object_key`, `pdf_version`, `qr_payload`, `metadata` snapshot |
+| **Ver detalle** | `GET /admin/certificates/{id}` | `user_id`, `language_id`, `code`, `status`, `issued_at`, `revoked_at`, `google_drive_file_id`, `pdf_version`, `qr_payload`, `metadata` snapshot |
 | **Revocar** | `POST /admin/certificates/{id}/revoke` con `{reason}` | `status → revoked`, `revoked_at = now()`; no coexisten dos `valid` por `(user_id, language_id)` (`12` §6.17 `uq_certificates_user_lang_valid`) |
 | **Marcar obsoleto** | `POST /admin/certificates/{id}/mark-obsolete` | `status → obsolete` cuando `language_content_version` cambia significativamente (`05` RF-CERT-005); exige revalidación |
 | **Re-emitir** | `POST /admin/certificates/{id}/reissue` | Emite nuevo `code` correlativo con lock `certificate_sequences` + `UPDATE ... RETURNING last_seq` (ver `12` §6.17); anterior pasa a `revoked/obsolete` |
 | **Regenerar PDF** | `POST /admin/certificates/{id}/pdf/regenerate` | Render plantilla versionada + QR → `Object Storage` S3-compatible; `pdf_version+1`; bit-a-bit fiel (`05` RF-PDF-003) |
-| **Verificar (admin)** | `GET /admin/certificates/verify?code=CQ-PY-000001` | Igual que `GET /certificates/{id}` público pero con titular completo (admin ve PII; público ve enmascarado `CC ***678`) |
+| **Verificar (admin)** | `GET /admin/certificates/verify?code=KODA-LUA-000001` | Igual que `GET /certificates/{id}` público pero con titular completo (admin ve PII; público ve enmascarado `CC ***678`) |
 
 **Secuencia correlativa:** `UPDATE certificate_sequences SET last_seq = last_seq + 1 WHERE language_id=$1 RETURNING last_seq` en transacción; `code = 'CQ-'||code||'-'||LPAD(last_seq::text,6,'0')`.
 
@@ -422,7 +422,7 @@ sequenceDiagram
 ```mermaid
 flowchart TD
     A[ADMIN lista certificados<br/>GET /admin/certificates?status=valid] --> B{¿Acción?}
-    B -->|Verificar| C[GET /admin/certificates/verify?code=CQ-PY-000001<br/>muestra validez + titular completo]
+    B -->|Verificar| C[GET /admin/certificates/verify?code=KODA-LUA-000001<br/>muestra validez + titular completo]
     B -->|Revocar| D[POST /admin/certificates/{id}/revoke<br/>reason]
     D --> E[status=revoked<br/>revoked_at=now()<br/>uq_certificates_user_lang_valid libera slot]
     E --> F[AUDIT_LOG + notificar titular<br/>revalidación requerida]
@@ -431,10 +431,10 @@ flowchart TD
     H --> I[USER ve Obsoleto — revalida<br/>en /verificar/:codigo]
     I --> J[USER revalida<br/>aprueba exámenes faltantes]
     J --> K[POST /admin/certificates/{id}/reissue]
-    K --> L[UPDATE certificate_sequences<br/>last_seq+1 → nuevo code CQ-PY-000042]
+    K --> L[UPDATE certificate_sequences<br/>last_seq+1 → nuevo code KODA-LUA-000042]
     L --> M[INSERT certificates<br/>status=valid<br/>pdf_version=1]
     M --> N[POST /admin/certificates/{id}/pdf/regenerate<br/>plantilla versionada + QR → S3]
-    N --> O[USER descarga PDF<br/>GET /certificates/CQ-PY-000042/pdf<br/>solo titular 200 else 403]
+    N --> O[USER descarga PDF<br/>GET /certificates/KODA-LUA-000042/pdf<br/>solo titular 200 else 403]
     B -->|Regenerar PDF| N
 ```
 
@@ -638,10 +638,10 @@ quizzes (id, module_id, threshold, composition) ──< quiz_questions (quiz_id,
 exams (id, module_id, threshold, distribution, total_questions) ──< exam_questions (exam_id, question_id, question_version, position)
 achievements (id, code, name, description, icon_url, category, condition JSONB, xp_reward, is_active)
 
-users (id, email, password_hash, status, email_verified_at, role) ── 1:1 user_profiles ──< certificates (id, user_id, language_id, code CQ-*, status, language_content_version, pdf_object_key, qr_payload)
+users (id, email, password_hash, status, email_verified_at, role) ── 1:1 user_profiles ──< certificates (id, user_id, language_id, code KODA-*, status, language_content_version, google_drive_file_id, qr_payload)
 users ──< audit_log (actor_id, action, target_type, target_id, prev_value, next_value, request_id, created_at)
 
-certificate_sequences (language_id PK, last_seq)   -- correlativo CQ-{LANG}-{SEQ}
+certificate_sequences (language_id PK, last_seq)   -- correlativo KODA-{LANG}-{SEQ}
 content_versions (id, scope_type, scope_id, version, published_by, published_at, config_snapshot)
 config_versions (id, key, value JSONB, version, updated_by, updated_at)  -- thresholds, xp, compositions
 ```
@@ -691,7 +691,7 @@ Config combinada se refleja en `content_versions.config_snapshot` para trazabili
 | RN-ADM-007 | Prerrequisitos forman DAG; ciclos se rechazan. `prerequisite_module_id = NULL` solo para primer módulo. | `05` RF-ADM-006, `12` §6.5 |
 | RN-ADM-008 | Quiz ≥1 por módulo; examen 1 por módulo en MVP (`UNIQUE (module_id) WHERE deleted_at IS NULL` en `exams`); quiz no bloquea examen, examen sí bloquea siguiente módulo. | `05` RF-QUIZ-001, RF-EXAM-001, `08` UC-007/UC-008 |
 | RN-ADM-009 | Banco mínimo: quiz 3×, examen 4×, por dificultad 1.5×, por tipo 2×; `max_easy_ratio` 40% en examen. Sin cumplir no se publica. | `15` §5.4, §15.2 |
-| RN-ADM-010 | Un certificado vigente por `(user_id, language_id)`; re-emisión invalida anterior; `code` correlativo `CQ-{LANG}-{SEQ}` con lock. | `05` RF-CERT-005, `12` §6.17 |
+| RN-ADM-010 | Un certificado vigente por `(user_id, language_id)`; re-emisión invalida anterior; `code` correlativo `KODA-{LANG}-{SEQ}` con lock. | `05` RF-CERT-005, `12` §6.17 |
 | RN-ADM-011 | Certificado `obsolete` por cambio significativo de `language_content_version`; exige revalidación; verificación pública enmascara `document_number`. | `05` RF-CERT-005, `06` RNF-037 |
 | RN-ADM-012 | Logro se otorga una sola vez por usuario y condición; config de logros sin tocar motor. | `05` RF-LOGRO-005, RF-LOGRO-004 |
 | RN-ADM-013 | `ADMIN` puede bloquear/desbloquear usuarios; bloqueado → 403 en login; anonimización conserva progreso sin PII. | `05` RF-USR-004, RF-USR-003 |
@@ -749,7 +749,7 @@ Config combinada se refleja en `content_versions.config_snapshot` para trazabili
 - [ ] Configurar umbrales/XP/composición/orden sin código afecta solo futuros intentos; históricos conservan `threshold_aplicado` y `config_version`.
 - [ ] Validaciones V-01 a V-12 rechazan publicación con error accionable; preview de quiz/examen detecta `overlap` y `max_easy_ratio`.
 - [ ] Gestión de usuarios: bloquear impide login, anonimizar borra PII sin borrar progreso, exportar entrega JSON portátil.
-- [ ] Gestión de certificados: un vigente por lenguaje, `CQ-{LANG}-{SEQ}` correlativo con lock, revocar/obsoleto/re-emitir con auditoría, PDF bit-a-bit fiel.
+- [ ] Gestión de certificados: un vigente por lenguaje, `KODA-{LANG}-{SEQ}` correlativo con lock, revocar/obsoleto/re-emitir con auditoría, PDF bit-a-bit fiel.
 - [ ] Gestión de logros: crear/editar/archivar sin tocar motor; desbloqueo automático una sola vez.
 - [ ] Estadísticas admin son agregadas y seudonimizadas; ningún progreso se comparte con ads.
 - [ ] Toda operación admin deja `audit_log` inmutable con `quién/qué/cuándo/prev/next/request_id` y timestamp `America/Bogota`.

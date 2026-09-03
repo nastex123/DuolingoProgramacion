@@ -736,7 +736,7 @@ JSON validado por `content/schemas/content.schema.json` (`23` §7). Cada `questi
 ## 12. Evaluación, progreso y gamificación
 
 - **Evaluación (`15`):** `round(P_obt/P_max*100,2)`, pesos 1.0/1.5/2.0, XP decaimiento.
-- **Progreso (`14` §10.2):** `Progreso_lenguaje = aprobados/12*100`, habilita `CQ-LUA-000001` (`17`).
+- **Progreso (`14` §10.2):** `Progreso_lenguaje = aprobados/12*100`, habilita `KODA-LUA-000001` (`17`).
 - **Gamificación (`16`):** misma tabla XP; racha `America/Bogota`.
 
 ---

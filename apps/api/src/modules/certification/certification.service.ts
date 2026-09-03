@@ -6,7 +6,7 @@ export class CertificationService {
   private readonly certificates: Certificate[] = [
     {
       id: 'cert_001',
-      code: 'CQ-LUA-000001',
+      code: 'KODA-LUA-000001',
       user_id: 'usr_001',
       language_id: 'lang_lua_01',
       status: 'valid',
@@ -14,7 +14,7 @@ export class CertificationService {
       holder_name: 'Alex Developer',
       holder_document_masked: 'CC ***678',
       language_name: 'Lua 5.4',
-      qr_payload: 'https://koda.dev/verificar/CQ-LUA-000001',
+      qr_payload: 'https://koda.app/verificar/KODA-LUA-000001',
       google_drive_file_id: '1aBcDeFgHiJkLmNoPqRsTuVwXyZ_example',
       pdf_sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
     },

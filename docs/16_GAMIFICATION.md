@@ -416,7 +416,7 @@ Ventanas temporales que **nunca** alteran umbrales de aprobación (70/80) ni des
 | Quiz del módulo | Todas las secciones previas al quiz completadas | Quiz disponible | RF-QUIZ-001, `01` §13 |
 | Examen del módulo | Todas las secciones + quiz completados (quiz no exige aprobación para desbloquear examen, solo haberlo intentado) | Examen disponible | RF-EXAM-001 |
 | Siguiente módulo | Examen del módulo anterior **aprobado** (≥80%) o punto de entrada adaptativo validado por diagnóstico | Módulo pasa a `disponible` | RF-RUTA-004, US-019 |
-| Certificado de lenguaje | Todos los módulos del lenguaje en `aprobado` + email verificado | Certificado generable (`CQ-{LANG}-{SEQ}`) | RF-CERT-001, `04` §7 |
+| Certificado de lenguaje | Todos los módulos del lenguaje en `aprobado` + email verificado | Certificado generable (`KODA-{LANG}-{SEQ}`) | RF-CERT-001, `04` §7 |
 | Logro | Condición del catálogo §9 | Badge visible, posible XP bono | RF-LOGRO-002 |
 | Nivel | XP total ≥ umbral de nivel | Nivel incrementa, barra se actualiza | RF-XP-002 |
 | Repaso recomendado | Historial con errores/bajo rendimiento | Sesión de repaso disponible (opcional, no bloquea) | RF-REP-001 |

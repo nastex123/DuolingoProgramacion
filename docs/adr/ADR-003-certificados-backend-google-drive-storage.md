@@ -17,12 +17,12 @@ El sistema de certificación emite certificados de finalización acreditando que
    - *Ventajas:* Estándar de la industria.
    - *Desventajas:* Costos de configuración de tarjetas en AWS y complejidad innecesaria para la escala de arranque del MVP.
 3. **Generación 100% Backend en NestJS + Google Drive API v3:**
-   - *Ventajas:* Generación aislada y segura en Node.js, código QR ISO 18004 verificable, firma SHA-256 del binario, autenticación robusta mediante Service Account OAuth2 y carpetas organizadas (`CodeQuest_Certificados/{lang}/`).
+   - *Ventajas:* Generación aislada y segura en Node.js, código QR ISO 18004 verificable, firma SHA-256 del binario, autenticación robusta mediante Service Account OAuth2 y carpetas organizadas (`Koda_Certificados/{lang}/`).
 
 ## 3. Decisión Adoptada
 Se adopta **Generación 100% Backend con NestJS (`CertificationModule`) y persistencia en Google Drive API v3**:
 - El cliente nunca genera PDFs ni tiene acceso a credenciales de almacenamiento.
-- Se genera un código único `CQ-{LANG}-{SEQ6}` (ej. `CQ-LUA-000001`) y un QR apuntando a `/verificar/{code}`.
+- Se genera un código único `KODA-{LANG}-{SEQ6}` (ej. `KODA-LUA-000001`) y un QR apuntando a `/verificar/{code}`.
 - **Caché y deduplicación estricta:** Antes de generar un nuevo binario, el backend consulta `google_drive_file_id` y `pdf_sha256`. Si el usuario ya cuenta con un certificado emitido válido, no se vuelve a crear; se entrega el stream existente de inmediato ($< 200\text{ ms}$).
 - Descarga segura mediante streaming autenticado en `GET /api/v1/certificates/{id}/pdf`.
 

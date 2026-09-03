@@ -8,7 +8,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento es la **fuente de verdad de analítica**. Especifica el modelo de medición del MVP (Python como único lenguaje disponible, arquitectura multi-lenguaje) y fija los invariantes de privacidad por diseño. Responde:
+Este documento es la **fuente de verdad de analítica**. Especifica el modelo de medición del MVP (Lua como lenguaje piloto, arquitectura multi-lenguaje) y fija los invariantes de privacidad por diseño. Responde:
 
 - ¿Qué métricas de negocio y aprendizaje se calculan?
 - ¿Cuál es su definición operativa, fórmula y evento origen auditable?
@@ -89,7 +89,7 @@ Toda métrica deriva de **eventos ya persistidos en `12`**; no existe tabla anal
 | M-07 | **Módulos completados (aprobados)** | Módulos con al menos un intento de examen aprobado (no promedio). | `COUNT(DISTINCT progress.module_id) WHERE scope='module' AND status='passed'`  ; invariante `progress.status='passed' ↔ EXISTS (attempt WHERE kind='exam' AND is_passed=true)` | `module_passed`, `exam_graded` | Por `language_id`, por cohorte de registro | RF-EXAM-003, RF-MOD-003, `14` §4.3 |
 | M-08 | **Tasa de abandono** | Usuarios que iniciaron pero no completaron un módulo/lenguaje en ventana. Dos variantes: **abandono de módulo** y **abandono de lenguaje**. | `Abandono_modulo = 1 - (M-07 / usuarios_que_iniciaron_modulo)` donde `iniciaron = COUNT(progress WHERE scope='module' AND status IN ('in_progress','passed','failed'))`. `Abandono_lenguaje (30d) = usuarios sin actividad 30d con progreso 0<percent<100` | `progress.status`, `streaks` (inactividad) | Por `module_id` (embudo), por `language_id` | `14` §7.2 R2, RF-PROG-002 |
 | M-09 | **Rachas — racha actual, racha máxima, distribución** | Días consecutivos con actividad válida; con gracia 2h y freeze (1 cada 7 días, máx 2) según `16` §7.4. | `racha_actual` derivada de `streaks` con ventana `activity_date - ROW_NUMBER() OVER (ORDER BY activity_date DESC)` (ver `12` §6.15). Distribución = histograma `racha_actual` por bucket 0/1/2-3/4-6/7/8-14/15-30/30+. `Racha_media = AVG(racha_actual) WHERE DAU` | `streak_day`, `streaks.grace_used`, `freeze_used` | Por `language_id`, por cohorte | RF-RACHA-001–005, `16` §7 |
-| M-10 | **Certificados emitidos** | Certificados vigentes generados (`CQ-{LANG}-{SEQ}`) con email verificado y todos los módulos aprobados. | `COUNT(certificates) WHERE status='valid'` ; `Tasa_certificacion = certificados_validos / usuarios_que_iniciaron_lenguaje` | `certificate_issued` | Por `language_id`, por `DATE(issued_at)` | RF-CERT-001–003, RF-AUTH-005 |
+| M-10 | **Certificados emitidos** | Certificados vigentes generados (`KODA-{LANG}-{SEQ}`) con email verificado y todos los módulos aprobados. | `COUNT(certificates) WHERE status='valid'` ; `Tasa_certificacion = certificados_validos / usuarios_que_iniciaron_lenguaje` | `certificate_issued` | Por `language_id`, por `DATE(issued_at)` | RF-CERT-001–003, RF-AUTH-005 |
 | M-11 | **Usuarios premium** | Usuarios con suscripción `active` y su proporción sobre registrados/activos. | `Premium_activos = COUNT(DISTINCT user_id) FROM subscriptions WHERE status='active'`. `Penetracion_premium = Premium_activos / MAU * 100` ; `Churn_mensual = canceladas+expiradas en mes / activas inicio mes` | `subscription_event` | Global, por `plan_code`, por cohorte | RF-PREM-001–003, RF-PREM-006 |
 | M-12 | **Preguntas por usuario — intensidad** | Promedio de preguntas respondidas por DAU/WAU. Indicador de fricción vs. compromiso. | `AVG( M-05 por usuario activo )` en ventana | `attempt_answers` | Por `module_id`, por `difficulty` | — |
 | M-13 | **Tiempo dedicado por sección** | Suma de `time_spent_seconds` reportado en `POST /lessons/{id}/complete` (métrica interna, no ranking). | `SUM(progress.time_spent_seconds)` agregada por `section_id` (si `12` lo persiste; si no, `SUM(attempts.time_spent)` proxy) | `section_completed` (`time_spent_seconds`) | Por `section_id`, percentil p50/p95 | RF-SEC-005 |
@@ -156,7 +156,7 @@ Gracia 2h y freeze se reflejan en `streaks` como `grace_used`/`freeze_used`; la 
 ### 5.4 Certificados y premium
 
 ```sql
--- Tasa de certificación Python
+-- Tasa de certificación Lua (piloto)
 SELECT ROUND(100.0 * COUNT(c.*) / NULLIF(COUNT(DISTINCT lp.user_id),0),2)
 FROM certificates c JOIN learning_paths lp ON lp.language_id = c.language_id
 WHERE c.language_id = :py AND c.status='valid';

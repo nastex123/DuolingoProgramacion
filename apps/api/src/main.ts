@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Prefijo global para la API REST v2
+  // Prefijo global para la API REST v1
   app.setGlobalPrefix('api/v1');
 
   // Habilitar CORS

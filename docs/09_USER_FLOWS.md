@@ -58,7 +58,7 @@ Este documento define **cómo navega el usuario** por la plataforma, paso a paso
 
 ## 3. Mapa general de flujos
 
-Vista integrada del recorrido MVP (Python) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
+Vista integrada del recorrido MVP (Lua) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
 
 ```mermaid
 flowchart TD
@@ -777,7 +777,7 @@ flowchart TD
 - **Objetivo:** Generar, verificar y exportar el certificado de finalización con ID único, QR y PDF.
 - **Actores:** UCert, UC
 - **Precondiciones:** Lenguaje `completado`, email verificado (`RF-AUTH-005`, `US-059`), datos mínimos de certificado disponibles (`RF-CERT-002`).
-- **Postcondiciones:** Certificado `emitido` con `CQ-{LANG}-{SEQ}` (`RF-CERT-003`), QR interno, PDF almacenado y verificación habilitada.
+- **Postcondiciones:** Certificado `emitido` con `KODA-{LANG}-{SEQ}` (`RF-CERT-003`), QR interno, PDF almacenado y verificación habilitada.
 - **Disparador:** Usuario selecciona "Obtener/Descargar certificado".
 - **Referencias:** UC-012, UC-013 (UC-CERT-01/02/03/04) · RF-CERT-001 a RF-CERT-006, RF-PDF-001 a RF-PDF-004, RF-AUTH-005, RF-PROF-005 · US-054, US-055, US-056, US-057, US-060 · RNF-014
 
@@ -785,7 +785,7 @@ flowchart TD
 
 1. Usuario solicita certificado → sistema verifica: lenguaje `completado`, email `verificado`, datos (nombre, documento, lenguaje, fecha, plataforma, estado — `RF-CERT-002`). Si falta verificación → CTA verificar email (`US-059`).
 2. Sistema verifica que no exista certificado `vigente` duplicado para el mismo lenguaje (`RF-CERT-005`, `US-058`).
-3. Sistema genera certificado con ID `CQ-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `CQ-PY-000001`, `01` §22).
+3. Sistema genera certificado con ID `KODA-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `KODA-LUA-000001`, `01` §22).
 4. Sistema genera QR para verificación interna (`RF-CERT-004`) y plantilla PDF versionada (`RF-PDF-001`).
 5. Sistema almacena PDF de forma recuperable vía interfaz S3-compatible (`RF-PDF-002/004`) y garantiza correspondencia bit-a-bit con datos del certificado vigente (`RF-PDF-003`).
 6. Sistema permite descarga autenticada solo al titular (`RF-PDF-002`) y exposición en perfil (`RF-PROF-005`, `US-060`).
@@ -814,7 +814,7 @@ flowchart TD
     D -->|No| E[Mostrar faltantes]
     D -->|Sí| F{¿Duplicado vigente?<br/>RF-CERT-005}
     F -->|Sí| G[Mantener existente<br/>US-058]
-    F -->|No| H[Generar ID CQ-LANG-SEQ<br/>RF-CERT-003]
+    F -->|No| H[Generar ID KODA-LANG-SEQ<br/>RF-CERT-003]
     H --> I[Generar QR<br/>RF-CERT-004]
     I --> J[Generar PDF<br/>RF-PDF-001]
     J --> K[Almacenar S3-compatible<br/>RF-PDF-002/004]
@@ -1024,7 +1024,7 @@ stateDiagram-v2
     state "Certificado" as cert {
         [*] --> no_aplicable
         no_aplicable --> generable: F-12 todos aprobados
-        generable --> emitido: F-13 genera CQ-LANG-SEQ
+        generable --> emitido: F-13 genera KODA-LANG-SEQ
         emitido --> obsoleto: RF-CERT-005 cambio contenido
         obsoleto --> emitido: revalidación
     }

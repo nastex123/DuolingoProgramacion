@@ -259,7 +259,7 @@ Catálogo extensible sin tocar el motor (`RF-LANG-004`, `RNF-006`, `RNF-031`).
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
 | `id` | `UUID` | **PK** |  |
-| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE`, `CHECK (code ~ '^[A-Z0-9_]+$')` | Ej. `PY`, `LUA`, `JS`; usado en `CQ-{LANG}-{SEQ}` |
+| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE`, `CHECK (code ~ '^[A-Z0-9_]+$')` | Ej. `PY`, `LUA`, `JS`; usado en `KODA-{LANG}-{SEQ}` |
 | `name` | `VARCHAR(50)` | `NOT NULL`, `UNIQUE` | Ej. `Python` |
 | `slug` | `VARCHAR(50)` | `NOT NULL`, `UNIQUE`, `CHECK (slug ~ '^[a-z0-9-]+$')` | URL `/languages/python` |
 | `description` | `TEXT` | `NULL`, `CHECK (char_length(description) <= 2000)` |  |
@@ -877,14 +877,14 @@ Acreditación por lenguaje completado (`RF-CERT-*`, `04` §7, `01` §21–§22).
 | `id` | `UUID` | **PK** | Identificador único del registro |
 | `user_id` | `UUID` | **FK → users.id**, `NOT NULL` | Usuario titular del certificado |
 | `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje acreditado |
-| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE` | `CQ-{LANG}-{SEQ}` ej. `CQ-LUA-000001`, `CQ-PY-000001` (`RF-CERT-003`) |
+| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE` | `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001`, `KODA-PY-000001` (`RF-CERT-003`) |
 | `status` | `VARCHAR(20)` | `NOT NULL`, `CHECK (status IN ('valid','revoked','obsolete'))`, `DEFAULT 'valid'` | `RF-CERT-005` |
 | `language_content_version` | `INTEGER` | `NOT NULL` | Versión del lenguaje al emitir; si cambia significativamente → `obsolete` |
 | `issued_at` | `TIMESTAMPTZ` | `NOT NULL`, `DEFAULT now()` | Fecha oficial de emisión (`RF-CERT-002`) |
 | `revoked_at` | `TIMESTAMPTZ` | `NULL` | Fecha de revocación u obsolescencia |
 | `storage_provider` | `VARCHAR(50)` | `NOT NULL`, `DEFAULT 'google_drive'` | Proveedor de almacenamiento (`google_drive`, `s3`) |
 | `google_drive_file_id` | `VARCHAR(255)` | `NULL` | ID del archivo subido en Google Drive API v3 (evita re-generaciones) |
-| `pdf_object_key` | `VARCHAR(512)` | `NULL` | Nombre canónico del archivo (ej. `certs/lua/CQ-LUA-000001_v1.pdf`) |
+| `google_drive_file_id` | `VARCHAR(512)` | `NULL` | ID de archivo en Google Drive (ej. `1aBcDeFgHiJkLm_KODA-LUA-000001`) |
 | `pdf_sha256` | `VARCHAR(64)` | `NULL` | Hash SHA-256 del binario para verificación de integridad bit-a-bit (`RF-PDF-003`) |
 | `pdf_version` | `INTEGER` | `NOT NULL`, `DEFAULT 1` | Versión de la plantilla visual del PDF (`RF-PDF-001`) |
 | `qr_payload` | `VARCHAR(512)` | `NOT NULL` | URL de verificación pública/interna (`RF-CERT-004`) |
@@ -1622,7 +1622,7 @@ FOR EACH ROW EXECUTE FUNCTION fn_recalculate_module_progress();
 | RF-RACHA-001–005 | `streaks` | `activity_date`, `timezone` |
 | RF-LOGRO-001–005 | `achievements`, `user_achievements` | `code`, `condition`, `unlocked_at` |
 | RF-CERT-001–006 | `certificates`, `certificate_sequences` | `code`, `status`, `language_content_version` |
-| RF-PDF-001–004 | `certificates` | `pdf_object_key`, `pdf_version` |
+| RF-PDF-001–004 | `certificates` | `google_drive_file_id`, `pdf_version` |
 | RF-ADS-001–005 | `subscriptions` (inferencia `status='active'` = sin ads) | `status` |
 | RF-PREM-001–006 | `subscriptions`, `subscription_events` | `plan_code`, `provider`, `current_period_end` |
 | RF-ADM-001–009 | `content_audit_log`, todas las tablas de contenido | `status`, `content_version`, `created_by` |

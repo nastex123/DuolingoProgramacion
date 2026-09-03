@@ -54,7 +54,7 @@ Aprender programación es percibido como difícil, fragmentado y desmotivador pa
 
 | Segmento | Necesidad crítica | Dolor principal |
 |---|---|---|
-| **Principiante absoluto** | Ruta desde cero, lenguaje sencillo (Python) | No sabe por dónde empezar |
+| **Principiante absoluto** | Ruta desde cero, lenguaje sencillo (Lua) | No sabe por dónde empezar |
 | **Principiante con nociones** | Validar nivel real y evitar repetición | Contenido redundante |
 | **Intermedio (Medium / Semi-Professional)** | Entrada adaptativa a mitad de ruta | Pérdida de tiempo en fundamentos |
 | **Avanzado (Professional)** | Evaluación rigurosa y certificación | Falta de reconocimiento |
@@ -90,7 +90,7 @@ Sin detallar implementación técnica (reservada para `11_SYSTEM_ARCHITECTURE.md
 
 1. **Demanda:** la programación es habilidad transversal; la barrera de entrada sigue alta pese a la abundancia de recursos.
 2. **Brecha no resuelta:** ninguna solución combina en un solo lugar ruta adaptativa + práctica inmediata + evaluación rigurosa + gamificación + certificación multi-lenguaje.
-3. **Viabilidad:** MVP de un solo lenguaje (Python) permite validar el núcleo educativo con costo contenido (ver `04_SCOPE.md` y `22_ROADMAP.md`).
+3. **Viabilidad:** MVP de un solo lenguaje (Lua) permite validar el núcleo educativo con costo contenido (ver `04_SCOPE.md` y `22_ROADMAP.md`).
 4. **Impacto:** reduce el tiempo hasta la primera habilidad demostrable y aumenta la retención mediante motivación intrínseca y extrínseca.
 
 ---

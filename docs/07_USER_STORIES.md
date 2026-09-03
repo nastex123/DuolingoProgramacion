@@ -856,7 +856,7 @@ para crear mi cuenta y comenzar a aprender.
 - **RF:** RF-CERT-001, RF-CERT-002, RF-CERT-003, RF-CERT-004
 - **UC:** UC-CERT-01
 - **Criterios de aceptación:**
-  - [ ] Dado que aprobé todos los exámenes del lenguaje con umbral vigente, cuando se verifica, entonces se genera certificado con: nombre, documento, lenguaje, fecha, ID único `CQ-{LANG}-{SEQ}`, plataforma y estado, y QR interno.
+  - [ ] Dado que aprobé todos los exámenes del lenguaje con umbral vigente, cuando se verifica, entonces se genera certificado con: nombre, documento, lenguaje, fecha, ID único `KODA-{LANG}-{SEQ}`, plataforma y estado, y QR interno.
   - [ ] Dado que aún no aprobé todos los módulos, cuando solicito certificado, entonces no se genera y veo qué módulos faltan.
 
 #### US-055 — Verificación interna por ID/QR

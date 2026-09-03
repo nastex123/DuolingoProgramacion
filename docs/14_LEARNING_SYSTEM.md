@@ -49,7 +49,7 @@ Lenguaje (Language)
 | Atributo | Tipo | Regla |
 |---|---|---|
 | `id` | UUID | PK |
-| `code` | `PY`, `LUA`, `JS`, … (`04` §7) | Único, usado en `CQ-{LANG}-{SEQ}` |
+| `code` | `PY`, `LUA`, `JS`, … (`04` §7) | Único, usado en `KODA-{LANG}-{SEQ}` |
 | `nombre` | string | Ej. "Python" |
 | `descripcion` | string | Breve, visible en catálogo |
 | `estado` | `disponible` \| `proximamente` | En MVP solo `PY=disponible` (`05` RF-LANG-001) |

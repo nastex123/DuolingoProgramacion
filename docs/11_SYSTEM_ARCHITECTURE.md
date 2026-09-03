@@ -198,7 +198,7 @@ Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación
 
 | Aspecto | Tecnología Seleccionada | Justificación |
 |---|---|---|
-| **Framework** | **Next.js (App Router, TypeScript)** | Monorepo Turborepo con contratos `@codequest/types`. Ofrece SEO nativo con SSG/ISR para el catálogo y verificación de certificados (`/verificar/[code]`) con OpenGraph dinámico para compartir en LinkedIn/redes, y componentes interactivos (`"use client"`) para lecciones. |
+| **Framework** | **Next.js (App Router, TypeScript)** | Monorepo PNPM Workspaces con contratos `@koda/types`. Ofrece SEO nativo con SSG/ISR para el catálogo y verificación de certificados (`/verificar/[code]`) con OpenGraph dinámico para compartir en LinkedIn/redes, y componentes interactivos (`"use client"`) para lecciones. |
 | **Render** | **Híbrido (SSG/ISR en páginas públicas + SPA en `/app/*`)** | Carga inicial $< 1.5\text{ s}$ en 4G (`RNF-011`); renderizado SEO optimizado en landing, catálogo de lenguajes y verificación de certificados. |
 | **Estado y Caché** | **Zustand (local UI) + TanStack Query (Server Cache)** | Gestión ligera de modales, racha y stepper con Zustand; sincronización, revalidación y caché de lecciones y progreso con TanStack Query. |
 | **Estilos & UI** | **Tailwind CSS + Shadcn UI** | Sistema de diseño basado en *tokens* cromáticos y tipográficos (`27_UI_UX_SPECIFICATION.md`), foco accesible y cumplimiento WCAG 2.1 AA (`RNF-026`). |
@@ -233,7 +233,7 @@ Exponer la API REST `/api/v1`, orquestar los 9 motores desacoplados, aplicar reg
 
 | Aspecto | Tecnología Seleccionada | Justificación |
 |---|---|---|
-| **Lenguaje / Runtime** | **Node.js (NestJS con TypeScript)** | Arquitectura modular nativa con inyección de dependencias (`@Module()`), tipado 100% compartido con Next.js vía monorepo Turborepo (`@codequest/types`), y OpenAPI generado automáticamente. |
+| **Lenguaje / Runtime** | **Node.js (NestJS con TypeScript)** | Arquitectura modular nativa con inyección de dependencias (`@Module()`), tipado 100% compartido con Next.js vía monorepo PNPM Workspaces (`@koda/types`), y OpenAPI generado automáticamente. |
 | **Arquitectura interna** | **Monolito modular desacoplado** | Los 9 motores funcionan como módulos independientes con límites estrictos de importación; escalable horizontalmente y extraíble a microservicios si se requiere. |
 | **Validación y DTOs** | **Zod / class-validator + DTOs estrictos** | Validación estricta en servidor de entradas antes de llegar a los motores (`RNF-009`, `RNF-036`). |
 | **Autenticación** | **JWT Stateless (15 min) + Refresh rotativo en HttpOnly Cookie** | Stateless para escalabilidad (`RNF-005`); refresh rotativo con detección de reuso mitiga robo de token (`19_SECURITY.md`). |
@@ -259,7 +259,7 @@ src/
 │   ├── monetization/       # RF-ADS/PREM — Ads/Pay adapters
 │   └── content/            # RF-ADM — Content Engine y validación declarativa
 ├── common/
-│   ├── dto/                # DTOs compartidos (@codequest/types)
+│   ├── dto/                # DTOs compartidos (@koda/types)
 │   ├── guards/             # AuthGuard, RolesGuard, RateLimitGuard
 │   ├── interceptors/       # RequestIdInterceptor, IdempotencyInterceptor
 │   └── config/             # Configuración versionada de umbrales y XP
@@ -288,7 +288,7 @@ Persistencia autoritativa (source of truth) de usuarios, progreso, estrellas, ca
 |---|---|---|
 | **Base de Datos Principal** | **Supabase (PostgreSQL 15+)** | Soporte nativo de transacciones ACID, tipos `JSONB` para preguntas polimórficas, triggers PL/pgSQL para recálculo de maestría y desbloqueo de módulos, e índices para consultas $p95 < 100\text{ ms}$ (`RNF-007`). |
 | **ORM / Acceso a Datos** | **Prisma ORM o Drizzle ORM** | Tipado estricto end-to-end con TypeScript, migraciones versionadas y consultas optimizadas. |
-| **Almacenamiento de Certificados (PDF)** | **Google Drive API v3 (Service Account)** | Guardado automático 100% en backend en carpetas organizadas (`CodeQuest_Certificados/{lang}/`). Caching por `google_drive_file_id` para evitar re-generaciones y entrega mediante streaming autenticado. |
+| **Almacenamiento de Certificados (PDF)** | **Google Drive API v3 (Service Account)** | Guardado automático 100% en backend en carpetas organizadas (`Koda_Certificados/{lang}/`). Caching por `google_drive_file_id` para evitar re-generaciones y entrega mediante streaming autenticado. |
 | **Caché y Rate Limiting** | **Redis** | Rate limit en ventanas deslizantes y caché de contenido publicado sin sobrecargar la base de datos. |
 
 ### 5.3 Entidades principales (resumen — detalle en `12_DATABASE_DESIGN.md`)
@@ -302,7 +302,7 @@ users ──< user_languages ──> languages ──< modules ──< sections 
   │              └─< xp_events (usuario, acción, XP, ref, fecha)
   │              └─< streak_days (usuario, fecha, actividad)
   │              └─< user_achievements (usuario×logro, fecha)
-  │              └─< certificates (usuario×lenguaje, ID CQ-*, versión, estado)
+  │              └─< certificates (usuario×lenguaje, ID KODA-*, versión, estado)
   │              └─< subscriptions (usuario, estado activa/expirada/cancelada)
   └─< audit_log (quién, qué, cuándo, versión anterior/nueva)  ← RF-ADM-008
 ```
@@ -517,11 +517,11 @@ Preguntas (versión) → Respuestas del usuario → Evaluation Engine
 | Función | Detalle | RF |
 |---|---|---|
 | **Condición** | 12/12 módulos aprobados con examen $\ge 80\%$, umbral de estrellas y email verificado | RF-CERT-001, `04` §7 |
-| **Datos Oficiales** | Titular, documento, lenguaje, fecha America/Bogota, ID correlativo `CQ-{LANG}-{SEQ}`, código QR y aclaración normativa | RF-CERT-002 |
-| **ID Correlativo** | `CQ-{LANG}-{SEQ}` ej. `CQ-LUA-000001`, `CQ-PY-000001` generado atómicamente con lock en Supabase | RF-CERT-003 |
+| **Datos Oficiales** | Titular, documento, lenguaje, fecha America/Bogota, ID correlativo `KODA-{LANG}-{SEQ}`, código QR y aclaración normativa | RF-CERT-002 |
+| **ID Correlativo** | `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001`, `KODA-PY-000001` generado atómicamente con lock en Supabase | RF-CERT-003 |
 | **Generación 100% Backend** | Renderizado PDF server-side en NestJS (`@react-pdf/renderer` o `pdfkit` + `qrcode`) con sello y firma digital de la plataforma | RF-PDF-001 |
 | **Detección Previa y Caching** | El backend verifica si ya existe un certificado emitido con `google_drive_file_id`. Si ya existe, **no se re-genera**; se sirve directamente por streaming | RF-PDF-003 |
-| **Almacenamiento en Google Drive** | Subida automática mediante Google Drive API v3 con Cuenta de Servicio (*Service Account*) en carpeta `CodeQuest_Certificados/{lang}/` | RF-PDF-004 |
+| **Almacenamiento en Google Drive** | Subida automática mediante Google Drive API v3 con Cuenta de Servicio (*Service Account*) en carpeta `Koda_Certificados/{lang}/` | RF-PDF-004 |
 | **Descarga Autenticada y Streaming** | Endpoint `GET /api/v1/certificates/{id}/pdf` exclusivo para el titular; transmite el binario por streaming seguro desde Google Drive | RF-PDF-002 |
 | **Verificación Pública** | Por ID/QR (`/verificar/{code}`): valida autenticidad, lenguaje y fecha enmascarando documento (`CC ***678`) sin exponer PII | RF-CERT-006 |
 | **Re-emisión por Contenido** | Cambio significativo de contenido marca el certificado como `obsolete`; exige revalidación y genera nuevo correlativo | RF-CERT-005 |
@@ -535,7 +535,7 @@ Flujo de Certificación en Backend (NestJS CertificationModule):
    ├── SÍ (Caché activo):
    │     └── Obtener stream de Google Drive API (files.get alt=media) → Pipe a HTTP Response (Descarga directa <200ms)
    └── NO (Primera emisión):
-         ├── Asignar correlativo atómico en Supabase (CQ-LUA-000001)
+          ├── Asignar correlativo atómico en Supabase (KODA-LUA-000001)
          ├── Renderizar PDF + QR code en servidor Node.js
          ├── Subir binario a Google Drive API v3 vía Service Account
          ├── Obtener google_drive_file_id y calcular SHA-256
@@ -640,7 +640,7 @@ content/
 | **Evaluation Engine** | Calificar, umbrales, desglose, conceptos débiles | Persistir progreso, XP | Question, Content |
 | **Progress Engine** | Persistencia atómica, % por lenguaje/módulo, historial | Calificar, gamificar | BD |
 | **Gamification Engine** | XP, niveles, rachas, logros | Calificar, certificar | Progress, Config |
-| **Certification Engine** | Condición, ID `CQ-*`, QR, PDF, verificación | Enseñar, evaluar | Progress, Storage |
+| **Certification Engine** | Condición, ID `KODA-*`, QR, PDF, verificación | Enseñar, evaluar | Progress, Storage |
 | **Monetization** | Ads (gratuito) / Premium (sin ads) + pagos abstractos | Contenido, evaluación | Ads/Pay providers |
 | **Content Engine** | CRUD, versionado, validación, publicación, config | Calificar, progresar | BD, KV |
 
@@ -687,7 +687,7 @@ Quiz/Examen compuesto (Content config + Question Engine)
 ```
 ¿Todos los exámenes aprobados? (Progress Engine)
   → ¿Email verificado? (Auth)
-  → Certification Engine genera ID CQ-{LANG}-{SEQ} + QR
+  → Certification Engine genera ID KODA-{LANG}-{SEQ} + QR
   → Render PDF (plantilla versionada) → Object Storage
   → Verificación interna por ID/QR (pública Post-MVP)
 ```
@@ -759,11 +759,11 @@ flowchart LR
 
 ## 19. Decisiones justificadas — tabla consolidada
 
-| Decisión | Elección Oficial CodeQuest | Alternativa evaluada | Justificación y Ventajas |
+| Decisión | Elección Oficial Koda | Alternativa evaluada | Justificación y Ventajas |
 |---|---|---|---|
 | **Estilo arquitectónico** | **Monolito modular desacoplado** | Microservicios distribuidos | Menor sobrecarga operativa en MVP; fronteras limpias por motor permiten extraer módulos independientes si la carga lo demanda. |
 | **Frontend** | **Next.js 14+/15 (App Router, TypeScript)** | React Vite SPA puro | SEO nativo / OpenGraph para catálogo y verificación pública de diplomas (`/verificar/[code]`) + componentes interactivos `"use client"` para lecciones. |
-| **Backend** | **NestJS (TypeScript)** | FastAPI / Django / Go | TypeScript end-to-end con monorepo Turborepo (`@codequest/types`), arquitectura `@Module()` nativa para los 9 motores desacoplados y OpenAPI automático. |
+| **Backend** | **NestJS (TypeScript)** | FastAPI / Django / Go | TypeScript end-to-end con monorepo PNPM Workspaces (`@koda/types`), arquitectura `@Module()` nativa para los 9 motores desacoplados y OpenAPI automático. |
 | **Base de Datos** | **Supabase (PostgreSQL 15+)** | PostgreSQL auto-hospedado / MySQL | Transacciones ACID, tipos `JSONB` polimórficos, triggers PL/pgSQL de candados y plataforma gestionada de alta disponibilidad. |
 | **Editor de Código** | **Monaco Editor / CodeMirror 6** | PrismJS | Soporte universal nativo de sintaxis, auto-completado y coloreado para +50 lenguajes de programación. |
 | **Ejecución de Código** | **Híbrida: Wasm (Lua/Python/JS) + Judge0/Piston Sandbox** | Solo servidor | Wasm en navegador para cero latencia y costo $0 en scripting; sandbox seguro en backend para lenguajes compilados (Rust, C, C++, C#, Go). |
@@ -842,7 +842,7 @@ Referencia completa en `19_SECURITY.md`; aquí los invariantes arquitectónicos:
 | Evaluación en cliente | Fraude de XP/certificados | `RF-EVAL-006`: calificación solo en servidor; cliente nunca decide aprobación |
 | Acoplamiento entre motores | Cambio en Gamificación rompe Evaluación | Linter de grafo de imports en CI + contratos por interfaz (`RNF-030`) |
 | Publicidad bloquea aprendizaje | Viola `RF-ADS-002` y `RNF-014` | Wrapper async + degradado; test de caos con ads deshabilitados |
-| Certificados duplicados o falsos | Pérdida de confianza | ID `CQ-*` con lock + un vigente por lenguaje + verificación interna + PDF bit-a-bit |
+| Certificados duplicados o falsos | Pérdida de confianza | ID `KODA-*` con lock + un vigente por lenguaje + verificación interna + PDF bit-a-bit |
 | Pérdida de progreso por fallo de red | Abandono | Persistencia atómica + `Idempotency-Key` + reanudación `RNF-023/044` |
 | Elección tecnológica prematura | Deuda y re-trabajo | ADRs obligatorios; este doc propone opciones, no impone stack |
 

@@ -71,7 +71,7 @@ Unidad raíz del catálogo. Todo lo específico del lenguaje vive bajo `content/
 | Campo | Tipo | Requerido | Validación | Descripción |
 |---|---|---|---|---|
 | `id` | `UUID` | Sí | PK, único | Identificador interno estable |
-| `code` | `string` | Sí | `^[A-Z0-9_]{2,10}$`, único; ej. `PY`, `LUA`, `JS` | Usado en `CQ-{LANG}-{SEQ}` (`01` §22) |
+| `code` | `string` | Sí | `^[A-Z0-9_]{2,10}$`, único; ej. `PY`, `LUA`, `JS` | Usado en `KODA-{LANG}-{SEQ}` (`01` §22) |
 | `slug` | `string` | Sí | `^[a-z0-9-]{2,50}$`, único; ej. `python` | URL `/languages/python` |
 | `name` | `string` | Sí | 2–50 chars, único | Ej. "Python" |
 | `description` | `string` | No | ≤2000 chars | Visible en biblioteca |

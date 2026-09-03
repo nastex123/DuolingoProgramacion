@@ -47,7 +47,7 @@ Base URL (prod):    https://api.duolingo-programacion.com/api/v1
 | Elemento | Formato | Ejemplo |
 |---|---|---|
 | ID de recurso (UUID v4) | `string(uuid)` | `0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f70` |
-| ID de certificado | `CQ-{LANG}-{SEQ}` (`01` §22, `17`) | `CQ-LUA-000001`, `CQ-PY-000001` |
+| ID de certificado | `KODA-{LANG}-{SEQ}` (`01` §22, `17`) | `KODA-LUA-000001`, `KODA-PY-000001` |
 | Fecha / Hora | ISO 8601 con offset Bogotá (UTC-5) | `2026-09-02T14:30:00-05:00` |
 | Código de Lenguaje | `LUA`, `PY`, `JS`, `RUST`… | `LUA` |
 | Estado de Candado Módulo | `locked`, `unlocked` | `unlocked` |
@@ -187,7 +187,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 | 37 | Exams | GET | `/exam/{id}/attempts` | Sí | USER | Historial de intentos de examen | RF-EXAM-005, RF-EVAL-003 |
 | 38 | Progress | GET | `/progress` | Sí | USER | Historial filtrable de lecciones/quizzes/exámenes | RF-PROG-005 |
 | 39 | Progress | GET | `/progress/streak` | Sí | USER | Racha actual / récord / congelamientos | RF-RACHA-003/005 |
-| 40 | Certificates | GET | `/certificates/{id}` | No* | — | Verificación pública de certificado (`CQ-LUA-...`) | RF-CERT-006 |
+| 40 | Certificates | GET | `/certificates/{id}` | No* | — | Verificación pública de certificado (`KODA-LUA-...`) | RF-CERT-006 |
 | 41 | Certificates | GET | `/certificates/{id}/pdf` | Sí | USER | Descarga PDF del certificado (solo titular) | RF-PDF-002/003 |
 | 42 | Certificates | POST | `/certificates/verify` | No | — | Verificación pública por código o QR | RF-CERT-004/006 |
 | 43 | Review | GET | `/review/recommended` | Sí | USER | Sesión de repaso inteligente recomendada | RF-REP-001/002 |
@@ -207,7 +207,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
   "name": "Brandon",
   "email": "brandon@example.com",
   "role": "user",
-  "avatar_url": "https://cdn.codequest.dev/avatars/koda.png",
+  "avatar_url": "https://cdn.koda.app/avatars/koda.png",
   "email_verified": true,
   "is_premium": false,
   "level": 3,
@@ -874,7 +874,7 @@ curl -X POST https://api.duolingo-programacion.com/api/v1/exam/ex-lua-01/attempt
   -d '{"answers":[{"question_id":"q-ex-01","selected_option_id":"c"}],"time_spent_seconds":550}'
 
 # 8. Verificar Certificado Público (Sin PII)
-curl https://api.duolingo-programacion.com/api/v1/certificates/CQ-LUA-000001
+curl https://api.duolingo-programacion.com/api/v1/certificates/KODA-LUA-000001
 ```
 
 ---

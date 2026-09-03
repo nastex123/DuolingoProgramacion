@@ -536,12 +536,12 @@ flowchart LR
 | **Prioridad / Entrega** | Must / MVP |
 | **RF trazados** | RF-CERT-001, RF-CERT-002, RF-CERT-003, RF-CERT-004, RF-CERT-005, RF-CERT-006, RF-PDF-001, RF-AUTH-005, RF-PROF-005, RF-MOD-003 |
 | **US trazadas** | US-054, US-055, US-057, US-058, US-059, US-060 |
-| **Reglas** | Datos mínimos `01` §21; ID `CQ-{LANG}-{SEQ}` (`01` §22); QR interno; re-emisión invalida anterior; verificación sin exponer PII de terceros |
+| **Reglas** | Datos mínimos `01` §21; ID `KODA-{LANG}-{SEQ}` (`01` §22); QR interno; re-emisión invalida anterior; verificación sin exponer PII de terceros |
 
 **Flujo principal:**
 
 1. SIS verifica que todos los exámenes del lenguaje están aprobados y que el email está verificado; si falta verificación, solicita verificar antes de emitir.
-2. SIS genera certificado con: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, ID único correlativo por lenguaje (`CQ-PY-000001`), nombre de la plataforma y estado de finalización.
+2. SIS genera certificado con: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, ID único correlativo por lenguaje (`KODA-LUA-000001`), nombre de la plataforma y estado de finalización.
 3. SIS genera QR de verificación interna, asigna estado `vigente`, persiste con versión de contenido y expone verificación por ID/QR (validez, lenguaje, fecha, titular sin PII de terceros).
 4. SIS habilita exportación a PDF (UC-013) y muestra certificado en perfil.
 

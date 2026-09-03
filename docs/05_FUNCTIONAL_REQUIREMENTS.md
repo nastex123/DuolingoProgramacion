@@ -284,7 +284,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 |---|---|---|---|---|---|
 | RF-CERT-001 | El sistema debe generar un certificado de finalización por lenguaje solo cuando todos los módulos y exámenes del lenguaje estén aprobados con umbral vigente. Un certificado por lenguaje completado (`04` §7). | Must | RF-EXAM-003, RF-MOD-003 | MVP | UC-CERT-01 |
 | RF-CERT-002 | El sistema debe incluir en el certificado al menos: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, identificador único, nombre de la plataforma y estado de finalización (`01` §21). | Must | RF-CERT-001 | MVP | UC-CERT-01 |
-| RF-CERT-003 | El sistema debe asignar identificador único con formato `CQ-{LANG}-{SEQ}` ej. `CQ-PY-000001` (`01` §22, `04` §7) correlativo por lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-01 |
+| RF-CERT-003 | El sistema debe asignar identificador único con formato `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001` (`01` §22, `04` §7) correlativo por lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-01 |
 | RF-CERT-004 | El sistema debe generar código QR que permita verificación interna por ID dentro de la plataforma. Verificación pública es Post-MVP (`04` §3). | Must | RF-CERT-003 | MVP | UC-CERT-02 |
 | RF-CERT-005 | El sistema debe permitir re-emisión/invalidación: si cambia el contenido del lenguaje de forma significativa, el certificado previo se marca obsoleto y se exige revalidación (ver `17`). No se duplican certificados vigentes por el mismo lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-03 |
 | RF-CERT-006 | El sistema debe exponer verificación interna por ID/QR que confirme validez, lenguaje, fecha y titular sin exponer datos sensibles de terceros. | Must | RF-CERT-003 | MVP | UC-CERT-02 |

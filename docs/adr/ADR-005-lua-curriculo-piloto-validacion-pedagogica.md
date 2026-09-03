@@ -14,7 +14,7 @@ Originalmente, las especificaciones conceptuales iniciales (Docs 01–05, 22) pr
 3. Enorme atractivo lúdico para principiantes gracias a su uso extendido en videojuegos (Roblox Studio, World of Warcraft, Defold, LÖVE2D).
 
 ## 2. Alternativas Evaluadas
-1. **Lanzar exclusivamente con Python como primer lenguaje:**
+1. **Lanzar exclusivamente con Python como primer lenguaje (opción descartada):**
    - *Desventajas:* El peso del runtime WebAssembly de Python (Pyodide) supera los 6–10 MB en primera descarga en red móvil, provocando latencia de arranque. La indentación semántica suele generar tropiezos sintácticos invisibles para principiantes absolutos.
 2. **Priorizar Lua como curso piloto de validación pedagógica:**
    - *Ventajas:* Ejecución instantánea con `wasmoon` (<200 KB), sintaxis explícita con bloques delimitados por `end`, y enorme interés de aprendizaje por el ecosistema de creación de videojuegos. Permite validar los módulos M01 y M02 (190 micro-lecciones completadas) antes de escalar la ruta de 12 módulos de Python.

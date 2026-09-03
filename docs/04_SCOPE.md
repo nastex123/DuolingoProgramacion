@@ -104,7 +104,7 @@ Cualquier solicitud fuera de este listado debe pasar por actualización de este 
 ## 7. Límites de certificación
 
 - Un certificado por lenguaje completado; requiere aprobar **todos** los exámenes del lenguaje con umbral vigente.
-- ID único con formato `CQ-{LANG}-{SEQ}` y QR de verificación interna; verificación pública es post-MVP.
+- ID único con formato `KODA-{LANG}-{SEQ}` y QR de verificación interna; verificación pública es post-MVP.
 - Re-emisión no duplica certificados; se invalida el anterior si cambia el contenido del lenguaje (ver `17`).
 
 ---

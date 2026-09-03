@@ -58,7 +58,7 @@
 | S-Examen | Evaluar módulo | 20 preguntas + resumen por tipo/dificultad + 80% umbral |
 | S-Repaso | Reforzar | 5-10 preguntas priorizadas por Score_repaso (ver `14`) |
 | S-Perfil | Identidad | Tabs: progreso/racha/logros/certificados/estadísticas |
-| S-Certificado | Verificar | PDF + QR + código `CQ-{LANG}-{SEQ6}` + botón Exportar |
+| S-Certificado | Verificar | PDF + QR + código `KODA-{LANG}-{SEQ6}` + botón Exportar |
 | S-Premium | Monetización | Tabla comparativa + CTA USD $1/mes |
 
 ---

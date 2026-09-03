@@ -62,7 +62,7 @@ Plan por defecto para todo usuario registrado. No requiere pago, no tiene fecha 
 
 ### 4.2 Funciones incluidas
 
-- Acceso completo a **todo el contenido educativo del MVP:** selección de lenguaje (Python disponible), 12 módulos, secciones, lecciones, ejercicios, quizzes, exámenes, repaso, perfil, progreso, rachas y logros (`04` §2.1–§2.5).
+- Acceso completo a **todo el contenido educativo del MVP:** selección de lenguaje (Lua disponible), módulos, secciones, lecciones, ejercicios, quizzes, exámenes, repaso, perfil, progreso, rachas y logros (`04` §2.1–§2.5).
 - Diagnóstico inicial y ruta personalizada (`14`).
 - Certificación al completar todos los módulos con verificación interna por ID/QR y PDF (`17`).
 - Sesiones reanudables sin pérdida (`RNF-023`).
@@ -160,7 +160,7 @@ Cambios de precio aplican solo a **períodos futuros**; el período ya pagado co
 | Quizzes y exámenes (70% / 80% umbral) | ✅ | ✅ |
 | Repaso priorizado | ✅ | ✅ |
 | XP, niveles, rachas, logros, perfil y estadísticas | ✅ | ✅ |
-| Certificado `CQ-{LANG}-{SEQ}` + QR + PDF | ✅ (requiere email verificado) | ✅ |
+| Certificado `KODA-{LANG}-{SEQ}` + QR + PDF | ✅ (requiere email verificado) | ✅ |
 | Sesión reanudable sin pérdida | ✅ | ✅ |
 | Publicidad entre secciones | **Sí — 1 intersticial por `section_completed`** | **No — 0 anuncios** (`RF-PREM-005`) |
 | Interrupciones durante ejercicio/quiz/examen | Nunca | Nunca |

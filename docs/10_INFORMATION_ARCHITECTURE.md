@@ -108,7 +108,7 @@ graph TD
 
 ### 3.1 Notas del sitemap
 
-- **MVP solo Python disponible** (`05` RF-LANG-001): tarjetas de otros lenguajes aparecen en `/app/biblioteca` en estado `Próximamente` (no navegables a ruta).
+- **MVP solo Lua disponible** (`05` RF-LANG-001): tarjetas de otros lenguajes aparecen en `/app/biblioteca` en estado `Próximamente` (no navegables a ruta).
 - **Diagnóstico ≠ Examen** (`05` RF-DIAG-006): el diagnóstico vive bajo `/app/onboarding`; nunca otorga aprobación de módulo ni aparece dentro de un módulo.
 - **Intersticial publicitario** es un estado entre secciones, no una pantalla con URL propia indexable; solo para `UG` (`05` RF-ADS-001).
 - **`/verificar/:codigo`** tiene variante pública (sin login) para validación por QR (`05` RF-CERT-006); el resto de `/app` exige autenticación.
@@ -121,7 +121,7 @@ graph TD
 
 ```
 Biblioteca de Lenguajes
- └─ Lenguaje (ej. Python)                          ← RF-LANG-002
+ └─ Lenguaje (ej. Lua)                          ← RF-LANG-002
      ├─ Ruta de aprendizaje (vista ordenada)       ← RF-RUTA-002
      │   ├─ Módulo 01 — Fundamentos               ← RF-MOD-001 (12 en MVP, 01 §34)
      │   │   ├─ Sección 01 — ¿Qué es programar?   ← RF-SEC-001
@@ -220,7 +220,7 @@ Dentro de `/app/ruta/:lang` y `/app/.../modulos/:modulo`:
 
 ```
 ┌─────────────────────────────────────────────┐
-│ Breadcrumb: Python › Módulo 02 › Sección 01  │  ← RNF-021
+│ Breadcrumb: Lua › Módulo 02 › Sección 01  │  ← RNF-021
 ├─────────────────────────────────────────────┤
 │  Lección 02 — Declaración y asignación      │
 │  ┌─────────────┐  ┌───────────────────────┐ │
@@ -263,7 +263,7 @@ Diferenciada visualmente de la lección (P-04):
 | S-03 | **Login** | `/auth/login` | Autenticar y retomar ruta. | Form email/contraseña, link recuperar, CTA registro, mensaje rate-limit genérico. | RF-AUTH-002, RF-AUTH-006, RF-AUTH-007 | US-002 |
 | S-04 | **Recuperar contraseña** | `/auth/recuperar` | Recuperar acceso. | Form email, mensaje genérico, form nueva contraseña con token. | RF-AUTH-004 | US-004 |
 | S-05 | **Verificar email** | `/auth/verificar-email` | Confirmar titularidad. | Estado de verificación, reenvío, aviso bloqueo certificado si no verificado. | RF-AUTH-005 | US-005 |
-| S-06 | **Biblioteca de Lenguajes** | `/app/biblioteca` | Explorar oferta y elegir lenguaje. | Grid de tarjetas: nombre, descripción, estado (Disponible/Próximamente), orden, CTA Seleccionar. Solo Python activo en MVP. | RF-LANG-001, RF-LANG-002 | US-013 |
+| S-06 | **Biblioteca de Lenguajes** | `/app/biblioteca` | Explorar oferta y elegir lenguaje. | Grid de tarjetas: nombre, descripción, estado (Disponible/Próximamente), orden, CTA Seleccionar. Solo Lua activo en MVP. | RF-LANG-001, RF-LANG-002 | US-013 |
 | S-07 | **Detalle de Lenguaje** | `/app/lenguajes/:lang` | Contexto del lenguaje antes de iniciar. | Descripción, módulos (resumen), CTA `Empezar` / `Continuar`, progreso si ya iniciado. | RF-LANG-002 | US-013 |
 | S-08 | **Declarar nivel** | `/app/onboarding/nivel` | Capturar autoevaluación. | 4 opciones (Beginner/Medium/Semi-Pro/Professional) con descripciones `01` §8, CTA Siguiente. | RF-LVL-001 | US-015 |
 | S-09 | **Diagnóstico** | `/app/onboarding/diagnostico` | Ubicar punto de entrada real. | Preguntas representativas por área, progreso, sin ejecución de código. | RF-DIAG-001, RF-DIAG-002 | US-016 |
@@ -283,7 +283,7 @@ Diferenciada visualmente de la lección (P-04):
 | S-23 | **Perfil — Progreso** | `/app/perfil/progreso` | Detalle por lenguaje/módulo. | Barras por módulo, completadas/total, %, estado, CTA Continuar. | RF-PROF-003, RF-PROG-002, RF-PROG-003 | US-008 |
 | S-24 | **Perfil — Historial** | `/app/perfil/historial` | Trazabilidad filtrable. | Filtros lenguaje/módulo, tabla de intentos con puntaje/ % /umbral/fecha/versión. | RF-PROG-005, RF-EVAL-003 | US-011 |
 | S-25 | **Perfil — Logros** | `/app/perfil/logros` | Gamificación: logros. | Obtenidos con fecha + pendientes descriptivos, sin spoilers sensibles. | RF-PROF-004, RF-LOGRO-003 | US-010, US-048 |
-| S-26 | **Perfil — Certificados** | `/app/perfil/certificados` | Acreditaciones. | Lista con ID `CQ-{LANG}-{SEQ}`, lenguaje, fecha, estado, descarga PDF. | RF-PROF-005 | US-010, US-060 |
+| S-26 | **Perfil — Certificados** | `/app/perfil/certificados` | Acreditaciones. | Lista con ID `KODA-{LANG}-{SEQ}`, lenguaje, fecha, estado, descarga PDF. | RF-PROF-005 | US-010, US-060 |
 | S-27 | **Perfil — Configuración** | `/app/perfil/configuracion` | Gestión de cuenta. | Editar nombre/avatar, cambiar contraseña, exportar datos, solicitar eliminación, zona horaria (racha). | RF-USR-002, RF-USR-003, RF-USR-006, RF-PROF-002, RF-RACHA-004 | US-006, US-007, US-009 |
 | S-28 | **Detalle Certificado** | `/app/certificados/:id` | Ver acreditación individual. | Datos `01` §21, ID, QR, estado (vigente/obsoleto), CTA PDF y Verificar. | RF-CERT-001–004 | US-054 |
 | S-29 | **Verificación** | `/verificar/:codigo` y `/app/verificar/:codigo` | Validar autenticidad. | Validez, lenguaje, fecha, titular (sin PII de terceros). Variante pública sin login. | RF-CERT-006, RF-CERT-004 | US-055 |
@@ -291,7 +291,7 @@ Diferenciada visualmente de la lección (P-04):
 | S-31 | **Administración** | `/admin/*` | Autoría sin código (RBAC). | CRUD lenguajes/módulos/secciones/lecciones/preguntas, publicar/ocultar, configurar umbrales/XP/composición, auditoría. | RF-ADM-001–008 | US-067–072 |
 | S-32 | **Ayuda / Legal** | `/app/ayuda`, `/terminos`, `/privacidad` | Soporte y transparencia. | FAQ, contacto, términos, privacidad, consentimiento. | `06` RNF-039 | — |
 
-> **Estados vacíos:** toda lista (historial, logros, certificados, repaso) define un empty-state con mensaje guía y CTA (ej. `Aún no tienes certificados — completa todos los módulos de Python para obtener el tuyo`).
+> **Estados vacíos:** toda lista (historial, logros, certificados, repaso) define un empty-state con mensaje guía y CTA (ej. `Aún no tienes certificados — completa todos los módulos de Lua para obtener el tuyo`).
 
 ---
 
@@ -302,7 +302,7 @@ Diferenciada visualmente de la lección (P-04):
 **Responde a:** ¿Qué puedo aprender y qué viene después?
 
 - **Layout:** grid de tarjetas (1 col móvil, 2 tablet, 3 desktop). Orden configurable sin código (`05` RF-ADM-004).
-- **Tarjeta Disponible (Python en MVP):** nombre, descripción, badge `Disponible`, progreso si ya iniciado, CTA `Continuar` / `Empezar`.
+- **Tarjeta Disponible (Lua en MVP):** nombre, descripción, badge `Disponible`, progreso si ya iniciado, CTA `Continuar` / `Empezar`.
 - **Tarjeta Próximamente:** badge `Próximamente`, CTA deshabilitado con tooltip `Disponible pronto`. No navegable a ruta (`05` RF-LANG-001).
 - **Filtros (Post-MVP):** por dificultad, popularidad. En MVP solo orden canónico.
 - **Entrada:** desde menú `Biblioteca` o CTA en landing. Salida: selección lleva a `S-07` o directo a `S-11` si ya tiene progreso.
@@ -311,7 +311,7 @@ Diferenciada visualmente de la lección (P-04):
 
 **Responde a:** ¿Dónde estoy, qué sigue y qué me falta para certificarme?
 
-- **Timeline vertical** con los 12 módulos de Python (`01` §34) en orden pedagógico. Cada nodo muestra:
+- **Timeline vertical** con los módulos de Lua (`01` §34, `ADR-005`) en orden pedagógico. Cada nodo muestra:
   - Número y nombre (ej. `02 — Variables y tipos de datos`).
   - Estado: `Bloqueado` (candado) · `Disponible` · `En progreso` ( % ) · `Aprobado` (check) — `05` RF-MOD-003.
   - Barra de progreso del módulo.
@@ -374,7 +374,7 @@ Pestañas internas (no rutas separadas en móvil — tabs con `aria-selected`):
 
 **Responde a:** ¿Cómo acredito lo aprendido y cómo se verifica?
 
-- **Detalle:** datos mínimos `01` §21 (nombre, documento, lenguaje, fecha, ID `CQ-{LANG}-{SEQ}`, plataforma, estado), QR de verificación interna, CTA `Descargar PDF` (solo titular autenticado, `05` RF-PDF-002) y `Verificar`.
+- **Detalle:** datos mínimos `01` §21 (nombre, documento, lenguaje, fecha, ID `KODA-{LANG}-{SEQ}`, plataforma, estado), QR de verificación interna, CTA `Descargar PDF` (solo titular autenticado, `05` RF-PDF-002) y `Verificar`.
 - **PDF:** plantilla versionada (`05` RF-PDF-001); el PDF corresponde bit-a-bit al certificado vigente (`05` RF-PDF-003); almacenamiento S3-compatible abstraído (`05` RF-PDF-004).
 - **Verificación:** por ID o QR en `/verificar/:codigo` (variante pública sin login). Muestra validez sin exponer PII de terceros (`05` RF-CERT-006). Certificado obsoleto por cambio de contenido (`05` RF-CERT-005) muestra estado `Obsoleto — revalida para actualizar`.
 - **Ubicación:** se accede desde `Perfil → Certificados`, desde notificación al completar lenguaje y desde QR externo.
@@ -388,7 +388,7 @@ Pestañas internas (no rutas separadas en móvil — tabs con `aria-selected`):
 Siempre visible en vistas de aprendizaje (`06` RNF-021, `05` RF-SEC-004). Formato:
 
 ```
-Biblioteca › Python › Módulo 02 — Variables › Sección 01 — ¿Qué es una variable? › Lección 02
+Biblioteca › Lua › Módulo 02 — Variables › Sección 01 — ¿Qué es una variable? › Lección 02
    (/)      (/ruta)   (/modulos/:id)         (/secciones/:id)                  (/lecciones/:id)
 ```
 
@@ -396,15 +396,15 @@ Biblioteca › Python › Módulo 02 — Variables › Sección 01 — ¿Qué es
 
 - Cada segmento es navegable excepto el último (página actual, `aria-current="page"`).
 - En móvil se trunca a `‹ Módulo 02` + `Sección 01` con menú `…` que expande la ruta completa (no se pierde jerarquía).
-- En Quiz/Examen: `Python › Módulo 02 › Examen` (no cuelga de sección; pertenece al módulo).
+- En Quiz/Examen: `Lua › Módulo 02 › Examen` (no cuelga de sección; pertenece al módulo).
 - En Repaso: `Repaso › Sesión #123` (fuera de jerarquía de lenguaje; breadcrumb secundario muestra `Origen: Módulo 02 — Variables` si la sesión está filtrada por módulo).
-- En Perfil: `Perfil › Certificados › CQ-PY-000001`.
+- En Perfil: `Perfil › Certificados › KODA-LUA-000001`.
 
 ### 8.2 Indicadores complementarios de ubicación
 
 | Indicador | Dónde | Qué muestra |
 |---|---|---|
-| **Título de página** | `<title>` y `<h1>` | `Lección 02 — Declaración y asignación — Python` (para SEO y lector de pantalla). |
+| **Título de página** | `<title>` y `<h1>` | `Lección 02 — Declaración y asignación — Lua` (para SEO y lector de pantalla). |
 | **Progress bar global** | Header de lección/quiz/examen | % de sección o de intento. |
 | **Timeline de ruta** | `/app/ruta/:lang` | Posición entre 12 módulos con estados. |
 | **Selector de lenguaje** | Header global | Lenguaje activo con badge de % ; dropdown para cambiar (`05` RF-LANG-003). |
@@ -414,13 +414,13 @@ Biblioteca › Python › Módulo 02 — Variables › Sección 01 — ¿Qué es
 
 | Pantalla | Breadcrumb | Título `<h1>` | Indicador adicional |
 |---|---|---|---|
-| Ruta Python | `Biblioteca › Python` | `Mi ruta — Python` | Timeline 12 módulos |
-| Módulo 02 | `Biblioteca › Python › Módulo 02` | `Módulo 02 — Variables y tipos de datos` | Tabs Secciones/Quiz/Examen |
+| Ruta Lua | `Biblioteca › Lua` | `Mi ruta — Lua` | Timeline módulos |
+| Módulo 02 | `Biblioteca › Lua › Módulo 02` | `Módulo 02 — Variables y tipos de datos` | Tabs Secciones/Quiz/Examen |
 | Sección 01 | `… › Módulo 02 › Sección 01` | `Sección 01 — ¿Qué es una variable?` | Lista de lecciones con % |
 | Lección 02 | `… › Sección 01 › Lección 02` | `Lección 02 — Declaración y asignación` | Progress ●●○○ + XP |
 | Quiz M02 | `… › Módulo 02 › Quiz` | `Quiz — Módulo 02` | Índice 1…N + timer si aplica |
 | Repaso | `Repaso` | `Repaso recomendado` | Origen por módulo |
-| Certificado | `Perfil › Certificados › CQ-PY-000001` | `Certificado — Python` | Badge Vigente/Obsoleto + QR |
+| Certificado | `Perfil › Certificados › KODA-LUA-000001` | `Certificado — Lua` | Badge Vigente/Obsoleto + QR |
 
 ---
 
@@ -433,7 +433,7 @@ Biblioteca › Python › Módulo 02 — Variables › Sección 01 — ¿Qué es
 | Registrarme / Iniciar sesión | **Auth** | `/auth/registro`, `/auth/login` | No | Verificación no bloquea aprendizaje (`05` RF-AUTH-005). |
 | Cambiar mi contraseña | **Perfil → Configuración** | `/app/perfil/configuracion` | Sí | Exige contraseña actual (`05` RF-USR-002). |
 | Eliminar mi cuenta / Exportar datos | **Perfil → Configuración** | `/app/perfil/configuracion` | Sí | Anonimiza progreso/certificados (`05` RF-USR-003). |
-| Ver lenguajes disponibles | **Biblioteca** | `/app/biblioteca` | Sí | Solo Python activo en MVP; resto `Próximamente`. |
+| Ver lenguajes disponibles | **Biblioteca** | `/app/biblioteca` | Sí | Solo Lua activo en MVP; resto `Próximamente`. |
 | Cambiar de lenguaje | **Header (selector)** o **Biblioteca** | `selector` / `/app/biblioteca` | Sí | Conserva progreso por lenguaje (`05` RF-LANG-003). |
 | Declarar / corregir mi nivel | **Onboarding → Nivel** | `/app/onboarding/nivel` | Sí | Solo antes de diagnóstico (`05` RF-LVL-002). |
 | Hacer / re-tomar diagnóstico | **Onboarding → Diagnóstico** | `/app/onboarding/diagnostico` | Sí | No borra exámenes aprobados (`05` RF-DIAG-004). |
@@ -462,7 +462,7 @@ Biblioteca › Python › Módulo 02 — Variables › Sección 01 — ¿Qué es
 ### 10.1 Onboarding (primera vez)
 
 ```
-Registro → Biblioteca → Seleccionar Python → Declarar nivel → Diagnóstico → Recomendación → Ruta
+Registro → Biblioteca → Seleccionar Lua → Declarar nivel → Diagnóstico → Recomendación → Ruta
   S-02       S-06          S-07                S-08            S-09           S-10          S-11
 ```
 
@@ -503,7 +503,7 @@ Todos los exámenes aprobados → Generar certificado (S-28) → PDF (S-28) → 
 | RN-02 | Publicidad nunca interrumpe ejercicio/quiz/examen; solo entre secciones. | `05` RF-ADS-002 | Test que intenta disparar ad intra-ejercicio y debe fallar. |
 | RN-03 | Diagnóstico nunca otorga aprobación de módulo. | `05` RF-DIAG-006 | Intento de avanzar módulo solo con diagnóstico debe permanecer bloqueado. |
 | RN-04 | Reintento con `Idempotency-Key` no duplica intento ni XP. | `06` RNF-042, `05` RF-XP-005 | Test de doble POST con misma key. |
-| RN-05 | Cambio de lenguaje conserva progreso del anterior. | `05` RF-LANG-003 | Test que cambia Python→(otro) y verifica persistencia. |
+| RN-05 | Cambio de lenguaje conserva progreso del anterior. | `05` RF-LANG-003 | Test que cambia Lua→(otro) y verifica persistencia. |
 | RN-06 | Toda lista paginada; ninguna respuesta >100 ítems sin paginación. | `06` RNF-003 | Lint OpenAPI + test de integración. |
 | RN-07 | Contenido oculto por admin no aparece en Biblioteca/Ruta ni por URL directa. | `05` RF-ADM-003 | Test de acceso a módulo oculto → 404 accionable. |
 | RN-08 | Sesión reanudable restaura posición exacta en <2 s. | `06` RNF-023, `05` RF-LEC-002 | Test E2E cerrar pestaña → reabrir. |
@@ -587,7 +587,7 @@ Ver detalle en `27_UI_UX_SPECIFICATION.md` y auditoría `06` RNF-024 (axe/Lighth
 
 | Documento | Relación |
 |---|---|
-| `01_PROJECT_OVERVIEW.md` §7, §34 | Jerarquía educativa y ruta Python de 12 módulos. |
+| `01_PROJECT_OVERVIEW.md` §7, §34 | Jerarquía educativa y ruta Lua (piloto). |
 | `02_PROBLEM_STATEMENT.md` §2 | Problemas PS-01–PS-10 que la IA alivia (sobrecarga, sin ruta, sin feedback). |
 | `03_OBJECTIVES.md` §5 | OUX-01–06 que la IA debe hacer observables. |
 | `04_SCOPE.md` §2–§4 | Qué está en MVP (Python) y qué es Post-MVP (otros lenguajes, offline). |

@@ -2,14 +2,14 @@
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > **Zona horaria:** America/Bogota (UTC-5)
-> Complementa a `01_PROJECT_OVERVIEW.md` (§33–§34 MVP y ruta Python, §36 visión), `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md` (§2 OE-01–OE-08, §7 criterios), `04_SCOPE.md` (§2 IN SCOPE MVP, §3 Post-MVP, §4 OUT OF SCOPE, §10 anti-scope-creep), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001–RNF-045), `07_USER_STORIES.md`, `08_USE_CASES.md`, `09_USER_FLOWS.md`, `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md` y anticipa `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `19_SECURITY.md`, `20_TESTING.md`, `21_DEPLOYMENT.md`, `23_CONTENT_SPECIFICATION.md`, `25_ADMIN_SYSTEM.md`, `26_ANALYTICS.md`, `27_UI_UX_SPECIFICATION.md`.
+> Complementa a `01_PROJECT_OVERVIEW.md` (§33–§34 MVP y ruta Lua, §36 visión), `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md` (§2 OE-01–OE-08, §7 criterios), `04_SCOPE.md` (§2 IN SCOPE MVP, §3 Post-MVP, §4 OUT OF SCOPE, §10 anti-scope-creep), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001–RNF-045), `07_USER_STORIES.md`, `08_USE_CASES.md`, `09_USER_FLOWS.md`, `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md` y anticipa `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `19_SECURITY.md`, `20_TESTING.md`, `21_DEPLOYMENT.md`, `23_CONTENT_SPECIFICATION.md`, `25_ADMIN_SYSTEM.md`, `26_ANALYTICS.md`, `27_UI_UX_SPECIFICATION.md`.
 > **Fuente de verdad temporal:** este documento ordena **cuándo** se entrega cada RF/RNF. Si un elemento no aparece aquí ni en `04`, no debe implementarse sin actualizar ambos y `CHANGELOG.md`.
 
 ---
 
 ## 1. Principio
 
-Priorizar un **MVP funcional con un solo lenguaje (Python)** que valide el núcleo educativo completo antes de escalar. Todo lo demás es roadmap, no MVP. Ver `04_SCOPE.md` §1.
+Priorizar un **MVP funcional con un solo lenguaje (Lua)** que valide el núcleo educativo completo antes de escalar. Todo lo demás es roadmap, no MVP. Ver `04_SCOPE.md` §1.
 
 **Reglas del roadmap:**
 1. Ninguna fase Post-MVP se inicia sin que su dependencia MVP esté **Done** y probada (`20_TESTING.md`).
@@ -26,13 +26,13 @@ Priorizar un **MVP funcional con un solo lenguaje (Python)** que valide el núcl
 | **0** | Planificación | Cerrar alcance, requisitos y arquitectura base | Docs 01–06 aprobados | — | RNF-019 |
 | **1** | Arquitectura y base | Repo, stack, BD, API v1, CI/CD y observabilidad mínima | Infra + esqueleto desacoplado | RF-ADM-005/006 | RNF-005/016/017/018/032/043 |
 | **2** | Autenticación y usuarios | Identidad segura y perfil reanudable | Auth + Users + Perfil base | RF-AUTH-001–008, RF-USR-001–006, RF-PROF-001–007 | RNF-008/009/022/023/037/038 |
-| **3** | Sistema educativo | Jerarquía Lenguaje→Módulo→Sección→Lección + diagnóstico y ruta adaptativa | Learning Engine + Content Engine (12 módulos Python) | RF-LANG-001–005, RF-LVL-001–004, RF-DIAG-001–006, RF-RUTA-001–005, RF-MOD-001–005, RF-SEC-001–005, RF-LEC-001–005 | RNF-006/010/011/021/023/031/033 |
+| **3** | Sistema educativo | Jerarquía Lenguaje→Módulo→Sección→Lección + diagnóstico y ruta adaptativa | Learning Engine + Content Engine (módulos Lua piloto) | RF-LANG-001–005, RF-LVL-001–004, RF-DIAG-001–006, RF-RUTA-001–005, RF-MOD-001–005, RF-SEC-001–005, RF-LEC-001–005 | RNF-006/010/011/021/023/031/033 |
 | **4** | Preguntas y evaluaciones | Banco tipificado + Quiz + Examen + Evaluation Engine | Question + Evaluation Engines | RF-PREG-001–007, RF-QUIZ-001–006, RF-EXAM-001–007, RF-EVAL-001–006 | RNF-010/012/033/035/036/042 |
 | **5** | Gamificación | XP, niveles, rachas, logros y repaso | Gamification + Progress Engines | RF-PROG-001–006, RF-XP-001–005, RF-RACHA-001–005, RF-LOGRO-001–005, RF-REP-001–005 | RNF-016/017 |
-| **6** | Certificación | Certificado verificable con QR y PDF | Certification Engine + Object Storage | RF-CERT-001–006, RF-PDF-001–004 | RNF-004/034/035 |
+| **6** | Certificación | Certificado verificable con QR y PDF | Certification Engine + Google Drive | RF-CERT-001–006, RF-PDF-001–004 | RNF-004/034/035 |
 | **7** | Monetización | Gratuito con ads + Premium USD $1/mes | Monetization (Ads + Premium) | RF-ADS-001–005, RF-PREM-001–006 | RNF-014/039/040 |
-| **8** | MVP completo | Integración, hardening, beta y release Python | MVP desplegado 99.5% | Todos los Must MVP (128 RF) | RNF-001/002/003/013/015/020/024–028/041/043/045 |
-| **9** | Segundo lenguaje | Validar escalabilidad de contenido (ej. Lua) | +1 lenguaje sin tocar motor | RF-LANG-004, RF-MOD-004 | RNF-006/031 |
+| **8** | MVP completo | Integración, hardening, beta y release Lua | MVP desplegado 99.5% | Todos los Must MVP (128 RF) | RNF-001/002/003/013/015/020/024–028/041/043/045 |
+| **9** | Segundo lenguaje | Validar escalabilidad de contenido (ej. Python) | +1 lenguaje sin tocar motor | RF-LANG-004, RF-MOD-004 | RNF-006/031 |
 | **10** | Escalabilidad | Performance, multi-región, PWA/offline, IA tutor (hooks) | Post-MVP avanzado | RF-ADM-009 + futuros RF | RNF-004/007/015/040 |
 
 > **MVP = Fases 0–8.** Fases 9–10 son Post-MVP (`04` §3). Fases 0–1 no entregan valor al usuario final pero bloquean todo lo demás.
@@ -46,13 +46,13 @@ flowchart TB
     F0["FASE 0<br/>Planificación<br/>Docs 01-06"]
     F1["FASE 1<br/>Arquitectura y base<br/>Repo + BD + API v1"]
     F2["FASE 2<br/>Autenticación y usuarios"]
-    F3["FASE 3<br/>Sistema educativo<br/>12 módulos Python"]
+    F3["FASE 3<br/>Sistema educativo<br/>módulos Lua piloto"]
     F4["FASE 4<br/>Preguntas y evaluaciones"]
     F5["FASE 5<br/>Gamificación<br/>XP/Rachas/Logros/Repaso"]
-    F6["FASE 6<br/>Certificación<br/>CQ-* + QR + PDF"]
+    F6["FASE 6<br/>Certificación<br/>KODA-* + QR + PDF"]
     F7["FASE 7<br/>Monetización<br/>Ads + Premium"]
     F8["FASE 8<br/>MVP completo<br/>Beta + Release"]
-    F9["FASE 9<br/>Segundo lenguaje<br/>ej. Lua"]
+    F9["FASE 9<br/>Segundo lenguaje<br/>ej. Python"]
     F10["FASE 10<br/>Escalabilidad<br/>Perf + PWA + IA"]
 
     F0 --> F1
@@ -112,7 +112,7 @@ flowchart TB
 
 ```mermaid
 gantt
-    title Roadmap — Duolingo de Programación (Python MVP → Post-MVP)
+    title Roadmap — Duolingo de Programación (Lua MVP → Post-MVP)
     dateFormat  YYYY-MM-DD
     axisFormat  %m/%d
 
@@ -128,7 +128,7 @@ gantt
     F2 Seguridad + rate limiting + auditoría :f2b, 2026-09-20, 2026-09-27
 
     section FASE 3 Sistema educativo
-    F3 Content Engine + 12 módulos Python   :f3, 2026-09-27, 2026-10-18
+    F3 Content Engine + módulos Lua piloto   :f3, 2026-09-27, 2026-10-18
     F3 Diagnóstico + Ruta adaptativa         :f3b, 2026-10-04, 2026-10-18
 
     section FASE 4 Evaluaciones
@@ -140,7 +140,7 @@ gantt
     F5 Progress Engine + streak freeze       :f5b, 2026-11-15, 2026-11-29
 
     section FASE 6 Certificación
-    F6 Cert Engine + QR + PDF S3             :f6, 2026-11-29, 2026-12-13
+    F6 Cert Engine + QR + PDF Google Drive  :f6, 2026-11-29, 2026-12-13
     F6 Verificación interna + re-emisión     :f6b, 2026-12-06, 2026-12-13
 
     section FASE 7 Monetización
@@ -149,10 +149,10 @@ gantt
 
     section FASE 8 MVP completo
     F8 Integración E2E + hardening + beta    :crit, f8, 2026-12-27, 2027-01-24
-    F8 Release Python 12 módulos             :milestone, mvp, 2027-01-24, 0d
+    F8 Release Lua (MVP piloto)              :milestone, mvp, 2027-01-24, 0d
 
     section FASE 9 Segundo lenguaje
-    F9 Lua (solo contenido + config)         :f9, 2027-01-24, 2027-02-14
+    F9 Python (solo contenido + config)      :f9, 2027-01-24, 2027-02-14
     F9 Validación RNF-006 (0 cambios motor)  :f9b, 2027-02-07, 2027-02-14
 
     section FASE 10 Escalabilidad
@@ -167,13 +167,13 @@ gantt
 | M0 — Scope cerrado | 2026-08-30 | Docs 01–06 + ADRs iniciales aprobados; `04` sin contradicciones. |
 | M1 — Esqueleto usable | 2026-09-13 | `POST /auth/register` → `GET /languages` funciona en `staging`; CI verde. |
 | M2 — Auth Done | 2026-09-27 | Login/refresh/logout + perfil + reanudación básica probados. |
-| M3 — Ruta Python navegable | 2026-10-18 | 12 módulos listables, lecciones con ejercicios y feedback <1 s. |
+| M3 — Ruta Lua navegable | 2026-10-18 | Módulos Lua listables, lecciones con ejercicios y feedback <1 s. |
 | M4 — Evaluación confiable | 2026-11-08 | Quiz 70% / Examen 80% con `B_min` y revisión sin fuga de banco. |
 | M5 — Gamificación viva | 2026-11-29 | 265 XP por módulo, curva exponencial, racha con gracia 2h y freeze. |
-| M6 — Certificado verificable | 2026-12-13 | `CQ-PY-000001` con QR y PDF bit-a-bit. |
+| M6 — Certificado verificable | 2026-12-13 | `KODA-LUA-000001` con QR y PDF bit-a-bit almacenado en Google Drive. |
 | M7 — Monetización no intrusiva | 2026-12-27 | Ads solo entre secciones + premium sin ads, degradado probado. |
-| **MVP Release** | **2027-01-24** | Python 12/12 módulos, retención D7 ≥25%, 99.5% uptime, WCAG AA. |
-| M9 — Lua sin tocar motor | 2027-02-14 | `content/languages/lua/` publicado; test `RNF-006` pasa. |
+| **MVP Release** | **2027-01-24** | Lua (piloto), retención D7 ≥25%, 99.5% uptime, WCAG AA. |
+| M9 — Python sin tocar motor | 2027-02-14 | `content/languages/python/` publicado; test `RNF-006` pasa. |
 | M10 — Escalabilidad | 2027-04-04 | p95 <300 ms con 300 concurrentes; PWA y hooks IA listos. |
 
 ---
@@ -217,12 +217,12 @@ gantt
 - Repo `src/modules/{auth,users,languages,learning,questions,evaluation,progress,gamification,certification,monetization,content}` (`11` §4.3) con linter de grafo de imports (CI falla si `gamification → evaluation`).
 - BD **PostgreSQL ≥15** con migraciones versionadas `V{YYYYMMDD}_{NNN}__*.sql` (`12` §2.2), FKs, índices para `RNF-007` y `content_version` por intento (`RNF-035`).
 - API **REST `/api/v1`** con OpenAPI 3.0.3 auto-generado y linteado en CI (`13`, `RNF-032`), envelope `{code,message,request_id}` (`RNF-041`), `X-Request-Id` + `Idempotency-Key` (`RNF-042/045`).
-- Cache/KV (Redis o equivalente) para rate limit y refresh; Object Storage S3-compatible para PDFs (`11` §5).
+- Cache/KV (Redis o equivalente) para rate limit y refresh; Google Drive API v3 para PDFs de certificados; Object Storage S3-compatible para avatares y assets (`11` §5).
 - Pipeline CI/CD: `dev → staging → prod` con rolling deploy, health checks, backups diarios y ensayo de restore (`06` RNF-013/043, `21`).
 - Observabilidad mínima: logs JSON estructurados con `request_id` + métricas p50/p95/p99 por endpoint + trazas en `POST /intentos` (`11` §22, `RNF-018`).
 
 **Entregables:**
-- `09-decisions/` con ADRs: estilo arquitectónico, lenguaje backend (NestJS o FastAPI), BD (PostgreSQL vs MySQL), frontend (React o Vue), storage y KV.
+- `09-decisions/` con ADRs: estilo arquitectónico, lenguaje backend (NestJS), BD (PostgreSQL), frontend (Next.js), storage y KV.
 - `openapi.yaml` con 39 endpoints + `/admin/*` esqueleto y schemas `User/Language/Module/Question/Attempt/Progress/Certificate`.
 - Migraciones iniciales para `users`, `programming_languages`, `modules`, `sections`, `lessons`, `questions`, `attempts` + `content_versions`.
 - `staging` con `GET /languages` y `POST /auth/register` funcionando.
@@ -278,7 +278,7 @@ gantt
 **Objetivo:** Hacer navegable y pedagógicamente correcta la jerarquía que consumen todos los motores.
 
 **Alcance:**
-- Jerarquía canónica `Lenguaje → Módulo → Sección → Lección → Ejercicio` (`01` §7, `14` §2) con **12 módulos Python** (`01` §34): Fundamentos → Variables y tipos → Operadores → Condicionales → Bucles → Funciones → Listas → Diccionarios → Manejo de errores → POO → Archivos → Proyecto final.
+- Jerarquía canónica `Lenguaje → Módulo → Sección → Lección → Ejercicio` (`01` §7, `14` §2) con **módulos Lua** (`01` §34, `ADR-005`): Fundamentos → Variables y tipos → Operadores → Condicionales → Bucles → Funciones → Tablas → Metatables → Manejo de errores → Módulos → I/O → Proyecto final.
 - `RF-LANG-001–005`: catálogo (solo `PY=disponible`, resto `proximamente`), selección de lenguaje activo y progreso aislado por lenguaje.
 - `RF-LVL-001–004`: `BEGINNER/MEDIUM/SEMI_PROFESSIONAL/PROFESSIONAL` con descripciones `01` §8.
 - `RF-DIAG-001–006`: diagnóstico de **24 preguntas** (2 por módulo ×12), estratificado por bloque, calificación por módulo/bloque y recomendación de `entry_module` en 4 pasos con clamping por nivel (`14` §6).
@@ -295,7 +295,7 @@ gantt
 
 #### Definition of Done — FASE 3
 
-- [ ] 12 módulos Python navegan en `S-11` (timeline) y `S-12` (detalle) con estados y % correctos; prerrequisito bloquea siguiente módulo salvo `OMITIDO_POR_DIAGNOSTICO` validado por diagnóstico (`RF-RUTA-004`).
+- [ ] Módulos Lua navegan en `S-11` (timeline) y `S-12` (detalle) con estados y % correctos; prerrequisito bloquea siguiente módulo salvo `OMITIDO_POR_DIAGNOSTICO` validado por diagnóstico (`RF-RUTA-004`).
 - [ ] Diagnóstico de 24 preguntas genera `entry_module` reproducible con justificación por área; `re-diagnóstico` no borra `APROBADOS` (`RF-DIAG-004/006`).
 - [ ] Lección cumple `OED-02`: ninguna sin ejercicio obligatorio; feedback <1 s p95 (`RNF-010`) y transición lección→siguiente <500 ms p95 cacheada (`RNF-011`).
 - [ ] Persistencia atómica por respuesta con `Idempotency-Key`; reenvío no duplica XP ni progreso (`RNF-033/042`, `RF-LEC-003`).
@@ -375,14 +375,14 @@ gantt
 **Objetivo:** Acreditar finalización con un certificado único, verificable y exportable que no se falsifica ni se duplica.
 
 **Alcance:**
-- `RF-CERT-001–006`: condición `todos los módulos/exámenes del lenguaje aprobados en versión vigente` (`04` §7, `RNF-034`), datos mínimos `nombre/documento/lenguaje/fecha/ID/plataforma/estado` (`01` §21), ID `CQ-{LANG}-{SEQ}` correlativo por lenguaje (`01` §22, `12` §6.17 `certificate_sequences` con `UPDATE ... RETURNING last_seq`), QR de verificación interna y exposición `validez/lenguaje/fecha/titular` sin PII de terceros.
-- `RF-PDF-001–004`: plantilla versionada con QR, almacenamiento S3-compatible abstraído, correspondencia bit-a-bit, descarga autenticada solo titular.
+- `RF-CERT-001–006`: condición `todos los módulos/exámenes del lenguaje aprobados en versión vigente` (`04` §7, `RNF-034`), datos mínimos `nombre/documento/lenguaje/fecha/ID/plataforma/estado` (`01` §21), ID `KODA-{LANG}-{SEQ}` correlativo por lenguaje (`01` §22, `12` §6.17 `certificate_sequences` con `UPDATE ... RETURNING last_seq`), QR de verificación interna y exposición `validez/lenguaje/fecha/titular` sin PII de terceros.
+- `RF-PDF-001–004`: plantilla versionada con QR, almacenamiento en Google Drive API v3 (Service Account), correspondencia bit-a-bit, descarga autenticada solo titular.
 - Estados `vigente → obsoleto (por cambio significativo de contenido) → revalidado` (`11` §12); un vigente por lenguaje (`UNIQUE (user_id, language_id) WHERE status='valid'`).
 - Requisito `email verificado` antes de emitir (`RF-AUTH-005`, `US-059`).
 - Pantallas `S-26–S-29` y flujos `F-12–F-13`.
 
 **Entregables:**
-- `Certification Engine` con `code ~ ^CQ-[A-Z]+-[0-9]{6}$`, `qr_payload` y `pdf_object_key` (`12` §6.17).
+- `Certification Engine` con `code ~ ^KODA-[A-Z]+-[0-9]{6}$`, `qr_payload` y `google_drive_file_id` (`12` §6.17).
 - Endpoints `GET /users/me/certificates`, `GET /certificates/{id}` (público sin PII), `GET /certificates/{id}/pdf` (solo titular), `POST /certificates/verify`.
 - Verificación pública Post-MVP como diseño (no implementación) — `04` §3.
 
@@ -391,7 +391,7 @@ gantt
 #### Definition of Done — FASE 6
 
 - [ ] Certificado solo se emite con `email_verified_at IS NOT NULL` y `∀ módulo: APROBADO` en `content_version` vigente; si falta módulo, lista faltantes (`RF-CERT-001`, `RNF-034`).
-- [ ] ID `CQ-PY-000001` correlativo sin huecos visibles por lenguaje; `UNIQUE (code)` + `UNIQUE (user_id, language_id) WHERE valid` verificados bajo concurrencia (lock optimista).
+- [ ] ID `KODA-LUA-000001` correlativo sin huecos visibles por lenguaje; `UNIQUE (code)` + `UNIQUE (user_id, language_id) WHERE valid` verificados bajo concurrencia (lock optimista).
 - [ ] QR verifica por `ID/QR` sin exponer `document_number` (enmascarado `CC ***678`, `RNF-037`).
 - [ ] PDF con plantilla versionada, QR y `America/Bogota`; re-generación reutiliza artefacto si no cambió certificado; `GET /pdf` exige titular (403 si no, `RNF-009`).
 - [ ] Re-emisión: cambio significativo de `language.content_version` marca previo `obsoleto` y exige revalidación; nunca dos vigentes (`RF-CERT-005`).
@@ -428,7 +428,7 @@ gantt
 
 ### FASE 8 — MVP completo
 
-**Objetivo:** Integrar, endurecer y liberar el MVP de Python de 12 módulos a `prod` con criterios de producto y negocio.
+**Objetivo:** Integrar, endurecer y liberar el MVP de Lua (piloto) de a `prod` con criterios de producto y negocio.
 
 **Alcance:**
 - Integración end-to-end de `F-01` a `F-15` (`09` §3 mapa general) con `S-01–S-32` (`10` §6) y los 9 motores (`11` §2.3).
@@ -438,7 +438,7 @@ gantt
 - `21_DEPLOYMENT.md` (entornos, backups, rollback) + `26_ANALYTICS.md` (funnel, DAU/WAU, % aprobación) operativos.
 
 **Entregables:**
-- `prod` con **Python 12/12 módulos publicados**, `content_version` trazable y certificados vigentes.
+- `prod` con **Lua (piloto) publicado**, `content_version` trazable y certificados vigentes.
 - Reportes: cobertura ≥70% por motor (`RNF-016`), APM p95/p99, uptime sintético, auditoría `axe`, y ensayo de backup/restore con RPO/RTO.
 - `CHANGELOG.md` al día con cada cambio y fecha `America/Bogota`.
 
@@ -446,10 +446,10 @@ gantt
 
 #### Definition of Done — FASE 8 (MVP Release)
 
-- [ ] Los 12 módulos Python en `prod` con `status published`; ningún texto hardcodeado en motor/UI (`RNF-031`).
+- [ ] Los módulos Lua en `prod` con `status published`; ningún texto hardcodeado en motor/UI (`RNF-031`).
 - [ ] Flujos `F-01–F-15` ejecutables end-to-end en `staging` y `prod` sin callejones sin salida.
 - [ ] Criterios `03` §7.2 educativos: 5/5 principiantes completan Módulo 1 sin ayuda; 16/20 intermedios ubicados correctamente por diagnóstico; tasa de aprobación Examen primer intento 55–85%.
-- [ ] Criterios `03` §7.3 producto: `100%` Python → certificado `CQ-PY-*` + PDF verificado; retención **D7 ≥25%** en cohorte beta (`26`).
+- [ ] Criterios `03` §7.3 producto: `100%` Lua → certificado `KODA-LUA-*` + PDF verificado; retención **D7 ≥25%** en cohorte beta (`26`).
 - [ ] RNF obligatorios MVP (38) medidos en `staging`/`prod` con evidencia registrada; sin regresión en la siguiente versión (`06` §5.2).
 - [ ] Accesibilidad WCAG 2.1 AA: `axe/Lighthouse ≥95` en `S-02, S-14, S-16, S-18, S-22, S-28`; navegación solo teclado recorre quiz completo sin trampa (`RNF-025`).
 - [ ] Seguridad: SAST/DAST + OWASP ASVS L1 sin hallazgos críticos (`RNF-009`); PII minimizada y no en logs/URLs (`RNF-037`).
@@ -476,9 +476,9 @@ gantt
 
 #### Definition of Done — FASE 9
 
-- [ ] `content/languages/lua/` publicado en `staging` y `prod` con `status available`; Python intacto y versionado independiente (`RNF-035`).
-- [ ] Grep en CI sin literales de `Python` en el motor tras agregar Lua (`RNF-031`).
-- [ ] Usuario con progreso en Python cambia a Lua y viceversa sin contaminación (`RF-LANG-003/005`).
+- [ ] `content/languages/python/` publicado en `staging` y `prod` con `status available`; Lua intacto y versionado independiente (`RNF-035`).
+- [ ] Grep en CI sin literales de `Lua` en el motor tras agregar Python (`RNF-031`).
+- [ ] Usuario con progreso en Lua cambia a Python y viceversa sin contaminación (`RF-LANG-003/005`).
 - [ ] Diagnóstico y ruta de Lua funcionan con 24 preguntas estratificadas si se completa el banco.
 - [ ] Tiempo de incorporación de Lua (contenido + config) documentado y <5 días-hombre de autoría excluyendo creación pedagógica (`RNF-006`).
 
@@ -550,7 +550,7 @@ gantt
 | Evaluación en cliente | Fraude de XP/certificados | 4 | `RF-EVAL-006`: solo servidor; cliente nunca decide aprobación. |
 | Acoplamiento entre motores | Cambio en Gamificación rompe Evaluación | 1, 5 | Linter de grafo de imports en CI (`RNF-030`). |
 | Publicidad bloquea aprendizaje | Viola `RF-ADS-002`/`RNF-014` | 7 | Wrapper async + test de caos con ads deshabilitados. |
-| Certificados duplicados/falsos | Pérdida de confianza | 6 | `CQ-*` con lock + un vigente + verificación sin PII + PDF bit-a-bit. |
+| Certificados duplicados/falsos | Pérdida de confianza | 6 | `KODA-*` con lock + un vigente + verificación sin PII + PDF bit-a-bit. |
 | Pérdida de progreso por red | Abandono | 3, 4, 8 | `RNF-033` atómico + `Idempotency-Key` + reanudación `RNF-023/044`. |
 | Elección tecnológica prematura | Deuda y re-trabajo | 1 | ADRs obligatorios; este doc propone duraciones, no impone stack. |
 | Scope creep Post-MVP prematuro | Retrasa MVP | 0–8 | `04` §10 + §6 puertas; sin ADR no entra a MVP. |
@@ -561,7 +561,7 @@ gantt
 
 | Documento | Relación |
 |---|---|
-| `01_PROJECT_OVERVIEW.md` §33–§38 | Flujo principal, filosofía y ruta Python que este roadmap calendariza. |
+| `01_PROJECT_OVERVIEW.md` §33–§38 | Flujo principal, filosofía y ruta Lua que este roadmap calendariza. |
 | `04_SCOPE.md` §2–§4, §10 | IN/OUT/Post-MVP y anti-scope-creep que este roadmap hace cumplir por fases. |
 | `05_FUNCTIONAL_REQUIREMENTS.md` §4–§6 | 128 RF y dependencias `RF-AUTH→...→RF-ADM` que dictan el orden §3. |
 | `06_NON_FUNCTIONAL_REQUIREMENTS.md` §5 | Matriz de verificación por fase (tests, Lighthouse, carga, auditoría UAT). |

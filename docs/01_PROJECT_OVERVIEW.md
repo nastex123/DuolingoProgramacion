@@ -350,7 +350,7 @@ Al completar todos los módulos de un lenguaje se genera un certificado con al m
 
 ## 22. Identificación del certificado
 
-Identificador único, ej.: `CQ-PY-000001` (`CQ` = CodeQuest, `PY` = Python, `000001` = consecutivo). Opcionalmente incluye código QR para verificación dentro de la plataforma.
+Identificador único, ej.: `KODA-LUA-000001` (`KODA` = plataforma, `LUA` = Lua, `000001` = consecutivo). Opcionalmente incluye código QR para verificación dentro de la plataforma.
 
 ---
 
