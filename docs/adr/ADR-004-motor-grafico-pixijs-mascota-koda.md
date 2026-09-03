@@ -15,7 +15,7 @@ La plataforma requiere una experiencia de gamificación altamente emocional e in
 - Emisión masiva de partículas de confeti 3D/2D aceleradas por hardware en checkpoints.
 El uso de GIFs, videos o animaciones CSS complejas satura el hilo principal de renderizado del navegador, degrada los FPS en dispositivos modestos y no permite transiciones procedurales fluidas.
 
-## 2. Alternativas Evaluadas
+## 2. Alternativas Evapythondas
 1. **Lottie / Bodymovin (SVG/Canvas):**
    - *Desventajas:* Archivos JSON pesados, sobrecarga de nodos en el DOM con SVG, poca flexibilidad para efectos procedurales dinámicos de partículas concurrentes.
 2. **Three.js (3D completo):**

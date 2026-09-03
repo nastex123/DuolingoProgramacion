@@ -1,13 +1,13 @@
 # 15 — Sistema de Quizzes y Exámenes
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> Complementa a `01_PROJECT_OVERVIEW.md` §11–§15, `05_FUNCTIONAL_REQUIREMENTS.md` (RF-PREG, RF-QUIZ, RF-EXAM, RF-EVAL), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-010, RNF-012), `07_USER_STORIES.md` (US-031–US-040) y `14_LEARNING_SYSTEM.md`. No duplica; especifica el comportamiento verificable del motor de evaluación.
+> Complementa a `01_PROJECT_OVERVIEW.md` §11–§15, `05_FUNCTIONAL_REQUIREMENTS.md` (RF-PREG, RF-QUIZ, RF-EXAM, RF-EVAL), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-010, RNF-012), `07_USER_STORIES.md` (US-031–US-040) y `14_LEARNING_SYSTEM.md`. No duplica; especifica el comportamiento verificable del motor de evapythonción.
 
 ---
 
 ## 1. Propósito y alcance
 
-Este documento especifica **cómo se componen, seleccionan, califican y aprueban** los quizzes intermedios y exámenes finales por módulo. Es la referencia para `11_SYSTEM_ARCHITECTURE.md` (Evaluation Engine), `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
+Este documento especifica **cómo se componen, seleccionan, califican y aprueban** los quizzes intermedios y exámenes finales por módulo. Es la referencia para `11_SYSTEM_ARCHITECTURE.md` (Evapythontion Engine), `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
 
 **Dentro del alcance:** tipos de pregunta, dificultades, cantidad, selección, puntuación, porcentajes, aprobación, reintentos, penalizaciones, retroalimentación, caracterización de quiz vs. examen, aleatorización/banco/ponderación anti-trivialidad, ejemplos de cálculo y reglas de negocio.
 
@@ -27,7 +27,7 @@ Este documento especifica **cómo se componen, seleccionan, califican y aprueban
 | `05` RF-EVAL-001–006 | Motor determinista, % y puntaje, registro de intento, bajo rendimiento, versionado de umbrales, calificación en servidor |
 | `05` RF-ADM-004–006 | Configuración sin código y validación de coherencia antes de publicar |
 | `06` RNF-010, RNF-012 | Feedback < 1 s y resultado de quiz/examen < 2 s p95 |
-| `07` US-031–US-040 | Criterios de aceptación de evaluación |
+| `07` US-031–US-040 | Criterios de aceptación de evapythonción |
 
 ---
 
@@ -48,7 +48,7 @@ Derivado de `05` RF-PREG-001. Todo tipo tiene validador en servidor y plantilla 
 | T-07 | Ordenar líneas | `ORDER_LINES` | Reordenar 4–6 bloques a secuencia válida | Orden exacto (permutación) | Ordena para definir función que retorna suma |
 | T-08 | Seleccionar el código correcto | `SELECT_CODE` | Elegir snippet correcto entre 3–4 | Opción correcta | Elige el `for` que itera correctamente |
 | T-09 | Relacionar conceptos | `MATCHING` | Emparejar 3–5 pares (término↔definición) | Todos los pares exactos | Une: `list`↔mutable, `tuple`↔inmutable |
-| T-10 | Escribir código (MVP restringido) | `WRITE_CODE` | Escribir 1–3 líneas evaluadas por completado/orden/selección; sin runner | Coincidencia normalizada + validación de tokens clave; runner real es Post-MVP | Escribe `def suma(a,b): return a+b` |
+| T-10 | Escribir código (MVP restringido) | `WRITE_CODE` | Escribir 1–3 líneas evapythondas por completado/orden/selección; sin runner | Coincidencia normalizada + validación de tokens clave; runner real es Post-MVP | Escribe `def suma(a,b): return a+b` |
 | T-11 | Resolver pequeño problema | `SMALL_PROBLEM` | Enunciado breve con respuesta determinista (valor, opción o hueco) | Según subtipo (numérico/texto/opción) | ¿Cuántas iteraciones hace `for i in range(3)`? → 3 |
 
 > **Nota MVP:** T-10 en MVP no ejecuta código. Se califica por presencia de tokens/normalización y, si aplica, por orden. `05` regla 4 y `04` §4 lo exigen. La ejecución en sandbox se habilita Post-MVP sin cambiar el contrato.
@@ -87,7 +87,7 @@ explicación (feedback), puntaje_base, peso_dificultad, tiempo_estimado_seg, ver
 - Toda pregunta tiene exactamente un nivel; el cambio crea nueva versión (`RF-PREG-006`).
 - Distribución objetivo por módulo (ver §5.3 y §13.3 para mínimos anti-fácil):
 
-| Evaluación | Fácil | Medio | Difícil |
+| Evapythonción | Fácil | Medio | Difícil |
 |---|---|---|---|
 | Quiz (10 preguntas) | 40% (4) | 40% (4) | 20% (2) |
 | Examen (20 preguntas) | 30% (6) | 40% (8) | 30% (6) |
@@ -158,7 +158,7 @@ Variante ampliada recomendada cuando el banco lo permite (20 preguntas):
 
 ### 5.4 Tamaño mínimo del banco (anti-repetición, ver §13)
 
-| Evaluación | Preguntas mostradas `N` | Banco mínimo exigido `B_min` | Ratio |
+| Evapythonción | Preguntas mostradas `N` | Banco mínimo exigido `B_min` | Ratio |
 |---|---|---|---|
 | Quiz | 10 | 30 | 3× |
 | Examen | 20 | 80 | 4× |
@@ -173,7 +173,7 @@ Variante ampliada recomendada cuando el banco lo permite (20 preguntas):
 
 ### 6.1 Principios
 
-1. **Anclada al módulo:** solo preguntas con `modulo == modulo_evaluado` y `estado == publicado` (`RF-PREG-003`).
+1. **Anclada al módulo:** solo preguntas con `modulo == modulo_evapythondo` y `estado == publicado` (`RF-PREG-003`).
 2. **Estratificada:** respeta composición por tipo (§5) y distribución por dificultad (§4.1).
 3. **Aleatoria sin repetición intra-intento:** sin duplicados en el mismo intento.
 4. **No determinista entre intentos:** dos intentos del mismo usuario no reciben el mismo set salvo que el banco sea mínimo.
@@ -256,7 +256,7 @@ La puntuación determina aprobación; la XP es recompensa separada (ver §9.2 y 
 
 ### 9.1 Umbrales
 
-| Evaluación | Umbral inicial | Código config | Efecto |
+| Evapythonción | Umbral inicial | Código config | Efecto |
 |---|---|---|---|
 | Quiz | **70%** | `threshold.quiz` | `aprobado` si ≥ 70% |
 | Examen | **80%** | `threshold.exam` | `aprobado` si ≥ 80%; desbloquea siguiente módulo |
@@ -343,7 +343,7 @@ Examen reprobado→ modulo.estado = REPROBADO, siguiente modulo permanece BLOQUE
 
 - Disponible inmediatamente tras calificar (< 2 s, `RNF-012`).
 - Por cada pregunta: `enunciado`, `respuesta_dada`, `respuesta_correcta`, `acierto`, `explicacion`, `concepto`.
-- **No expone banco completo:** solo las N preguntas del intento. No se listan preguntas no evaluadas (`RF-QUIZ-004`).
+- **No expone banco completo:** solo las N preguntas del intento. No se listan preguntas no evapythondas (`RF-QUIZ-004`).
 
 ### 12.3 Revisión detallada tras examen
 
@@ -512,12 +512,12 @@ Por eso `B_min=80` garantiza overlap 0% sistemático.
 | RN-QE-008 | Reintentos ilimitados; cada uno registra nuevo intento con nueva semilla y ≥50/60% preguntas distintas (quiz/examen) si el banco lo permite. | §10.1 |
 | RN-QE-009 | No hay puntos negativos; fallo = 0 en esa pregunta. | §11.1 |
 | RN-QE-010 | XP por reintento decae: quiz 50% desde 2do, examen 70%/50% (configurable); nunca se otorga XP por reenvío idempotente. | §11.2, `05` RF-XP-005 |
-| RN-QE-011 | Revisión post-evaluación muestra solo las N preguntas del intento, nunca el banco completo. | `05` RF-QUIZ-004/006 |
+| RN-QE-011 | Revisión post-evapythonción muestra solo las N preguntas del intento, nunca el banco completo. | `05` RF-QUIZ-004/006 |
 | RN-QE-012 | Publicación de módulo bloqueada si banco < `B_min` o composición viola `max_easy_ratio` o cobertura por concepto. | §5.4, §15.2 |
 | RN-QE-013 | Orden de preguntas y de opciones se aleatoriza por intento con semilla auditable. | §15.1 |
 | RN-QE-014 | Preguntas de los últimos 2 intentos se excluyen del siguiente si hay alternativas; overlap >50/40% se registra como métrica. | §15.4 |
 | RN-QE-015 | Toda pregunta y umbral tiene versión; intentos históricos no se re-califican. | `05` RF-PREG-006, RF-EVAL-005 |
-| RN-QE-016 | Rate limit: máx 5 envíos de evaluación por usuario/hora. | §11.2 |
+| RN-QE-016 | Rate limit: máx 5 envíos de evapythonción por usuario/hora. | §11.2 |
 | RN-QE-017 | Tiempo de feedback < 1 s y calificación < 2 s p95; indicador de carga si se supera 500 ms. | `06` RNF-010/012 |
 | RN-QE-018 | Diagnóstico no otorga aprobación de módulos. | `05` RF-DIAG-006 |
 
@@ -569,7 +569,7 @@ Intento { id, usuario_id, modulo_id, tipo: QUIZ|EXAM, intento_numero,
           desglose_por_tipo, desglose_por_dificultad, conceptos_debiles,
           overlap_ratio, reused_count, created_at, calificado_at }
 
-ConfigEvaluacion { modulo_id, threshold_quiz, threshold_exam, composicion, pesos, ... , version }
+ConfigEvapythoncion { modulo_id, threshold_quiz, threshold_exam, composicion, pesos, ... , version }
 ```
 
 Índices: `(modulo, tipo, dificultad, estado)`, `(usuario_id, modulo_id, tipo, created_at)`.

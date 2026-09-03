@@ -57,7 +57,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | Preguntas | `RF-PREG` | 7 | MVP |
 | Quizzes | `RF-QUIZ` | 6 | MVP |
 | Exámenes | `RF-EXAM` | 7 | MVP |
-| Evaluación | `RF-EVAL` | 6 | MVP |
+| Evapythonción | `RF-EVAL` | 6 | MVP |
 | Progreso | `RF-PROG` | 6 | MVP |
 | XP / Puntos | `RF-XP` | 5 | MVP |
 | Rachas | `RF-RACHA` | 5 | MVP |
@@ -156,7 +156,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | ID | Descripción | Prioridad | Depende de | Entrega | UC previsto |
 |---|---|---|---|---|---|
 | RF-MOD-001 | El sistema debe listar los módulos de un lenguaje en orden pedagógico configurado (MVP: 12 módulos Python de `01` §34). | Must | RF-LANG-002 | MVP | UC-MOD-01 |
-| RF-MOD-002 | El sistema debe mostrar el detalle de un módulo: objetivo, secciones que lo componen, estado, requisitos y evaluaciones asociadas. | Must | RF-MOD-001 | MVP | UC-MOD-02 |
+| RF-MOD-002 | El sistema debe mostrar el detalle de un módulo: objetivo, secciones que lo componen, estado, requisitos y evapythonciones asociadas. | Must | RF-MOD-001 | MVP | UC-MOD-02 |
 | RF-MOD-003 | El sistema debe gestionar el estado de cada módulo por usuario: bloqueado, disponible, en progreso, aprobado, reprobado. | Must | RF-RUTA-004, RF-EXAM-003 | MVP | UC-MOD-01 |
 | RF-MOD-004 | El sistema debe permitir configurar el orden y contenido de módulos por lenguaje sin modificar código del motor (`23`). | Must | RF-ADM-001 | MVP | UC-ADM-02 |
 | RF-MOD-005 | El sistema debe registrar fecha de inicio, última actividad y aprobación por módulo y usuario. | Must | RF-MOD-003 | MVP | UC-PROF-01 |
@@ -185,7 +185,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 
 | ID | Descripción | Prioridad | Depende de | Entrega | UC previsto |
 |---|---|---|---|---|---|
-| RF-PREG-001 | El sistema debe soportar el banco de preguntas tipificadas: selección múltiple, verdadero/falso, completar código/línea, predecir output, identificar errores, ordenar líneas, seleccionar código correcto, relacionar conceptos, escribir código (evaluado por completado/orden/selección en MVP, sin ejecución), resolver pequeños problemas. | Must | — | MVP | UC-PREG-01 |
+| RF-PREG-001 | El sistema debe soportar el banco de preguntas tipificadas: selección múltiple, verdadero/falso, completar código/línea, predecir output, identificar errores, ordenar líneas, seleccionar código correcto, relacionar conceptos, escribir código (evapythondo por completado/orden/selección en MVP, sin ejecución), resolver pequeños problemas. | Must | — | MVP | UC-PREG-01 |
 | RF-PREG-002 | El sistema debe almacenar cada pregunta con metadatos: lenguaje, módulo, sección, lección, tipo, dificultad, categoría, respuestas válidas, explicación y puntaje. | Must | RF-PREG-001 | MVP | UC-ADM-03 |
 | RF-PREG-003 | El sistema debe entregar preguntas ancladas al contenido de la lección/sección actual (no aleatorias globales). | Must | RF-PREG-001, RF-LEC-001 | MVP | UC-LEC-01 |
 | RF-PREG-004 | El sistema debe validar la respuesta inmediatamente, indicar acierto/error, mostrar explicación y otorgar XP/puntos según configuración. | Must | RF-PREG-001, RF-EVAL-001 | MVP | UC-LEC-01 |
@@ -198,7 +198,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | ID | Descripción | Prioridad | Depende de | Entrega | UC previsto |
 |---|---|---|---|---|---|
 | RF-QUIZ-001 | El sistema debe generar al menos un quiz por módulo con preguntas del módulo actual, según composición configurable por `23`/`25`. | Must | RF-PREG-001, RF-MOD-001 | MVP | UC-QUIZ-01 |
-| RF-QUIZ-002 | El sistema debe presentar el quiz como intento evaluable con navegación entre preguntas, envío único y confirmación. | Must | RF-QUIZ-001 | MVP | UC-QUIZ-02 |
+| RF-QUIZ-002 | El sistema debe presentar el quiz como intento evapythonble con navegación entre preguntas, envío único y confirmación. | Must | RF-QUIZ-001 | MVP | UC-QUIZ-02 |
 | RF-QUIZ-003 | El sistema debe calificar el quiz automáticamente y determinar aprobación con umbral configurable (inicial 70% `01` §15). | Must | RF-QUIZ-002, RF-EVAL-001 | MVP | UC-QUIZ-02 |
 | RF-QUIZ-004 | El sistema debe mostrar revisión de errores tras el quiz: pregunta, respuesta dada, correcta y explicación, sin revelar banco completo. | Must | RF-QUIZ-003 | MVP | UC-QUIZ-03 |
 | RF-QUIZ-005 | El sistema debe permitir reintentar el quiz tras repasar errores; cada intento se registra y la mejor nota no oculta el historial. | Must | RF-QUIZ-003 | MVP | UC-QUIZ-04 |
@@ -216,13 +216,13 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | RF-EXAM-006 | El sistema debe mostrar revisión detallada tras el examen con desglose por tipo de pregunta y conceptos con bajo rendimiento. | Must | RF-EXAM-003, RF-EVAL-004 | MVP | UC-EXAM-03 |
 | RF-EXAM-007 | El sistema debe otorgar XP por aprobar examen según `01` §17 (valores configurables) y marcar el módulo como aprobado. | Must | RF-EXAM-003, RF-XP-001 | MVP | UC-EXAM-02 |
 
-### 4.14 Evaluación (`RF-EVAL`) — ver `01` §27, `15`
+### 4.14 Evapythonción (`RF-EVAL`) — ver `01` §27, `15`
 
 | ID | Descripción | Prioridad | Depende de | Entrega | UC previsto |
 |---|---|---|---|---|---|
-| RF-EVAL-001 | El sistema debe implementar un motor de evaluación que calcule puntuaciones, porcentajes y aciertos/errores de forma determinista y auditable. | Must | RF-PREG-001 | MVP | UC-EVAL-01 |
+| RF-EVAL-001 | El sistema debe implementar un motor de evapythonción que calcule puntuaciones, porcentajes y aciertos/errores de forma determinista y auditable. | Must | RF-PREG-001 | MVP | UC-EVAL-01 |
 | RF-EVAL-002 | El sistema debe producir por cada intento: puntaje total, porcentaje, detalle por pregunta y resultado de aprobación según umbral vigente al momento del intento. | Must | RF-EVAL-001 | MVP | UC-EVAL-01 |
-| RF-EVAL-003 | El sistema debe registrar cada intento de quiz/examen con usuario, módulo, puntaje, % , umbral aplicado, fecha y versión de contenido evaluado. | Must | RF-EVAL-002 | MVP | UC-EVAL-02 |
+| RF-EVAL-003 | El sistema debe registrar cada intento de quiz/examen con usuario, módulo, puntaje, % , umbral aplicado, fecha y versión de contenido evapythondo. | Must | RF-EVAL-002 | MVP | UC-EVAL-02 |
 | RF-EVAL-004 | El sistema debe identificar conceptos/temas con bajo rendimiento por usuario y exponerlos para repaso y adaptación de ruta. | Must | RF-EVAL-003 | MVP | UC-EVAL-03 |
 | RF-EVAL-005 | El sistema debe versionar umbrales (70/80 iniciales) y aplicar el vigente al calificar, conservando el umbral histórico por intento. | Must | RF-EVAL-001 | MVP | UC-ADM-04 |
 | RF-EVAL-006 | El sistema debe garantizar que la calificación no depende de estado del cliente; toda decisión de aprobación se toma en servidor. | Must | RF-EVAL-001 | MVP | UC-EVAL-01 |
@@ -275,7 +275,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | RF-REP-001 | El sistema debe generar sesiones de repaso con preguntas de contenido ya estudiado, priorizadas según `01` §12. | Must | RF-PREG-005, RF-EVAL-004 | MVP | UC-REP-01 |
 | RF-REP-002 | El sistema debe priorizar repaso por: respuestas incorrectas previas, conceptos con bajo rendimiento, conceptos no repasados hace días y prerrequisitos de contenidos próximos. | Must | RF-REP-001 | MVP | UC-REP-01 |
 | RF-REP-003 | El sistema debe ofrecer repaso entre sesiones sin bloquear el avance de la ruta principal; el repaso es opcional pero recomendado. | Must | RF-REP-001 | MVP | UC-REP-02 |
-| RF-REP-004 | El sistema debe registrar resultados de repaso y retroalimentar al motor de evaluación para ajustar priorización futura, sin penalizar el progreso del módulo. | Must | RF-REP-001, RF-EVAL-004 | MVP | UC-REP-01 |
+| RF-REP-004 | El sistema debe registrar resultados de repaso y retroalimentar al motor de evapythonción para ajustar priorización futura, sin penalizar el progreso del módulo. | Must | RF-REP-001, RF-EVAL-004 | MVP | UC-REP-01 |
 | RF-REP-005 | El sistema debe permitir repaso manual por módulo/tema a elección del usuario además del repaso recomendado. | Should | RF-REP-001 | MVP | UC-REP-02 |
 
 ### 4.20 Certificados (`RF-CERT`) — ver `01` §21–§22, `04` §2.5, `17`
@@ -284,7 +284,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 |---|---|---|---|---|---|
 | RF-CERT-001 | El sistema debe generar un certificado de finalización por lenguaje solo cuando todos los módulos y exámenes del lenguaje estén aprobados con umbral vigente. Un certificado por lenguaje completado (`04` §7). | Must | RF-EXAM-003, RF-MOD-003 | MVP | UC-CERT-01 |
 | RF-CERT-002 | El sistema debe incluir en el certificado al menos: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, identificador único, nombre de la plataforma y estado de finalización (`01` §21). | Must | RF-CERT-001 | MVP | UC-CERT-01 |
-| RF-CERT-003 | El sistema debe asignar identificador único con formato `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001` (`01` §22, `04` §7) correlativo por lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-01 |
+| RF-CERT-003 | El sistema debe asignar identificador único con formato `KODA-{LANG}-{SEQ}` ej. `KODA-PY-000001` (`01` §22, `04` §7) correlativo por lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-01 |
 | RF-CERT-004 | El sistema debe generar código QR que permita verificación interna por ID dentro de la plataforma. Verificación pública es Post-MVP (`04` §3). | Must | RF-CERT-003 | MVP | UC-CERT-02 |
 | RF-CERT-005 | El sistema debe permitir re-emisión/invalidación: si cambia el contenido del lenguaje de forma significativa, el certificado previo se marca obsoleto y se exige revalidación (ver `17`). No se duplican certificados vigentes por el mismo lenguaje. | Must | RF-CERT-001 | MVP | UC-CERT-03 |
 | RF-CERT-006 | El sistema debe exponer verificación interna por ID/QR que confirme validez, lenguaje, fecha y titular sin exponer datos sensibles de terceros. | Must | RF-CERT-003 | MVP | UC-CERT-02 |
@@ -327,7 +327,7 @@ Cuando un requisito materializa un elemento de `01`, se indica entre paréntesis
 | RF-ADM-002 | El sistema debe proveer CRUD de preguntas y banco asociado (tipos, dificultad, respuestas, explicaciones) con versionado (`RF-PREG-006`). | Must | RF-ADM-001, RF-PREG-002 | MVP | UC-ADM-03 |
 | RF-ADM-003 | El sistema debe permitir publicar y ocultar contenido sin despliegue de código, con efecto inmediato o programado. | Must | RF-ADM-001 | MVP | UC-ADM-02 |
 | RF-ADM-004 | El sistema debe permitir configurar sin código: umbrales de quiz/examen, valores de XP, orden de módulos y composición de exámenes/quizzes. | Must | RF-EVAL-005, RF-XP-004 | MVP | UC-ADM-04 |
-| RF-ADM-005 | El sistema debe versionar todo contenido publicado y mantener trazabilidad de qué versión cursó cada intento de evaluación. | Must | RF-ADM-001, RF-EVAL-003 | MVP | UC-ADM-02 |
+| RF-ADM-005 | El sistema debe versionar todo contenido publicado y mantener trazabilidad de qué versión cursó cada intento de evapythonción. | Must | RF-ADM-001, RF-EVAL-003 | MVP | UC-ADM-02 |
 | RF-ADM-006 | El sistema debe validar coherencia antes de publicar: IDs únicos, prerrequisitos sin ciclos, referencias lenguaje→módulo→sección→pregunta íntegras y tipos de pregunta válidos. | Must | RF-ADM-001 | MVP | UC-ADM-02 |
 | RF-ADM-007 | El sistema debe restringir operaciones de administración a usuarios con rol administrador autenticado y autorizado (RBAC mínimo). | Must | RF-AUTH-002 | MVP | UC-ADM-05 |
 | RF-ADM-008 | El sistema debe registrar auditoría de cambios administrativos (quién, qué, cuándo, versión anterior/nueva). | Must | RF-ADM-001 | MVP | UC-ADM-05 |
@@ -403,7 +403,7 @@ Cada `RF` se considera aceptado solo si:
 
 | Término | Definición en este documento |
 |---|---|
-| Intento | Envío evaluable de quiz/examen o respuesta a pregunta; inmutable una vez calificado. |
+| Intento | Envío evapythonble de quiz/examen o respuesta a pregunta; inmutable una vez calificado. |
 | Aprobado | Intento con % ≥ umbral vigente del módulo al momento de calificar. |
 | Módulo aprobado | Al menos un intento de examen del módulo aprobado; no se promedia. |
 | Lenguaje completado | Todos los módulos del lenguaje en estado aprobado. |

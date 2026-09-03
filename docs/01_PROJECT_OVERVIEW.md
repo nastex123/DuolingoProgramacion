@@ -22,7 +22,7 @@
 
 Plataforma interactiva orientada a la enseñanza y aprendizaje de programación de manera didáctica, progresiva y gamificada, dirigida a cualquier persona interesada — con o sin conocimientos previos.
 
-El usuario selecciona el lenguaje que desea aprender y realiza una evaluación inicial para determinar su nivel. A partir de ese diagnóstico, el sistema establece una ruta de aprendizaje adecuada.
+El usuario selecciona el lenguaje que desea aprender y realiza una evapythonción inicial para determinar su nivel. A partir de ese diagnóstico, el sistema establece una ruta de aprendizaje adecuada.
 
 Niveles contemplados:
 
@@ -31,13 +31,13 @@ Niveles contemplados:
 - **Semi-Professional**
 - **Professional**
 
-La plataforma combina características de apps de aprendizaje gamificado, plataformas de programación y sistemas de evaluación, inspirada conceptualmente en modelos como Duolingo y CodeDex, pero enfocada específicamente en el aprendizaje progresivo de múltiples lenguajes de programación.
+La plataforma combina características de apps de aprendizaje gamificado, plataformas de programación y sistemas de evapythonción, inspirada conceptualmente en modelos como Duolingo y CodeDex, pero enfocada específicamente en el aprendizaje progresivo de múltiples lenguajes de programación.
 
 ---
 
 ## 3. Propósito
 
-Facilitar el aprendizaje de programación reduciendo la dificultad inicial mediante una experiencia interactiva que divide el contenido en pequeñas unidades acompañadas de ejercicios, preguntas, evaluaciones y recompensas, favoreciendo sesiones cortas y frecuentes con registro permanente del progreso.
+Facilitar el aprendizaje de programación reduciendo la dificultad inicial mediante una experiencia interactiva que divide el contenido en pequeñas unidades acompañadas de ejercicios, preguntas, evapythonciones y recompensas, favoreciendo sesiones cortas y frecuentes con registro permanente del progreso.
 
 ---
 
@@ -60,7 +60,7 @@ La plataforma responde con:
 
 - Aprendizaje progresivo.
 - Ejercicios interactivos.
-- Evaluaciones.
+- Evapythonciones.
 - Retroalimentación.
 - Gamificación.
 - Seguimiento del progreso.
@@ -76,7 +76,7 @@ Flujo principal del usuario:
 1. Crear una cuenta.
 2. Seleccionar un lenguaje de programación.
 3. Indicar conocimiento previo.
-4. Realizar evaluación diagnóstica.
+4. Realizar evapythonción diagnóstica.
 5. Recibir ruta de aprendizaje.
 6. Estudiar mediante módulos y secciones.
 7. Resolver ejercicios interactivos.
@@ -113,7 +113,7 @@ Lenguaje → Nivel / Ruta → Módulo → Sección → Lección → Ejercicios
 
 ### 7.1 Lenguaje
 
-Lenguaje que el usuario desea aprender (ej.: Python, Lua, Java, C, C++, C#, Go, JavaScript, TypeScript). La arquitectura debe permitir agregar nuevos lenguajes sin rework mayor.
+Lenguaje que el usuario desea aprender (ej.: Python, Java, C, C++, C#, Go, JavaScript, TypeScript). La arquitectura debe permitir agregar nuevos lenguajes sin rework mayor.
 
 ### 7.2 Módulo
 
@@ -152,7 +152,7 @@ El usuario declara uno de los niveles:
 - **SEMI-PROFESSIONAL** — experiencia considerable, conceptos intermedios/avanzados.
 - **PROFESSIONAL** — experiencia avanzada y dominio considerable.
 
-El nivel declarado se complementa con una prueba diagnóstica que verifica la autoevaluación y permite recomendar el módulo/sección de inicio.
+El nivel declarado se complementa con una prueba diagnóstica que verifica la autoevapythonción y permite recomendar el módulo/sección de inicio.
 
 ---
 
@@ -322,7 +322,7 @@ Ejemplos:
 | FIRST CODE | Escribir el primer código |
 | FIRST MODULE | Completar el primer módulo |
 | ON FIRE | Racha de 7 días |
-| PERFECT SCORE | 100% en una evaluación |
+| PERFECT SCORE | 100% en una evapythonción |
 | PYTHON BEGINNER | Completar fundamentos de Python |
 | CODE MASTER | Completar todos los módulos de un lenguaje |
 | MULTI LANGUAGE | Completar al menos dos lenguajes |
@@ -336,7 +336,7 @@ Muestra: nombre, avatar, nivel, XP, lenguajes estudiados, progreso por lenguaje,
 ```
 PERFIL — Brandon — Nivel 12 — XP 1.240 — Racha 7 días
 Python  ██████████████░░ 85%
-Lua     ██████░░░░░░░░░░ 40%
+Python     ██████░░░░░░░░░░ 40%
 Logros: 12
 ```
 
@@ -350,7 +350,7 @@ Al completar todos los módulos de un lenguaje se genera un certificado con al m
 
 ## 22. Identificación del certificado
 
-Identificador único, ej.: `KODA-LUA-000001` (`KODA` = plataforma, `LUA` = Lua, `000001` = consecutivo). Opcionalmente incluye código QR para verificación dentro de la plataforma.
+Identificador único, ej.: `KODA-PY-000001` (`KODA` = plataforma, `PY` = `000001` = consecutivo). Opcionalmente incluye código QR para verificación dentro de la plataforma.
 
 ---
 
@@ -372,7 +372,7 @@ Diseño modular con responsabilidades separadas:
 
 ```
 USER → AUTHENTICATION → USER PROFILE → LEARNING ENGINE → CONTENT ENGINE
-     → QUESTION ENGINE → EVALUATION ENGINE → PROGRESS ENGINE
+     → QUESTION ENGINE → EVAPYTION ENGINE → PROGRESS ENGINE
      → GAMIFICATION ENGINE → CERTIFICATION ENGINE
 ```
 
@@ -393,7 +393,7 @@ Administra: tipos de preguntas, banco de preguntas, respuestas, dificultad, cate
 
 ---
 
-## 27. Motor de evaluación (Evaluation Engine)
+## 27. Motor de evapythonción (Evapythontion Engine)
 
 Calcula puntuaciones y porcentajes, determina aciertos/errores, aprobación, registra resultados e identifica conceptos con bajo rendimiento.
 
@@ -416,7 +416,7 @@ Verifica requisitos, genera certificado, asigna identificador único, produce el
 Diseñada para agregar lenguajes sin cambios significativos en el núcleo.
 
 - Versión inicial: Python
-- Posteriormente: Lua, JavaScript, TypeScript, Java, C, C++, C#, Go
+- Posteriormente: JavaScript, TypeScript, Java, C, C++, C#, Go
 
 El contenido educativo debe estar desacoplado de la lógica principal.
 
@@ -459,7 +459,7 @@ Mínimo viable:
 - Certificado PDF
 
 Lenguajes del MVP:
-- **Lua 5.4 (Piloto Pedagógico Operativo):** 190 micro-lecciones atómicas listas en M01 (Fundamentos) y M02 (Variables y Tipos), validando la pedagogía de micro-lecciones sin fricción en WebAssembly (`wasmoon`). Ver [`ADR-005`](adr/ADR-005-lua-curriculo-piloto-validacion-pedagogica.md) y [`28_LUA_CURRICULUM.md`](28_LUA_CURRICULUM.md).
+- **Python 3.12 (Lenguaje Oficial del MVP):** 190 micro-lecciones atómicas listas en M01 (Fundamentos) y M02 (Variables y Tipos), validando la pedagogía de micro-lecciones sin fricción en WebAssembly (`Pyodide`). Ver [`ADR-005`](adr/ADR-005-adopcion-python-lenguaje-oficial-mvp.md) y [`01_PROJECT_OVERVIEW.md`](01_PROJECT_OVERVIEW.md).
 - **Python (Ruta Troncal de Expansión):** Currículo completo de 12 módulos para escalamiento del contenido declarativo.
 
 ---
@@ -485,13 +485,13 @@ Lenguajes del MVP:
 
 ## 35. Resultado esperado
 
-Plataforma capaz de guiar al usuario desde conocimientos iniciales hasta un nivel avanzado mediante una ruta estructurada donde pueda aprender, practicar, ser evaluado, recibir retroalimentación, visualizar su progreso y obtener recompensas. Experiencia sencilla para principiantes y flexible para usuarios con conocimientos previos.
+Plataforma capaz de guiar al usuario desde conocimientos iniciales hasta un nivel avanzado mediante una ruta estructurada donde pueda aprender, practicar, ser evapythondo, recibir retroalimentación, visualizar su progreso y obtener recompensas. Experiencia sencilla para principiantes y flexible para usuarios con conocimientos previos.
 
 ---
 
 ## 36. Visión a largo plazo
 
-Convertirse en una plataforma multiplataforma, accesible e interactiva donde cualquier persona aprenda múltiples lenguajes mediante rutas personalizadas, desarrollando habilidades reales de programación — no solo sintaxis — a través de teoría, práctica, resolución de problemas, proyectos y evaluación continua.
+Convertirse en una plataforma multiplataforma, accesible e interactiva donde cualquier persona aprenda múltiples lenguajes mediante rutas personalizadas, desarrollando habilidades reales de programación — no solo sintaxis — a través de teoría, práctica, resolución de problemas, proyectos y evapythonción continua.
 
 ---
 
@@ -510,4 +510,4 @@ USUARIO → REGISTRO → SELECCIÓN DE LENGUAJE → NIVEL DE CONOCIMIENTO → DI
 
 > "Aprender programación debe consistir en aprender, practicar, equivocarse, recibir retroalimentación y volver a intentarlo."
 
-Cada concepto debe tener una oportunidad de práctica y evaluación asociada. El objetivo no es solo completar módulos, sino demostrar comprensión de los conceptos enseñados.
+Cada concepto debe tener una oportunidad de práctica y evapythonción asociada. El objetivo no es solo completar módulos, sino demostrar comprensión de los conceptos enseñados.

@@ -32,7 +32,7 @@ Aprender programación es percibido como difícil, fragmentado y desmotivador pa
 ## 3. Causas
 
 - **Causa pedagógica:** enfoque expositivo (video largo + doc extensa) en lugar de micro-learning con práctica integrada (ver `01` §6).
-- **Causa de diseño de contenido:** teoría desacoplada de evaluación; preguntas genéricas no ancladas al concepto recién enseñado.
+- **Causa de diseño de contenido:** teoría desacoplada de evapythonción; preguntas genéricas no ancladas al concepto recién enseñado.
 - **Causa estructural:** contenido hardcodeado en la UI, sin modelo `Lenguaje → Módulo → Sección → Lección` reutilizable (ver `01` §31).
 - **Causa de personalización:** falta de diagnóstico inicial y de adaptación basada en historial de errores y rendimiento (ver `01` §8-§9).
 - **Causa motivacional:** ausencia de mecánicas de gamificación (XP, rachas, logros) y de seguimiento visual del progreso.
@@ -54,10 +54,10 @@ Aprender programación es percibido como difícil, fragmentado y desmotivador pa
 
 | Segmento | Necesidad crítica | Dolor principal |
 |---|---|---|
-| **Principiante absoluto** | Ruta desde cero, lenguaje sencillo (Lua) | No sabe por dónde empezar |
+| **Principiante absoluto** | Ruta desde cero, lenguaje sencillo (Python) | No sabe por dónde empezar |
 | **Principiante con nociones** | Validar nivel real y evitar repetición | Contenido redundante |
 | **Intermedio (Medium / Semi-Professional)** | Entrada adaptativa a mitad de ruta | Pérdida de tiempo en fundamentos |
-| **Avanzado (Professional)** | Evaluación rigurosa y certificación | Falta de reconocimiento |
+| **Avanzado (Professional)** | Evapythonción rigurosa y certificación | Falta de reconocimiento |
 | **Usuario recurrente** | Repaso espaciado y rachas | Olvido de conceptos |
 | **Administrador de contenido** | Autoría sin reescribir el motor | Contenido acoplado al código |
 
@@ -68,7 +68,7 @@ Aprender programación es percibido como difícil, fragmentado y desmotivador pa
 ## 6. Situación actual
 
 - **Recursos existentes:** documentación oficial, tutoriales en video, plataformas de ejercicios aislados. Útiles pero desintegrados.
-- **Plataformas gamificadas (ej. Duolingo, CodeDex):** validan el modelo de micro-lecciones + recompensas, pero no cubren la progresión multi-lenguaje con evaluación y certificación descrita en `01` §34-§37.
+- **Plataformas gamificadas (ej. Duolingo, CodeDex):** validan el modelo de micro-lecciones + recompensas, pero no cubren la progresión multi-lenguaje con evapythonción y certificación descrita en `01` §34-§37.
 - **Alternativa de no hacer nada:** el usuario combina 3-4 herramientas (docs + juez en línea + videos + apuntes) sin trazabilidad de progreso ni adaptación.
 
 ---
@@ -80,7 +80,7 @@ Sin detallar implementación técnica (reservada para `11_SYSTEM_ARCHITECTURE.md
 - **Micro-learning integrado:** cada concepto → explicación → ejemplo → ejercicio → feedback → recompensa (`01` §6).
 - **Estructura jerárquica independiente:** contenido desacoplado del motor (`01` §31, `23_CONTENT_SPECIFICATION.md`).
 - **Diagnóstico + adaptatividad:** nivel declarado + prueba diagnóstica determinan punto de entrada; historial de errores y rendimiento reajustan la ruta (`01` §8-§9, `14_LEARNING_SYSTEM.md`).
-- **Evaluación continua:** preguntas ancladas al módulo, Quiz intermedio (70%) y Examen final (80%) con revisión de errores (`01` §11-§15).
+- **Evapythonción continua:** preguntas ancladas al módulo, Quiz intermedio (70%) y Examen final (80%) con revisión de errores (`01` §11-§15).
 - **Gamificación y progreso:** XP, rachas, logros y perfil visual sostienen la constancia (`01` §16-§19).
 - **Multi-lenguaje escalable:** arquitectura modular; agregar un lenguaje es agregar contenido, no reescribir el núcleo (`01` §30).
 
@@ -89,8 +89,8 @@ Sin detallar implementación técnica (reservada para `11_SYSTEM_ARCHITECTURE.md
 ## 8. Justificación del proyecto
 
 1. **Demanda:** la programación es habilidad transversal; la barrera de entrada sigue alta pese a la abundancia de recursos.
-2. **Brecha no resuelta:** ninguna solución combina en un solo lugar ruta adaptativa + práctica inmediata + evaluación rigurosa + gamificación + certificación multi-lenguaje.
-3. **Viabilidad:** MVP de un solo lenguaje (Lua) permite validar el núcleo educativo con costo contenido (ver `04_SCOPE.md` y `22_ROADMAP.md`).
+2. **Brecha no resuelta:** ninguna solución combina en un solo lugar ruta adaptativa + práctica inmediata + evapythonción rigurosa + gamificación + certificación multi-lenguaje.
+3. **Viabilidad:** MVP de un solo lenguaje (Python) permite validar el núcleo educativo con costo contenido (ver `04_SCOPE.md` y `22_ROADMAP.md`).
 4. **Impacto:** reduce el tiempo hasta la primera habilidad demostrable y aumenta la retención mediante motivación intrínseca y extrínseca.
 
 ---

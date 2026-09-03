@@ -62,7 +62,7 @@ Este documento es la **fuente de verdad del subsistema administrativo**. Define 
 
 | Rol | Valor en `users.role` | Cómo se obtiene | Alcance |
 |---|---|---|---|
-| `USER` | `user` | Registro (`05` RF-AUTH-001) | Dueño de su propio progreso. Accede a `/users/me/*`, aprendizaje y evaluación propios con aislamiento estricto `user_id = token.sub` (`05` RF-USR-005, `06` RNF-009). |
+| `USER` | `user` | Registro (`05` RF-AUTH-001) | Dueño de su propio progreso. Accede a `/users/me/*`, aprendizaje y evapythonción propios con aislamiento estricto `user_id = token.sub` (`05` RF-USR-005, `06` RNF-009). |
 | `ADMIN` | `admin` | Asignación directa en BD por `ADMIN` existente o seed inicial; no auto-promoción por API pública | `USER` + todo `/admin/*` (ver `05` RF-ADM-007). Opera contenido, configuración, usuarios, certificados y logros. |
 | `PREMIUM` | Flag `users.is_premium` (derivado de `subscriptions`, no rol) | Suscripción activa (`05` RF-PREM-002) | Condiciona `ads` pero **no** permisos de contenido (`07` US-066). Un `ADMIN` puede ser `premium` o no; son ortogonales. |
 
@@ -183,7 +183,7 @@ interface AdminContentService {
 | **Editar lenguaje** | `PATCH /admin/languages/{id}` | Cambiar `name/description/icon/sort_order`; `code` inmutable tras publicar | Nueva `content_version` si afecta catálogo |
 | **Listar (admin)** | `GET /admin/languages?include_hidden=true` | — | Ve todos los estados; `USER` solo ve `available/coming_soon` en `GET /languages` |
 | **Publicar / Ocultar** | `POST /admin/languages/{id}/publish`, `POST /admin/languages/{id}/unpublish` | `RF-ADM-006` previo | Publicar expone en `GET /languages`; ocultar lo retira sin borrar progreso histórico |
-| **Agregar lenguaje nuevo sin tocar motor** | Directorio `content/languages/{nuevo}/` + `manifest.json` + `POST /admin/content/publish` | Ensayo `RNF-006` (Lua mínimo 1 módulo) | 0 cambios en `src/modules/*` (`11` §18) |
+| **Agregar lenguaje nuevo sin tocar motor** | Directorio `content/languages/{nuevo}/` + `manifest.json` + `POST /admin/content/publish` | Ensayo `RNF-006` (Python mínimo 1 módulo) | 0 cambios en `src/modules/*` (`11` §18) |
 
 **Reglas:**
 - En MVP solo `PY=available`; el resto `coming_soon` (ver `01` §30, `05` RF-LANG-001).
@@ -298,7 +298,7 @@ Contenido publicado (v1) ── ADMIN edita ──► Contenido v2 (nueva fila/v
 | **Marcar obsoleto** | `POST /admin/certificates/{id}/mark-obsolete` | `status → obsolete` cuando `language_content_version` cambia significativamente (`05` RF-CERT-005); exige revalidación |
 | **Re-emitir** | `POST /admin/certificates/{id}/reissue` | Emite nuevo `code` correlativo con lock `certificate_sequences` + `UPDATE ... RETURNING last_seq` (ver `12` §6.17); anterior pasa a `revoked/obsolete` |
 | **Regenerar PDF** | `POST /admin/certificates/{id}/pdf/regenerate` | Render plantilla versionada + QR → `Object Storage` S3-compatible; `pdf_version+1`; bit-a-bit fiel (`05` RF-PDF-003) |
-| **Verificar (admin)** | `GET /admin/certificates/verify?code=KODA-LUA-000001` | Igual que `GET /certificates/{id}` público pero con titular completo (admin ve PII; público ve enmascarado `CC ***678`) |
+| **Verificar (admin)** | `GET /admin/certificates/verify?code=KODA-PY-000001` | Igual que `GET /certificates/{id}` público pero con titular completo (admin ve PII; público ve enmascarado `CC ***678`) |
 
 **Secuencia correlativa:** `UPDATE certificate_sequences SET last_seq = last_seq + 1 WHERE language_id=$1 RETURNING last_seq` en transacción; `code = 'CQ-'||code||'-'||LPAD(last_seq::text,6,'0')`.
 
@@ -422,7 +422,7 @@ sequenceDiagram
 ```mermaid
 flowchart TD
     A[ADMIN lista certificados<br/>GET /admin/certificates?status=valid] --> B{¿Acción?}
-    B -->|Verificar| C[GET /admin/certificates/verify?code=KODA-LUA-000001<br/>muestra validez + titular completo]
+    B -->|Verificar| C[GET /admin/certificates/verify?code=KODA-PY-000001<br/>muestra validez + titular completo]
     B -->|Revocar| D[POST /admin/certificates/{id}/revoke<br/>reason]
     D --> E[status=revoked<br/>revoked_at=now()<br/>uq_certificates_user_lang_valid libera slot]
     E --> F[AUDIT_LOG + notificar titular<br/>revalidación requerida]
@@ -431,10 +431,10 @@ flowchart TD
     H --> I[USER ve Obsoleto — revalida<br/>en /verificar/:codigo]
     I --> J[USER revalida<br/>aprueba exámenes faltantes]
     J --> K[POST /admin/certificates/{id}/reissue]
-    K --> L[UPDATE certificate_sequences<br/>last_seq+1 → nuevo code KODA-LUA-000042]
+    K --> L[UPDATE certificate_sequences<br/>last_seq+1 → nuevo code KODA-PY-000042]
     L --> M[INSERT certificates<br/>status=valid<br/>pdf_version=1]
     M --> N[POST /admin/certificates/{id}/pdf/regenerate<br/>plantilla versionada + QR → S3]
-    N --> O[USER descarga PDF<br/>GET /certificates/KODA-LUA-000042/pdf<br/>solo titular 200 else 403]
+    N --> O[USER descarga PDF<br/>GET /certificates/KODA-PY-000042/pdf<br/>solo titular 200 else 403]
     B -->|Regenerar PDF| N
 ```
 

@@ -9,7 +9,7 @@
 ```
 content/
 └── languages/
-    └── {slug}/                          # ej. lua, python, javascript
+    └── {slug}/                          # ej. python, javascript, typescript
         ├── manifest.json                # Metadatos del curso, versión y lista de módulos
         ├── config/
         │   ├── thresholds.json          # Umbrales mínimos de aprobación (% quiz y examen)
@@ -40,6 +40,6 @@ Toda lección y ejercicio añadido a este directorio debe apegarse estrictamente
 
 ## 🔍 Cursos Disponibles
 
-- **Lua 5.4 (`languages/lua/`):**
-  - **Módulo 01:** *Fundamentos de Lua* — 90 lecciones atómicas (9 secciones × 10 lecciones).
-  - **Módulo 02:** *Variables y Tipos de Datos* — 100 lecciones atómicas (10 secciones × 10 lecciones) + 20 preguntas de examen.
+- **Python 3.12 (`languages/python/`):**
+  - **Módulo 01:** *Fundamentos de Python* (`modules/01_fundamentos/`) — Lecciones atómicas con print(), textos, números y comentarios.
+  - **Ruta Completa:** 12 módulos canónicos declarados en `manifest.json`.

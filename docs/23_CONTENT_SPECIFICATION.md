@@ -38,7 +38,7 @@ Este documento define **la estructura canónica del contenido educativo** —qu�
 
 ```
 Lenguaje (Language)
- └─ Módulo (Module)                 — unidad temática evaluable con examen final
+ └─ Módulo (Module)                 — unidad temática evapythonble con examen final
      ├─ Sección (Section)           — unidad de sesión: teoría + ejemplo + ejercicios
      │   └─ Lección (Lesson)        — micro-bloque: concepto → explicación → ejemplo → ejercicio(s) → feedback → recompensa
      │       ├─ Ejemplo(s) (Example)    — bloque(s) de código con output esperado
@@ -51,7 +51,7 @@ Lenguaje (Language)
 
 **Cardinalidades MVP (Python 12 módulos, `01` §34):**
 
-| Nivel | Cardinalidad | Orden | Prerrequisito | Evaluable |
+| Nivel | Cardinalidad | Orden | Prerrequisito | Evapythonble |
 |---|---|---|---|---|
 | Lenguaje | N en catálogo; 1 activo por usuario; en MVP solo `PY=available` | `sort_order` global | — | No (se completa vía módulos) |
 | Módulo | 12 en Python; N configurable por lenguaje | `position` 1..N por lenguaje, sin huecos | `prerequisite_module_id` (DAG) | Sí — Examen final |
@@ -71,7 +71,7 @@ Unidad raíz del catálogo. Todo lo específico del lenguaje vive bajo `content/
 | Campo | Tipo | Requerido | Validación | Descripción |
 |---|---|---|---|---|
 | `id` | `UUID` | Sí | PK, único | Identificador interno estable |
-| `code` | `string` | Sí | `^[A-Z0-9_]{2,10}$`, único; ej. `PY`, `LUA`, `JS` | Usado en `KODA-{LANG}-{SEQ}` (`01` §22) |
+| `code` | `string` | Sí | `^[A-Z0-9_]{2,10}$`, único; ej. `PY`, `PY`, `JS` | Usado en `KODA-{LANG}-{SEQ}` (`01` §22) |
 | `slug` | `string` | Sí | `^[a-z0-9-]{2,50}$`, único; ej. `python` | URL `/languages/python` |
 | `name` | `string` | Sí | 2–50 chars, único | Ej. "Python" |
 | `description` | `string` | No | ≤2000 chars | Visible en biblioteca |
@@ -162,12 +162,12 @@ Bloque ilustrativo dentro de una lección.
 | `id` | `UUID` | No | PK si se referencia | — |
 | `title` | `string` | No | ≤100 chars | Ej. "Declarar y mostrar una variable" |
 | `code` | `string` | Sí | 1–2000 chars, sintaxis válida del lenguaje | Código fuente |
-| `language` | `string` | Sí | `python` \| `lua` \| `javascript` \| ... | Para resaltado |
+| `language` | `string` | Sí | `python` \| `python` \| `javascript` \| ... | Para resaltado |
 | `output` | `string` \| `null` | No | ≤1000 chars | Salida esperada |
 | `explanation` | `string` | No | ≤1000 chars | Qué demuestra el ejemplo |
 | `position` | `integer` | Sí | 1..N | Orden dentro de la lección |
 
-**Regla:** el ejemplo nunca es evaluable; solo ilustra. La evaluación vive en `exercises`.
+**Regla:** el ejemplo nunca es evapythonble; solo ilustra. La evapythonción vive en `exercises`.
 
 ### 4.6 Ejercicio / Pregunta (Question)
 
@@ -192,7 +192,7 @@ Instancia tipificada. No se redefine aquí el catálogo completo; toda pregunta 
 | `score` | `integer` | Sí | 1–100, por defecto 10 | Puntaje base `p_base` |
 | `hints` | `array<string>` | No | Cada ≤500 chars | Pistas opcionales (no revelan respuesta) |
 | `time_estimated_seconds` | `integer` \| `null` | No | 10–600 | — |
-| `concept_ids` | `array<string>` | No | Cada `concept_id` válido | Conceptos evaluados (para repaso) |
+| `concept_ids` | `array<string>` | No | Cada `concept_id` válido | Conceptos evapythondos (para repaso) |
 | `status` | `enum` | Sí | `draft` \| `published` \| `archived` | — |
 | `content_version` | `integer` | Sí | `>=1`, alias de `version` | Trazabilidad `RNF-035` |
 | `is_diagnostic` | `boolean` | No | Por defecto `false` | Si `true`, elegible para diagnóstico (`14` §5.2) |
@@ -210,7 +210,7 @@ Instancia tipificada. No se redefine aquí el catálogo completo; toda pregunta 
 | `order_lines` | Ordenar líneas | Reordenar 4–6 bloques |
 | `select_code` | Seleccionar código correcto | Elegir snippet correcto entre 3–4 |
 | `matching` | Relacionar conceptos | Emparejar 3–5 pares término↔definición |
-| `write_code` | Escribir código (MVP restringido) | 1–3 líneas; evaluado por tokens sin runner (`04` §4) |
+| `write_code` | Escribir código (MVP restringido) | 1–3 líneas; evapythondo por tokens sin runner (`04` §4) |
 | `small_problem` | Resolver pequeño problema | Respuesta determinista (numérica/texto/opción) |
 
 ### 4.7 Respuesta (Answer)
@@ -288,7 +288,7 @@ content/
 │   │       │   └── quizzes/
 │   │       │       └── quiz_01.json   # composición + refs a question_ids
 │   │       └── 02_variables/
-│   └── lua/                           # ← nuevo lenguaje = nuevo directorio (RNF-006)
+│   └── python/                           # ← nuevo lenguaje = nuevo directorio (RNF-006)
 │       └── manifest.json
 └── achievements/
     └── catalog.json
@@ -726,7 +726,7 @@ El esquema completo vive en `content/schemas/content.schema.json` y se valida en
       "properties": {
         "title": { "type": "string", "maxLength": 100 },
         "code": { "type": "string", "minLength": 1, "maxLength": 2000 },
-        "language": { "type": "string", "enum": ["python", "lua", "javascript", "typescript", "java", "c", "cpp", "csharp", "go"] },
+        "language": { "type": "string", "enum": ["python", "python", "javascript", "typescript", "java", "c", "cpp", "csharp", "go"] },
         "output": { "type": ["string", "null"], "maxLength": 1000 },
         "explanation": { "type": "string", "maxLength": 1000 },
         "position": { "type": "integer", "minimum": 1 }

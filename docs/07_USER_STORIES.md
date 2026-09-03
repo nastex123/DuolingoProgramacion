@@ -7,7 +7,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento traduce los requisitos funcionales (`05`) en historias centradas en el usuario, escritas en lenguaje de negocio y evaluables por criterios de aceptación. Es la base para priorización MVP, planificación de sprints y validación con usuarios reales.
+Este documento traduce los requisitos funcionales (`05`) en historias centradas en el usuario, escritas en lenguaje de negocio y evapythonbles por criterios de aceptación. Es la base para priorización MVP, planificación de sprints y validación con usuarios reales.
 
 **Fuera de alcance:** especificación técnica (`11`), modelo de datos (`12`), contratos de API (`13`) y casos de uso formales (`08` — aquí se referencian, no se repiten).
 
@@ -66,7 +66,7 @@ para crear mi cuenta y comenzar a aprender.
 | Perfil y Progreso Visible | E02 | US-008 – US-012 | Identidad, avance y estadísticas |
 | Onboarding y Ruta Adaptativa | E03 | US-013 – US-022 | Lenguaje, nivel, diagnóstico y ruta personalizada |
 | Aprendizaje — Módulos, Secciones y Lecciones | E04 | US-023 – US-030 | Consumo de contenido con reanudación |
-| Evaluación — Preguntas, Quiz y Examen | E05 | US-031 – US-040 | Práctica anclada y certificación de dominio por módulo |
+| Evapythonción — Preguntas, Quiz y Examen | E05 | US-031 – US-040 | Práctica anclada y certificación de dominio por módulo |
 | Gamificación — XP, Rachas y Logros | E06 | US-041 – US-049 | Motivación sostenida |
 | Repaso y Refuerzo | E07 | US-050 – US-053 | Memoria a largo plazo |
 | Certificación | E08 | US-054 – US-060 | Acreditación y portabilidad |
@@ -420,7 +420,7 @@ para crear mi cuenta y comenzar a aprender.
 - **RF:** RF-MOD-001, RF-MOD-002, RF-MOD-005
 - **UC:** UC-MOD-01, UC-MOD-02
 - **Criterios de aceptación:**
-  - [ ] Dado que seleccioné Python, cuando listo módulos, entonces veo los 12 en orden pedagógico con objetivo, secciones, estado, requisitos y evaluaciones.
+  - [ ] Dado que seleccioné Python, cuando listo módulos, entonces veo los 12 en orden pedagógico con objetivo, secciones, estado, requisitos y evapythonciones.
   - [ ] Dado que consulto un módulo, cuando se abre, entonces veo fecha de inicio, última actividad y estado de aprobación.
 
 #### US-024 — Consumir una lección con flujo completo
@@ -522,7 +522,7 @@ para crear mi cuenta y comenzar a aprender.
 
 ---
 
-### E05 — Evaluación — Preguntas, Quiz y Examen
+### E05 — Evapythonción — Preguntas, Quiz y Examen
 
 #### US-031 — Banco de preguntas tipificadas
 
@@ -577,7 +577,7 @@ para crear mi cuenta y comenzar a aprender.
 - **RF:** RF-QUIZ-004
 - **UC:** UC-QUIZ-03
 - **Criterios de aceptación:**
-  - [ ] Dado que completé un quiz, cuando abro revisión, entonces veo por cada fallo: pregunta, mi respuesta, correcta y explicación, sin exponer preguntas no evaluadas.
+  - [ ] Dado que completé un quiz, cuando abro revisión, entonces veo por cada fallo: pregunta, mi respuesta, correcta y explicación, sin exponer preguntas no evapythondas.
 
 #### US-035 — Reintentar Quiz
 
@@ -651,7 +651,7 @@ para crear mi cuenta y comenzar a aprender.
 - **Historia:**
   Como usuario recurrente,
   quiero que mi calificación sea determinista, auditable y calculada en servidor,
-  para confiar en la justicia de la evaluación.
+  para confiar en la justicia de la evapythonción.
 - **Prioridad:** MVP — Must
 - **RF:** RF-EVAL-001, RF-EVAL-002, RF-EVAL-003, RF-EVAL-005, RF-EVAL-006
 - **UC:** UC-EVAL-01, UC-EVAL-02
@@ -799,7 +799,7 @@ para crear mi cuenta y comenzar a aprender.
 - **UC:** UC-REP-01
 - **Criterios de aceptación:**
   - [ ] Dado que tengo historial, cuando se genera repaso, entonces prioriza: respuestas incorrectas, conceptos con bajo rendimiento, no repasados hace días y prerrequisitos de próximos contenidos.
-  - [ ] Dado que completo repaso, cuando se registra, entonces retroalimenta al motor de evaluación sin penalizar progreso del módulo.
+  - [ ] Dado que completo repaso, cuando se registra, entonces retroalimenta al motor de evapythonción sin penalizar progreso del módulo.
 
 #### US-051 — Repaso opcional sin bloquear ruta
 

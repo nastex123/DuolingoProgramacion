@@ -8,9 +8,9 @@
 ---
 
 ## 1. Contexto y Problema
-El sistema de certificación emite certificados de finalización acreditando que el estudiante aprobó con $\ge 80\%$ todos los módulos y exámenes de un lenguaje. El diseño anterior evaluaba almacenamiento en buckets S3/MinIO. Sin embargo, se requiere una solución de almacenamiento cloud sin costo de egress recurrente para el MVP, con alta disponibilidad, control de acceso mediante Cuenta de Servicio (*Service Account*) y organización jerárquica por carpetas. Además, la generación de PDFs en cliente presentaba vulnerabilidades de falsificación en el DOM.
+El sistema de certificación emite certificados de finalización acreditando que el estudiante aprobó con $\ge 80\%$ todos los módulos y exámenes de un lenguaje. El diseño anterior evapythonba almacenamiento en buckets S3/MinIO. Sin embargo, se requiere una solución de almacenamiento cloud sin costo de egress recurrente para el MVP, con alta disponibilidad, control de acceso mediante Cuenta de Servicio (*Service Account*) y organización jerárquica por carpetas. Además, la generación de PDFs en cliente presentaba vulnerabilidades de falsificación en el DOM.
 
-## 2. Alternativas Evaluadas
+## 2. Alternativas Evapythondas
 1. **Generación en cliente (HTML5 Canvas / jsPDF):**
    - *Desventajas:* Crítico riesgo de seguridad y falsificación; el usuario puede manipular el DOM o inyectar notas y nombres arbitrarios. Cero validez criptográfica.
 2. **Object Storage estándar (AWS S3 / Cloudflare R2):**
@@ -22,7 +22,7 @@ El sistema de certificación emite certificados de finalización acreditando que
 ## 3. Decisión Adoptada
 Se adopta **Generación 100% Backend con NestJS (`CertificationModule`) y persistencia en Google Drive API v3**:
 - El cliente nunca genera PDFs ni tiene acceso a credenciales de almacenamiento.
-- Se genera un código único `KODA-{LANG}-{SEQ6}` (ej. `KODA-LUA-000001`) y un QR apuntando a `/verificar/{code}`.
+- Se genera un código único `KODA-{LANG}-{SEQ6}` (ej. `KODA-PY-000001`) y un QR apuntando a `/verificar/{code}`.
 - **Caché y deduplicación estricta:** Antes de generar un nuevo binario, el backend consulta `google_drive_file_id` y `pdf_sha256`. Si el usuario ya cuenta con un certificado emitido válido, no se vuelve a crear; se entrega el stream existente de inmediato ($< 200\text{ ms}$).
 - Descarga segura mediante streaming autenticado en `GET /api/v1/certificates/{id}/pdf`.
 

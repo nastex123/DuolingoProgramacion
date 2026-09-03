@@ -2,18 +2,17 @@
 
 > Plataforma educativa interactiva y gamificada para aprender a programar desde cero, diseñada sin asunciones previas, sin fricción cognitiva y con micro-lecciones atómicas ultra accesibles.
 
-[![Lua Version](https://img.shields.io/badge/Lua-5.4-blue.svg?logo=lua&logoColor=white)](https://www.lua.org)
-[![Módulo 01](https://img.shields.io/badge/Módulo%2001-90%20Lecciones-success.svg)](content/languages/lua/modules/01_fundamentos/module.json)
-[![Módulo 02](https://img.shields.io/badge/Módulo%2002-100%20Lecciones-success.svg)](content/languages/lua/modules/02_variables/module.json)
+[![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg?logo=python&logoColor=white)](https://www.python.org)
+[![Módulo 01](https://img.shields.io/badge/Módulo%2001-Fundamentos-success.svg)](content/languages/python/modules/01_fundamentos/module.json)
+[![Ruta Oficial](https://img.shields.io/badge/Ruta-12%20Módulos-blueviolet.svg)](content/languages/python/manifest.json)
 [![Arquitectura](https://img.shields.io/badge/Arquitectura-Monolito%20Modular%20(Next.js%20%2B%20NestJS)-indigo.svg)](docs/11_SYSTEM_ARCHITECTURE.md)
 [![Base de Datos](https://img.shields.io/badge/Database-Supabase%20(PostgreSQL%2015)-emerald.svg)](docs/12_DATABASE_DESIGN.md)
 [![Documentación](https://img.shields.io/badge/Docs-Hub%20de%20Especificaciones-purple.svg)](docs/README.md)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-green.svg)](LICENSE)
 
 > [!IMPORTANT]
-> ### ⚠️ Aviso sobre el Estado del Proyecto (Sujeto a Cambios)
-> - **Fase de diseño y especificación técnica:** El repositorio contiene el diseño curricular completo, las especificaciones de arquitectura, contratos de API REST v2.0.0, modelo relacional de base de datos en Supabase y el sistema pedagógico.
-> - **Prototipos locales interactivos:** Los archivos [`test_m01.html`](test_m01.html) y [`test_m02.html`](test_m02.html) son herramientas de prueba y validación rápida en navegador (con motor gráfico PixiJS para 🦊 Koda) para verificar la pedagogía y la experiencia de usuario de escritorio.
+> ### ⚠️ Aviso sobre el Estado del Proyecto
+> El repositorio contiene la arquitectura completa, monorepo funcional con Next.js 15 y NestJS, contratos compartidos `@koda/types`, especificaciones REST v2.0.0, modelo relacional en Supabase y el currículo de **Python 3.12** como lenguaje oficial de lanzamiento.
 
 ---
 
@@ -47,7 +46,7 @@ La mayoría de cursos de programación asumen conocimientos previos, emplean jer
 │  ├── Core API: REST /api/v1 + OpenAPI 3.0.3 (44 endpoints)                   │
 │  ├── Auth: JWT Stateless (15 min) + Refresh rotativo HttpOnly + Argon2id     │
 │  ├── Motor de Ejecución Híbrido (ICodeRunner):                               │
-│  │   ├── Cliente Wasm: wasmoon (Lua), Pyodide (Python), Workers (JS)         │
+│  │   ├── Cliente Wasm: Pyodide (Python), Workers (JS)                        │
 │  │   └── Backend Sandbox: Piston / Judge0 en Docker (Rust, C/C++, C#, Go)   │
 │  └── Motor de Certificación: Generación 100% en backend (Node.js + QR)       │
 ├──────────────────────────────────────────────────────────────────────────────┤
@@ -61,58 +60,42 @@ La mayoría de cursos de programación asumen conocimientos previos, emplean jer
 
 ---
 
-## 🗺️ Mapa Curricular Oficial (Lua)
+## 🗺️ Mapa Curricular Oficial (Python 3.12)
 
-### 📘 Módulo 01: Fundamentos de Lua (`LUA_MOD_01`) — 90 Lecciones
-Estructurado en **9 secciones × 10 micro-lecciones** con 90 ejercicios interactivos:
+La ruta oficial de Python se compone de **12 módulos canónicos** (`01_PROJECT_OVERVIEW.md` §34) estructurados bajo el estándar de micro-lecciones atómicas:
 
-| Sección | Título Didáctico | Lecciones | Enfoque Pedagógico |
-|---|---|:---:|---|
-| **S01** | ¿Qué es Lua y dónde se usa? | 10 | Introducción, origen, ligereza (<300 KB), Roblox y booleanos |
-| **S02** | Cómo se organiza y prueba tu código | 10 | Chunks, instrucciones, REPL interactivo y salida |
-| **S03** | Tu primer print | 10 | Textos, comillas simples/dobles, números y comas |
-| **S04** | Comentarios | 10 | Buenas prácticas, inline `--`, multilínea `--[[ ]]` y depuración |
-| **S05** | Archivos .lua | 10 | Persistencia en disco, editores, `main.lua` y atajos |
-| **S06** | Ejecutar código | 10 | Terminal, `lua main.lua`, bloques de código y palabra clave `end` |
-| **S07** | Palabras reservadas y estilo limpio | 10 | Las 21 palabras reservadas, identificadores y nombres válidos |
-| **S08** | Kit para entender errores | 10 | Lectura de tracebacks, errores de sintaxis vs runtime y debug |
-| **S09** | Checkpoint y Proyecto Integrador | 10 | Repaso activo, script integrador y graduación al M02 |
-
----
-
-### 📗 Módulo 02: Variables y Tipos de Datos (`LUA_MOD_02`) — 100 Lecciones
-Estructurado en **10 secciones × 10 micro-lecciones** con 100 ejercicios y 20 preguntas de examen:
-
-| Sección | Título Didáctico | Lecciones | Enfoque Pedagógico |
-|---|---|:---:|---|
-| **S01** | ¿Qué es una variable y cómo guardar? | 10 | Asignación pura sin `local` para principiantes absolutos |
-| **S02** | Reasignación y cambio de valores | 10 | Contadores acumulativos, reducción y tipado dinámico |
-| **S03** | El sistema de tipos y type() | 10 | Los 8 tipos nativos y la función inspectora `type()` |
-| **S04** | El tipo number: Enteros y decimales | 10 | Enteros de 64 bits, decimales, división `//`, módulo `%` y potencia `^` |
-| **S05** | El tipo string: Textos y bloques | 10 | Cadenas, escapes `\n \t`, multilínea `[[ ]]` y longitud `#` |
-| **S06** | El tipo boolean: Lógica de la verdad | 10 | `true`/`false`, regla de falsy (`false`/`nil`), `not` y doble negación |
-| **S07** | El tipo nil y la llegada de local | 10 | Ausencia de valor y el uso de `local` para proteger el scope |
-| **S08** | Conversión de tipos y Coerción | 10 | `tostring()`, `tonumber()` y diferencia entre `+` y concatenar `..` |
-| **S09** | Vistazo a los 4 tipos avanzados | 10 | `table`, `function`, `thread` y `userdata` |
-| **S10** | Checkpoint y Proyecto RPG | 10 | Proyecto Ficha de Héroe RPG y graduación hacia el Módulo 03 |
+| Módulo | Título Formativo | Foco Pedagógico | Estado |
+|:---:|---|---|:---:|
+| **M01** | **Fundamentos de Python** | Tu primer `print()`, cadenas de texto, números, indentación y comentarios `#` | 🟢 Disponible |
+| **M02** | **Variables y Tipos de Datos** | Almacenamiento en memoria, `int`, `float`, `str`, `bool` y función inspectora `type()` | 🟢 Disponible |
+| **M03** | **Operadores y Expresiones** | Aritmética (`+`, `-`, `*`, `/`, `//`, `%`, `**`), comparadores y operadores lógicos (`and`, `or`, `not`) | 🟡 En roadmap |
+| **M04** | **Condicionales** | Toma de decisiones lógicas con bloques `if`, `elif` y `else` | 🟡 En roadmap |
+| **M05** | **Bucles e Iteración** | Automatización de tareas repetitivas con `for`, `while`, `range()`, `break` y `continue` | 🟡 En roadmap |
+| **M06** | **Funciones y Modularidad** | Creación de bloques reutilizables con `def`, argumentos, parámetros y `return` | 🟡 En roadmap |
+| **M07** | **Listas y Tuplas** | Colecciones ordenadas, indexación `[0]`, slicing `[:]`, métodos `append()` y mutabilidad | 🟡 En roadmap |
+| **M08** | **Diccionarios y Conjuntos** | Mapeo asociativo clave-valor `{key: value}`, métodos `get()` y colecciones únicas con `set` | 🟡 En roadmap |
+| **M09** | **Manejo de Errores** | Prevención de caídas con bloques de control `try`, `except`, `else` y `finally` | 🟡 En roadmap |
+| **M10** | **Módulos y Bibliotecas** | Organización del código con `import`, bibliotecas nativas (`math`, `random`) y paquetes | 🟡 En roadmap |
+| **M11** | **Programación Orientada a Objetos** | Clases, instancias, atributos, métodos y el inicializador constructor `__init__` | 🟡 En roadmap |
+| **M12** | **Proyecto Final Integrador** | Aplicación integral de todos los conceptos, examen final y emisión de certificación | 🟡 En roadmap |
 
 ---
 
-## 💻 Entorno de Pruebas y Prototipado Local (Sandbox)
+## 💻 Experiencia de Aprendizaje y Workspace Desktop
 
-El repositorio incluye visores interactivos de escritorio ([`test_m01.html`](test_m01.html) y [`test_m02.html`](test_m02.html)) construidos para probar de forma inmediata la pedagogía y la experiencia visual:
+Koda implementa una interfaz de escritorio optimizada para el enfoque y la retención pedagógica:
 
 ```
 ┌─────────────────┬────────────────────────────────────────────────────────────────────────┐
-│     🦊 KODA     │ 🧭 Lua › Módulo 01 › Sección 02: Tu primer print  [ 50 XP ] [ 🔥 3 ]  │
+│     🦊 KODA     │ 🧭 Python › Módulo 01 › Sección 02: Tu primer print() [ 50 XP ] [ 🔥 3 ] │
 ├─────────────────┼────────────────────────────────────────────────────────────────────────┤
 │ 🗺️ Ruta         │ ┌── STEPPER DE SECCIÓN ──────────────────────────────────────────────┐ │
-│ 📖 Lección (*)  │ │ S02: Tu primer print │ [✓] [✓] [✓] [●] [5] [6] [7] [8] [9] [10]   │ │
+│ 📖 Lección (*)  │ │ S02: Tu primer print() │ [✓] [✓] [✓] [●] [5] [6] [7] [8] [9] [10]  │ │
 │ 📓 Cuaderno     │ └────────────────────────────────────────────────────────────────────┘ │
 │ 🏆 Logros       │ ┌───────────────────────────────┐ ┌──────────────────────────────────┐ │
 │ 📜 Certificados │ │ 📖 TEORÍA & CÓDIGO (Izq 50%)  │ │ 🧠 DESAFÍO INTERACTIVO (Der 50%) │ │
 │                 │ │ • Micro-explicación paso a paso│ │ • Enunciado claro y sin spoilers │ │
-│ [🦊 Koda WebGL] │ │ • Editor con sintaxis Lua     │ │ • [A] Opción 1       (tecla 1)   │ │
+│ [🦊 Koda WebGL] │ │ • Editor con sintaxis Python  │ │ • [A] Opción 1       (tecla 1)   │ │
 │                 │ │ • Consola de salida en vivo   │ │ • [B] Opción 2       (tecla 2)   │ │
 │                 │ │ • Tip formativo               │ │ • [C] Opción 3       (tecla 3)   │ │
 │                 │ │                               │ │ • [D] Opción 4       (tecla 4)   │ │
@@ -140,12 +123,11 @@ DuolingoProgramacion/
 │   └── types/                          # Definiciones TypeScript compartidas (@koda/types)
 ├── content/                            # Contenido pedagógico declarativo desacoplado
 │   └── languages/
-│       └── lua/
-│           ├── manifest.json           # Registro del curso y módulos
+│       └── python/
+│           ├── manifest.json           # Registro oficial del curso y 12 módulos
 │           ├── config/                 # Umbrales, XP y composiciones de examen
 │           └── modules/
-│               ├── 01_fundamentos/     # 90 lecciones atómicas + banco
-│               └── 02_variables/       # 100 lecciones atómicas + banco
+│               └── 01_fundamentos/     # Lecciones atómicas con print, variables y tipos
 ├── docs/                               # Hub de Documentación y Especificaciones
 │   ├── README.md                       # Índice maestro y mapa de lectura por rol
 │   ├── adr/                            # Registro de decisiones de arquitectura (ADR-001..006)
@@ -156,10 +138,7 @@ DuolingoProgramacion/
 │   ├── 14_LEARNING_SYSTEM.md           # Máquinas de estado y lógica pedagógica
 │   ├── 16_GAMIFICATION.md              # Economía de XP, rachas y estrellas
 │   ├── 17_CERTIFICATION.md             # Motor de certificación y Google Drive
-│   ├── 27_UI_UX_SPECIFICATION.md       # Sistema de diseño de interfaz
-│   └── 28_LUA_CURRICULUM.md            # Currículo formativo oficial de Lua
-├── test_m01.html                       # Sandbox interactivo del Módulo 01 (PixiJS)
-├── test_m02.html                       # Sandbox interactivo del Módulo 02 (PixiJS)
+│   └── 27_UI_UX_SPECIFICATION.md       # Sistema de diseño de interfaz
 ├── CONTRIBUTING.md                     # Guía de contribución y estándares de código
 ├── CHANGELOG.md                        # Bitácora estricta de cambios (America/Bogota)
 ├── LICENSE                             # Licencia de código abierto MIT
@@ -187,7 +166,7 @@ pnpm --filter "@koda/types" build
 
 ### 3. Ejecución en Desarrollo
 ```bash
-# Iniciar frontend y backend en paralelo
+# Iniciar frontend y backend en paralelo (con precompilación de contratos)
 pnpm dev
 
 # O iniciar servicios de forma individual:
@@ -198,22 +177,6 @@ pnpm dev:api    # Inicia NestJS en http://localhost:4000
 - 🌐 **Frontend (Next.js):** [http://localhost:3000](http://localhost:3000)
 - ⚙️ **Backend API (REST v2):** [http://localhost:4000/api/v1](http://localhost:4000/api/v1)
 - 📚 **Swagger UI (OpenAPI 3.0):** [http://localhost:4000/api/docs](http://localhost:4000/api/docs)
-
----
-
-## 💻 Cómo Probar los Prototipos Rápidos (Sandboxes HTML)
-
-Si deseas probar la experiencia pedagógica, atajos de teclado y la mascota Koda en PixiJS de forma inmediata sin necesidad de levantar servidores:
-
-### Opción 1: Con Live Server (Recomendado en VS Code)
-1. Abre el proyecto en **Visual Studio Code**.
-2. Haz clic derecho sobre [`test_m01.html`](test_m01.html) o [`test_m02.html`](test_m02.html) y selecciona **"Open with Live Server"**.
-
-### Opción 2: Con Python
-```bash
-python3 -m http.server 8080
-# Abre http://localhost:8080/test_m01.html en tu navegador
-```
 
 ---
 

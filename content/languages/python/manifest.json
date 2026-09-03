@@ -1,0 +1,187 @@
+{
+  "id": "a1e2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+  "code": "PYTHON",
+  "slug": "python",
+  "name": "Python 3.12",
+  "description": "El lenguaje más popular del mundo para principiantes, desarrollo web, análisis de datos e inteligencia artificial.",
+  "status": "available",
+  "sort_order": 1,
+  "content_version": 1,
+  "is_active": true,
+  "config": {
+    "thresholds": {
+      "quiz": 70,
+      "exam": 80
+    },
+    "xp": {
+      "section": 10,
+      "exercise_correct": 5,
+      "quiz_pass": 25,
+      "exam_pass": 100,
+      "module_bonus": 50
+    },
+    "compositions": {
+      "quiz": {
+        "single_choice": 3,
+        "true_false": 2,
+        "predict_output": 2,
+        "fill_blank": 1,
+        "find_error": 1,
+        "select_code": 1
+      },
+      "exam": {
+        "single_choice": 5,
+        "predict_output": 5,
+        "fill_blank": 3,
+        "find_error": 2,
+        "true_false": 5
+      }
+    }
+  },
+  "modules": [
+    {
+      "id": "py_mod_01",
+      "code": "PY_MOD_01",
+      "slug": "fundamentos-de-python",
+      "title": "Fundamentos de Python",
+      "description": "Tu primer print, cadenas de texto, números, sintaxis limpia y comentarios sin miedo a errores.",
+      "position": 1,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "published",
+      "path": "modules/01_fundamentos"
+    },
+    {
+      "id": "py_mod_02",
+      "code": "PY_MOD_02",
+      "slug": "variables-y-tipos-de-datos",
+      "title": "Variables y Tipos de Datos",
+      "description": "Almacenamiento en memoria, números enteros, flotantes, strings, booleanos y type().",
+      "position": 2,
+      "total_sections": 10,
+      "total_lessons": 100,
+      "status": "published",
+      "path": "modules/02_variables"
+    },
+    {
+      "id": "py_mod_03",
+      "code": "PY_MOD_03",
+      "slug": "operadores-y-expresiones",
+      "title": "Operadores y Expresiones",
+      "description": "Operadores aritméticos (+, -, *, /, //, %, **), comparadores lógicos y precedencia.",
+      "position": 3,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/03_operadores"
+    },
+    {
+      "id": "py_mod_04",
+      "code": "PY_MOD_04",
+      "slug": "condicionales",
+      "title": "Estructuras de Control: Condicionales",
+      "description": "Toma de decisiones lógicas con if, elif, else y condiciones booleanas.",
+      "position": 4,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/04_condicionales"
+    },
+    {
+      "id": "py_mod_05",
+      "code": "PY_MOD_05",
+      "slug": "bucles-e-iteracion",
+      "title": "Bucles e Iteración",
+      "description": "Repetición controlada con bucles for, while, range(), break y continue.",
+      "position": 5,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/05_bucles"
+    },
+    {
+      "id": "py_mod_06",
+      "code": "PY_MOD_06",
+      "slug": "funciones-y-modularidad",
+      "title": "Funciones y Modularidad",
+      "description": "Definición de funciones reutilizables con def, parámetros, argumentos y return.",
+      "position": 6,
+      "total_sections": 10,
+      "total_lessons": 100,
+      "status": "coming_soon",
+      "path": "modules/06_funciones"
+    },
+    {
+      "id": "py_mod_07",
+      "code": "PY_MOD_07",
+      "slug": "listas-y-tuplas",
+      "title": "Listas y Tuplas",
+      "description": "Colecciones ordenadas, indexación, slicing, mutabilidad y métodos de lista.",
+      "position": 7,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/07_listas"
+    },
+    {
+      "id": "py_mod_08",
+      "code": "PY_MOD_08",
+      "slug": "diccionarios-y-conjuntos",
+      "title": "Diccionarios y Conjuntos",
+      "description": "Estructuras clave-valor, diccionarios asociativos y colecciones únicas con set.",
+      "position": 8,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/08_diccionarios"
+    },
+    {
+      "id": "py_mod_09",
+      "code": "PY_MOD_09",
+      "slug": "manejo-de-errores",
+      "title": "Manejo de Errores y Excepciones",
+      "description": "Detección y tratamiento de errores con bloques try, except, else y finally.",
+      "position": 9,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/09_errores"
+    },
+    {
+      "id": "py_mod_10",
+      "code": "PY_MOD_10",
+      "slug": "modulos-y-paquetes",
+      "title": "Módulos y Bibliotecas Estándar",
+      "description": "Importación de módulos nativos (math, random, datetime) y creación de módulos propios.",
+      "position": 10,
+      "total_sections": 8,
+      "total_lessons": 80,
+      "status": "coming_soon",
+      "path": "modules/10_modulos"
+    },
+    {
+      "id": "py_mod_11",
+      "code": "PY_MOD_11",
+      "slug": "programacion-orientada-a-objetos",
+      "title": "Programación Orientada a Objetos",
+      "description": "Modelado de entidades con clases, objetos, atributos, métodos y el método __init__.",
+      "position": 11,
+      "total_sections": 10,
+      "total_lessons": 100,
+      "status": "coming_soon",
+      "path": "modules/11_poo"
+    },
+    {
+      "id": "py_mod_12",
+      "code": "PY_MOD_12",
+      "slug": "proyecto-final-integrador",
+      "title": "Proyecto Final Integrador y Certificación",
+      "description": "Aplicación de todos los conceptos en un proyecto real, examen integral y graduación.",
+      "position": 12,
+      "total_sections": 10,
+      "total_lessons": 100,
+      "status": "coming_soon",
+      "path": "modules/12_proyecto_final"
+    }
+  ]
+}

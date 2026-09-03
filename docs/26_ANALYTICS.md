@@ -8,7 +8,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento es la **fuente de verdad de analítica**. Especifica el modelo de medición del MVP (Lua como lenguaje piloto, arquitectura multi-lenguaje) y fija los invariantes de privacidad por diseño. Responde:
+Este documento es la **fuente de verdad de analítica**. Especifica el modelo de medición del MVP (Python como lenguaje piloto, arquitectura multi-lenguaje) y fija los invariantes de privacidad por diseño. Responde:
 
 - ¿Qué métricas de negocio y aprendizaje se calculan?
 - ¿Cuál es su definición operativa, fórmula y evento origen auditable?
@@ -44,7 +44,7 @@ Este documento es la **fuente de verdad de analítica**. Especifica el modelo de
 - Datos biométricos, audio/video, ni keystroke dynamics.
 - Datos de tarjeta: nunca en núcleo (`RF-PREM-004`, RNF-037); solo `provider_subscription_id`.
 
-> Cualquier excepción requiere ADR, evaluación de impacto de privacidad y actualización de política accesible antes del registro (`RNF-039`).
+> Cualquier excepción requiere ADR, evapythonción de impacto de privacidad y actualización de política accesible antes del registro (`RNF-039`).
 
 ---
 
@@ -84,7 +84,7 @@ Toda métrica deriva de **eventos ya persistidos en `12`**; no existe tabla anal
 | M-02 | **Usuarios activos — DAU / WAU / MAU** | Usuarios con ≥1 actividad válida en el día/semana/mes en su zona horaria. | `COUNT(DISTINCT user_id) FROM streaks WHERE activity_date = :d` (DAU); ventana 7/30 días para WAU/MAU. `WAU = COUNT DISTINCT` en 7 días; `MAU` en 30 días. | `streak_day` | Global y por `language_id` (vía `progress.language_id`) | RF-RACHA-001, RF-PROG-001, `16` §7 |
 | M-03 | **Sesiones completadas** | Sesiones de aprendizaje finalizadas (sección completada). Una sesión = al menos 1 `section_completed` en el día; no se cuenta navegación sin completar. | `COUNT(progress) WHERE scope='section' AND status='completed' GROUP BY user_id, DATE(completed_at)` | `section_completed` | Por usuario/día, por `module_id` | RF-SEC-003, `14` §11 |
 | M-04 | **Lecciones completadas** | Lecciones con todos los ejercicios obligatorios respondidos. | `COUNT(progress) WHERE scope='lesson' AND status='completed'` | `lesson_completed` | Por `section_id`, `module_id`, `language_id` | RF-LEC-003, RF-SEC-003 |
-| M-05 | **Preguntas respondidas** | Total de respuestas evaluadas en servidor (no vistas, no previews). | `COUNT(attempt_answers) JOIN attempts WHERE attempts.status='graded'` | `lesson_question_answered`, `quiz_attempted`, `exam_attempted`, `review_attempted` | Por `type`, `difficulty`, `category`, `language_id` | RF-PREG-005, RF-EVAL-003 |
+| M-05 | **Preguntas respondidas** | Total de respuestas evapythondas en servidor (no vistas, no previews). | `COUNT(attempt_answers) JOIN attempts WHERE attempts.status='graded'` | `lesson_question_answered`, `quiz_attempted`, `exam_attempted`, `review_attempted` | Por `type`, `difficulty`, `category`, `language_id` | RF-PREG-005, RF-EVAL-003 |
 | M-06 | **% correctas (tasa de acierto)** | Proporción de respuestas correctas sobre respondidas. | `SUM(CASE WHEN attempt_answers.is_correct THEN 1 ELSE 0 END) / COUNT(*) * 100` → 2 decimales | `attempt_answers.is_correct` | Global, por `type`/`difficulty`/`concepto`, por `module_id` | RF-EVAL-001/002, `15` §7–§8 |
 | M-07 | **Módulos completados (aprobados)** | Módulos con al menos un intento de examen aprobado (no promedio). | `COUNT(DISTINCT progress.module_id) WHERE scope='module' AND status='passed'`  ; invariante `progress.status='passed' ↔ EXISTS (attempt WHERE kind='exam' AND is_passed=true)` | `module_passed`, `exam_graded` | Por `language_id`, por cohorte de registro | RF-EXAM-003, RF-MOD-003, `14` §4.3 |
 | M-08 | **Tasa de abandono** | Usuarios que iniciaron pero no completaron un módulo/lenguaje en ventana. Dos variantes: **abandono de módulo** y **abandono de lenguaje**. | `Abandono_modulo = 1 - (M-07 / usuarios_que_iniciaron_modulo)` donde `iniciaron = COUNT(progress WHERE scope='module' AND status IN ('in_progress','passed','failed'))`. `Abandono_lenguaje (30d) = usuarios sin actividad 30d con progreso 0<percent<100` | `progress.status`, `streaks` (inactividad) | Por `module_id` (embudo), por `language_id` | `14` §7.2 R2, RF-PROG-002 |
@@ -156,7 +156,7 @@ Gracia 2h y freeze se reflejan en `streaks` como `grace_used`/`freeze_used`; la 
 ### 5.4 Certificados y premium
 
 ```sql
--- Tasa de certificación Lua (piloto)
+-- Tasa de certificación Python
 SELECT ROUND(100.0 * COUNT(c.*) / NULLIF(COUNT(DISTINCT lp.user_id),0),2)
 FROM certificates c JOIN learning_paths lp ON lp.language_id = c.language_id
 WHERE c.language_id = :py AND c.status='valid';
@@ -191,7 +191,7 @@ Todos los dashboards consumen **vistas materializadas diarias** (refresco 03:00 
 | M-14 Tasa aprobación quiz/examen por `module_id` | Barras con umbral 70/80 marcado | Validar `03` §7.2 (55–85% primer intento examen); si <55% o >85% sostenido → revisar banco |
 | M-13 p50/p95 tiempo por `section_id` | Tabla con semáforo | Detectar fricción (`14` §7.1: tiempo alto + error alto = concepto difícil) |
 | M-08 Abandono por `module_id` + `Score_repaso` top conceptos | Barras + lista top 10 `concepto_id` por `Score_repaso` | Priorizar repaso y refuerzo preventivo (`14` §8.2) |
-| M-16 Retención D1/D7/D30 por cohorte | Curvas de cohorte | Evaluar onboarding (`06` RNF-020) |
+| M-16 Retención D1/D7/D30 por cohorte | Curvas de cohorte | Evapythonr onboarding (`06` RNF-020) |
 
 ### 6.3 D-03 — Engagement y gamificación (para producto)
 

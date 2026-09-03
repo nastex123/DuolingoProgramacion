@@ -9,51 +9,51 @@ import type {
 @Injectable()
 export class LearningService {
   getRoadmap(languageSlug: string): RoadmapResponse {
-    if (languageSlug !== 'lua') {
+    if (languageSlug !== 'python') {
       throw new NotFoundException(`Ruta para el lenguaje '${languageSlug}' no disponible.`);
     }
 
     return {
       language: {
-        id: 'lang_lua_01',
-        slug: 'lua',
-        name: 'Lua 5.4',
-        description: 'Aprende el lenguaje de scripting ultraligero usado en Roblox, WoW y NGINX.',
-        icon_url: '/icons/lua.svg',
-        color: '#000080',
+        id: 'lang_py_01',
+        slug: 'python',
+        name: 'Python 3.12',
+        description: 'Aprende el lenguaje de programación más versátil y popular del mundo desde cero.',
+        icon_url: '/icons/python.svg',
+        color: '#3776AB',
         total_modules: 12,
         is_active: true,
       },
-      overall_progress_percentage: 45,
-      total_stars_earned: 24,
-      max_possible_stars: 270,
-      current_module_id: 'mod_01',
+      overall_progress_percentage: 25,
+      total_stars_earned: 18,
+      max_possible_stars: 360,
+      current_module_id: 'py_mod_01',
       modules: [
         {
-          id: 'mod_01',
+          id: 'py_mod_01',
           code: 'M01',
-          title: 'Fundamentos de Lua',
-          description: 'Cimientos lógicos, sintaxis limpia, print, comentarios y depuración.',
+          title: 'Fundamentos de Python',
+          description: 'Tu primer print(), cadenas de texto, números, comentarios y sintaxis limpia.',
           order_index: 1,
-          total_sections: 9,
+          total_sections: 8,
           is_unlocked: true,
           is_completed: true,
           mastery_percentage: 100,
           sections: [
-            { id: 's01', code: 'S01', title: '¿Qué es Lua?', order_index: 1, total_lessons: 10, is_unlocked: true, is_completed: true, stars_earned: 3, max_stars_earned: 3 },
-            { id: 's02', code: 'S02', title: 'Cómo se organiza tu código', order_index: 2, total_lessons: 10, is_unlocked: true, is_completed: true, stars_earned: 3, max_stars_earned: 3 },
+            { id: 's01', code: 'S01', title: '¿Qué es Python?', order_index: 1, total_lessons: 10, is_unlocked: true, is_completed: true, stars_earned: 3, max_stars_earned: 3 },
+            { id: 's02', code: 'S02', title: 'Tu primer print()', order_index: 2, total_lessons: 10, is_unlocked: true, is_completed: true, stars_earned: 3, max_stars_earned: 3 },
           ],
         },
         {
-          id: 'mod_02',
+          id: 'py_mod_02',
           code: 'M02',
           title: 'Variables y Tipos de Datos',
-          description: 'Memoria, números, cadenas, booleanos, el tipo nil y la palabra local.',
+          description: 'Almacenamiento en memoria, int, float, str, bool y la función inspectora type().',
           order_index: 2,
           total_sections: 10,
           is_unlocked: true,
           is_completed: false,
-          mastery_percentage: 35,
+          mastery_percentage: 20,
           sections: [
             { id: 's01_m2', code: 'S01', title: '¿Qué es una variable?', order_index: 1, total_lessons: 10, is_unlocked: true, is_completed: true, stars_earned: 3, max_stars_earned: 3 },
           ],
@@ -71,7 +71,7 @@ export class LearningService {
       theory_markdown: 'Una variable es una cajita con una etiqueta en la memoria de la computadora para guardar datos.',
       code_example: 'nombre = "Koda"\nprint(nombre)',
       expected_output: 'Koda',
-      tip_markdown: 'En Lua no necesitas declarar el tipo de dato con antelación.',
+      tip_markdown: 'En Python las variables se crean al asignarles un valor por primera vez con el signo =.',
       question: {
         id: 'q_001',
         type: 'SINGLE_CHOICE',

@@ -1,7 +1,7 @@
 # 12 — Diseño de Base de Datos
 
 > **Estado:** Aprobado / Actualizado · **Versión del documento:** 2.0.0 · **Fecha:** 2026-09-02
-> Complementa a `01_PROJECT_OVERVIEW.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md`, `07_USER_STORIES.md`, `11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`, `16_GAMIFICATION.md`, `27_UI_UX_SPECIFICATION.md` y `28_LUA_CURRICULUM.md`. Materializa el modelo relacional para PostgreSQL ≥ 15 que deben implementar las migraciones versionadas, incluyendo el sistema de desbloqueo progresivo por estrellas (1–3⭐), candados secuenciales, cuaderno de errores y soporte multi-lenguaje (con Lua como lenguaje insignia de lanzamiento).
+> Complementa a `01_PROJECT_OVERVIEW.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md`, `07_USER_STORIES.md`, `11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`, `16_GAMIFICATION.md`, `27_UI_UX_SPECIFICATION.md` y `01_PROJECT_OVERVIEW.md`. Materializa el modelo relacional para PostgreSQL ≥ 15 que deben implementar las migraciones versionadas, incluyendo el sistema de desbloqueo progresivo por estrellas (1–3⭐), candados secuenciales, cuaderno de errores y soporte multi-lenguaje (con Python como lenguaje insignia de lanzamiento).
 
 ---
 
@@ -11,7 +11,7 @@ Este documento define **qué se persiste, cómo se relaciona y con qué garantí
 
 - Migraciones versionadas (`RF-ADM-005`, `RNF-035`).
 - Contratos de API (`13_API_SPECIFICATION.md`): cada recurso persistido tiene reflejo en un endpoint.
-- Motores de Dominio: `Learning`, `Question`, `Evaluation`, `Progress`, `Gamification` (Estrellas ⭐, XP, Rachas, Logros), `Review Notebook` (Cuaderno de Errores) y `Certification` (`01` §24–§29, `03` OT-01, `14`, `16`, `28`).
+- Motores de Dominio: `Learning`, `Question`, `Evapythontion`, `Progress`, `Gamification` (Estrellas ⭐, XP, Rachas, Logros), `Review Notebook` (Cuaderno de Errores) y `Certification` (`01` §24–§29, `03` OT-01, `14`, `16`, `28`).
 - Desbloqueo progresivo con candados secuenciales ($S_1 \to S_n$) y compuertas de maestría de módulos ($M_{i+1}$ requiere 100% de secciones y $\ge 80\%$ de estrellas de maestría de $M_i$).
 - Trazabilidad `RF-*` → tabla/columna y pruebas de invariantes (`20_TESTING.md`, `RNF-033`–`RNF-036`).
 
@@ -167,15 +167,15 @@ erDiagram
 |---|---|---|---|---|
 | 1 | User | `users` | RF-AUTH-*, RF-USR-* | Identidad y credenciales de autenticación |
 | 2 | UserProfile | `user_profiles` | RF-PROF-*, RF-USR-002 | Perfil visible, preferencias y configuración de UI |
-| 3 | ProgrammingLanguage | `programming_languages` | RF-LANG-* | Catálogo multi-lenguaje (`LUA` activo de lanzamiento, `PY`, `JS`, etc.) |
+| 3 | ProgrammingLanguage | `programming_languages` | RF-LANG-* | Catálogo multi-lenguaje (`PY` activo de lanzamiento, `PY`, `JS`, etc.) |
 | 4 | LearningPath | `learning_paths` | RF-RUTA-*, RF-LVL-*, RF-DIAG-* | Ruta personalizada por usuario/lenguaje |
 | 5 | Module | `modules` | RF-MOD-*, RF-RUTA-004 | Unidad temática (12 módulos canónicos con umbrales) |
 | 6 | Section | `sections` | RF-SEC-*, RF-ESTRELLA-* | Subdivisión pedagógica con candados secuenciales ($S_1 \dots S_n$) |
 | 7 | Lesson | `lessons` | RF-LEC-*, RF-PREG-* | Unidad mínima de aprendizaje (10 por sección, concepto + ejercicio) |
 | 8 | Question | `questions` | RF-PREG-* | Banco tipificado (8 tipos interactivos con versiones) |
 | 9 | Answer | `answers` | RF-PREG-002 | Opciones y validaciones por pregunta |
-| 10 | Quiz | `quizzes` | RF-QUIZ-* | Evaluación intermedia por módulo (diagnóstica o formativa) |
-| 11 | Exam | `exams` | RF-EXAM-* | Examen de certificación y evaluación final de módulo |
+| 10 | Quiz | `quizzes` | RF-QUIZ-* | Evapythonción intermedia por módulo (diagnóstica o formativa) |
+| 11 | Exam | `exams` | RF-EXAM-* | Examen de certificación y evapythonción final de módulo |
 | 12 | Attempt | `attempts` | RF-EVAL-*, RF-QUIZ-003, RF-EXAM-003 | Registro de intento inmutable y auditable |
 | 13 | Progress | `progress` | RF-PROG-* | Agregado de avance porcentual e ítems completados |
 | 14 | XPTransaction | `xp_transactions` | RF-XP-* | Ledger transaccional de XP (recompensas e incentivos) |
@@ -259,7 +259,7 @@ Catálogo extensible sin tocar el motor (`RF-LANG-004`, `RNF-006`, `RNF-031`).
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
 | `id` | `UUID` | **PK** |  |
-| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE`, `CHECK (code ~ '^[A-Z0-9_]+$')` | Ej. `PY`, `LUA`, `JS`; usado en `KODA-{LANG}-{SEQ}` |
+| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE`, `CHECK (code ~ '^[A-Z0-9_]+$')` | Ej. `PY`, `PY`, `JS`; usado en `KODA-{LANG}-{SEQ}` |
 | `name` | `VARCHAR(50)` | `NOT NULL`, `UNIQUE` | Ej. `Python` |
 | `slug` | `VARCHAR(50)` | `NOT NULL`, `UNIQUE`, `CHECK (slug ~ '^[a-z0-9-]+$')` | URL `/languages/python` |
 | `description` | `TEXT` | `NULL`, `CHECK (char_length(description) <= 2000)` |  |
@@ -336,21 +336,21 @@ Ruta personalizada por usuario y lenguaje (`RF-RUTA-001`, `RF-DIAG-003`). No es 
 
 ### 6.5 Module — `modules`
 
-Unidad temática canónica (12 módulos en el currículo principal de Lua `28_LUA_CURRICULUM.md`). Orden pedagógico configurable sin código (`RF-MOD-004`, `RF-ADM-004`, `RNF-017`).
+Unidad temática canónica (12 módulos en el currículo principal de Python `01_PROJECT_OVERVIEW.md`). Orden pedagógico configurable sin código (`RF-MOD-004`, `RF-ADM-004`, `RNF-017`).
 
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
 | `id` | `UUID` | **PK** | Identificador único del módulo |
-| `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje al que pertenece (`LUA`, `PY`, etc.) |
-| `code` | `VARCHAR(50)` | `NOT NULL` | Ej. `LUA_MOD_01`, `LUA_MOD_02` |
-| `title` | `VARCHAR(150)` | `NOT NULL` | Título visible (ej. `Fundamentos de Lua`) |
+| `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje al que pertenece (`PY`, `PY`, etc.) |
+| `code` | `VARCHAR(50)` | `NOT NULL` | Ej. `PY_MOD_01`, `PY_MOD_02` |
+| `title` | `VARCHAR(150)` | `NOT NULL` | Título visible (ej. `Fundamentos de Python`) |
 | `slug` | `VARCHAR(150)` | `NOT NULL` | Slug para URLs amigables |
 | `description` | `TEXT` | `NULL` | Resumen pedagógico del módulo |
 | `objective` | `TEXT` | `NULL` | `RF-MOD-002`; objetivo de aprendizaje |
 | `position` | `SMALLINT` | `NOT NULL`, `CHECK (position > 0)` | Posición secuencial en el roadmap (1..12) |
 | `status` | `VARCHAR(20)` | `NOT NULL`, `CHECK (status IN ('draft','review','published','archived'))`, `DEFAULT 'draft'` | `RF-ADM-003/009` |
 | `content_version` | `INTEGER` | `NOT NULL`, `DEFAULT 1` | Incrementa en cada publicación (`RF-ADM-005`) |
-| `total_sections` | `SMALLINT` | `NOT NULL`, `DEFAULT 10`, `CHECK (total_sections > 0)` | Cantidad de secciones (10 en Lua estándar) |
+| `total_sections` | `SMALLINT` | `NOT NULL`, `DEFAULT 10`, `CHECK (total_sections > 0)` | Cantidad de secciones (10 en Python estándar) |
 | `total_lessons` | `SMALLINT` | `NOT NULL`, `DEFAULT 100`, `CHECK (total_lessons > 0)` | Cantidad de lecciones atómicas (100 en M02) |
 | `min_stars_percentage` | `SMALLINT` | `NOT NULL`, `DEFAULT 80`, `CHECK (min_stars_percentage BETWEEN 0 AND 100)` | Umbral de maestría (80% ⭐) para desbloquear $M_{i+1}$ (`14` §4.1) |
 | `quiz_threshold` | `SMALLINT` | `NOT NULL`, `DEFAULT 70`, `CHECK (quiz_threshold BETWEEN 0 AND 100)` | `RF-EVAL-005`; inicial 70% |
@@ -381,7 +381,7 @@ Unidad temática canónica (12 módulos en el currículo principal de Lua `28_LU
 
 ### 6.6 Section — `sections`
 
-Subdivisión pedagógica de módulo (`01` §7.3, `RF-SEC-*`). Cada sección agrupa lecciones teóricas y ejercicios interactivos con evaluación formativa en estrellas (1–3⭐) y candado secuencial ($S_1 \to S_n$).
+Subdivisión pedagógica de módulo (`01` §7.3, `RF-SEC-*`). Cada sección agrupa lecciones teóricas y ejercicios interactivos con evapythonción formativa en estrellas (1–3⭐) y candado secuencial ($S_1 \to S_n$).
 
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
@@ -527,7 +527,7 @@ Opciones y respuestas válidas por pregunta (`RF-PREG-002`).
 
 ### 6.10 Quiz — `quizzes`
 
-Evaluación intermedia por módulo (`RF-QUIZ-*`, `01` §13). Composición configurable.
+Evapythonción intermedia por módulo (`RF-QUIZ-*`, `01` §13). Composición configurable.
 
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
@@ -577,7 +577,7 @@ Evaluación intermedia por módulo (`RF-QUIZ-*`, `01` §13). Composición config
 
 ### 6.11 Exam — `exams`
 
-Evaluación final por módulo (`RF-EXAM-*`, `01` §14). Similar a `quizzes` pero con distribución por tipo configurable (`RF-EXAM-002`).
+Evapythonción final por módulo (`RF-EXAM-*`, `01` §14). Similar a `quizzes` pero con distribución por tipo configurable (`RF-EXAM-002`).
 
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
@@ -643,7 +643,7 @@ Intento inmutable y auditable (`RF-EVAL-003`, `RF-PREG-005`, `RF-PROG-001`, `RNF
 | `exam_id` | `UUID` | **FK → exams.id**, `NULL` | Solo si `kind='exam'` |
 | `question_id` | `UUID` | `NULL` | Solo si `kind='lesson_question'` (una pregunta) |
 | `question_version` | `INTEGER` | `NULL` | Congela versión |
-| `content_version` | `INTEGER` | `NOT NULL` | Versión de contenido evaluada (`RNF-035`) |
+| `content_version` | `INTEGER` | `NOT NULL` | Versión de contenido evapythonda (`RNF-035`) |
 | `threshold_applied` | `SMALLINT` | `NULL`, `CHECK (threshold_applied BETWEEN 0 AND 100)` | Umbral vigente al calificar (`RF-EVAL-005`); NULL para `lesson_question` |
 | `score` | `INTEGER` | `NOT NULL`, `DEFAULT 0`, `CHECK (score >= 0)` | Puntaje total obtenido |
 | `max_score` | `INTEGER` | `NOT NULL`, `CHECK (max_score > 0)` | Puntaje máximo posible |
@@ -877,14 +877,14 @@ Acreditación por lenguaje completado (`RF-CERT-*`, `04` §7, `01` §21–§22).
 | `id` | `UUID` | **PK** | Identificador único del registro |
 | `user_id` | `UUID` | **FK → users.id**, `NOT NULL` | Usuario titular del certificado |
 | `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje acreditado |
-| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE` | `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001`, `KODA-PY-000001` (`RF-CERT-003`) |
+| `code` | `VARCHAR(20)` | `NOT NULL`, `UNIQUE` | `KODA-{LANG}-{SEQ}` ej. `KODA-PY-000001`, `KODA-PY-000001` (`RF-CERT-003`) |
 | `status` | `VARCHAR(20)` | `NOT NULL`, `CHECK (status IN ('valid','revoked','obsolete'))`, `DEFAULT 'valid'` | `RF-CERT-005` |
 | `language_content_version` | `INTEGER` | `NOT NULL` | Versión del lenguaje al emitir; si cambia significativamente → `obsolete` |
 | `issued_at` | `TIMESTAMPTZ` | `NOT NULL`, `DEFAULT now()` | Fecha oficial de emisión (`RF-CERT-002`) |
 | `revoked_at` | `TIMESTAMPTZ` | `NULL` | Fecha de revocación u obsolescencia |
 | `storage_provider` | `VARCHAR(50)` | `NOT NULL`, `DEFAULT 'google_drive'` | Proveedor de almacenamiento (`google_drive`, `s3`) |
 | `google_drive_file_id` | `VARCHAR(255)` | `NULL` | ID del archivo subido en Google Drive API v3 (evita re-generaciones) |
-| `google_drive_file_id` | `VARCHAR(512)` | `NULL` | ID de archivo en Google Drive (ej. `1aBcDeFgHiJkLm_KODA-LUA-000001`) |
+| `google_drive_file_id` | `VARCHAR(512)` | `NULL` | ID de archivo en Google Drive (ej. `1aBcDeFgHiJkLm_KODA-PY-000001`) |
 | `pdf_sha256` | `VARCHAR(64)` | `NULL` | Hash SHA-256 del binario para verificación de integridad bit-a-bit (`RF-PDF-003`) |
 | `pdf_version` | `INTEGER` | `NOT NULL`, `DEFAULT 1` | Versión de la plantilla visual del PDF (`RF-PDF-001`) |
 | `qr_payload` | `VARCHAR(512)` | `NOT NULL` | URL de verificación pública/interna (`RF-CERT-004`) |
@@ -978,10 +978,10 @@ Registro de calificación formativa en estrellas (1–3⭐), errores en primer i
 | Campo | Tipo | Restricción | Descripción |
 |---|---|---|---|
 | `id` | `UUID` | **PK**, `DEFAULT gen_random_uuid()` | Identificador del registro |
-| `user_id` | `UUID` | **FK → users.id**, `NOT NULL` | Usuario evaluado |
+| `user_id` | `UUID` | **FK → users.id**, `NOT NULL` | Usuario evapythondo |
 | `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje en curso |
 | `module_id` | `UUID` | **FK → modules.id**, `NOT NULL` | Módulo padre |
-| `section_id` | `UUID` | **FK → sections.id**, `NOT NULL` | Sección evaluada |
+| `section_id` | `UUID` | **FK → sections.id**, `NOT NULL` | Sección evapythonda |
 | `stars_earned` | `SMALLINT` | `NOT NULL`, `CHECK (stars_earned BETWEEN 1 AND 3)` | Estrellas obtenidas (3 = 0 errores, 2 = 1 error corregido, 1 = 2+ errores corregidos) |
 | `max_stars_earned` | `SMALLINT` | `NOT NULL`, `DEFAULT 1`, `CHECK (max_stars_earned BETWEEN 1 AND 3)` | Mejor puntuación histórica alcanzada en reintentos |
 | `first_attempt_errors` | `INTEGER` | `NOT NULL`, `DEFAULT 0`, `CHECK (first_attempt_errors >= 0)` | Cantidad de ejercicios fallados en la primera pasada |
@@ -1016,7 +1016,7 @@ Estado de candado (`locked`/`unlocked`), total de estrellas acumuladas y porcent
 | `id` | `UUID` | **PK**, `DEFAULT gen_random_uuid()` | Identificador del registro |
 | `user_id` | `UUID` | **FK → users.id**, `NOT NULL` | Usuario |
 | `language_id` | `UUID` | **FK → programming_languages.id**, `NOT NULL` | Lenguaje |
-| `module_id` | `UUID` | **FK → modules.id**, `NOT NULL` | Módulo evaluado |
+| `module_id` | `UUID` | **FK → modules.id**, `NOT NULL` | Módulo evapythondo |
 | `status` | `VARCHAR(20)` | `NOT NULL`, `DEFAULT 'locked'`, `CHECK (status IN ('locked','unlocked','in_progress','completed','mastered'))` | Estado del módulo en la ruta |
 | `is_unlocked` | `BOOLEAN` | `NOT NULL`, `DEFAULT false` | `true` si el candado está abierto ($M_1$ o $M_i$ con prerequisitos cumplidos) |
 | `sections_total` | `SMALLINT` | `NOT NULL`, `DEFAULT 10`, `CHECK (sections_total > 0)` | Total de secciones configuradas en el módulo |
@@ -1227,7 +1227,7 @@ flowchart TD
    - La sección $S_1$ de cualquier módulo desbloqueado inicia abierta (`is_unlocked = true`).
    - La sección $S_{j+1}$ se desbloquea automáticamente en el instante en que el usuario obtiene $\ge 1$ estrella en la sección $S_j$.
 2. **Candados de Módulo ($M_i \to M_{i+1}$):**
-   - $M_1$ (Fundamentos de Lua) está disponible por defecto para todos los usuarios.
+   - $M_1$ (Fundamentos de Python) está disponible por defecto para todos los usuarios.
    - Para desbloquear $M_{i+1}$, el motor verifica dos condiciones obligatorias en `user_module_progress` de $M_i$:
      $$\text{Condición 1: } \text{sections\_completed} = \text{sections\_total} \quad (100\% \text{ de secciones completadas})$$
      $$\text{Condición 2: } \text{stars\_percentage} \ge 80.00\% \quad (\text{ej. } \ge 24 \text{ estrellas de 30 posibles en M01/M02})$$
@@ -1264,7 +1264,7 @@ flowchart TD
 
 - **Reanudación instantánea:** `learning_paths.current_module_id` + `current_section_id` + `current_lesson_id` permiten posicionar al usuario en su último punto de trabajo en <100 ms.
 - **Sincronización Offline/Online:** el cliente almacena localmente el `idempotency_key` y la cola de respuestas; al reconectar envía el batch transaccional al servidor (`RF-PROG-004`).
-- **Resiliencia Multi-dispositivo:** el estado de candados y estrellas se consulta centralizadamente mediante `GET /v1/me/roadmap?language=lua`, hidratando la UI de forma idéntica en web y móvil.
+- **Resiliencia Multi-dispositivo:** el estado de candados y estrellas se consulta centralizadamente mediante `GET /v1/me/roadmap?language=python`, hidratando la UI de forma idéntica en web y móvil.
 
 ---
 
@@ -1277,7 +1277,7 @@ flowchart TD
 | Carga de Roadmap (12 módulos + candados + estrellas) | `user_module_progress`, `user_section_stars`, `modules` | `uq_user_module_progress`, `idx_user_section_stars_user_module`, `idx_modules_lang_position` | <80 ms (`RNF-007`) |
 | Carga de Cuaderno de Errores pendientes | `user_mistakes_notebook`, `questions` | `idx_user_mistakes_unresolved`, `idx_questions_lesson` | <100 ms (`RNF-001`) |
 | Lectura de Lección + 10 ejercicios interactivos | `lessons`, `questions`, `answers` | `idx_lessons_section_position`, `idx_questions_lesson`, `idx_answers_question` | <150 ms (`RNF-001`) |
-| Envío de respuesta individual + evaluación | `attempts`, `attempt_answers`, `xp_transactions` | `uq_attempts_user_idempotency`, `uq_xp_user_idempotency` | <300 ms (`RNF-010`) |
+| Envío de respuesta individual + evapythonción | `attempts`, `attempt_answers`, `xp_transactions` | `uq_attempts_user_idempotency`, `uq_xp_user_idempotency` | <300 ms (`RNF-010`) |
 | Cierre de sección y adjudicación de estrellas | `attempts`, `user_section_stars`, `user_module_progress` | `uq_user_section_stars`, `uq_user_module_progress` | <400 ms (`RNF-001`) |
 | Calificación de Quiz / Examen final | `attempts`, `attempt_answers`, `user_module_progress` | `idx_attempt_answers_attempt`, `uq_user_module_progress` | <800 ms (`RNF-012`) |
 | Historial de racha y DAU | `streaks` | `uq_streaks_user_date`, `idx_streaks_user_date_desc` | <50 ms |
@@ -1492,7 +1492,7 @@ CREATE TABLE review_queue_items (
 );
 CREATE INDEX idx_review_queue_attempt_status ON review_queue_items (attempt_id, status);
 
--- Trigger Function: Recalcular estrellas de módulo y evaluar desbloqueo del siguiente
+-- Trigger Function: Recalcular estrellas de módulo y evapythonr desbloqueo del siguiente
 CREATE OR REPLACE FUNCTION fn_recalculate_module_progress()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -1589,7 +1589,7 @@ FOR EACH ROW EXECUTE FUNCTION fn_recalculate_module_progress();
 2. **Migraciones de esquema:**
    - `V20260829_001__baseline_core.sql`: crea las 18 entidades base (usuarios, catálogo, intentos, certificaciones).
    - `V20260902_002__gamification_stars_locks_notebook.sql`: crea `user_section_stars`, `user_module_progress`, `user_mistakes_notebook`, `review_queue_items` y la función de recálculo y desbloqueo automático.
-   - `V20260902_003__seed_lua_12_modules.sql`: inserta los 12 módulos de Lua (`28_LUA_CURRICULUM.md`), con M01 y M02 completos (10 secciones, 100 lecciones y ejercicios cada uno).
+   - `V20260902_003__seed_python_12_modules.sql`: inserta los 12 módulos de Python (`01_PROJECT_OVERVIEW.md`), con M01 y M02 completos (10 secciones, 100 lecciones y ejercicios cada uno).
 3. **Rollback:** cada migración debe tener `DOWN` o ser forward-only con ADR; `21_DEPLOYMENT.md` define estrategia `expand/contract` para cambios breaking.
 4. **Validación pre-publicación:** `RF-ADM-006` se implementa como función `validate_content_publish()` que verifica FKs, ciclos de prerrequisitos, y que cada `quiz`/`exam` tiene composición válida antes de `UPDATE status='published'`.
 
@@ -1633,7 +1633,7 @@ FOR EACH ROW EXECUTE FUNCTION fn_recalculate_module_progress();
 
 | Decisión | Estado | Siguiente paso |
 |---|---|---|
-| Gestor concreto y hosting (RDS, Cloud SQL, Supabase) | Abierta — requiere ADR | Evaluar costo vs. `RNF-001`/`RNF-005` en `09-decisions/` |
+| Gestor concreto y hosting (RDS, Cloud SQL, Supabase) | Abierta — requiere ADR | Evapythonr costo vs. `RNF-001`/`RNF-005` en `09-decisions/` |
 | RLS vs. `WHERE user_id` en app | Abierta | Si se usa Supabase/PostgREST, habilitar RLS; si API propia, `WHERE` + tests IDOR (`RNF-009`) |
 | Particionado de `attempts` | Diferida a Post-MVP | Medir `RNF-007` con dataset sintético 100k intentos; si p95 >100 ms, particionar |
 | Cifrado de `document_number` | Abierta | Si `RNF-037` lo exige, usar `pgcrypto` o cifrado en app con KMS |

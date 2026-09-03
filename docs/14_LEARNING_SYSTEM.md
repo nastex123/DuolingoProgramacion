@@ -28,7 +28,7 @@ Este documento es la **fuente de verdad pedagógica**. Especifica cómo se estru
 
 ```
 Lenguaje (Language)
- └─ Módulo (Module)           — unidad temática evaluable con examen final
+ └─ Módulo (Module)           — unidad temática evapythonble con examen final
      └─ Sección (Section)     — unidad de sesión (teoría + ejemplo + ejercicios)
          └─ Lección (Lesson)  — micro-bloque: concepto → explicación → ejemplo → ejercicio → feedback → recompensa
              └─ Ejercicio / Pregunta (Exercise/Question) — instancia tipificada de `24`
@@ -36,7 +36,7 @@ Lenguaje (Language)
 
 **Cardinalidades (MVP Python):**
 
-| Nivel | Cardinalidad | Orden | Evaluable |
+| Nivel | Cardinalidad | Orden | Evapythonble |
 |---|---|---|---|
 | Lenguaje | 1 activo por usuario a la vez; N lenguajes en catálogo | `orden` global | No (se completa vía módulos) |
 | Módulo | 12 en Python (`01` §34) | `orden` 1..12 pedagógico | Sí — Examen final |
@@ -49,7 +49,7 @@ Lenguaje (Language)
 | Atributo | Tipo | Regla |
 |---|---|---|
 | `id` | UUID | PK |
-| `code` | `PY`, `LUA`, `JS`, … (`04` §7) | Único, usado en `KODA-{LANG}-{SEQ}` |
+| `code` | `PY`, `PY`, `JS`, … (`04` §7) | Único, usado en `KODA-{LANG}-{SEQ}` |
 | `nombre` | string | Ej. "Python" |
 | `descripcion` | string | Breve, visible en catálogo |
 | `estado` | `disponible` \| `proximamente` | En MVP solo `PY=disponible` (`05` RF-LANG-001) |
@@ -279,7 +279,7 @@ L(k) es DISPONIBLE  ⇔  k = 1  ∨  L(k-1) = COMPLETADA
 
 ### 4.2 Sistema de Calificación en Estrellas (1 a 3 ⭐)
 
-Inspirado en mecánicas de retención formativa y superación progresiva (tipo *"Score!"*), cada lección y sección evaluada otorga entre **1 y 3 estrellas** según la precisión y autonomía demostrada:
+Inspirado en mecánicas de retención formativa y superación progresiva (tipo *"Score!"*), cada lección y sección evapythonda otorga entre **1 y 3 estrellas** según la precisión y autonomía demostrada:
 
 | Estrellas | Rango de Precisión | Criterio Operativo Pedagógico |
 |---|---|---|
@@ -330,7 +330,7 @@ Umbrales iniciales: Quiz 70%, Examen 80%, Estrellas mínimas por módulo 80% (`t
 
 ### 4.6 Publicación y versionado
 
-Publicar/ocultar contenido es inmediato o programado sin despliegue (`05` RF-ADM-003). Versionar crea nueva `version_contenido`; los intentos históricos conservan la versión con la que fueron evaluados (`06` RNF-035). Validación previa a publicar: IDs únicos, prerrequisitos sin ciclos, referencias íntegras (`05` RF-ADM-006).
+Publicar/ocultar contenido es inmediato o programado sin despliegue (`05` RF-ADM-003). Versionar crea nueva `version_contenido`; los intentos históricos conservan la versión con la que fueron evapythondos (`06` RNF-035). Validación previa a publicar: IDs únicos, prerrequisitos sin ciclos, referencias íntegras (`05` RF-ADM-006).
 
 ---
 
@@ -513,7 +513,7 @@ Recomendación: "Variables y tipos de datos" (M3) — el usuario domina Fundamen
 | Señal | Fuente | Uso |
 |---|---|---|
 | Nivel declarado + `P_i` | Diagnóstico | Punto de entrada inicial (§6) |
-| % en quizzes/exámenes por módulo | `Evaluation Engine` (`15`) | Detectar dominio frágil vs. sólido |
+| % en quizzes/exámenes por módulo | `Evapythontion Engine` (`15`) | Detectar dominio frágil vs. sólido |
 | Historial de errores por `concepto_id` | `RF-PREG-005`, `RF-EVAL-004` | Priorizar repaso y reforzar prerrequisitos |
 | Tiempo dedicado por sección | `RF-SEC-005` | Detectar fricción (tiempo alto + error alto = concepto difícil) |
 | Intentos y reintentos | `RF-QUIZ-005`, `RF-EXAM-005` | Ajustar dificultad percibida |
@@ -573,7 +573,7 @@ flowchart TD
 | Tipo | Disparo | Bloquea ruta | Penaliza |
 |---|---|---|---|
 | **Inter-sesión sugerido** | Entre sesiones, al iniciar o al reprobar | No (`05` RF-REP-003) | No (`05` RF-REP-004) |
-| **Post-evaluación** | Tras quiz/examen con conceptos débiles | No | No |
+| **Post-evapythonción** | Tras quiz/examen con conceptos débiles | No | No |
 | **Manual por módulo/tema** | Usuario elige módulo/tema (`05` RF-REP-005) | No | No |
 
 Todo repaso usa preguntas de contenido **ya estudiado** (`05` RF-REP-001), nunca introduce conceptos no vistos.
@@ -628,7 +628,7 @@ function generarRepaso(usuario, lenguaje, N=5, filtro_manual=null):
     return preguntas  // ordenadas por Score descendente
 ```
 
-Efecto de completar repaso (`05` RF-REP-004): actualiza `dias_desde_ultimo_repaso`, ajusta `Tasa_error` y `Rendimiento`, retroalimenta a `Evaluation Engine` para la próxima priorización, sin modificar `%` de módulo ni estado de aprobación.
+Efecto de completar repaso (`05` RF-REP-004): actualiza `dias_desde_ultimo_repaso`, ajusta `Tasa_error` y `Rendimiento`, retroalimenta a `Evapythontion Engine` para la próxima priorización, sin modificar `%` de módulo ni estado de aprobación.
 
 ### 8.4 Ejemplo numérico
 
@@ -679,7 +679,7 @@ Duración objetivo: 8–15 min por sesión (micro-learning, `01` §10). El usuar
 
 ## 10. Fórmulas consolidadas
 
-### 10.1 Evaluación
+### 10.1 Evapythonción
 
 ```
 Puntaje_bruto = Σ peso(pregunta_i)  para respuestas correctas
@@ -761,7 +761,7 @@ La jerarquía `Lenguaje → Módulo → Sección → Lección` es visible en tod
 | RN-08 | Repaso no penaliza progreso; solo ajusta priorización futura. | `05` RF-REP-004 |
 | RN-09 | Publicidad solo entre secciones completadas, nunca intra-ejercicio/quiz/examen. | `05` RF-ADS-001/002 |
 | RN-10 | Certificado solo si todos los módulos del lenguaje están aprobados. | `05` RF-CERT-001, `04` §7 |
-| RN-11 | Contenido versionado; intentos conservan versión evaluada. | `05` RF-ADM-005, `06` RNF-035 |
+| RN-11 | Contenido versionado; intentos conservan versión evapythonda. | `05` RF-ADM-005, `06` RNF-035 |
 | RN-12 | Toda calificación se calcula en servidor. | `05` RF-EVAL-006 |
 | RN-13 | Idempotencia: reenvío del mismo intento no duplica registros ni XP. | `05` regla 3, `06` RNF-042 |
 

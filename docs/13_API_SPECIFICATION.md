@@ -1,14 +1,14 @@
 # 13 — Especificación de API (API Specification)
 
 > **Estado:** Aprobado · **Versión del documento:** 2.0.0 · **Fecha:** 2026-09-02  
-> **Complementa a:** `01_PROJECT_OVERVIEW.md` (§5 flujo, §7 jerarquía, §24 motores), `03_OBJECTIVES.md` (OT-04 API REST versionada), `04_SCOPE.md` (§2.8 transversales MVP), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001/003/008/010/032/041), `07_USER_STORIES.md` (E01–E10), `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md` (v2.0.0), `14_LEARNING_SYSTEM.md`, `16_GAMIFICATION.md`, `27_UI_UX_SPECIFICATION.md` y `28_LUA_CURRICULUM.md`.  
+> **Complementa a:** `01_PROJECT_OVERVIEW.md` (§5 flujo, §7 jerarquía, §24 motores), `03_OBJECTIVES.md` (OT-04 API REST versionada), `04_SCOPE.md` (§2.8 transversales MVP), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001/003/008/010/032/041), `07_USER_STORIES.md` (E01–E10), `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md` (v2.0.0), `14_LEARNING_SYSTEM.md`, `16_GAMIFICATION.md`, `27_UI_UX_SPECIFICATION.md` y `01_PROJECT_OVERVIEW.md`.  
 > **Zona horaria de timestamps de API:** `America/Bogota` (UTC-5) — coherente con `19_SECURITY.md` y `CHANGELOG.md`.
 
 ---
 
 ## 1. Propósito y alcance
 
-Este documento especifica el **contrato HTTP REST** de la plataforma educativa gamificada. Define qué expone el sistema, los modelos de datos de entrada/salida, los códigos de estado, las reglas de negocio en cada operación y la interacción con los motores pedagógico, de gamificación, de evaluación y de contenido.
+Este documento especifica el **contrato HTTP REST** de la plataforma educativa gamificada. Define qué expone el sistema, los modelos de datos de entrada/salida, los códigos de estado, las reglas de negocio en cada operación y la interacción con los motores pedagógico, de gamificación, de evapythonción y de contenido.
 
 **Sí incluye:**
 - Base URL y versionado semántico (`/api/v1`).
@@ -18,7 +18,7 @@ Este documento especifica el **contrato HTTP REST** de la plataforma educativa g
 - Calificación formativa en estrellas (1–3 ⭐) con rejugabilidad no punitiva y conservación de mejor marca (`max_stars_earned`).
 - Cuaderno de errores persistente (`user_mistakes_notebook`) para práctica deliberada (+5 XP de remediación formativa).
 - Ronda de repaso intra-sesión y feedback formativo anti-spoilers.
-- Soporte curricular multi-lenguaje (con Lua y Python como rutas insignias de lanzamiento).
+- Soporte curricular multi-lenguaje (con Python como rutas insignias de lanzamiento).
 - Tabla completa de 44 endpoints REST, schemas JSON canónicos, ejemplos de consumo cURL y catálogo de errores de negocio.
 
 **No incluye:**
@@ -47,9 +47,9 @@ Base URL (prod):    https://api.duolingo-programacion.com/api/v1
 | Elemento | Formato | Ejemplo |
 |---|---|---|
 | ID de recurso (UUID v4) | `string(uuid)` | `0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f70` |
-| ID de certificado | `KODA-{LANG}-{SEQ}` (`01` §22, `17`) | `KODA-LUA-000001`, `KODA-PY-000001` |
+| ID de certificado | `KODA-{LANG}-{SEQ}` (`01` §22, `17`) | `KODA-PY-000001`, `KODA-PY-000001` |
 | Fecha / Hora | ISO 8601 con offset Bogotá (UTC-5) | `2026-09-02T14:30:00-05:00` |
-| Código de Lenguaje | `LUA`, `PY`, `JS`, `RUST`… | `LUA` |
+| Código de Lenguaje | `PY`, `PY`, `JS`, `RUST`… | `PY` |
 | Estado de Candado Módulo | `locked`, `unlocked` | `unlocked` |
 | Estado de Progreso Módulo | `not_started`, `in_progress`, `completed`, `passed`, `failed` | `in_progress` |
 | Estado de Candado Sección | `locked`, `unlocked` | `unlocked` |
@@ -57,14 +57,14 @@ Base URL (prod):    https://api.duolingo-programacion.com/api/v1
 | Porcentaje de Maestría | Decimal `0.00` a `100.00` | `85.50` |
 | Paginación | `?page=1&per_page=20` (1-indexed) | — |
 | Ordenamiento | `?sort=created_at&order=desc` | — |
-| Idempotencia | Header `Idempotency-Key: <uuid>` en POST de mutación/evaluación | — |
+| Idempotencia | Header `Idempotency-Key: <uuid>` en POST de mutación/evapythonción | — |
 | Correlación | Response header `X-Request-Id: <uuid>` + campo `request_id` en errores (`RNF-041`, `RNF-045`) | — |
 
 ### 2.3 Paginación, filtrado y envoltorios
 
 **Request paginado:**
 ```http
-GET /api/v1/notebook/mistakes?page=1&per_page=20&language_id=lua HTTP/1.1
+GET /api/v1/notebook/mistakes?page=1&per_page=20&language_id=python HTTP/1.1
 ```
 
 **Response lista (envoltorio común):**
@@ -86,7 +86,7 @@ Regla `RNF-003`: ninguna lista devuelve >100 ítems sin paginación; payload de 
 
 ```http
 Authorization: Bearer <access_token>    // Requerido salvo endpoints públicos
-Idempotency-Key: <uuid>                // Requerido en POST evaluables y de progreso
+Idempotency-Key: <uuid>                // Requerido en POST evapythonbles y de progreso
 X-Request-Id: <uuid>                   // Devuelto por el servidor en todas las respuestas
 Cache-Control: no-store                // En respuestas autenticadas
 ```
@@ -162,7 +162,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 | 12 | Users | GET | `/users/me/achievements` | Sí | USER | Logros desbloqueados y en progreso | RF-LOGRO-002/003 |
 | 13 | Users | GET | `/users/me/certificates` | Sí | USER | Certificados emitidos al titular | RF-PROF-005, RF-CERT-001 |
 | 14 | Users | GET | `/users/me/stats` | Sí | USER | Estadísticas globales de aprendizaje | RF-PROF-006 |
-| 15 | Languages | GET | `/languages` | No* | — | Lista de lenguajes (Lua y Python disponibles) | RF-LANG-001 |
+| 15 | Languages | GET | `/languages` | No* | — | Lista de lenguajes (Python disponibles) | RF-LANG-001 |
 | 16 | Languages | GET | `/languages/{id}` | No* | — | Detalle de un lenguaje de programación | RF-LANG-001 |
 | 17 | Languages | GET | `/languages/{id}/modules` | Sí | USER | Lista de módulos con progreso y candados | RF-MOD-001, RF-RUTA-002 |
 | 18 | Languages | GET | `/languages/{id}/roadmap` | Sí | USER | **Roadmap interactivo:** módulos, candados y estrellas | RF-CANDADO-001, RF-ESTRELLA-001 |
@@ -178,7 +178,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 | 28 | Notebook | POST | `/notebook/mistakes/{question_id}/resolve` | Sí | USER | **Remediación en cuaderno:** valida solución (+5 XP) | RF-CUADERNO-005/006 |
 | 29 | Levels | POST | `/users/me/level` | Sí | USER | Declaración de nivel inicial | RF-LVL-001/002 |
 | 30 | Diagnostics | POST | `/diagnostics` | Sí | USER | Inicia diagnóstico por lenguaje | RF-DIAG-001 |
-| 31 | Diagnostics | POST | `/diagnostics/{id}/attempt` | Sí | USER | Envía intento de diagnóstico (evaluación y entrada) | RF-DIAG-002/003 |
+| 31 | Diagnostics | POST | `/diagnostics/{id}/attempt` | Sí | USER | Envía intento de diagnóstico (evapythonción y entrada) | RF-DIAG-002/003 |
 | 32 | Quizzes | GET | `/quizzes/{id}` | Sí | USER | Metadatos y composición del quiz | RF-QUIZ-001 |
 | 33 | Quizzes | POST | `/quiz/{id}/attempt` | Sí | USER | Envía intento de quiz (umbral 70%) | RF-QUIZ-002/003/006 |
 | 34 | Quizzes | GET | `/quiz/{id}/attempts` | Sí | USER | Historial de intentos de quiz | RF-QUIZ-005, RF-EVAL-003 |
@@ -187,7 +187,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 | 37 | Exams | GET | `/exam/{id}/attempts` | Sí | USER | Historial de intentos de examen | RF-EXAM-005, RF-EVAL-003 |
 | 38 | Progress | GET | `/progress` | Sí | USER | Historial filtrable de lecciones/quizzes/exámenes | RF-PROG-005 |
 | 39 | Progress | GET | `/progress/streak` | Sí | USER | Racha actual / récord / congelamientos | RF-RACHA-003/005 |
-| 40 | Certificates | GET | `/certificates/{id}` | No* | — | Verificación pública de certificado (`KODA-LUA-...`) | RF-CERT-006 |
+| 40 | Certificates | GET | `/certificates/{id}` | No* | — | Verificación pública de certificado (`KODA-PY-...`) | RF-CERT-006 |
 | 41 | Certificates | GET | `/certificates/{id}/pdf` | Sí | USER | Descarga PDF del certificado (solo titular) | RF-PDF-002/003 |
 | 42 | Certificates | POST | `/certificates/verify` | No | — | Verificación pública por código o QR | RF-CERT-004/006 |
 | 43 | Review | GET | `/review/recommended` | Sí | USER | Sesión de repaso inteligente recomendada | RF-REP-001/002 |
@@ -219,10 +219,10 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ### 6.2 Language
 ```json
 {
-  "id": "lua",
-  "code": "LUA",
-  "name": "Lua",
-  "description": "Aprende Lua desde cero con micro-lecciones, Koda y proyectos de videojuegos.",
+  "id": "python",
+  "code": "PY",
+  "name": "Python",
+  "description": "Aprende Python desde cero con micro-lecciones, Koda y proyectos de videojuegos.",
   "status": "available",
   "order": 1,
   "modules_count": 12,
@@ -234,9 +234,9 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ### 6.3 Module (con Candados y Estrellas)
 ```json
 {
-  "id": "mod-lua-01",
-  "language_id": "lua",
-  "title": "Fundamentos de Lua",
+  "id": "mod-py-01",
+  "language_id": "python",
+  "title": "Fundamentos de Python",
   "objective": "Comprender la sintaxis básica, print, comentarios y ejecución.",
   "position": 1,
   "status": "in_progress",
@@ -254,9 +254,9 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
     "min_stars_percentage_required": 80,
     "requires_exam_passed": false
   },
-  "evaluations": {
-    "quiz_id": "qz-lua-01",
-    "exam_id": "ex-lua-01"
+  "evapythontions": {
+    "quiz_id": "qz-py-01",
+    "exam_id": "ex-py-01"
   }
 }
 ```
@@ -264,9 +264,9 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ### 6.4 Section y Calificación en Estrellas (`user_section_stars`)
 ```json
 {
-  "id": "sec-lua-01-03",
-  "module_id": "mod-lua-01",
-  "language_id": "lua",
+  "id": "sec-py-01-03",
+  "module_id": "mod-py-01",
+  "language_id": "python",
   "title": "Tu primer print",
   "position": 3,
   "section_type": "example",
@@ -287,11 +287,11 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ### 6.5 Question (Polimórfica según tipo `15`)
 ```json
 {
-  "id": "q-lua-01-03-01",
-  "section_id": "sec-lua-01-03",
+  "id": "q-py-01-03-01",
+  "section_id": "sec-py-01-03",
   "type": "multiple_choice",
   "difficulty": "easy",
-  "concept_id": "lua-print-string",
+  "concept_id": "py-print-string",
   "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
   "code_snippet": null,
   "options": [
@@ -308,9 +308,9 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ```json
 {
   "is_correct": false,
-  "question_id": "q-lua-01-03-01",
-  "explanation": "En Lua utilizamos la función print(...) para enviar texto a la consola.",
-  "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Lua.",
+  "question_id": "q-py-01-03-01",
+  "explanation": "En Python utilizamos la función print(...) para enviar texto a la consola.",
+  "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Python.",
   "added_to_review_queue": true,
   "added_to_mistakes_notebook": true
 }
@@ -320,10 +320,10 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ```json
 {
   "id": "mstk-0f8a-001",
-  "question_id": "q-lua-01-03-01",
-  "module_id": "mod-lua-01",
-  "language_id": "lua",
-  "concept_id": "lua-print-string",
+  "question_id": "q-py-01-03-01",
+  "module_id": "mod-py-01",
+  "language_id": "python",
+  "concept_id": "py-print-string",
   "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
   "type": "multiple_choice",
   "options": [
@@ -343,16 +343,16 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 ### 6.8 Roadmap Completo
 ```json
 {
-  "language_id": "lua",
-  "language_name": "Lua",
+  "language_id": "python",
+  "language_name": "Python",
   "total_stars_earned": 45,
   "total_stars_possible": 339,
   "global_percentage": 13.27,
   "modules": [
     {
-      "id": "mod-lua-01",
+      "id": "mod-py-01",
       "position": 1,
-      "title": "Fundamentos de Lua",
+      "title": "Fundamentos de Python",
       "status": "passed",
       "is_unlocked": true,
       "stars_earned": 26,
@@ -367,7 +367,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
       ]
     },
     {
-      "id": "mod-lua-02",
+      "id": "mod-py-02",
       "position": 2,
       "title": "Variables y tipos de datos",
       "status": "in_progress",
@@ -384,7 +384,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
       ]
     },
     {
-      "id": "mod-lua-03",
+      "id": "mod-py-03",
       "position": 3,
       "title": "Operadores",
       "status": "not_started",
@@ -484,9 +484,9 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 {
   "data": [
     {
-      "id": "lua",
-      "code": "LUA",
-      "name": "Lua",
+      "id": "python",
+      "code": "PY",
+      "name": "Python",
       "description": "Ruta interactiva de 12 módulos y micro-lecciones con Koda y proyectos de videojuegos.",
       "status": "available",
       "order": 1,
@@ -514,7 +514,7 @@ Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 
 - **Auth:** Sí (`USER`) · **RF:** RF-CANDADO-001–004, RF-ESTRELLA-001–005, RF-RUTA-001/002
 
-**Path params:** `id` = `lua` | `py` | UUID
+**Path params:** `id` = `python` | `py` | UUID
 
 **Response `200 OK`:**
 Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas acumuladas y secciones intra-módulo.
@@ -529,9 +529,9 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 ```json
 {
   "data": {
-    "id": "sec-lua-01-03",
-    "module_id": "mod-lua-01",
-    "language_id": "lua",
+    "id": "sec-py-01-03",
+    "module_id": "mod-py-01",
+    "language_id": "python",
     "title": "Tu primer print",
     "position": 3,
     "is_unlocked": true,
@@ -543,8 +543,8 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
       "attempt_count": 1
     },
     "lessons": [
-      { "id": "les-lua-01-03-01", "position": 1, "title": "¿Qué hace print?", "concept_id": "lua-print-intro", "status": "completed" },
-      { "id": "les-lua-01-03-02", "position": 2, "title": "Imprimir texto entre comillas", "concept_id": "lua-print-string", "status": "completed" }
+      { "id": "les-python-01-03-01", "position": 1, "title": "¿Qué hace print?", "concept_id": "python-print-intro", "status": "completed" },
+      { "id": "les-python-01-03-02", "position": 2, "title": "Imprimir texto entre comillas", "concept_id": "py-print-string", "status": "completed" }
     ]
   }
 }
@@ -560,7 +560,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 **Request:**
 ```json
 {
-  "question_id": "q-lua-01-03-01",
+  "question_id": "q-py-01-03-01",
   "selected_option_id": "b",
   "time_spent_seconds": 12
 }
@@ -571,9 +571,9 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 {
   "data": {
     "is_correct": false,
-    "question_id": "q-lua-01-03-01",
-    "explanation": "En Lua utilizamos la función print(...) para enviar texto a la consola.",
-    "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Lua.",
+    "question_id": "q-py-01-03-01",
+    "explanation": "En Python utilizamos la función print(...) para enviar texto a la consola.",
+    "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Python.",
     "added_to_review_queue": true,
     "added_to_mistakes_notebook": true,
     "first_attempt_error_registered": true
@@ -586,7 +586,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 {
   "data": {
     "is_correct": true,
-    "question_id": "q-lua-01-03-01",
+    "question_id": "q-py-01-03-01",
     "explanation": "¡Exacto! print(\"Hola\") muestra el texto en la consola de salida.",
     "hint": null,
     "xp_awarded": 5
@@ -614,9 +614,9 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 ```json
 {
   "data": {
-    "section_id": "sec-lua-01-03",
-    "module_id": "mod-lua-01",
-    "language_id": "lua",
+    "section_id": "sec-py-01-03",
+    "module_id": "mod-py-01",
+    "language_id": "python",
     "status": "completed",
     "stars": {
       "stars_earned": 3,
@@ -634,7 +634,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
       "streak": { "current": 3, "longest": 3 }
     },
     "unlocks": {
-      "unlocked_next_section_id": "sec-lua-01-04",
+      "unlocked_next_section_id": "sec-py-01-04",
       "module_unlocked_next": false,
       "module_stars_percentage": 33.33,
       "module_stars_earned": 9,
@@ -658,7 +658,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 
 | Param | Tipo | Default | Descripción |
 |---|---|---|---|
-| `language_id` | string | `lua` | Filtro por lenguaje |
+| `language_id` | string | `python` | Filtro por lenguaje |
 | `module_id` | string | null | Filtro por módulo específico |
 | `is_resolved` | boolean | `false` | `false` para errores pendientes, `true` para remediados |
 | `page` | int | 1 | Número de página |
@@ -670,10 +670,10 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
   "data": [
     {
       "id": "mstk-01",
-      "question_id": "q-lua-01-03-01",
-      "module_id": "mod-lua-01",
-      "language_id": "lua",
-      "concept_id": "lua-print-string",
+      "question_id": "q-py-01-03-01",
+      "module_id": "mod-py-01",
+      "language_id": "python",
+      "concept_id": "py-print-string",
       "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
       "type": "multiple_choice",
       "options": [
@@ -710,7 +710,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 ```json
 {
   "data": {
-    "question_id": "q-lua-01-03-01",
+    "question_id": "q-py-01-03-01",
     "is_correct": true,
     "is_resolved": true,
     "resolved_at": "2026-09-02T14:35:00-05:00",
@@ -719,7 +719,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
       "xp_total": 465,
       "reason": "mistake_notebook_resolved"
     },
-    "explanation": "¡Excelente remediación! Dominaste el concepto 'lua-print-string'."
+    "explanation": "¡Excelente remediación! Dominaste el concepto 'py-print-string'."
   }
 }
 ```
@@ -746,7 +746,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 {
   "data": {
     "attempt_id": "att-qz-001",
-    "quiz_id": "qz-lua-01",
+    "quiz_id": "qz-py-01",
     "score": 90,
     "percentage": 90.00,
     "passed": true,
@@ -785,15 +785,15 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 {
   "data": {
     "attempt_id": "att-ex-001",
-    "exam_id": "ex-lua-01",
-    "module_id": "mod-lua-01",
+    "exam_id": "ex-py-01",
+    "module_id": "mod-py-01",
     "score": 85,
     "percentage": 85.00,
     "passed": true,
     "threshold_applied": 80.00,
     "module_mastered": true,
     "next_module_unlocked": true,
-    "unlocked_module_id": "mod-lua-02",
+    "unlocked_module_id": "mod-py-02",
     "rewards": {
       "xp_awarded": 100,
       "xp_total": 590
@@ -820,7 +820,7 @@ Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas
 | **Notebook** | 409 | `ALREADY_RESOLVED` | El error ya fue remediado previamente en el cuaderno. | RF-CUADERNO-005 |
 | **Lessons** | 422 | `LESSON_LOCKED` | Micro-lección bloqueada. Completa las anteriores. | RF-LEC-004 |
 | **Lessons** | 409 | `ALREADY_COMPLETED` | Lección o sección ya completada (idempotencia garantizada). | RF-XP-005 |
-| **Quiz/Exam**| 400 | `INCOMPLETE_ANSWERS` | Faltan respuestas para preguntas obligatorias de la evaluación. | RF-QUIZ-002, RF-EXAM-001 |
+| **Quiz/Exam**| 400 | `INCOMPLETE_ANSWERS` | Faltan respuestas para preguntas obligatorias de la evapythonción. | RF-QUIZ-002, RF-EXAM-001 |
 | **Quiz/Exam**| 409 | `IDEMPOTENCY_CONFLICT` | Mismo `Idempotency-Key` enviado con payload diferente. | RNF-042 |
 | **Certificates**| 403 | `NOT_CERTIFICATE_OWNER` | Solo el titular registrado puede descargar el PDF oficial. | RF-PDF-002 |
 | **Certificates**| 404 | `CERTIFICATE_NOT_FOUND` | Certificado no encontrado para el código proporcionado. | RF-CERT-006 |
@@ -838,43 +838,43 @@ curl -X POST https://api.duolingo-programacion.com/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"brandon@example.com","password":"PasswordSeguro!2026"}'
 
-# 2. Consultar Roadmap de Lua con Candados y Estrellas
-curl https://api.duolingo-programacion.com/api/v1/languages/lua/roadmap \
+# 2. Consultar Roadmap de Python con Candados y Estrellas
+curl https://api.duolingo-programacion.com/api/v1/languages/python/roadmap \
   -H "Authorization: Bearer $ACCESS"
 
 # 3. Enviar respuesta a ejercicio interactivo (Feedback Anti-Spoilers)
-curl -X POST https://api.duolingo-programacion.com/api/v1/lessons/les-lua-01-03-01/answer \
+curl -X POST https://api.duolingo-programacion.com/api/v1/lessons/les-python-01-03-01/answer \
   -H "Authorization: Bearer $ACCESS" \
   -H "Content-Type: application/json" \
-  -d '{"question_id":"q-lua-01-03-01","selected_option_id":"b","time_spent_seconds":15}'
+  -d '{"question_id":"q-py-01-03-01","selected_option_id":"b","time_spent_seconds":15}'
 
 # 4. Completar sección y calificar con 3 Estrellas (Idempotente)
-curl -X POST https://api.duolingo-programacion.com/api/v1/sections/sec-lua-01-03/complete \
+curl -X POST https://api.duolingo-programacion.com/api/v1/sections/sec-py-01-03/complete \
   -H "Authorization: Bearer $ACCESS" \
   -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440001" \
   -H "Content-Type: application/json" \
   -d '{"time_spent_seconds":240,"first_attempt_errors":0,"remedied_in_review":0}'
 
 # 5. Consultar Cuaderno de Errores pendientes
-curl https://api.duolingo-programacion.com/api/v1/notebook/mistakes?language_id=lua&is_resolved=false \
+curl https://api.duolingo-programacion.com/api/v1/notebook/mistakes?language_id=python&is_resolved=false \
   -H "Authorization: Bearer $ACCESS"
 
 # 6. Remediar error en el Cuaderno (+5 XP)
-curl -X POST https://api.duolingo-programacion.com/api/v1/notebook/mistakes/q-lua-01-03-01/resolve \
+curl -X POST https://api.duolingo-programacion.com/api/v1/notebook/mistakes/q-py-01-03-01/resolve \
   -H "Authorization: Bearer $ACCESS" \
   -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440002" \
   -H "Content-Type: application/json" \
   -d '{"selected_option_id":"a","time_spent_seconds":10}'
 
 # 7. Enviar Intento de Examen de Módulo (Compuerta de Maestría >=80%)
-curl -X POST https://api.duolingo-programacion.com/api/v1/exam/ex-lua-01/attempt \
+curl -X POST https://api.duolingo-programacion.com/api/v1/exam/ex-py-01/attempt \
   -H "Authorization: Bearer $ACCESS" \
   -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440003" \
   -H "Content-Type: application/json" \
   -d '{"answers":[{"question_id":"q-ex-01","selected_option_id":"c"}],"time_spent_seconds":550}'
 
 # 8. Verificar Certificado Público (Sin PII)
-curl https://api.duolingo-programacion.com/api/v1/certificates/KODA-LUA-000001
+curl https://api.duolingo-programacion.com/api/v1/certificates/KODA-PY-000001
 ```
 
 ---
@@ -897,7 +897,7 @@ curl https://api.duolingo-programacion.com/api/v1/certificates/KODA-LUA-000001
 | `RF-PREG-001–006` | `POST /lessons/{id}/answer`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` | US-031, US-032 |
 | `RF-QUIZ-001–006` | `GET /quizzes/{id}`, `POST /quiz/{id}/attempt`, `GET /quiz/{id}/attempts` | US-033–US-035 |
 | `RF-EXAM-001–007` | `GET /exams/{id}`, `POST /exam/{id}/attempt`, `GET /exam/{id}/attempts` | US-036–US-039 |
-| `RF-EVAL-001–006` | Evaluador en servidor en `POST /lessons/{id}/answer`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` | US-040 |
+| `RF-EVAL-001–006` | Evapythondor en servidor en `POST /lessons/{id}/answer`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` | US-040 |
 | `RF-XP-001–005` | Motor de XP en `/sections/{id}/complete`, `/quiz/{id}/attempt`, `/exam/{id}/attempt`, `/notebook/mistakes/{id}/resolve` | US-041–US-043 |
 | `RF-RACHA-001–005` | `GET /progress/streak`, `GET /users/me/progress` | US-044, US-045 |
 | `RF-LOGRO-001–005` | `GET /users/me/achievements` | US-046–US-048 |
@@ -930,7 +930,7 @@ Cada endpoint REST en backend debe satisfacer el siguiente checklist previo a su
 - [ ] Contrato documentado e integrado en `openapi.yaml` (pasa linter `spectral` sin advertencias).
 - [ ] Validación de payload con esquema Zod / Joi en servidor (rechaza campos no tipados).
 - [ ] Aislamiento estricto de usuario autenticado contra `user_id` del token JWT (prevención IDOR).
-- [ ] Implementación de `Idempotency-Key` en operaciones de escritura financiera/gamificada/evaluativa.
+- [ ] Implementación de `Idempotency-Key` en operaciones de escritura financiera/gamificada/evapythontiva.
 - [ ] Registro estructurado de trazas en JSON con `request_id`, método, ruta y código HTTP.
 - [ ] Pruebas automatizadas unitarias y de integración en `20_TESTING.md` con cobertura $\ge 70\%$.
 

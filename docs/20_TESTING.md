@@ -97,7 +97,7 @@ flowchart LR
 
 | Métrica | Objetivo | Verificación |
 |---|---|---|
-| Cobertura de líneas en `learning/question/evaluation/progress/gamification/certification/content` | ≥ 70% (`06` RNF-016) | Reporte `coverage/lcov` en CI; falla si < umbral |
+| Cobertura de líneas en `learning/question/evapythontion/progress/gamification/certification/content` | ≥ 70% (`06` RNF-016) | Reporte `coverage/lcov` en CI; falla si < umbral |
 | `TC` P0 | 100% pasan | Pipeline en rojo si alguno falla |
 | `TC` P1 | ≥ 95% pasan | Nightly report |
 | Defectos P0 abiertos | 0 | Board del sprint |
@@ -139,11 +139,11 @@ flowchart LR
 
 | Flujo integrado | Qué se verifica | Invariante |
 |---|---|---|
-| `POST /lessons/{id}/answer` → `Question.validate` → `Evaluation.calificar` → `Progress.persistirAttempt` → `Gamification.otorgarXP` → `Streak.registrar` | Transacción ACID; evento `xp_granted` con `config_version` | `06` RNF-033, `05` regla 3 |
+| `POST /lessons/{id}/answer` → `Question.validate` → `Evapythontion.calificar` → `Progress.persistirAttempt` → `Gamification.otorgarXP` → `Streak.registrar` | Transacción ACID; evento `xp_granted` con `config_version` | `06` RNF-033, `05` regla 3 |
 | `POST /quiz/{id}/attempt` y `POST /exam/{id}/attempt` (dos envíos con mismo `Idempotency-Key`) | Idempotencia: segundo `POST` no duplica `attempts`, `xp_transactions` ni `streaks` | `06` RNF-042, `05` RF-XP-005 |
 | `Learning.liberarSiguienteModulo` tras `Exam APROBADO` | `M(i+1)` pasa `BLOQUEADO → DISPONIBLE`; `M(i)` → `APROBADO` | `14` §4.1, `05` RF-RUTA-004 |
 | `Content.publish` con IDs duplicados / ciclo en `prerequisite_module_id` | Rechazo con `CONTENT_VALIDATION_FAILED` y detalle | `05` RF-ADM-006 |
-| `Certificate.emitir` con `todosLosExamenesAprobados` + `email_verified` | `KODA-LUA-000001` correlativo por lenguaje con `SELECT ... FOR UPDATE` en `certificate_sequences` | `05` RF-CERT-003, `04` §7 |
+| `Certificate.emitir` con `todosLosExamenesAprobados` + `email_verified` | `KODA-PY-000001` correlativo por lenguaje con `SELECT ... FOR UPDATE` en `certificate_sequences` | `05` RF-CERT-003, `04` §7 |
 | Fallo inyectado a mitad de `POST /intentos` (kill de conexión) | Ningún `attempt` queda a medias | `06` RNF-033 |
 
 **Entorno:** `Testcontainers` con PostgreSQL 15 + Redis (KV) + MinIO mock (S3) + Mailhog/adapter mock. Se ejecutan con `npm run test:integration`.
@@ -159,9 +159,9 @@ flowchart LR
 | Auth | `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/forgot-password`, `/auth/reset-password`, `/auth/verify-email` | `201/200/204`, `400 VALIDATION_ERROR`, `409 EMAIL_TAKEN`, `401 INVALID_CREDENTIALS`, `429 RATE_LIMITED` con `Retry-After`, hash no en claro, `X-Request-Id` presente |
 | Catálogo | `GET /languages`, `GET /languages/{id}/modules`, `GET /modules/{id}` | Paginación `RNF-003` (≤100 ítems), `200` con `progress.percent`, `422 LANGUAGE_NOT_AVAILABLE` si `coming_soon` |
 | Aprendizaje | `POST /users/me/level`, `POST /diagnostics`, `POST /diagnostics/{id}/attempt`, `GET /lessons/{id}`, `POST /lessons/{id}/answer`, `POST /lessons/{id}/complete` | Feedback < 1 s `RNF-010`, XP `+10` sección / `+5` ejercicio, `ads.show_interstitial` solo si gratuito |
-| Evaluación | `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt`, `GET /quiz/{id}/attempts` | Calificación < 2 s `RNF-012`, `threshold_aplicado` persistido, `% = round(P_obt/P_max*100,2)`, `APROBADO ≥70/80` |
+| Evapythonción | `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt`, `GET /quiz/{id}/attempts` | Calificación < 2 s `RNF-012`, `threshold_aplicado` persistido, `% = round(P_obt/P_max*100,2)`, `APROBADO ≥70/80` |
 | Progreso/Gamif. | `GET /users/me/progress`, `GET /users/me/achievements`, `GET /progress/streak` | Aislamiento por `user_id` del token (`IDOR` → `403`), `level` derivado determinista |
-| Certificación | `GET /users/me/certificates`, `GET /certificates/{id}`, `GET /certificates/{id}/pdf`, `POST /certificates/verify` | `KODA-LUA-000001` formato, `403 NOT_CERTIFICATE_OWNER` si no titular, `410 CERTIFICATE_OBSOLETE`, PDF bit-a-bit |
+| Certificación | `GET /users/me/certificates`, `GET /certificates/{id}`, `GET /certificates/{id}/pdf`, `POST /certificates/verify` | `KODA-PY-000001` formato, `403 NOT_CERTIFICATE_OWNER` si no titular, `410 CERTIFICATE_OBSOLETE`, PDF bit-a-bit |
 | Admin | `/admin/*` CRUD + `POST /admin/content/publish` | `403 ADMIN_REQUIRED` sin rol, `422 CONTENT_VALIDATION_FAILED`, auditoría `quién/qué/cuándo/versión` |
 
 **Herramientas:** `Supertest` (Node) o `REST Assured` (Java), `openapi.yaml` linteado con `spectral`/`redocly` en CI, `Idempotency-Key` aleatorio por caso, `X-Request-Id` assertivo.
@@ -181,7 +181,7 @@ flowchart LR
 | `F-07→F-08` Quiz y Examen | `S-16→S-17→S-18→S-19` | Quiz 10Q ≥70% → revisión sin banco completo; Examen 20Q ≥80% → `APROBADO → desbloquea M(i+1)`; reprobado → `BLOQUEADO` con CTA | `RNF-012` <2 s, `RN-QE-011` |
 | `F-09→F-10` Fallar y repasar | `S-19→S-20→S-21` | Examen 56.67% reprobado → desglose por tipo + débiles → repaso 5Q `Score_repaso` → reintento con ≥60% preguntas distintas | `RF-REP-002`, `§15.4` overlap |
 | `F-11` Racha | `S-22` | Actividad válida hoy → `racha+1`; sin actividad + gracia 00:00–02:00 → mantiene; día sin actividad ni freeze → `0` | `RF-RACHA-002` |
-| `F-13` Certificado | `S-28→S-29` | módulos Lua `APROBADO` + email verificado → `KODA-LUA-000001` + QR → `GET /certificates/{id}/pdf` bit-a-bit → verificación pública sin PII | `RF-CERT-006`, `RF-PDF-003` |
+| `F-13` Certificado | `S-28→S-29` | módulos Python `APROBADO` + email verificado → `KODA-PY-000001` + QR → `GET /certificates/{id}/pdf` bit-a-bit → verificación pública sin PII | `RF-CERT-006`, `RF-PDF-003` |
 
 **Responsive (`06` RNF-027):** cada P0 se ejecuta en 3 viewports `360×640`, `768×1024`, `1280×800`; touch target ≥44×44 px; zoom 200% sin rotura.
 
@@ -202,7 +202,7 @@ flowchart LR
 | `TC-BD-003` | `UNIQUE (user_id, activity_date)` en `streaks` | Doble registro mismo día → violación | `05` RF-RACHA-001 |
 | `TC-BD-004` | `UNIQUE (user_id, achievement_id)` en `user_achievements` | Segundo desbloqueo mismo logro → violación | `05` RF-LOGRO-005 |
 | `TC-BD-005` | `UNIQUE (user_id, language_id) WHERE status='valid'` en `certificates` | Segundo vigente mismo lenguaje → violación | `05` RF-CERT-005 |
-| `TC-BD-006` | `certificate_sequences.last_seq` correlativo por lenguaje | 10 emisiones concurrentes → `KODA-LUA-000001`..`000010` sin huecos ni duplicados | `05` RF-CERT-003 |
+| `TC-BD-006` | `certificate_sequences.last_seq` correlativo por lenguaje | 10 emisiones concurrentes → `KODA-PY-000001`..`000010` sin huecos ni duplicados | `05` RF-CERT-003 |
 | `TC-BD-007` | `progress.percent = ROUND(completed/total*100,2)` | `completed_items=3,total=5 → 60.00%` | `12` §6.13 |
 | `TC-BD-008` | Sin huérfanos: `questions.module_id → modules.id` con FK `RESTRICT` | `DELETE` de módulo con preguntas → `FK violation` | `06` RNF-036 |
 | `TC-BD-009` | Trigger rechaza `UPDATE` de `attempts` con `status='graded'` en campos `score/percent/threshold_applied` | `UPDATE attempts SET percent=100 WHERE status='graded'` → `RAISE EXCEPTION` | `06` RNF-033 |
@@ -228,7 +228,7 @@ flowchart LR
 | `TC-LEARN-009` | `14` RN-03 | Re-diagnóstico con `M1=APROBADO, M2=APROBADO` | `M1,M2` permanecen `APROBADO`; nueva recomendación solo sobre `M3..M12` |
 | `TC-LEARN-010` | `14` §4.4 Quiz no bloquea | Quiz `65% REPROBADO` → intentar iniciar `Siguiente sección` | Permitido; solo sugiere repaso |
 
-### 4.7 Tests de Evaluación (Quiz / Examen — `15_QUIZ_EXAM_SYSTEM.md`)
+### 4.7 Tests de Evapythonción (Quiz / Examen — `15_QUIZ_EXAM_SYSTEM.md`)
 
 | ID | Regla `15` | Caso | Esperado |
 |---|---|---|---|
@@ -264,15 +264,15 @@ flowchart LR
 
 | ID | RF | Caso | Esperado |
 |---|---|---|---|
-| `TC-CERT-001` | `RF-CERT-001` | módulos Lua `APROBADO` + `email_verified=true` → `POST /certificates` | `200` con `KODA-LUA-000001`, `status=valid`, `qr_payload` |
+| `TC-CERT-001` | `RF-CERT-001` | módulos Python `APROBADO` + `email_verified=true` → `POST /certificates` | `200` con `KODA-PY-000001`, `status=valid`, `qr_payload` |
 | `TC-CERT-002` | `RF-CERT-001` | 11/12 aprobados → solicitar certificado | `422 CERTIFICATE_NOT_ELIGIBLE` con lista de módulos faltantes |
 | `TC-CERT-003` | `RF-AUTH-005` | 12/12 pero `email_verified=false` | `403 EMAIL_NOT_VERIFIED` con CTA verificar; no genera |
-| `TC-CERT-004` | `RF-CERT-003` correlativo | 5 emisiones concurrentes LUA | `KODA-LUA-000001`..`000005` sin duplicados (lock en `certificate_sequences`) |
-| `TC-CERT-005` | `RF-CERT-005` no duplica vigente | Ya `KODA-LUA-000001 valid` → re-emitir | No crea 2do vigente; mantiene existente; `409` o `200` idempotente |
+| `TC-CERT-004` | `RF-CERT-003` correlativo | 5 emisiones concurrentes PY | `KODA-PY-000001`..`000005` sin duplicados (lock en `certificate_sequences`) |
+| `TC-CERT-005` | `RF-CERT-005` no duplica vigente | Ya `KODA-PY-000001 valid` → re-emitir | No crea 2do vigente; mantiene existente; `409` o `200` idempotente |
 | `TC-CERT-006` | `RF-CERT-005` obsolescencia | `programming_languages.content_version 1→2` (cambio significativo) | Certificado pasa `valid→obsolete` con `revoked_at`; requiere revalidación |
-| `TC-CERT-007` | `RF-CERT-006` verificación pública | `GET /certificates/KODA-LUA-000001` (sin auth) | `200 valid, language_name=Lua, holder_name=B. P., document_masked=CC ***678` sin PII completa |
+| `TC-CERT-007` | `RF-CERT-006` verificación pública | `GET /certificates/KODA-PY-000001` (sin auth) | `200 valid, language_name=holder_name=B. P., document_masked=CC ***678` sin PII completa |
 | `TC-CERT-008` | `RF-PDF-003` bit-a-bit | `GET /certificates/{id}/pdf` (titular) vs `GET /certificates/{id}` JSON | PDF contiene mismos `nombre/documento/lenguaje/fecha/ID/QR` que JSON vigente; `pdf_version` trazada |
-| `TC-CERT-009` | `RF-PDF-002` solo titular | No titular solicita `GET /certificates/KODA-LUA-000001/pdf` | `403 NOT_CERTIFICATE_OWNER` |
+| `TC-CERT-009` | `RF-PDF-002` solo titular | No titular solicita `GET /certificates/KODA-PY-000001/pdf` | `403 NOT_CERTIFICATE_OWNER` |
 | `TC-CERT-010` | `RF-CERT-004` QR | Escanear QR → `POST /certificates/verify` | `valid` + `issued_at` con `America/Bogota` |
 
 ### 4.10 Tests de Seguridad (`19_SECURITY.md`, `06` RNF-008/009/037–041, `05` RF-AUTH/USR/ADM)
@@ -281,7 +281,7 @@ flowchart LR
 |---|---|---|---|
 | `TC-SEC-001` | `RNF-008` hash adaptativo | `POST /auth/register` → inspeccionar BD y logs | `password_hash` es `argon2id/bcrypt` (no claro), no aparece en `audit_log` ni en response |
 | `TC-SEC-002` | `06` RNF-009 OWASP Top 10 — Inyección | `POST /auth/login { email: "' OR 1=1 --", password:"x" }` + payloads SQLi en `lessons/answer` | `400/401` sin `500` ni dump; SAST no reporta `high` sin corregir |
-| `TC-SEC-003` | IDOR / Broken Access Control | `USER_A` con `JWT_A` → `GET /users/me/progress` de `USER_B` (cambiando `user_id` en path si existiera) o `GET /certificates/KODA-LUA-000002/pdf` de otro titular | `403/404` sin revelar existencia; no expone PII ajena |
+| `TC-SEC-003` | IDOR / Broken Access Control | `USER_A` con `JWT_A` → `GET /users/me/progress` de `USER_B` (cambiando `user_id` en path si existiera) o `GET /certificates/KODA-PY-000002/pdf` de otro titular | `403/404` sin revelar existencia; no expone PII ajena |
 | `TC-SEC-004` | `RNF-041` mensajes accionables | `POST /auth/login` con email inexistente, `POST /auth/register` con email existente, `GET /modules/{id}` bloqueado | Mensaje genérico sin revelar existencia; `request_id` + `timestamp` coherentes; nunca stack trace |
 | `TC-SEC-005` | Rate limiting `RF-AUTH-006` | 6× `POST /auth/login` en < 1 min misma IP | 6to → `429 RATE_LIMITED` + `Retry-After: 60` + headers `RateLimit-*` |
 | `TC-SEC-006` | XSS almacenado `RNF-009` | Crear lección/pregunta con `<script>alert(1)</script>` vía `/admin/questions` y renderizarla como usuario | Contenido sanitizado/escaped; `script` no ejecuta; Content-Security-Policy activa |
@@ -299,7 +299,7 @@ flowchart LR
 |---|---|---|---|
 | `TC-REG-001` | Publicar nueva `version_contenido` en Python | `TC-EVAL-003` (intentos viejos con `threshold=70` siguen válidos) + `TC-BD-001` (versionado) + E2E `F-06` con contenido viejo | `old attempts` no se re-califican; `EXPLAIN` sigue usando índices |
 | `TC-REG-002` | Cambiar `threshold.quiz 70→75` sin despliegue | `TC-EVAL-003` + `TC-LEARN-010` + contrato `openapi.yaml` sin breaking | Solo futuros intentos usan `75`; `openapi.yaml` `MINOR` |
-| `TC-REG-003` | Agregar lenguaje `Lua` (solo contenido) | `TC-LEARN-002` en Lua + `06` RNF-006 (grep CI sin `if language==='python'` en motor) + E2E `F-01` para Lua | 0 cambios en `src/modules/*` del motor |
+| `TC-REG-003` | Agregar lenguaje `Python` (solo contenido) | `TC-LEARN-002` en Python + `06` RNF-006 (grep CI sin `if language==='python'` en motor) + E2E `F-01` para Python | 0 cambios en `src/modules/*` del motor |
 | `TC-REG-004` | Hotfix de `Score_repaso` pesos `w1..w4` | `TC-LEARN-006` + snapshot de `06` `RNF-006` ensayo `RNF-006` | Pesos suman `1.0`; orden de repaso no regresiona en golden dataset de 100 conceptos |
 | `TC-REG-005` | Fix de `level.curve` | `TC-GAM-005` + `16` §6.2 tabla | Niveles ya alcanzados no bajan; solo afecta progreso al siguiente |
 | `TC-REG-006` | Upgrade de dependencias (NestJS, PG driver) | Full `TC` P0 + SAST | 0 `P0` nuevos fallos; `npm audit` sin `high` sin mitigación |
@@ -398,10 +398,10 @@ flowchart LR
 | **TC-002** | `RF-AUTH-001` (unicidad) | `brandon@example.com` ya existe | 1. `POST /auth/register` con mismo email 2. Repetir con email distinto pero password débil `123` | 1. `409 EMAIL_TAKEN` o `400` genérico sin revelar existencia (según política `RNF-041`) + `X-Request-Id` 2. `400 VALIDATION_ERROR` con `details[password].issue` accionable |
 | **TC-003** | `RF-AUTH-002, RF-AUTH-006` · `UC-002` | Usuario `brandon` con `S3gura!2026`; `staging` con rate limit 5/min | 1. `POST /auth/login { email, password }` válidos 2. `POST /auth/login` con password errónea ×6 | 1. `200` con `access_token` (15 min) + `refresh_token` rotativo; `last_login_at` actualizado 2. 6to → `429 RATE_LIMITED` + `Retry-After: 60` |
 | **TC-004** | `RF-AUTH-007, RNF-023` | Sesión autenticada en `S-14` lección activa | 1. Esperar expiración `access_token` 2. `GET /progress` con token expirado 3. `POST /auth/refresh` con `refresh` vigente | 2. `401` 3. `200` con nuevo par; `refresh` viejo replay → `401 INVALID_REFRESH`; progreso no perdido |
-| **TC-005** | `RF-AUTH-005, RF-CERT-001` | Usuario no verificado con módulos Lua `APROBADO` | 1. `GET /certificates/verify` sin verificar 2. `POST /auth/verify-email` con token 3. Reintentar certificado | 1. Bloquea emisión con `EMAIL_NOT_VERIFIED` (aprendizaje sigue) 3. `200` con `KODA-LUA-...` |
+| **TC-005** | `RF-AUTH-005, RF-CERT-001` | Usuario no verificado con módulos Python `APROBADO` | 1. `GET /certificates/verify` sin verificar 2. `POST /auth/verify-email` con token 3. Reintentar certificado | 1. Bloquea emisión con `EMAIL_NOT_VERIFIED` (aprendizaje sigue) 3. `200` con `KODA-PY-...` |
 | **TC-006** | `RF-AUTH-004` | Usuario registrado | 1. `POST /auth/forgot-password { email }` exista o no 2. `POST /auth/reset-password { token, new_password }` válido 3. Reintentar con mismo token | 1. `200` genérico idéntico exista o no (no revela) 2. `200` password hasheada nueva 3. `400` token ya usado/expirado |
 | **TC-007** | `RF-USR-002` | Autenticado como `USER_A` | 1. `PATCH /users/me { name:"B. P.", current_password:"S3gura!2026", new_password:"N3w!2026" }` 2. Repetir con `current_password` errónea | 1. `200` nombre persiste; certificados futuros usan nuevo nombre 2. `422 INVALID_CURRENT_PASSWORD` |
-| **TC-008** | `RF-LANG-001` · `UC-003` | Catálogo con `PY=available`, `LUA=coming_soon` | 1. `GET /languages` (público) 2. `GET /languages/{id}/modules` con `LUA` | 1. `200` `PY` con `modules_count=12`, `LUA` `status=coming_soon` 2. `422 LANGUAGE_NOT_AVAILABLE` |
+| **TC-008** | `RF-LANG-001` · `UC-003` | Catálogo con `PY=available`, `PY=coming_soon` | 1. `GET /languages` (público) 2. `GET /languages/{id}/modules` con `PY` | 1. `200` `PY` con `modules_count=12`, `PY` `status=coming_soon` 2. `422 LANGUAGE_NOT_AVAILABLE` |
 | **TC-009** | `RF-LANG-003, RF-LANG-005` | `USER_A` con progreso `PY M1 100%` | 1. Cambiar `language_id=PY` → otro disponible (cuando exista) 2. Volver a `PY` | 1. Progreso `PY` intacto; ruta del nuevo lenguaje vacía 2. Reanuda `M1 100%` en posición exacta |
 | **TC-010** | `RF-LVL-001, RF-LVL-002` | Lenguaje `PY` activo sin diagnóstico | 1. `POST /users/me/level { level:"MEDIUM" }` 2. `PATCH /users/me/level { level:"PROFESSIONAL" }` antes de diagnóstico | 1. `200` `declared_level=MEDIUM` 2. `200` actualizado; tras iniciar diagnóstico → `422 LEVEL_LOCKED` (requiere re-diagnóstico) |
 | **TC-011** | `RF-DIAG-001/002/003` · `UC-004` · `F-03` | `MEDIUM` declarado; banco diagnóstico 24Q | 1. `POST /diagnostics` (genera 24) 2. `POST /diagnostics/{id}/attempt` con `P_1=100,P_2=100,P_3=50,...` 3. Consultar recomendación | `200` con `by_area { variables:80, condicionales:60 }`, `recommended_entry { module_id: M3 }` (`entry=3` ver `14` §6.5); `diagnostic_result` persiste |
@@ -420,8 +420,8 @@ flowchart LR
 | **TC-024** | `RF-RACHA-001/002/004, 16` §7 | `timezone=America/Bogota`; 7 días consecutivos | 1. Actividad válida diaria `14:00-05:00` ×7 2. Día 8 sin actividad 3. Día 9 con actividad | 1. `racha=7, max=7, ON_FIRE desbloqueado` 2. `racha=0` (o `freeze` si hay token) 3. `racha=1` |
 | **TC-025** | `RF-LOGRO-001/002/005` | Sin logros | 1. Primer ejercicio correcto → `FIRST_CODE` 2. Completar `M1` → `FIRST_MODULE` 3. Repetir condición `FIRST_CODE` | 1-2. `user_achievements` con `unlocked_at` + `xp_bono` 3. No duplica (`UNIQUE`) |
 | **TC-026** | `RF-REP-001/002/004` | Historial con errores `py-var-decl 60%` | 1. `GET /review/recommended` 2. `POST /review/attempt` con fallos | 1. Top `Score_repaso` `py-var-decl 0.61` primero 2. No penaliza `%` de módulo; solo ajusta próxima priorización |
-| **TC-027** | `RF-CERT-001/002/003` · `UC-012` · `F-13` | módulos Lua `APROBADO`, `email_verified=true` | 1. `POST /certificates` o `GET /users/me/certificates` | `200` `id=KODA-LUA-000001`, `holder_name, document, language_name, issued_at America/Bogota` |
-| **TC-028** | `RF-PDF-001/002/003` | Certificado `KODA-LUA-000001 valid` | 1. `GET /certificates/{id}/pdf` (titular) 2. `GET /certificates/{id}` JSON | `200 application/pdf` con `Content-Disposition`; contenido idéntico a JSON vigente (fecha/ID/QR) |
+| **TC-027** | `RF-CERT-001/002/003` · `UC-012` · `F-13` | módulos Python `APROBADO`, `email_verified=true` | 1. `POST /certificates` o `GET /users/me/certificates` | `200` `id=KODA-PY-000001`, `holder_name, document, language_name, issued_at America/Bogota` |
+| **TC-028** | `RF-PDF-001/002/003` | Certificado `KODA-PY-000001 valid` | 1. `GET /certificates/{id}/pdf` (titular) 2. `GET /certificates/{id}` JSON | `200 application/pdf` con `Content-Disposition`; contenido idéntico a JSON vigente (fecha/ID/QR) |
 | **TC-029** | `RF-ADS-001/002/003, RNF-014` · `UC-019` · `F-14` | `USER gratuito` + sección completa; mock ads caído | 1. `POST /sections/{id}/complete` → `GET /progress` con `ads` | `show_interstitial=true` entre secciones, nunca intra-ejercicio; fallo ads → `degradado` (progreso intacto); métricas sin fingerprinting |
 | **TC-030** | `RF-PREM-001/002/005, RF-ADS-002` · `UC-014` · `F-15` | `USER` gratuito → `POST /subscriptions` con `mock` provider | 1. Activar `premium` ($1 `USD 100 cents`) 2. `POST /sections/{id}/complete` 3. Cancelar | 1. `status=active`, `is_premium=true` 2. `show_interstitial=false` (sin ads) 3. Vuelve a `gratuito` con ads; progreso conservado |
 | **TC-031** | `RF-ADM-001/003/006/007` · `UC-016/017` | `ADMIN` y `USER` | 1. `USER POST /admin/languages` 2. `ADMIN POST /admin/modules { code duplicado, prereq ciclo }` 3. `ADMIN POST /admin/content/publish` válido | 1. `403 ADMIN_REQUIRED` 2. `422 CONTENT_VALIDATION_FAILED` con `details[ids,ciclo]` 3. `200` versionado con auditoría `quién/qué/cuándo/versión` |
@@ -458,7 +458,7 @@ jobs:
     - zap baseline scan
   gate:
     needs: [lint, unit, integration, api, e2e, security]
-    - coverage gate ≥70% en learning/question/evaluation/progress/gamification/certification/content
+    - coverage gate ≥70% en learning/question/evapythontion/progress/gamification/certification/content
     - zero P0 failures
 ```
 
@@ -498,7 +498,7 @@ Rollback automático si `error rate >1%` en 5 min post-deploy (`06` RNF-002/015)
 | `TC-001..TC-007` (Auth) | `OE-01, OE-08` | `OT-04, OT-06, OUX-04` | — |
 | `TC-008..TC-012` (Onboarding/Diagnóstico) | `OE-02, OE-03` | `OED-03, OT-01` | `PS-04, PS-07` |
 | `TC-013..TC-015` (Lecciones/Secciones) | `OE-01, OE-03` | `OED-01/02, OUX-03` | `PS-01, PS-03, PS-10` |
-| `TC-016..TC-021` (Quiz/Examen/Evaluación) | `OE-04` | `OED-05, OUX-03` | `PS-05` |
+| `TC-016..TC-021` (Quiz/Examen/Evapythonción) | `OE-04` | `OED-05, OUX-03` | `PS-05` |
 | `TC-022..TC-026` (Progreso/Gamificación/Repaso) | `OE-05` | `OED-04, OT-01` | `PS-06, PS-08` |
 | `TC-027..TC-028` (Certificación/PDF) | `OE-06` | `OT-05` | `PS-06` (demostrabilidad) |
 | `TC-029..TC-030` (Ads/Premium) | `OE-07` | `OUX-07` | — |
@@ -528,7 +528,7 @@ Cada `TC` se considera **terminado** solo si:
 | Riesgo | Impacto | Mitigación en este doc |
 |---|---|---|
 | Flakiness en E2E | Falsos rojos, pérdida de confianza | Page Objects + `auto-wait` de Playwright; sin `sleep`; reintento 1 con `trace`; golden datasets versionados |
-| Cobertura 70% con tests triviales | Falsa seguridad | Gate por **motor** (`RNF-016`): cada uno de `learning/question/evaluation/progress/gamification/certification` ≥70%, no solo total repo |
+| Cobertura 70% con tests triviales | Falsa seguridad | Gate por **motor** (`RNF-016`): cada uno de `learning/question/evapythontion/progress/gamification/certification` ≥70%, no solo total repo |
 | Banco insuficiente (`B_min`) | Exámenes repetitivos | `TC-EVAL-004` bloquea publicación; nightly genera 5 sets y valida `overlap` |
 | Repaso mal priorizado | Usuario no refuerza lo que más falla | `TC-LEARN-006` con golden de `Score_repaso`; `TC-REG-004` lo protege |
 | Certificados duplicados bajo concurrencia | Pérdida de confianza | `TC-BD-006` + `TC-CERT-004` con 10 workers concurrentes |

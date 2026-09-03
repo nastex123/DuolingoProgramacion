@@ -1,0 +1,35 @@
+{
+  "module_code": "PY_MOD_01",
+  "questions": [
+    {
+      "id": "bnk_py_01_01",
+      "concept_id": "print_function",
+      "type": "single_choice",
+      "difficulty": "easy",
+      "prompt": "¿Qué función de Python se utiliza para mostrar datos en la consola?",
+      "options": [
+        { "id": "opt_a", "text": "print()" },
+        { "id": "opt_b", "text": "echo()" },
+        { "id": "opt_c", "text": "display()" },
+        { "id": "opt_d", "text": "write()" }
+      ],
+      "correct_option_id": "opt_a",
+      "hint": "Comienza por la letra p."
+    },
+    {
+      "id": "bnk_py_01_02",
+      "concept_id": "variable_assignment",
+      "type": "single_choice",
+      "difficulty": "easy",
+      "prompt": "¿Qué operador se utiliza en Python para asignar un valor a una variable?",
+      "options": [
+        { "id": "opt_a", "text": "=" },
+        { "id": "opt_b", "text": "==" },
+        { "id": "opt_c", "text": "->" },
+        { "id": "opt_d", "text": ":" }
+      ],
+      "correct_option_id": "opt_a",
+      "hint": "Es un solo signo igual."
+    }
+  ]
+}

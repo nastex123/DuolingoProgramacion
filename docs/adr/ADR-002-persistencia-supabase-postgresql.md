@@ -10,7 +10,7 @@
 ## 1. Contexto y Problema
 Koda maneja relaciones de datos ricas: jerarquías educativas de 5 niveles (`Lenguaje -> Módulo -> Sección -> Lección -> Ejercicio`), un sistema de progreso en doble capa (intentos inmutables + agregados derivados), un motor de estrellas (1-3⭐), candados secuenciales por porcentaje ($\ge 80\%$) y auditoría inmutable de eventos. Se requiere un motor con soporte maduro de integridad referencial, transacciones ACID, tipos JSONB indexables y extensiones de seguridad (`pgcrypto`).
 
-## 2. Alternativas Evaluadas
+## 2. Alternativas Evapythondas
 1. **Bases de datos de documentos NoSQL (MongoDB / DynamoDB):**
    - *Desventajas:* Falta de integridad referencial estricta, dificultad para garantizar que un intento no se duplique atómicamente y complejidad al mantener candados secuenciales con recálculos agregados.
 2. **PostgreSQL puro autogestionado:**

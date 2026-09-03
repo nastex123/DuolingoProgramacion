@@ -2,7 +2,7 @@
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > Complementa a `01_PROJECT_OVERVIEW.md` §17–§19, `03_OBJECTIVES.md` OE-05, `04_SCOPE.md` §2.4, `05_FUNCTIONAL_REQUIREMENTS.md` RF-XP / RF-RACHA / RF-LOGRO / RF-PROG / RF-EVAL, `06_NON_FUNCTIONAL_REQUIREMENTS.md` RNF-016–018, `07_USER_STORIES.md` E06 (US-041–US-049) y `14_LEARNING_SYSTEM.md` / `15_QUIZ_EXAM_SYSTEM.md`. No duplica su contenido; lo especifica de forma implementable.
-> **Principio rector:** la gamificación premia **comprensión verificada**, no clics. Toda XP, nivel, racha y logro debe estar anclado a una evaluación validada en servidor (`05` RF-EVAL-006, RF-XP-005).
+> **Principio rector:** la gamificación premia **comprensión verificada**, no clics. Toda XP, nivel, racha y logro debe estar anclado a una evapythonción validada en servidor (`05` RF-EVAL-006, RF-XP-005).
 
 ---
 
@@ -42,7 +42,7 @@ Este documento define el **Gamification Engine** (`01` §28): cómo se gana, cal
 | Término | Definición en este documento |
 |---|---|
 | **XP (Experience)** | Moneda de progresión acumulativa y **no canjeable**. Determina el nivel. Solo se otorga en servidor tras validación. |
-| **Puntos de módulo** | Puntaje intra-evaluación (quiz/examen). No es XP; sirve para calcular % y aprobación. No se acumula entre módulos. |
+| **Puntos de módulo** | Puntaje intra-evapythonción (quiz/examen). No es XP; sirve para calcular % y aprobación. No se acumula entre módulos. |
 | **Nivel** | Rango derivado 100% de XP total mediante fórmula determinista (`05` RF-XP-002). No se pierde. |
 | **Racha (Streak)** | Días calendario consecutivos con ≥1 actividad válida (ver §7). Motivador de hábito (`01` §18). |
 | **Logro (Achievement)** | Hito discreto desbloqueado una sola vez al cumplir condición verificable (`05` RF-LOGRO-005). |
@@ -56,15 +56,15 @@ Este documento define el **Gamification Engine** (`01` §28): cómo se gana, cal
 ## 4. Arquitectura del Gamification Engine
 
 ```
-Question Engine → Evaluation Engine → [ XP otorgada? ] → Gamification Engine
+Question Engine → Evapythontion Engine → [ XP otorgada? ] → Gamification Engine
                                          │                    ├─→ Progress Engine (XP total, nivel)
                                          │                    ├─→ Racha Engine (actividad diaria)
-                                         │                    └─→ Logro Engine (evaluar condiciones)
+                                         │                    └─→ Logro Engine (evapythonr condiciones)
                                                                  └─→ Perfil / Ruta / Notificación
 ```
 
 **Invariantes:**
-1. Evaluation Engine decide aprobación y puntaje; Gamification Engine solo reacciona a eventos **ya calificados en servidor** (RF-EVAL-006).
+1. Evapythontion Engine decide aprobación y puntaje; Gamification Engine solo reacciona a eventos **ya calificados en servidor** (RF-EVAL-006).
 2. Toda mutación de XP/racha/logro es transaccional e idempotente por `Idempotency-Key` (RNF-033, RNF-042).
 3. Configuración (valores XP, curva de nivel, ventana de racha) vive en tabla/config versionada editable vía `25_ADMIN_SYSTEM.md` sin rebuild (RNF-017).
 
@@ -270,7 +270,7 @@ Inspirado en la mecánica de progresión de juegos tácticos y de habilidad (com
 
 ### 8.1 Escala de Estrellas y Criterio de Otorgamiento
 
-| Estrellas | Nivel de Dominio | Criterio de Evaluación | Recompensa Visual |
+| Estrellas | Nivel de Dominio | Criterio de Evapythonción | Recompensa Visual |
 |---|---|---|---|
 | ⭐⭐⭐ **(3 Estrellas)** | **Maestría Impecable** | 100% de respuestas correctas al primer intento (0 errores cometidos). | Confeti de PixiJS + Celebración eufórica de Koda 🦊 |
 | ⭐⭐ **(2 Estrellas)** | **Buen Desempeño** | 1 error cometido y resuelto con éxito en la Ronda de Repaso (80%–99% efectividad). | Gesto positivo y guiño de Koda 🦊 |
@@ -296,7 +296,7 @@ Inspirado en la mecánica de progresión de juegos tácticos y de habilidad (com
 
 | Concepto | Dónde vive | Para qué sirve | Se acumula | Afecta nivel / Desbloqueo |
 |---|---|---|---|---|
-| **Puntos de evaluación** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
+| **Puntos de evapythonción** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
 | **XP** | Cuenta global + por lenguaje | Progresión y nivel de maestría | Sí, indefinidamente | Sí (determina nivel) |
 | **Estrellas (⭐)** | Por Lección, Sección y Módulo | Calificar precisión y desbloquear módulos | Sí, por módulo y total global | **Sí (desbloquea módulos)** |
 | **% de progreso** | Módulo/Lenguaje | Visualizar avance (`RF-PROG-002`) | Sí, hasta 100% | No |
@@ -379,7 +379,7 @@ Ventanas temporales que **nunca** alteran umbrales de aprobación (70/80) ni des
 |---|---|---|---|
 | **Doble XP de repaso** | 1 fin de semana/mes | `XP-REPASO` ×2 (de +3 a +6) | “Fin de semana de repaso” |
 | **Semana de racha** | Trimestral | `XP-EJ-CORR` +1 extra si racha ≥3 durante la semana | “Semana en llamas” |
-| **Evento temático** | Al lanzar un lenguaje nuevo | Logro temático + bono XP único por completar el primer módulo del nuevo lenguaje | “Bienvenida Lua” |
+| **Evento temático** | Al lanzar un lenguaje nuevo | Logro temático + bono XP único por completar el primer módulo del nuevo lenguaje | “Bienvenida Python” |
 | **Desafío de módulo** | Mensual (post-MVP) | Completar un módulo específico con ≥90% otorga logro + bono | “Desafío Bucles” |
 
 **Reglas de eventos:**
@@ -484,7 +484,7 @@ events: []
 
 ## 15. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
-- `POST /v1/xp/events` — solo interno (Evaluation → Gamification); no expuesto a cliente para otorgar XP.
+- `POST /v1/xp/events` — solo interno (Evapythontion → Gamification); no expuesto a cliente para otorgar XP.
 - `GET /v1/users/me/gamification` — XP total, nivel, progreso al siguiente, racha actual/máxima, freezes, config_version.
 - `GET /v1/users/me/xp-history?language_id=&from=&to=&page=` — historial paginado de `xp_event`.
 - `GET /v1/users/me/streak` — racha, historial de 30 días, gracia/freeze disponibles.

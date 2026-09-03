@@ -57,7 +57,7 @@ Esta aclaración debe aparecer **siempre** en el PDF (§10) y en la vista de ver
 
 ## 4. Condiciones para obtener el certificado
 
-Un certificado se genera **si y solo si** se cumplen **todas** las condiciones siguientes en el momento de la solicitud (evaluadas en servidor, `05` RF-EVAL-006):
+Un certificado se genera **si y solo si** se cumplen **todas** las condiciones siguientes en el momento de la solicitud (evapythondas en servidor, `05` RF-EVAL-006):
 
 ### 4.1 Condiciones obligatorias
 
@@ -96,7 +96,7 @@ POST /v1/certificates:issue  { language_id } + Idempotency-Key
 
 El certificado no fija un porcentaje único global; exige **aprobar cada examen** con su umbral vigente al momento del intento (`05` RF-EVAL-005).
 
-| Evaluación | Umbral inicial | Configurable | Efecto |
+| Evapythonción | Umbral inicial | Configurable | Efecto |
 |---|---|---|---|
 | Quiz | 70% (`threshold.quiz`) | Sí, 50–90% sin despliegue (`15` §18) | No bloquea certificado; solo es formativo |
 | Examen | **80%** (`threshold.exam`) | Sí, 60–95% | **Debe ser ≥ umbral para que el módulo cuente como APROBADO** |
@@ -119,7 +119,7 @@ Lenguaje Python, 12 módulos. Usuario con 11 exámenes en 85% y 1 examen en 79.9
 
 ```
 11 módulos APROBADO, 1 módulo REPROBADO → Lenguaje ≠ COMPLETADO → C-04 falla → 422
-Si reintenta ese examen y obtiene 81.00% → 12/12 APROBADO → C-04 pasa → emite KODA-LUA-000042
+Si reintenta ese examen y obtiene 81.00% → 12/12 APROBADO → C-04 pasa → emite KODA-PY-000042
 ```
 
 ---
@@ -186,7 +186,7 @@ CODE = "KODA-" + LANG_CODE + "-" + SEQ_6
 
 donde:
   "KODA"      = prefijo fijo de la plataforma (Koda) (`01` §22)
-  LANG_CODE   = programming_languages.code en mayúsculas, [A-Z0-9_]+, ej. PY, JS, LUA, GO
+  LANG_CODE   = programming_languages.code en mayúsculas, [A-Z0-9_]+, ej. PY, JS, PY, GO
   SEQ_6       = correlativo por lenguaje, 6 dígitos con ceros a la izquierda, 000001..999999
 ```
 
@@ -223,7 +223,7 @@ INSERT INTO certificates (id, user_id, language_id, code, ...) VALUES (...);
 | Python | 1 | `KODA-PY-000001` |
 | Python | 42 | `KODA-PY-000042` |
 | JavaScript | 1 | `KODA-JS-000001` |
-| Lua | 7 | `KODA-LUA-000007` |
+| Python | 7 | `KODA-PY-000007` |
 
 ---
 
@@ -280,9 +280,9 @@ stateDiagram-v2
 
 ### 9.4 Cuándo un cambio de contenido vuelve obsoleto un certificado
 
-- **Cambio menor** (typos, explicación, reorden de secciones sin afectar evaluación): `content_version` patch → **no obsoleta**.
+- **Cambio menor** (typos, explicación, reorden de secciones sin afectar evapythonción): `content_version` patch → **no obsoleta**.
 - **Cambio significativo** (nuevo módulo, examen con nueva composición, cambio de umbral que altera dominio): `content_version` major → **obsoleta** todos los `valid` de ese lenguaje. Decisión registrada por admin con `reason` y `content_version` (`05` RF-CERT-005, `12` metadata).
-- Los intentos históricos conservan `content_version` evaluada (`06` RNF-035); la obsolescencia no re-califica intentos.
+- Los intentos históricos conservan `content_version` evapythonda (`06` RNF-035); la obsolescencia no re-califica intentos.
 
 ---
 
@@ -308,7 +308,7 @@ Por motivos de seguridad e integridad criptográfica, **el frontend NUNCA genera
                        ▼ SÍ (Caché / Pre-existente)                ▼ NO (Primera emisión)
        ┌───────────────────────────────────────┐   ┌───────────────────────────────────────┐
        │ 1. Descargar stream de Google Drive   │   │ 1. Validar C-01..C-07 en Supabase     │
-       │    (drive.files.get alt='media')      │           │ 2. Reservar SEQ atómico (KODA-LUA-000001)
+       │    (drive.files.get alt='media')      │           │ 2. Reservar SEQ atómico (KODA-PY-000001)
        │ 2. Pipe directo a HTTP Response       │   │ 3. Renderizar PDF + QR en Node.js     │
        │    (Descarga inmediata en <200 ms)    │   │ 4. Subir a Google Drive (Service Acc) │
        └───────────────────────────────────────┘   │ 5. Guardar google_drive_file_id y SHA │
@@ -333,9 +333,9 @@ Por motivos de seguridad e integridad criptográfica, **el frontend NUNCA genera
 - **Estructura de Carpetas:**
   ```
   Google Drive: Koda_Certificados/
-  ├── lua/
-  │   ├── KODA-LUA-000001_v1.pdf
-  │   └── KODA-LUA-000002_v1.pdf
+  ├── python/
+  │   ├── KODA-PY-000001_v1.pdf
+  │   └── KODA-PY-000002_v1.pdf
   └── python/
       ├── KODA-PY-000001_v1.pdf
       └── KODA-PY-000002_v1.pdf
@@ -350,12 +350,12 @@ Todo PDF incluye (§7.1 + §3):
 - Encabezado: nombre de la plataforma + logo oficial de Koda.
 - Título: "Certificado de Finalización".
 - Cuerpo: "Se certifica que **[titular_nombre]** (Documento: [documento]) completó y aprobó todos los módulos del lenguaje **[lenguaje_nombre]** el **[fecha_finalizacion America/Bogota]**.".
-- Identificador: `KODA-LUA-000001` / `KODA-PY-000001` destacado.
+- Identificador: `KODA-PY-000001` / `KODA-PY-000001` destacado.
 - Estado: VÁLIDO.
 - Código QR (ver §12) con URL de verificación interna (`https://koda.app/verificar/KODA-...`).
 - Aclaración normativa no oficial (§3) en pie de página.
 - Sello y firma digital de la plataforma + `pdf_version` y `language_content_version`.
-- Metadatos del documento: `Title`, `Author=Koda`, `Subject=Certificado [Lenguaje]`, `Keywords=code, lua, python`.
+- Metadatos del documento: `Title`, `Author=Koda`, `Subject=Certificado [Lenguaje]`, `Keywords=code, python`.
 
 ### 10.3 Ejemplo de PDF (representación textual)
 
@@ -630,7 +630,7 @@ Cambios versionados y auditados (`05` RF-ADM-005/008).
 
 | Riesgo | Mitigación |
 |---|---|
-| Emisión sin dominio (falsos positivos) | Guardas C-04/C-05 en transacción; `Evaluation Engine` como única fuente de aprobación |
+| Emisión sin dominio (falsos positivos) | Guardas C-04/C-05 en transacción; `Evapythontion Engine` como única fuente de aprobación |
 | Certificados duplicados por carrera | `UNIQUE partial` + `certificate_sequences` atómico + `Idempotency-Key` |
 | PDF desincronizado del registro | `RF-PDF-003` + test `sha256`; plantilla versionada |
 | Falsificación por edición de PDF | Verificación por `code`/QR contra BD es la única verdad; PDF sin registro no verifica |

@@ -33,7 +33,7 @@
   - **Nodo Completado:** Muestra la insignia de calificación obtenida (**1 a 3 Estrellas: ⭐ / ⭐⭐ / ⭐⭐⭐**).
   - **Banner de Módulo:** Muestra el total de estrellas acumuladas vs. estrellas mínimas requeridas para desbloquear el siguiente módulo ($\ge 80\%$).
 - **Lección:** Layout split-screen 50/50, selector stepper superior de 10 píldoras de lección con estados, atajos de teclado ergonómicos (`1-4`, `A-D`, flechas `←/→`).
-- **Evaluación:** paginación, progreso `3/10`, botón "Enviar intento" con confirmación.
+- **Evapythonción:** paginación, progreso `3/10`, botón "Enviar intento" con confirmación.
 
 ---
 
@@ -54,8 +54,8 @@
 | S-Biblioteca | Elegir lenguaje | Grid de cards lenguaje + filtro + badge "En progreso" |
 | S-Ruta | Ver avance | Stepper de módulos + XP/racha + CTA "Continuar" |
 | S-Lección | Aprender | Explicación + ejemplo código + ejercicio + feedback + recompensa +10 XP |
-| S-Quiz | Evaluar parcial | Lista preguntas + timer opcional + revisión inmediata |
-| S-Examen | Evaluar módulo | 20 preguntas + resumen por tipo/dificultad + 80% umbral |
+| S-Quiz | Evapythonr parcial | Lista preguntas + timer opcional + revisión inmediata |
+| S-Examen | Evapythonr módulo | 20 preguntas + resumen por tipo/dificultad + 80% umbral |
 | S-Repaso | Reforzar | 5-10 preguntas priorizadas por Score_repaso (ver `14`) |
 | S-Perfil | Identidad | Tabs: progreso/racha/logros/certificados/estadísticas |
 | S-Certificado | Verificar | PDF + QR + código `KODA-{LANG}-{SEQ6}` + botón Exportar |

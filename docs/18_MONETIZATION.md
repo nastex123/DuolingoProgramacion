@@ -44,7 +44,7 @@ Este documento es la **fuente de verdad de monetización**. Define:
 | # | Principio | Regla operativa |
 |---|---|---|
 | PM-01 | **Aprendizaje primero** | Ninguna decisión de monetización bloquea lecciones, quizzes o exámenes. El progreso siempre persiste (`RF-PROG-001`). |
-| PM-02 | **Igualdad de contenido** | Gratuito y Premium ven el mismo catálogo, ruta y evaluaciones. Premium no desbloquea módulos adicionales en MVP (`04` §8). |
+| PM-02 | **Igualdad de contenido** | Gratuito y Premium ven el mismo catálogo, ruta y evapythonciones. Premium no desbloquea módulos adicionales en MVP (`04` §8). |
 | PM-03 | **Publicidad no intrusiva** | Un único slot entre secciones; nunca intra-ejercicio, intra-quiz, intra-examen ni intra-repaso (`RF-ADS-002`, OUX-07). |
 | PM-04 | **Degradado obligatorio** | Fallo del proveedor de anuncios o de pagos no impide estudiar. Mensaje no bloqueante + registro del intento (`RNF-014`, `RF-ADS-003`). |
 | PM-05 | **Conservación de progreso** | Cambiar entre Gratuito ↔ Premium nunca borra XP, rachas, logros ni certificados (`RF-PREM-003`). |
@@ -62,7 +62,7 @@ Plan por defecto para todo usuario registrado. No requiere pago, no tiene fecha 
 
 ### 4.2 Funciones incluidas
 
-- Acceso completo a **todo el contenido educativo del MVP:** selección de lenguaje (Lua disponible), módulos, secciones, lecciones, ejercicios, quizzes, exámenes, repaso, perfil, progreso, rachas y logros (`04` §2.1–§2.5).
+- Acceso completo a **todo el contenido educativo del MVP:** selección de lenguaje (Python disponible), módulos, secciones, lecciones, ejercicios, quizzes, exámenes, repaso, perfil, progreso, rachas y logros (`04` §2.1–§2.5).
 - Diagnóstico inicial y ruta personalizada (`14`).
 - Certificación al completar todos los módulos con verificación interna por ID/QR y PDF (`17`).
 - Sesiones reanudables sin pérdida (`RNF-023`).
@@ -94,8 +94,8 @@ Solo el **evento `section_completed`** es elegible. Desglose:
 |---|---|---|---|
 | `lesson_completed` (lección individual) | **No** | Lección no es unidad de monetización | Ninguno |
 | `section_completed` | **Sí** | Todas las lecciones obligatorias de la sección completadas (`RF-SEC-003`) + usuario `is_premium == false` | Intersticial post-recompensa |
-| `quiz_attempt_submitted` | **No** | Evaluación formativa; interrumpir rompe feedback <2s (`RNF-012`) | Ninguno |
-| `exam_attempt_submitted` | **No** | Evaluación certificante; bloqueo pedagógico (`RF-EXAM-004`) | Ninguno |
+| `quiz_attempt_submitted` | **No** | Evapythonción formativa; interrumpir rompe feedback <2s (`RNF-012`) | Ninguno |
+| `exam_attempt_submitted` | **No** | Evapythonción certificante; bloqueo pedagógico (`RF-EXAM-004`) | Ninguno |
 | `review_session_completed` | **No** | Repaso no penaliza ni interrumpe (`RF-REP-004`) | Ninguno |
 | `diagnostic_completed` | **No** | Ubicación, no monetización | Ninguno |
 | `certificate_issued` | **No** | Hito; sin anuncio | Ninguno |
@@ -178,7 +178,7 @@ Cambios de precio aplican solo a **períodos futuros**; el período ya pagado co
 | ID | Regla | Origen |
 |---|---|---|
 | AD-01 | Solo usuarios con `is_premium == false` reciben anuncios | `RF-ADS-001` |
-| AD-02 | Solo entre secciones completadas, nunca intra-evaluación | `RF-ADS-002`, OUX-07 |
+| AD-02 | Solo entre secciones completadas, nunca intra-evapythonción | `RF-ADS-002`, OUX-07 |
 | AD-03 | Carga asíncrona; fallo no bloquea aprendizaje | `RF-ADS-003`, `RNF-014` |
 | AD-04 | Solo métricas esenciales anonimizadas; sin compartir progreso con red de ads | `RF-ADS-004`, `RNF-040` |
 | AD-05 | Red de anuncios tras interfaz `AdsProvider` intercambiable | `RF-ADS-005` |

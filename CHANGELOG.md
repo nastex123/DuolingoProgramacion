@@ -9,6 +9,18 @@ Zona horaria: America/Bogota (UTC-5)
 
 ## [Unreleased]
 
+### Changed
+- [2026-09-03 11:41] [Changed] **Transición definitiva a Python 3.12 como único lenguaje oficial de lanzamiento del MVP:**
+  - Se eliminó todo el contenido y archivos relacionados con Lua (`content/languages/lua/`, `test_m01.html`, `test_m02.html`, `docs/28_LUA_CURRICULUM.md`).
+  - Se creó la estructura declarativa oficial en `content/languages/python/` (`manifest.json` con los 12 módulos canónicos, `config/thresholds.json`, `config/xp.json`, `config/compositions.json`, `modules/01_fundamentos/module.json` y `bank.json`).
+  - Se creó `docs/adr/ADR-005-adopcion-python-lenguaje-oficial-mvp.md` formalizando a Python 3.12 como el único lenguaje del MVP y se actualizó `docs/adr/README.md`.
+  - Se adaptaron los servicios de `apps/api` (`LanguagesService`, `LearningService` con `roadmap/python` y `AppController` con `python_roadmap`).
+  - Se actualizó `apps/web` con `activeLanguageSlug: 'python'` en Zustand store, `INITIAL_ROADMAP` de Python 3.12 en `page.tsx` y saludo de la mascota Koda en `Sidebar.tsx`.
+  - Se actualizaron todas las especificaciones en `docs/` (01 a 27), el `README.md` principal y `CONTRIBUTING.md` eliminando cualquier mención residual a Lua.
+
+### Fixed
+- [2026-09-03 11:26] [Fixed] Se corrigió el script de ejecución concurrente `pnpm dev` agregando `"dev": "nest start --watch"` en `apps/api/package.json` y asegurando la pre-compilación de `@koda/types`. Causa: `apps/api` solo tenía definido `"start:dev"`, por lo que el comando paralelo `pnpm --parallel --filter "./apps/*" dev` ignoraba el backend y levantaba únicamente el frontend Next.js. Fix: estandarizar el script `"dev"` en ambas aplicaciones.
+
 ### Added
 - [2026-09-02 18:15] [Docs] Se completó la auditoría y modernización integral de la documentación del proyecto Koda:
   - **Hub Central de Documentación:** Se creó `docs/README.md` como índice maestro estructurado en 5 dominios y rutas de lectura sugeridas por rol (Frontend, Backend, Diseñador Instruccional, DevOps/QA).
