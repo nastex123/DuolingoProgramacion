@@ -58,7 +58,7 @@ Este documento define **cómo navega el usuario** por la plataforma, paso a paso
 
 ## 3. Mapa general de flujos
 
-Vista integrada del recorrido MVP (Lua) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
+Vista integrada del recorrido MVP (Python) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
 
 ```mermaid
 flowchart TD
@@ -291,7 +291,7 @@ flowchart TD
 1. Sistema genera ruta personalizada: `nivel + diagnóstico + historial` (`RF-RUTA-001`).
 2. Sistema visualiza ruta: módulos en orden pedagógico, estado (`bloqueado/disponible/en_progreso/aprobado`), % de avance y requisitos (`RF-RUTA-002`, `RF-MOD-001/003`).
 3. Usuario selecciona módulo disponible → sistema valida prerrequisitos: no aprobado el anterior → bloqueado, salvo punto de entrada adaptativo validado por diagnóstico (`RF-RUTA-004`).
-4. Usuario entra a módulo → ve detalle: objetivo, secciones, evaluaciones (`RF-MOD-002`).
+4. Usuario entra a módulo → ve detalle: objetivo, secciones, evapythonciones (`RF-MOD-002`).
 5. Sistema persiste posición `lenguaje/módulo/sección/lección` tras cada interacción (`RF-RUTA-005`, `RF-PROG-001`).
 6. Al cerrar sesión/dispositivo y volver, sistema reanuda exactamente donde quedó (`RF-LEC-002`, `RNF-023`) y sincroniza si hubo pérdida de conexión (`RNF-044`).
 
@@ -366,7 +366,7 @@ flowchart TD
 sequenceDiagram
     participant U as Usuario
     participant S as Sistema
-    participant E as Evaluation Engine
+    participant E as Evapythontion Engine
     participant P as Progress Engine
 
     U->>S: Abrir primera lección (RF-LEC-001)
@@ -446,7 +446,7 @@ flowchart TD
 
 ---
 
-### F-07 — Quiz (evaluación intermedia)
+### F-07 — Quiz (evapythonción intermedia)
 
 - **Objetivo:** Verificar comprensión del módulo antes del examen con umbral 70% y revisión de errores.
 - **Actores:** UR
@@ -500,9 +500,9 @@ flowchart TD
 
 ---
 
-### F-08 — Examen (evaluación final de módulo)
+### F-08 — Examen (evapythonción final de módulo)
 
-- **Objetivo:** Evaluar dominio de todo el módulo y decidir desbloqueo del siguiente.
+- **Objetivo:** Evapythonr dominio de todo el módulo y decidir desbloqueo del siguiente.
 - **Actores:** UR
 - **Precondiciones:** Secciones del módulo completadas, quiz previo (si aplica) disponible.
 - **Postcondiciones:** Módulo `aprobado` si `≥80%` y siguiente módulo `disponible`; si no, `reprobado` y bloqueado con CTA.
@@ -512,7 +512,7 @@ flowchart TD
 **Pasos:**
 
 1. Sistema genera examen final del módulo con distribución configurable (ej. inicial `01` §14: 5 múltiple, 5 predicción, 3 completar, 2 detectar errores, 5 V/F — `RF-EXAM-002`).
-2. Sistema presenta examen como intento evaluable único (`RF-EXAM-001`).
+2. Sistema presenta examen como intento evapythonble único (`RF-EXAM-001`).
 3. Usuario envía → sistema califica automáticamente (< 2 s p95 — `RNF-012`) y determina `aprobado` si `≥80%` (`RF-EXAM-003`, `01` §15) con cálculo determinista en servidor (`RF-EVAL-001/006`).
 4. Sistema registra intento con puntaje, %, umbral y versión (`RF-EVAL-003`), identifica conceptos con bajo rendimiento (`RF-EVAL-004`) y otorga XP (`RF-EXAM-007`: +100 por aprobación).
 5. Si `aprobado` → marca módulo `aprobado` (`RF-MOD-003`), desbloquea siguiente (`RF-RUTA-004`), incrementa racha si aplica (`RF-RACHA-001`) y evalúa logros (`RF-LOGRO-002`).
@@ -624,7 +624,7 @@ flowchart TD
 1. Sistema genera sesión de repaso con preguntas de contenido ya estudiado, priorizadas por: incorrectas previas, bajo rendimiento, antigüedad sin repaso y prerrequisitos próximos (`RF-REP-001/002`, `01` §12).
 2. Sistema ofrece repaso **opcional** entre sesiones sin bloquear ruta principal (`RF-REP-003`); usuario puede aceptarlo u omitirlo.
 3. Si el usuario elige repaso manual, selecciona `módulo/tema` y recibe preguntas de ese ámbito ya estudiado (`RF-REP-005`, `US-052`).
-4. Usuario responde → sistema valida, muestra feedback y registra resultados retroalimentando al motor de evaluación para ajustar próxima priorización, **sin penalizar % del módulo** (`RF-REP-004`).
+4. Usuario responde → sistema valida, muestra feedback y registra resultados retroalimentando al motor de evapythonción para ajustar próxima priorización, **sin penalizar % del módulo** (`RF-REP-004`).
 5. Al finalizar, sistema vuelve a la ruta sin pérdida de posición (`RF-REP-003`).
 6. Revisión de lecciones ya completadas (`RF-LEC-005`) es siempre posible como alternativa al repaso.
 
@@ -669,7 +669,7 @@ flowchart TD
 - **Objetivo:** Sostener hábito diario mediante incremento de racha con actividad válida y visualización de racha actual/máxima.
 - **Actores:** UR
 - **Precondiciones:** Usuario autenticado, zona horaria resuelta (`RF-RACHA-004`).
-- **Postcondiciones:** Racha incrementada o reiniciada, historial diario registrado, logros evaluados.
+- **Postcondiciones:** Racha incrementada o reiniciada, historial diario registrado, logros evapythondos.
 - **Disparador:** Usuario completa actividad válida (lección/ejercicio, quiz, examen o repaso — `05` §8) en un día calendario.
 - **Referencias:** UC-010 (UC-GAM-03) · RF-RACHA-001 a RF-RACHA-005, RF-PROG-001, RF-LOGRO-002 · US-044, US-045, US-046 · RNF-045, `01` §18
 
@@ -713,7 +713,7 @@ sequenceDiagram
     end
     R->>S: Exponer actual/máxima (RF-RACHA-003)
     R->>S: Historial diario (RF-RACHA-005)
-    S->>G: Evaluar logros (RF-LOGRO-002)
+    S->>G: Evapythonr logros (RF-LOGRO-002)
     G->>S: ON FIRE si 7 días (US-046)
     S->>U: Feedback de racha
 ```
@@ -730,7 +730,7 @@ sequenceDiagram
 - **Objetivo:** Cerrar el ciclo de un lenguaje al aprobar todos sus módulos y habilitar la certificación.
 - **Actores:** UC (usuario que completa curso)
 - **Precondiciones:** Todos los módulos del lenguaje en `aprobado` (cada examen ≥80% vigente — `RF-CERT-001`, `04` §7, `05` §8 definición "Lenguaje completado").
-- **Postcondiciones:** Lenguaje marcado `completado`, certificado generable, XP de módulo final otorgada, logros evaluados.
+- **Postcondiciones:** Lenguaje marcado `completado`, certificado generable, XP de módulo final otorgada, logros evapythondos.
 - **Disparador:** Usuario aprueba el examen del último módulo.
 - **Referencias:** UC-012 (UC-CERT-01) · RF-CERT-001, RF-MOD-003, RF-EXAM-003/007, RF-LOGRO-002 · US-054, US-058 · `01` §21
 
@@ -763,7 +763,7 @@ flowchart TD
     D --> E[Continuar en ruta]
     C -->|Sí| F[Lenguaje completado<br/>RNF-034]
     F --> G[XP +150<br/>RF-XP-001]
-    G --> H[Evaluar logros<br/>CODE MASTER etc.]
+    G --> H[Evapythonr logros<br/>CODE MASTER etc.]
     H --> I[Habilitar F-13<br/>Obtener certificado]
     I --> J[Perfil 100%<br/>RF-PROF-003]
     F -.-> K{¿Cambio de contenido?}
@@ -785,7 +785,7 @@ flowchart TD
 
 1. Usuario solicita certificado → sistema verifica: lenguaje `completado`, email `verificado`, datos (nombre, documento, lenguaje, fecha, plataforma, estado — `RF-CERT-002`). Si falta verificación → CTA verificar email (`US-059`).
 2. Sistema verifica que no exista certificado `vigente` duplicado para el mismo lenguaje (`RF-CERT-005`, `US-058`).
-3. Sistema genera certificado con ID `KODA-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `KODA-LUA-000001`, `01` §22).
+3. Sistema genera certificado con ID `KODA-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `KODA-PY-000001`, `01` §22).
 4. Sistema genera QR para verificación interna (`RF-CERT-004`) y plantilla PDF versionada (`RF-PDF-001`).
 5. Sistema almacena PDF de forma recuperable vía interfaz S3-compatible (`RF-PDF-002/004`) y garantiza correspondencia bit-a-bit con datos del certificado vigente (`RF-PDF-003`).
 6. Sistema permite descarga autenticada solo al titular (`RF-PDF-002`) y exposición en perfil (`RF-PROF-005`, `US-060`).
@@ -1043,7 +1043,7 @@ stateDiagram-v2
 
 ## 7. Consideraciones de diseño y RNF transversales
 
-- **Rendimiento:** feedback < 1 s (`RNF-010`), calificación < 2 s (`RNF-012`), navegación < 500 ms (`RNF-011`) — cada flujo con interacción evaluable debe medir p95 en `staging` con APM.
+- **Rendimiento:** feedback < 1 s (`RNF-010`), calificación < 2 s (`RNF-012`), navegación < 500 ms (`RNF-011`) — cada flujo con interacción evapythonble debe medir p95 en `staging` con APM.
 - **Disponibilidad y degradado:** email/ads/PDF no bloquean aprendizaje (`RNF-014`); backup diario con RPO ≤24 h (`RNF-043`).
 - **Seguridad:** hash adaptativo, rate limiting, validación server-side, sin secretos en logs (`RNF-008/009`, `19_SECURITY.md`).
 - **Usabilidad y accesibilidad:** onboarding <3 min (`RNF-020`), breadcrumb siempre visible (`RNF-021`), WCAG 2.1 AA en flujos críticos (`RNF-024`), navegación por teclado (`RNF-025`).

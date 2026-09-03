@@ -9,7 +9,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento define **cómo se despliega, opera, observa y recupera** la plataforma educativa gamificada del MVP (Lua) y su evolución multi-lenguaje. Es la referencia para:
+Este documento define **cómo se despliega, opera, observa y recupera** la plataforma educativa gamificada del MVP (Python) y su evolución multi-lenguaje. Es la referencia para:
 
 - Reproducir entornos idénticos (`dev`/`staging`/`prod`) sin deriva.
 - Desplegar backend, frontend, BD y objetos estáticos de forma atómica y reversible.
@@ -44,7 +44,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 | Entorno | Propósito | Datos | Acceso | Deploy | Dominio / URL |
 |---|---|---|---|---|---|
-| **`dev`** | Desarrollo local y CI. Iteración rápida. | Sintéticos + seed de Lua; se puede borrar sin aviso. | Solo equipo dev. | `docker compose up` local; CI en cada PR. | `https://api.duolingo-programacion.local` (local), frontend `http://localhost:3000` |
+| **`dev`** | Desarrollo local y CI. Iteración rápida. | Sintéticos + seed de Python; se puede borrar sin aviso. | Solo equipo dev. | `docker compose up` local; CI en cada PR. | `https://api.duolingo-programacion.local` (local), frontend `http://localhost:3000` |
 | **`staging`** | Pre-producción idéntica a `prod`. Validación de RNF, carga, seguridad y contenido antes de release. | Snapshot anonimizado de `prod` (semanal) o sintético a escala (100k intentos para `RNF-007`). | Equipo + QA + revisores de contenido. | Automático al merge a `main`; imagen promovible a `prod`. | `https://staging.duolingo-programacion.com` · API `https://staging-api.duolingo-programacion.com/api/v1` |
 | **`prod`** | Producción para usuarios reales. Solo artefactos probados en `staging`. | Datos reales; PII minimizada (`06` RNF-037); retención documentada. | Público (web) + admin RBAC. | Manual con aprobación; ventana comunicada; rolling con health checks. | `https://duolingo-programacion.com` · API `https://api.duolingo-programacion.com/api/v1` |
 
@@ -71,7 +71,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 > Ninguna elección se asume. Cada fila propone una opción para MVP y exige ADR si es arquitectónica (`11` §19). La alternativa queda documentada para no re-decidir sin evidencia.
 
-| Capa | Opciones evaluadas | Decisión Oficial Koda | Justificación | ADR Vinculante |
+| Capa | Opciones evapythondas | Decisión Oficial Koda | Justificación | ADR Vinculante |
 |---|---|---|---|---|
 | **Contenedores** | Docker + Compose / Podman / sin contenedores | **Docker + Compose** | Artefacto inmutable (P-02), paridad `dev`≈`staging`≈`prod`, `Dockerfile` multi-stage cacheable; evita deriva de "funciona en mi máquina". | Decidido por P-02 |
 | **Orquestación MVP** | Compose en VM / Kubernetes (k3s/EKS/GKE) / PaaS | **Compose en VM (1–2 nodos) + reverse proxy** | Menor costo operativo en MVP con 100 concurrentes (`06` RNF-001); cumple `RNF-005` con 2 réplicas tras balanceador. | No requiere K8s en MVP |
@@ -167,7 +167,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 | Entorno | Cómo se despliega | Origen de datos |
 |---|---|---|
-| `dev` | `docker compose up db` con `postgres:15-alpine`; volumen `pgdata_dev`; migraciones al arrancar (`npm run db:migrate`). | `seed:dev` con 1 lenguaje (Lua), 2 módulos, preguntas de ejemplo y usuario admin `admin@local.test / Admin!2026`. |
+| `dev` | `docker compose up db` con `postgres:15-alpine`; volumen `pgdata_dev`; migraciones al arrancar (`npm run db:migrate`). | `seed:dev` con 1 lenguaje (Python), 2 módulos, preguntas de ejemplo y usuario admin `admin@local.test / Admin!2026`. |
 | `staging` | Servicio gestionado (ej. RDS/Neon/Supabase) o contenedor con volumen persistente; migraciones como job `migrate` previo al rolling. | Snapshot anonimizado de `prod` semanal (PII reemplazada) o dataset sintético a escala para pruebas de volumen. |
 | `prod` | Servicio gestionado con **standby** y **PITR** si el proveedor lo ofrece; disco cifrado en reposo; `max_connections` calibrado. | Datos reales; sin seeds; solo migraciones. |
 
@@ -323,7 +323,7 @@ interface StorageAdapter {
 Progress Engine: ¿todos los exámenes del lenguaje aprobados? (RNF-034, 04 §7)
   → Auth: ¿email verificado? (05 RF-AUTH-005)
   → Certification Engine: UPDATE certificate_sequences SET last_seq = last_seq+1 ... RETURNING
-  → code = KODA-{LANG}-{SEQ} (ej. KODA-LUA-000001) con LPAD(6)
+  → code = KODA-{LANG}-{SEQ} (ej. KODA-PY-000001) con LPAD(6)
   → QR payload = https://{WEB_BASE_URL}/verificar/{code}
   → Render PDF con plantilla versionada (pdf_version) + QR + metadata { nombre, documento, lenguaje, fecha, plataforma, estado }
   → GoogleDriveAdapter.upload(Koda_Certificados/{lang}/{code}_v{N}.pdf)

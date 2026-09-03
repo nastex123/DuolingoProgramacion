@@ -38,8 +38,8 @@ Los estados válidos son:
 | [**ADR-002**](ADR-002-persistencia-supabase-postgresql.md) | Base de Datos Relacional con Supabase (PostgreSQL 15+) | ✅ Aprobado | 2026-09-02 | Modelo relacional, triggers PL/pgSQL para progreso, JSONB y doble capa. |
 | [**ADR-003**](ADR-003-certificados-backend-google-drive-storage.md) | Pipeline de Certificación en Backend y Storage en Google Drive API v3 | ✅ Aprobado | 2026-09-02 | Generación atómica en NestJS, Service Account, QR y caché por SHA-256. |
 | [**ADR-004**](ADR-004-motor-grafico-pixijs-mascota-koda.md) | Renderizado WebGL de Mascota Koda y Efectos con PixiJS v7 | ✅ Aprobado | 2026-09-02 | Aceleración por hardware, animaciones emocionales en tiempo real y confeti. |
-| [**ADR-005**](ADR-005-lua-curriculo-piloto-validacion-pedagogica.md) | Priorización de Lua como Lenguaje Piloto del MVP | ✅ Aprobado | 2026-09-02 | Validación pedagógica atómica con 190 lecciones (M01 y M02) antes de Python. |
-| [**ADR-006**](ADR-006-motor-ejecucion-hibrido-icoderunner.md) | Motor de Ejecución de Código Híbrido (`ICodeRunner`) | ✅ Aprobado | 2026-09-02 | Wasm en cliente (wasmoon / Pyodide) y sandbox Docker en backend (Piston). |
+| [**ADR-005**](ADR-005-adopcion-python-lenguaje-oficial-mvp.md) | Adopción de Python 3.12 como Lenguaje Oficial del MVP | ✅ Aprobado | 2026-09-03 | Definición de Python como el único lenguaje de lanzamiento de Koda. |
+| [**ADR-006**](ADR-006-motor-ejecucion-hibrido-icoderunner.md) | Motor de Ejecución de Código Híbrido (`ICodeRunner`) | ✅ Aprobado | 2026-09-02 | Wasm en cliente (Pyodide) y sandbox Docker en backend (Piston). |
 
 ---
 
@@ -60,7 +60,7 @@ Para proponer un nuevo ADR, copia el siguiente formato en un nuevo archivo `ADR-
 ## 1. Contexto y Problema
 Descripción de las fuerzas, restricciones técnicas o requerimientos de negocio que motivan la decisión.
 
-## 2. Alternativas Evaluadas
+## 2. Alternativas Evapythondas
 - **Alternativa A:** Ventajas y desventajas.
 - **Alternativa B:** Ventajas y desventajas.
 

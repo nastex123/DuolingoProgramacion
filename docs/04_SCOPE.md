@@ -6,7 +6,7 @@
 
 ## 1. Principio
 
-Priorizar un **MVP funcional con validación pedagógica inicial (Lua 5.4)** y ruta troncal de 12 módulos (Python), demostrando la promesa arquitectónica de contenido pedagógico desacoplado (`RNF-006`). Ver detalle en `22_ROADMAP.md` y [`ADR-005`](adr/ADR-005-lua-curriculo-piloto-validacion-pedagogica.md).
+Priorizar un **MVP funcional con validación pedagógica inicial (Python 3.12)** y ruta troncal de 12 módulos (Python), demostrando la promesa arquitectónica de contenido pedagógico desacoplado (`RNF-006`). Ver detalle en `22_ROADMAP.md` y [`ADR-005`](adr/ADR-005-adopcion-python-lenguaje-oficial-mvp.md).
 
 ---
 
@@ -19,12 +19,12 @@ Funcionalidad mínima que debe estar completa y probada para considerar el MVP e
 - Perfil: nombre, avatar, XP, nivel, rachas, progreso por lenguaje, logros, certificados.
 
 ### 2.2 Aprendizaje base
-- Selección de lenguaje (Lua 5.4 como curso piloto operativo con 190 lecciones y Python como ruta troncal) y declaración de nivel (Beginner/Medium/Semi-Pro/Professional).
+- Selección de lenguaje (Python 3.12 como curso piloto operativo con 190 lecciones y Python como ruta troncal) y declaración de nivel (Beginner/Medium/Semi-Pro/Professional).
 - Diagnóstico inicial y recomendación de punto de entrada (ver `14_LEARNING_SYSTEM.md`).
 - Jerarquía `Lenguaje → Módulo → Sección → Lección` con arquitectura desacoplada (`23_CONTENT_SPECIFICATION.md`).
 - Sesiones reanudables y lección con explicación → ejemplo → ejercicio → feedback formativo sin spoilers.
 
-### 2.3 Evaluación
+### 2.3 Evapythonción
 - Banco de preguntas tipificadas (ver `15_QUIZ_EXAM_SYSTEM.md`).
 - Quiz intermedio por módulo y Examen final con calificación automática.
 - Umbrales configurables (Quiz 70%, Examen 80%) y reintentos con revisión de errores.
@@ -52,9 +52,9 @@ Funcionalidad mínima que debe estar completa y probada para considerar el MVP e
 
 Documentadas como roadmap, **no** parte del MVP. Ver `22_ROADMAP.md` para orden y criterios:
 
-- Lenguajes adicionales: Lua, JavaScript, TypeScript, Java, C, C++, C#, Go.
+- Lenguajes adicionales: JavaScript, TypeScript, Java, C, C++, C#, Go.
 - Editor de código y ejecución en sandbox.
-- Proyectos prácticos y proyecto final evaluado.
+- Proyectos prácticos y proyecto final evapythondo.
 - Retos, rankings, competencias, tablas de clasificación.
 - Sistema de amigos, perfiles públicos.
 - Cursos creados por terceros (marketplace).
@@ -86,7 +86,7 @@ Cualquier solicitud fuera de este listado debe pasar por actualización de este 
 
 ## 5. Límites del sistema
 
-- **Frontera:** la plataforma es un sistema de **aprendizaje y evaluación**, no un IDE ni un juez online con ejecución arbitraria en MVP.
+- **Frontera:** la plataforma es un sistema de **aprendizaje y evapythonción**, no un IDE ni un juez online con ejecución arbitraria en MVP.
 - **Integraciones externas:** solo email (verificación/recuperación), almacenamiento de PDFs y servicio de anuncios; pagos abstraídos tras interfaz.
 - **Plataformas:** web responsive en MVP; móvil/escritorio nativo es post-MVP.
 - **Escalabilidad MVP:** diseñada para escalar en contenido y usuarios sin re-arquitectura, pero sin prometer multi-región en fase 1 (ver `06` y `11`).

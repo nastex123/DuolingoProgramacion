@@ -20,7 +20,7 @@ export const useKodaStore = create<KodaState>((set) => ({
     freeze_count: 1,
     is_active_today: true,
   },
-  activeLanguageSlug: 'lua',
+  activeLanguageSlug: 'python',
   addXp: (amount) =>
     set((state) => {
       const newXp = state.totalXp + amount;

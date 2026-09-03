@@ -16,7 +16,7 @@ export class AppController {
       docs: '/api/docs',
       endpoints: {
         languages: '/api/v1/languages',
-        lua_roadmap: '/api/v1/learning/roadmap/lua',
+        python_roadmap: '/api/v1/learning/roadmap/python',
         mistakes: '/api/v1/notebook/mistakes',
         verify_certificate: '/api/v1/certificates/verify/:code',
       },

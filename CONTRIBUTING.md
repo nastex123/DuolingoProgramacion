@@ -9,7 +9,7 @@
 1. **Ramas principales:**
    - `main`: Código y especificaciones listas para producción y staging.
 2. **Nomenclatura de ramas:**
-   - Nuevas funcionalidades: `feat/nombre-descriptivo` (ej. `feat/lua-module-03`).
+   - Nuevas funcionalidades: `feat/nombre-descriptivo` (ej. `feat/python-module-03`).
    - Corrección de bugs: `fix/nombre-bug` (ej. `fix/pixi-mascot-resize`).
    - Documentación: `docs/nombre-doc` (ej. `docs/update-api-spec`).
    - Refactorización: `refactor/area` (ej. `refactor/types-cleanup`).

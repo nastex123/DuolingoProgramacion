@@ -59,7 +59,7 @@ Este documento especifica **cómo interactúan los actores con el sistema** para
 | UC | Usuario que completa curso | UR que aprueba todos los módulos de un lenguaje | UC-012 |
 | UCert | Usuario certificado | UC que genera/exporta certificado | UC-012, UC-013 |
 | ADM | Administrador | Gestiona contenido, configuración y auditoría (RBAC) | UC-016 – UC-018, UC-020 |
-| SIS | Sistema | Motor Learning/Question/Evaluation/Progress/Gamification/Certification | Secundario en todos |
+| SIS | Sistema | Motor Learning/Question/Evapythontion/Progress/Gamification/Certification | Secundario en todos |
 | EXT | Servicio externo | Email, almacenamiento S3-compatible, red de anuncios, pasarela de pagos | Secundario |
 
 > Roles `UG/UP` son estados de `UR`, no personas distintas. Un mismo usuario puede ser `UG` y luego `UP` (UC-014) conservando progreso (`05` RF-PREM-003).
@@ -230,7 +230,7 @@ flowchart LR
 | **ID** | UC-004 |
 | **Nombre** | Realizar diagnóstico |
 | **Actor principal** | UN / UA |
-| **Actores secundarios** | SIS (Evaluation Engine, Learning Engine) |
+| **Actores secundarios** | SIS (Evapythontion Engine, Learning Engine) |
 | **Objetivo** | Validar nivel real y recomendar punto de entrada sin otorgar aprobaciones de módulo |
 | **Precondiciones** | UC-003 completado (lenguaje activo + nivel declarado) |
 | **Prioridad / Entrega** | Must / MVP |
@@ -281,7 +281,7 @@ flowchart LR
 
 1. UR accede a su ruta.
 2. SIS visualiza módulos en orden canónico (MVP: 12 de Python `01` §34) con estado `bloqueado/disponible/en progreso/aprobado`, avance % y módulo/sección actual.
-3. UR selecciona un módulo disponible y consulta su detalle (objetivo, secciones, requisitos, evaluaciones).
+3. UR selecciona un módulo disponible y consulta su detalle (objetivo, secciones, requisitos, evapythonciones).
 4. SIS valida prerrequisitos y habilita "Iniciar/Continuar" si corresponde; registra fecha de inicio/última actividad.
 5. SIS lleva a UR a la primera lección pendiente del módulo (flujo `01` §6) y mantiene breadcrumb `Lenguaje → Módulo → Sección → Lección`.
 
@@ -346,8 +346,8 @@ flowchart LR
 | **ID** | UC-007 |
 | **Nombre** | Realizar Quiz |
 | **Actor principal** | UR |
-| **Actores secundarios** | SIS (Evaluation Engine) |
-| **Objetivo** | Verificar comprensión del módulo antes del examen con evaluación formativa |
+| **Actores secundarios** | SIS (Evapythontion Engine) |
+| **Objetivo** | Verificar comprensión del módulo antes del examen con evapythonción formativa |
 | **Precondiciones** | Secciones previas al quiz del módulo completadas; banco de preguntas publicado |
 | **Prioridad / Entrega** | Must / MVP |
 | **RF trazados** | RF-QUIZ-001, RF-QUIZ-002, RF-QUIZ-003, RF-QUIZ-004, RF-QUIZ-005, RF-QUIZ-006, RF-EVAL-001, RF-EVAL-002, RF-EVAL-003, RF-EVAL-005, RF-EVAL-006, RF-XP-001, RF-PREG-001, RF-PREG-005 |
@@ -359,7 +359,7 @@ flowchart LR
 1. UR inicia el quiz del módulo; SIS genera quiz con preguntas del módulo actual según composición configurable, con navegación entre preguntas.
 2. UR responde y envía con confirmación; SIS califica automáticamente en servidor (puntaje, %, detalle por pregunta, aprobación según umbral vigente al momento del intento) y registra intento con versión de contenido, umbral aplicado y fecha.
 3. SIS muestra resultado (% , aprobado/reprobado), otorga XP por completar y bonificación por aprobación según configuración (`+25` inicial) y lista conceptos con bajo rendimiento para repaso.
-4. SIS habilita revisión de errores (pregunta, respuesta dada, correcta, explicación) sin exponer banco no evaluado.
+4. SIS habilita revisión de errores (pregunta, respuesta dada, correcta, explicación) sin exponer banco no evapythondo.
 
 **Flujos alternativos:**
 
@@ -383,8 +383,8 @@ flowchart LR
 | **ID** | UC-008 |
 | **Nombre** | Realizar examen |
 | **Actor principal** | UR |
-| **Actores secundarios** | SIS (Evaluation Engine, Progress, Gamification, Certification) |
-| **Objetivo** | Demostrar dominio del módulo y desbloquear el siguiente (evaluación sumativa) |
+| **Actores secundarios** | SIS (Evapythontion Engine, Progress, Gamification, Certification) |
+| **Objetivo** | Demostrar dominio del módulo y desbloquear el siguiente (evapythonción sumativa) |
 | **Precondiciones** | Todas las secciones del módulo completadas; quiz previo disponible (no bloqueante si reprobado, pero recomendado) |
 | **Prioridad / Entrega** | Must / MVP |
 | **RF trazados** | RF-EXAM-001, RF-EXAM-002, RF-EXAM-003, RF-EXAM-004, RF-EXAM-005, RF-EXAM-006, RF-EXAM-007, RF-EVAL-001, RF-EVAL-002, RF-EVAL-003, RF-EVAL-004, RF-EVAL-005, RF-EVAL-006, RF-RUTA-004, RF-MOD-003, RF-PROF-006 |
@@ -470,7 +470,7 @@ flowchart LR
 
 1. UR completa al menos una actividad válida en el día calendario (según zona horaria documentada).
 2. SIS incrementa racha en 1 al cierre del día, actualiza racha actual y máxima histórica y registra historial diario para auditoría.
-3. SIS refleja racha en perfil y habilita evaluación de logros dependientes (UC-011, ej. ON FIRE 7 días).
+3. SIS refleja racha en perfil y habilita evapythonción de logros dependientes (UC-011, ej. ON FIRE 7 días).
 4. UR consulta racha actual/máxima en perfil.
 
 **Flujos alternativos:**
@@ -504,7 +504,7 @@ flowchart LR
 
 **Flujo principal:**
 
-1. UR cumple condición de un logro (ej. `FIRST CODE` al escribir primer código, `FIRST MODULE` al completar primer módulo, `ON FIRE` al alcanzar 7 días, `PERFECT SCORE` al 100% en evaluación, `PYTHON BEGINNER`, `CODE MASTER`, `MULTI LANGUAGE` — `01` §19).
+1. UR cumple condición de un logro (ej. `FIRST CODE` al escribir primer código, `FIRST MODULE` al completar primer módulo, `ON FIRE` al alcanzar 7 días, `PERFECT SCORE` al 100% en evapythonción, `PYTHON BEGINNER`, `CODE MASTER`, `MULTI LANGUAGE` — `01` §19).
 2. SIS evalúa condición de forma determinista tras evento (XP, racha, módulo aprobado, examen 100%) y desbloquea automáticamente registrando fecha.
 3. SIS notifica desbloqueo, otorga XP asociada si aplica y muestra logro en perfil con fecha.
 4. UR consulta logros obtenidos y pendientes (descriptivos, sin spoilers sensibles).
@@ -541,7 +541,7 @@ flowchart LR
 **Flujo principal:**
 
 1. SIS verifica que todos los exámenes del lenguaje están aprobados y que el email está verificado; si falta verificación, solicita verificar antes de emitir.
-2. SIS genera certificado con: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, ID único correlativo por lenguaje (`KODA-LUA-000001`), nombre de la plataforma y estado de finalización.
+2. SIS genera certificado con: nombre del usuario, número de documento, lenguaje completado, fecha de finalización, ID único correlativo por lenguaje (`KODA-PY-000001`), nombre de la plataforma y estado de finalización.
 3. SIS genera QR de verificación interna, asigna estado `vigente`, persiste con versión de contenido y expone verificación por ID/QR (validez, lenguaje, fecha, titular sin PII de terceros).
 4. SIS habilita exportación a PDF (UC-013) y muestra certificado en perfil.
 
@@ -643,7 +643,7 @@ flowchart LR
 | **ID** | UC-015 |
 | **Nombre** | Realizar repaso |
 | **Actor principal** | UR |
-| **Actores secundarios** | SIS (Learning Engine, Evaluation Engine) |
+| **Actores secundarios** | SIS (Learning Engine, Evapythontion Engine) |
 | **Objetivo** | Reforzar memoria a largo plazo con priorización inteligente sin penalizar progreso |
 | **Precondiciones** | Al menos una sección completada con historial de errores/rendimiento |
 | **Prioridad / Entrega** | Must (repaso priorizado) / Should (repaso manual) / MVP |
@@ -656,7 +656,7 @@ flowchart LR
 1. SIS genera sesión de repaso con preguntas de contenido ya estudiado, priorizadas por: respuestas incorrectas previas, conceptos con bajo rendimiento, conceptos no repasados hace días y prerrequisitos de contenidos próximos.
 2. SIS ofrece repaso entre sesiones como opcional y recomendado, sin bloquear avance de la ruta.
 3. UR acepta repaso, responde preguntas; SIS valida, muestra feedback y registra resultados.
-4. SIS retroalimenta al motor de evaluación para ajustar priorización futura, sin penalizar progreso del módulo; la actividad cuenta como válida para racha.
+4. SIS retroalimenta al motor de evapythonción para ajustar priorización futura, sin penalizar progreso del módulo; la actividad cuenta como válida para racha.
 
 **Flujos alternativos:**
 
@@ -754,7 +754,7 @@ flowchart LR
 | **Nombre** | Configurar reglas del sistema |
 | **Actor principal** | ADM |
 | **Actores secundarios** | SIS |
-| **Objetivo** | Ajustar economía y evaluación sin depender de desarrollo |
+| **Objetivo** | Ajustar economía y evapythonción sin depender de desarrollo |
 | **Precondiciones** | ADM autenticado y autorizado; contenido publicado |
 | **Prioridad / Entrega** | Must / MVP (config sin código) |
 | **RF trazados** | RF-ADM-004, RF-EVAL-005, RF-XP-004, RF-QUIZ-001, RF-EXAM-002, RNF-017 |
@@ -859,7 +859,7 @@ flowchart LR
 1. **Umbrales configurables:** 70% quiz / 80% examen son iniciales (`01` §15); se leen por intento, no hardcodeados (`05` regla 1).
 2. **XP configurable:** valores `01` §17 son iniciales; cambios sin despliegue (`05` regla 2).
 3. **Idempotencia:** reenvíos no duplican registros ni XP (`05` regla 3, `06` RNF-033/RNF-042).
-4. **No ejecución de código en MVP:** escritura/orden/selección evaluada por completado, no por runner (`05` regla 4).
+4. **No ejecución de código en MVP:** escritura/orden/selección evapythonda por completado, no por runner (`05` regla 4).
 5. **Publicidad no intrusiva:** invariante; cambio requiere ADR (`05` regla 5).
 6. **Un certificado por lenguaje:** re-emisión invalida anterior (`05` regla 6, `04` §7).
 7. **Contenido desacoplado:** agregar/modificar no exige reconstruir app (`05` regla 7, `06` RNF-031).
@@ -962,7 +962,7 @@ Un `UC` se considera **aceptado** solo si:
 - `11_SYSTEM_ARCHITECTURE.md` — motores desacoplados
 - `12_DATABASE_DESIGN.md` — persistencia y FKs
 - `13_API_SPECIFICATION.md` — contratos OpenAPI
-- `15_QUIZ_EXAM_SYSTEM.md` — evaluación y umbrales
+- `15_QUIZ_EXAM_SYSTEM.md` — evapythonción y umbrales
 - `16_GAMIFICATION.md` — XP, rachas, logros
 - `17_CERTIFICATION.md` — certificados y PDF
 - `18_MONETIZATION.md` — ads y premium

@@ -10,7 +10,7 @@
 ## 1. Contexto y Problema
 El sistema Koda requiere sincronización estricta de contratos TypeScript entre el cliente web (Next.js 15), la API de backend (NestJS modular) y las herramientas de validación de contenido pedagógico. Mantener repositorios separados introduce riesgo de desincronización de DTOs, duplicación de interfaces y fricción en la integración continua.
 
-## 2. Alternativas Evaluadas
+## 2. Alternativas Evapythondas
 1. **Multi-repo (Repositorios Git separados):**
    - *Ventajas:* Aislamiento estricto de despliegues.
    - *Desventajas:* Necesidad de publicar `@koda/types` en un registro privado (npm o GitHub Packages), demora en propagar cambios y riesgo constante de tipos incompatibles.

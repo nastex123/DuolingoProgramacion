@@ -31,7 +31,7 @@ Este documento define **cómo está estructurado el sistema**, no qué hace (ver
 | Comunicación externa | **API REST versionada** (`/api/v1`) + JSON | Ver `03` OT-04 y `06` RNF-032; estándar, cacheable y documentable con OpenAPI. GraphQL queda como Post-MVP solo si `26_ANALYTICS.md` demuestra necesidad de agregaciones complejas. |
 | Estado de sesión | **Stateless** (JWT corto + refresh rotativo) | Permite balanceo sin sticky sessions (`RNF-005`). Sesión en memoria local es un defecto bloqueante. |
 
-> Alternativa descartada en MVP: microservicios por motor. Se adopta solo si métricas de `21`/`26` muestran que un motor (ej. Evaluation) es cuello de botella aislado y justifica el costo operativo. La frontera modular ya deja esa puerta abierta.
+> Alternativa descartada en MVP: microservicios por motor. Se adopta solo si métricas de `21`/`26` muestran que un motor (ej. Evapythontion) es cuello de botella aislado y justifica el costo operativo. La frontera modular ya deja esa puerta abierta.
 
 ### 2.2 Capas
 
@@ -45,7 +45,7 @@ Este documento define **cómo está estructurado el sistema**, no qué hace (ver
 │  Validación · Idempotency-Key · Versionado de contenido         │
 ├─────────────────────────────────────────────────────────────────┤
 │                         CAPA DE DOMINIO                         │
-│  Auth · Learning Engine · Question Engine · Evaluation Engine   │
+│  Auth · Learning Engine · Question Engine · Evapythontion Engine   │
 │  Progress Engine · Gamification Engine · Certification Engine   │
 │  Content Engine · Monetization (Ads + Premium)                  │
 ├─────────────────────────────────────────────────────────────────┤
@@ -77,7 +77,7 @@ flowchart TB
         AUTH_SVC["Auth\nRF-AUTH/USR"]
         LEARNING["Learning Engine\nRF-RUTA/MOD/SEC/LEC/DIAG"]
         QUESTION["Question Engine\nRF-PREG — Banco tipificado"]
-        EVAL["Evaluation Engine\nRF-EVAL/QUIZ/EXAM"]
+        EVAL["Evapythontion Engine\nRF-EVAL/QUIZ/EXAM"]
         PROGRESS["Progress Engine\nRF-PROG + Sesión reanudable"]
         GAMIF["Gamification Engine\nRF-XP/RACHA/LOGRO"]
         CERT["Certification Engine\nRF-CERT/PDF"]
@@ -154,7 +154,7 @@ sequenceDiagram
     participant API as API /v1
     participant LE as Learning Engine
     participant QE as Question Engine
-    participant EE as Evaluation Engine
+    participant EE as Evapythontion Engine
     participant PE as Progress Engine
     participant GE as Gamification Engine
     participant CE as Content Engine
@@ -192,7 +192,7 @@ sequenceDiagram
 
 ### 3.1 Responsabilidad
 
-Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación pública y administración. **No contiene lógica de evaluación ni de certificación**; toda decisión de aprobación/XP se toma en servidor (`05` RF-EVAL-006, `06` RNF-033/034).
+Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación pública y administración. **No contiene lógica de evapythonción ni de certificación**; toda decisión de aprobación/XP se toma en servidor (`05` RF-EVAL-006, `06` RNF-033/034).
 
 ### 3.2 Decisiones justificadas (Stack Oficial)
 
@@ -203,8 +203,8 @@ Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación
 | **Estado y Caché** | **Zustand (local UI) + TanStack Query (Server Cache)** | Gestión ligera de modales, racha y stepper con Zustand; sincronización, revalidación y caché de lecciones y progreso con TanStack Query. |
 | **Estilos & UI** | **Tailwind CSS + Shadcn UI** | Sistema de diseño basado en *tokens* cromáticos y tipográficos (`27_UI_UX_SPECIFICATION.md`), foco accesible y cumplimiento WCAG 2.1 AA (`RNF-026`). |
 | **Interactividad y Mascota** | **PixiJS (v7 WebGL)** | Mascota interactiva (**🦊 Koda**), reacciones emocionales en tiempo real y partículas de confeti aceleradas por hardware sin penalizar el hilo principal. |
-| **Editor de Código Multi-Lenguaje** | **Monaco Editor / CodeMirror 6** | Soporte universal nativo de resaltado, auto-completado y sintaxis para **+50 lenguajes** (Lua, Python, Rust, C, C++, C#, Go, JS/TS, SQL, etc.). |
-| **Ejecución de Código en Cliente** | **WebAssembly (wasmoon para Lua, Pyodide para Python, Workers)** | Ejecución de scripts en el navegador con latencia $< 15\text{ ms}$ y coste de cómputo en servidor $0. |
+| **Editor de Código Multi-Lenguaje** | **Monaco Editor / CodeMirror 6** | Soporte universal nativo de resaltado, auto-completado y sintaxis para **+50 lenguajes** (Python, Rust, C, C++, C#, Go, JS/TS, SQL, etc.). |
+| **Ejecución de Código en Cliente** | **WebAssembly (Pyodide para Python, Workers)** | Ejecución de scripts en el navegador con latencia $< 15\text{ ms}$ y coste de cómputo en servidor $0. |
 
 ### 3.3 Módulos del frontend (Plantilla Universal Dinámica)
 
@@ -215,7 +215,7 @@ Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación
 | Ruta (Roadmap) | `/ruta/[lang]` | RF-RUTA/MOD, RF-CANDADO-* | Plantilla universal `<RoadmapView />` que dibuja módulos, candados y estrellas dinámicamente |
 | Aprendizaje | `/aprender/[mod]/[sec]/[lec]` | RF-SEC/LEC/PREG, RF-ESTRELLA-* | Espacio de trabajo dividido 50/50, selector stepper de 10 píldoras y feedback anti-spoilers |
 | Cuaderno Errores | `/cuaderno` | RF-CUADERNO-* | Práctica deliberada de errores persistentes con remediación (+5 XP) |
-| Evaluación | `/quiz/[id]`, `/examen/[id]` | RF-QUIZ/EXAM/EVAL | Calificación < 2 s (`RNF-012`), compuerta de maestría ($\ge 80\%$) |
+| Evapythonción | `/quiz/[id]`, `/examen/[id]` | RF-QUIZ/EXAM/EVAL | Calificación < 2 s (`RNF-012`), compuerta de maestría ($\ge 80\%$) |
 | Perfil | `/perfil`, `/perfil/logros`, `/perfil/certificados` | RF-PROF/PROG/RACHA/LOGRO | Estadísticas, racha con Koda y listado de diplomas oficiales |
 | Certificado | `/certificados/[id]`, `/verificar/[id]` | RF-CERT/PDF | Verificación pública SSG/ISR con metadatos OpenGraph y descarga autenticada |
 | Admin | `/admin/*` | RF-ADM-* | RBAC, auditoría, validación `RF-ADM-006` |
@@ -237,7 +237,7 @@ Exponer la API REST `/api/v1`, orquestar los 9 motores desacoplados, aplicar reg
 | **Arquitectura interna** | **Monolito modular desacoplado** | Los 9 motores funcionan como módulos independientes con límites estrictos de importación; escalable horizontalmente y extraíble a microservicios si se requiere. |
 | **Validación y DTOs** | **Zod / class-validator + DTOs estrictos** | Validación estricta en servidor de entradas antes de llegar a los motores (`RNF-009`, `RNF-036`). |
 | **Autenticación** | **JWT Stateless (15 min) + Refresh rotativo en HttpOnly Cookie** | Stateless para escalabilidad (`RNF-005`); refresh rotativo con detección de reuso mitiga robo de token (`19_SECURITY.md`). |
-| **Motor de Ejecución Multi-Lenguaje** | **Interfaz `ICodeRunner` (Wasm + Sandbox Judge0/Piston)** | Ejecución cliente (Wasm) para Lua/Python/JS; delegación a sandbox seguro (Judge0 / Piston en Docker) para lenguajes compilados (Rust, C, C++, C#, Go). |
+| **Motor de Ejecución Multi-Lenguaje** | **Interfaz `ICodeRunner` (Wasm + Sandbox Judge0/Piston)** | Ejecución cliente (Wasm) para Python/Python/JS; delegación a sandbox seguro (Judge0 / Piston en Docker) para lenguajes compilados (Rust, C, C++, C#, Go). |
 | **Concurrencia y Transacciones** | **Transacciones ACID en Supabase PostgreSQL + Colas Async** | Integridad absoluta en otorgamiento de XP y estrellas (`RNF-033`); tareas pesadas de subida a Google Drive no bloquean la respuesta HTTP. |
 
 ### 4.3 Estructura de carpetas (backend NestJS monolito modular)
@@ -247,10 +247,10 @@ src/
 ├── modules/
 │   ├── auth/               # RF-AUTH/USR — hash Argon2id, tokens JWT, RBAC
 │   ├── users/              # RF-USR/PROF — perfil, avatar, preferencias
-│   ├── languages/          # RF-LANG — catálogo de lenguajes (Lua, Python, etc.)
+│   ├── languages/          # RF-LANG — catálogo de lenguajes (Python, etc.)
 │   ├── learning/           # RF-LVL/DIAG/RUTA/MOD/SEC/LEC — candados y roadmap
 │   ├── questions/          # RF-PREG — banco versionado (11 tipos polimórficos)
-│   ├── evaluation/         # RF-EVAL/QUIZ/EXAM — evaluador determinista en servidor
+│   ├── evapythontion/         # RF-EVAL/QUIZ/EXAM — evapythondor determinista en servidor
 │   ├── progress/           # RF-PROG, RF-ESTRELLA-* — estrellas y desbloqueos
 │   ├── notebook/           # RF-CUADERNO-* — cuaderno de errores persistente
 │   ├── gamification/       # RF-XP/RACHA/LOGRO — economía XP, niveles y rachas
@@ -272,7 +272,7 @@ src/
 └── main.ts / app.module.ts
 ```
 
-> Regla de dependencia (`06` RNF-030): un import directo de `gamification` hacia `evaluation` está **prohibido**. El flujo canónico es `evaluation → progress → gamification`.
+> Regla de dependencia (`06` RNF-030): un import directo de `gamification` hacia `evapythontion` está **prohibido**. El flujo canónico es `evapythontion → progress → gamification`.
 
 ---
 
@@ -342,7 +342,7 @@ Contrato estable entre frontend y backend. Versionada, autenticada y documentada
 | Languages | `/languages` | JWT | RF-LANG |
 | Learning | `/languages/{id}/modules`, `/sections`, `/lessons`, `/ruta`, `/diagnostico` | JWT | RF-LVL/DIAG/RUTA/MOD/SEC/LEC |
 | Questions | `/questions` (admin) | RBAC | RF-PREG/ADM |
-| Evaluation | `/quizzes`, `/examenes`, `/intentos` | JWT | RF-QUIZ/EXAM/EVAL |
+| Evapythontion | `/quizzes`, `/examenes`, `/intentos` | JWT | RF-QUIZ/EXAM/EVAL |
 | Progress | `/progress` | JWT | RF-PROG |
 | Gamification | `/gamification/xp`, `/rachas`, `/logros` | JWT | RF-XP/RACHA/LOGRO |
 | Repaso | `/repaso` | JWT | RF-REP |
@@ -418,11 +418,11 @@ sequenceDiagram
 | Prerrequisitos | `estado de módulos` | Bloqueo/desbloqueo del siguiente módulo; respeta punto de entrada adaptativo | RF-RUTA-004 |
 | Progresión de lección | `lección actual` + `progreso intra-lección` | Siguiente lección/ejercicio; `sección completada` solo si obligatorios finalizados | RF-LEC-001/004, RF-SEC-003 |
 | Reanudación | `user_id` + `language_id` | Posición exacta `módulo/sección/lección/ejercicio` | RF-RUTA-005, RF-LEC-002 |
-| Repaso (orquestación) | `historial de errores` + `evaluación` | Solicita a `Evaluation Engine` conceptos débiles; delega generación a `Question Engine` | RF-REP-001/002, RF-RUTA-003 |
+| Repaso (orquestación) | `historial de errores` + `evapythonción` | Solicita a `Evapythontion Engine` conceptos débiles; delega generación a `Question Engine` | RF-REP-001/002, RF-RUTA-003 |
 
 **Reglas:**
 
-- Nunca aprueba un módulo; solo `Evaluation Engine` lo hace (`RNF-030`).
+- Nunca aprueba un módulo; solo `Evapythontion Engine` lo hace (`RNF-030`).
 - Lee contenido únicamente vía `Content Engine` (versión vigente); no hardcodea IDs de módulos.
 - Recalcula recomendaciones tras cada intento sin bloquear el feedback (< 1 s).
 
@@ -434,7 +434,7 @@ sequenceDiagram
 
 | Capacidad | Detalle | RF |
 |---|---|---|
-| Tipos soportados | Selección múltiple, V/F, completar código/línea, predecir output, identificar errores, ordenar líneas, seleccionar código correcto, relacionar conceptos, escribir código (evaluado sin runner en MVP), resolver pequeños problemas | RF-PREG-001 |
+| Tipos soportados | Selección múltiple, V/F, completar código/línea, predecir output, identificar errores, ordenar líneas, seleccionar código correcto, relacionar conceptos, escribir código (evapythondo sin runner en MVP), resolver pequeños problemas | RF-PREG-001 |
 | Metadatos | `lenguaje, módulo, sección, lección, tipo, dificultad, categoría, respuestas válidas, explicación, puntaje, versión` | RF-PREG-002 |
 | Entrega | Anclada a lección/sección actual; nunca aleatoria global | RF-PREG-003 |
 | Validación | En servidor, inmediata, con explicación y XP | RF-PREG-004 |
@@ -457,7 +457,7 @@ interface QuestionEngine {
 
 ---
 
-## 10. Motor de evaluación (Evaluation Engine)
+## 10. Motor de evapythonción (Evapythontion Engine)
 
 **Responsabilidad:** calificar de forma **determinista, auditable y en servidor**.
 
@@ -470,12 +470,12 @@ interface QuestionEngine {
 | Invariante | Calificación nunca depende del cliente; el servidor recalcula y prevalece | RF-EVAL-006 |
 | Composición | Quiz/Examen se componen según distribución configurable por `Content Engine` | RF-QUIZ-001, RF-EXAM-002 |
 | Reintentos | Quiz y examen permiten reintentos ilimitados; desbloqueo exige un intento aprobado, no promedio | RF-QUIZ-005, RF-EXAM-005 |
-| Rendimiento | Resultado < 2 s p95 (`RNF-012`); evaluación no bloquea persistencia de progreso | RNF-012, RNF-033 |
+| Rendimiento | Resultado < 2 s p95 (`RNF-012`); evapythonción no bloquea persistencia de progreso | RNF-012, RNF-033 |
 
 **Flujo:**
 
 ```
-Preguntas (versión) → Respuestas del usuario → Evaluation Engine
+Preguntas (versión) → Respuestas del usuario → Evapythontion Engine
   → { puntaje, %, detalle_por_pregunta, conceptos_débiles, aprobado: bool, umbral_aplicado }
   → Progress Engine (persistir) + Gamification Engine (XP) + Learning Engine (desbloqueo)
 ```
@@ -484,7 +484,7 @@ Preguntas (versión) → Respuestas del usuario → Evaluation Engine
 
 ## 11. Motor de gamificación (Gamification Engine)
 
-**Responsabilidad:** motivar sin distorsionar la evaluación.
+**Responsabilidad:** motivar sin distorsionar la evapythonción.
 
 | Función | Detalle | RF |
 |---|---|---|
@@ -518,7 +518,7 @@ Preguntas (versión) → Respuestas del usuario → Evaluation Engine
 |---|---|---|
 | **Condición** | 12/12 módulos aprobados con examen $\ge 80\%$, umbral de estrellas y email verificado | RF-CERT-001, `04` §7 |
 | **Datos Oficiales** | Titular, documento, lenguaje, fecha America/Bogota, ID correlativo `KODA-{LANG}-{SEQ}`, código QR y aclaración normativa | RF-CERT-002 |
-| **ID Correlativo** | `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001`, `KODA-PY-000001` generado atómicamente con lock en Supabase | RF-CERT-003 |
+| **ID Correlativo** | `KODA-{LANG}-{SEQ}` ej. `KODA-PY-000001`, `KODA-PY-000001` generado atómicamente con lock en Supabase | RF-CERT-003 |
 | **Generación 100% Backend** | Renderizado PDF server-side en NestJS (`@react-pdf/renderer` o `pdfkit` + `qrcode`) con sello y firma digital de la plataforma | RF-PDF-001 |
 | **Detección Previa y Caching** | El backend verifica si ya existe un certificado emitido con `google_drive_file_id`. Si ya existe, **no se re-genera**; se sirve directamente por streaming | RF-PDF-003 |
 | **Almacenamiento en Google Drive** | Subida automática mediante Google Drive API v3 con Cuenta de Servicio (*Service Account*) en carpeta `Koda_Certificados/{lang}/` | RF-PDF-004 |
@@ -535,7 +535,7 @@ Flujo de Certificación en Backend (NestJS CertificationModule):
    ├── SÍ (Caché activo):
    │     └── Obtener stream de Google Drive API (files.get alt=media) → Pipe a HTTP Response (Descarga directa <200ms)
    └── NO (Primera emisión):
-          ├── Asignar correlativo atómico en Supabase (KODA-LUA-000001)
+          ├── Asignar correlativo atómico en Supabase (KODA-PY-000001)
          ├── Renderizar PDF + QR code en servidor Node.js
          ├── Subir binario a Google Drive API v3 vía Service Account
          ├── Obtener google_drive_file_id y calcular SHA-256
@@ -599,7 +599,7 @@ interface PaymentProvider {
 | Banco | Preguntas con tipos, dificultad, respuestas, explicaciones, versionado | RF-ADM-002, RF-PREG-006 |
 | Publicación | Publicar/ocultar sin deploy, inmediato o programado | RF-ADM-003 |
 | Configuración | Umbrales, XP, orden de módulos, composición de quizzes/exámenes sin código | RF-ADM-004 |
-| Versionado | Todo contenido publicado versionado; intentos guardan versión evaluada | RF-ADM-005, RNF-035 |
+| Versionado | Todo contenido publicado versionado; intentos guardan versión evapythonda | RF-ADM-005, RNF-035 |
 | Validación | IDs únicos, prerrequisitos sin ciclos, referencias íntegras, tipos válidos — bloquea publicación si falla | RF-ADM-006, RNF-036 |
 | RBAC | Solo `admin` autenticado; auditoría `quién/qué/cuándo/versión` | RF-ADM-007/008 |
 | Flujo Post-MVP | `borrador → revisión → publicado` con roles autor/revisor/publicador | RF-ADM-009 |
@@ -621,7 +621,7 @@ content/
 │   │       ├── thresholds.json  # { quiz: 70, exam: 80 }
 │   │       ├── xp.json
 │   │       └── compositions.json
-│   └── lua/                     # ← nuevo lenguaje = nuevo directorio
+│   └── python/                     # ← nuevo lenguaje = nuevo directorio
 └── achievements/
     └── catalog.json
 ```
@@ -634,14 +634,14 @@ content/
 |---|---|---|---|
 | **Frontend** | Render, navegación, accesibilidad, reanudación visual | Calificación, XP, certificación | API |
 | **API Gateway** | Versionado, auth, rate limit, `request_id`, idempotencia, cache | Reglas de negocio | Motores |
-| **Auth** | Identidad, hash, tokens, RBAC, auditoría | Contenido, evaluación | BD, KV, Email |
-| **Learning Engine** | Ruta, prerrequisitos, recomendación, reanudación | Calificar, otorgar XP | Content, Evaluation, Progress |
+| **Auth** | Identidad, hash, tokens, RBAC, auditoría | Contenido, evapythonción | BD, KV, Email |
+| **Learning Engine** | Ruta, prerrequisitos, recomendación, reanudación | Calificar, otorgar XP | Content, Evapythontion, Progress |
 | **Question Engine** | Banco, versionado, entrega anclada | Calificar, progresar | Content, BD |
-| **Evaluation Engine** | Calificar, umbrales, desglose, conceptos débiles | Persistir progreso, XP | Question, Content |
+| **Evapythontion Engine** | Calificar, umbrales, desglose, conceptos débiles | Persistir progreso, XP | Question, Content |
 | **Progress Engine** | Persistencia atómica, % por lenguaje/módulo, historial | Calificar, gamificar | BD |
 | **Gamification Engine** | XP, niveles, rachas, logros | Calificar, certificar | Progress, Config |
-| **Certification Engine** | Condición, ID `KODA-*`, QR, PDF, verificación | Enseñar, evaluar | Progress, Storage |
-| **Monetization** | Ads (gratuito) / Premium (sin ads) + pagos abstractos | Contenido, evaluación | Ads/Pay providers |
+| **Certification Engine** | Condición, ID `KODA-*`, QR, PDF, verificación | Enseñar, evapythonr | Progress, Storage |
+| **Monetization** | Ads (gratuito) / Premium (sin ads) + pagos abstractos | Contenido, evapythonción | Ads/Pay providers |
 | **Content Engine** | CRUD, versionado, validación, publicación, config | Calificar, progresar | BD, KV |
 
 > Test de arquitectura en CI: el grafo de imports debe respetar esta tabla. Cualquier dependencia inversa es defecto.
@@ -661,11 +661,11 @@ Registro (RF-AUTH-001) → Verificación email (async)
   → Ruta visualizada (RF-RUTA-002)
 ```
 
-### 17.2 Lección → Evaluación → Progreso → Gamificación
+### 17.2 Lección → Evapythonción → Progreso → Gamificación
 
 ```
 Lección (Content Engine) → Pregunta (Question Engine, anclada)
-  → Respuesta → Evaluation Engine (servidor, < 1s)
+  → Respuesta → Evapythontion Engine (servidor, < 1s)
   → Progress Engine (atómico, Idempotency-Key)
   → Gamification Engine (XP/racha/logro, si aplica)
   → Frontend (feedback + recompensa)
@@ -676,7 +676,7 @@ Lección (Content Engine) → Pregunta (Question Engine, anclada)
 
 ```
 Quiz/Examen compuesto (Content config + Question Engine)
-  → Envío → Evaluation Engine (umbral vigente, < 2s)
+  → Envío → Evapythontion Engine (umbral vigente, < 2s)
   → Progress Engine (intento inmutable + versión)
   → Si aprobado → Learning Engine desbloquea siguiente módulo
   → Si reprobado → Revisión + Repaso sugerido, módulo sigue bloqueado
@@ -704,11 +704,11 @@ Este es el requisito `03` OT-03, `04` §10.3 y `06` RNF-006. El diseño lo garan
 
 El motor nunca contiene `if (language === 'python')`. Todo lo específico del lenguaje vive en `content/languages/{id}/`.
 
-### 18.2 Procedimiento (ejemplo: agregar Lua)
+### 18.2 Procedimiento (ejemplo: agregar Python)
 
 | Paso | Acción | Responsable | Artefacto | Toca código del motor |
 |---|---|---|---|---|
-| 1 | Crear directorio `content/languages/lua/` | Autor de contenido | `manifest.json` con `{ id: "lua", nombre: "Lua", orden: 2, estado: "disponible" }` | No |
+| 1 | Crear directorio `content/languages/python/` | Autor de contenido | `manifest.json` con `{ id: "python", nombre: "Python", orden: 2, estado: "disponible" }` | No |
 | 2 | Definir módulos en orden pedagógico | Pedagógico + ADM | `modules/01_fundamentos/module.json`, `02_variables/...` (12 módulos o los que aplique) | No |
 | 3 | Crear secciones y lecciones | Autor | `sections/*/section.json` + `lessons/*/lesson.json` con explicación/ejemplo | No |
 | 4 | Cargar banco de preguntas tipificadas | Autor | `questions/*.json` con `tipo, dificultad, respuestas, explicación, puntaje` | No |
@@ -716,16 +716,16 @@ El motor nunca contiene `if (language === 'python')`. Todo lo específico del le
 | 6 | Configurar umbrales y XP (hereda defaults si no se especifica) | ADM | `config/thresholds.json`, `config/xp.json` | No |
 | 7 | Validar coherencia | Content Engine | `POST /admin/content/validate` → verifica IDs únicos, prerrequisitos sin ciclos, referencias íntegras (`RF-ADM-006`) | No |
 | 8 | Publicar | ADM | `POST /admin/content/publish` → crea `content_version` nueva, cachea en KV, sin deploy | No |
-| 9 | Verificar en `staging` | QA | Ruta Lua visible, diagnóstico Lua, progreso aislado por lenguaje (`RF-LANG-005`) | No |
+| 9 | Verificar en `staging` | QA | Ruta Python visible, diagnóstico progreso aislado por lenguaje (`RF-LANG-005`) | No |
 | 10 | Activar en `prod` | ADM | Cambia `estado: disponible`; Python sigue intacto | No |
 
 ### 18.3 Qué garantiza que no se rompe
 
 - **Validación automática** (`RF-ADM-006`) bloquea publicación con huérfanos o ciclos.
-- **Ensayo `RNF-006`** en `staging` con lenguaje de prueba (Lua mínimo 1 módulo) verifica 0 cambios en motor.
+- **Ensayo `RNF-006`** en `staging` con lenguaje de prueba (Python mínimo 1 módulo) verifica 0 cambios en motor.
 - **Grep en CI** (`RNF-031`) falla si el motor contiene literales de contenido.
-- **Versionado** (`RNF-035`) asegura que intentos de Python conservan su versión aunque se publique Lua.
-- **Progreso por lenguaje** (`RF-LANG-005`) aísla datos; Lua no contamina Python.
+- **Versionado** (`RNF-035`) asegura que intentos de Python conservan su versión aunque se publique Python.
+- **Progreso por lenguaje** (`RF-LANG-005`) aísla datos; Python no contamina Python.
 
 ### 18.4 Diagrama
 
@@ -734,18 +734,18 @@ flowchart LR
     subgraph Núcleo["Núcleo (no se toca)"]
         LE["Learning Engine"]
         QE["Question Engine"]
-        EE["Evaluation Engine"]
+        EE["Evapythontion Engine"]
         CE["Content Engine"]
     end
 
     subgraph Contenido["Contenido declarativo"]
         PY["content/languages/python/"]
-        LUA["content/languages/lua/\n(nuevo)"]
+        PY["content/languages/python/\n(nuevo)"]
         JS["content/languages/javascript/\n(nuevo)"]
     end
 
     PY --> CE
-    LUA --> CE
+    PY --> CE
     JS --> CE
     CE --> LE
     CE --> QE
@@ -759,14 +759,14 @@ flowchart LR
 
 ## 19. Decisiones justificadas — tabla consolidada
 
-| Decisión | Elección Oficial Koda | Alternativa evaluada | Justificación y Ventajas |
+| Decisión | Elección Oficial Koda | Alternativa evapythonda | Justificación y Ventajas |
 |---|---|---|---|
 | **Estilo arquitectónico** | **Monolito modular desacoplado** | Microservicios distribuidos | Menor sobrecarga operativa en MVP; fronteras limpias por motor permiten extraer módulos independientes si la carga lo demanda. |
 | **Frontend** | **Next.js 14+/15 (App Router, TypeScript)** | React Vite SPA puro | SEO nativo / OpenGraph para catálogo y verificación pública de diplomas (`/verificar/[code]`) + componentes interactivos `"use client"` para lecciones. |
 | **Backend** | **NestJS (TypeScript)** | FastAPI / Django / Go | TypeScript end-to-end con monorepo PNPM Workspaces (`@koda/types`), arquitectura `@Module()` nativa para los 9 motores desacoplados y OpenAPI automático. |
 | **Base de Datos** | **Supabase (PostgreSQL 15+)** | PostgreSQL auto-hospedado / MySQL | Transacciones ACID, tipos `JSONB` polimórficos, triggers PL/pgSQL de candados y plataforma gestionada de alta disponibilidad. |
 | **Editor de Código** | **Monaco Editor / CodeMirror 6** | PrismJS | Soporte universal nativo de sintaxis, auto-completado y coloreado para +50 lenguajes de programación. |
-| **Ejecución de Código** | **Híbrida: Wasm (Lua/Python/JS) + Judge0/Piston Sandbox** | Solo servidor | Wasm en navegador para cero latencia y costo $0 en scripting; sandbox seguro en backend para lenguajes compilados (Rust, C, C++, C#, Go). |
+| **Ejecución de Código** | **Híbrida: Wasm (Python/Python/JS) + Judge0/Piston Sandbox** | Solo servidor | Wasm en navegador para cero latencia y costo $0 en scripting; sandbox seguro en backend para lenguajes compilados (Rust, C, C++, C#, Go). |
 | **Almacenamiento PDFs** | **Google Drive API v3 (Service Account)** | S3 / MinIO / BD Blobs | Generación 100% server-side en NestJS, almacenamiento persistente en Drive y caché por `google_drive_file_id` para descarga instantánea sin re-generar. |
 | **API REST** | **REST `/api/v1` + OpenAPI 3.0.3** | GraphQL | Cacheable con ETag, estándar universal para integraciones y validación por contratos en CI/CD. |
 | **Auth** | **JWT Stateless (15 min) + Refresh rotativo en HttpOnly Cookie** | Sesión en BD | Escalabilidad horizontal sin estado en backend (`RNF-005`) y protección anti-XSS/CSRF. |
@@ -824,7 +824,7 @@ Referencia completa en `19_SECURITY.md`; aquí los invariantes arquitectónicos:
 | Auth + JWT + RBAC | RF-AUTH/USR | RNF-008/009/037–039 | OT-06 | — |
 | Learning Engine | RF-LANG/LVL/DIAG/RUTA/MOD/SEC/LEC | RNF-006/030/031 | OT-01/02/03 | PS-04/07/09 |
 | Question Engine | RF-PREG | RNF-031/035/036 | OT-01 | PS-03/10 |
-| Evaluation Engine | RF-EVAL/QUIZ/EXAM | RNF-010/012/033 | OT-01 | PS-05 |
+| Evapythontion Engine | RF-EVAL/QUIZ/EXAM | RNF-010/012/033 | OT-01 | PS-05 |
 | Progress Engine | RF-PROG | RNF-023/033/034 | OT-01 | PS-06 |
 | Gamification Engine | RF-XP/RACHA/LOGRO/REP | — | OT-01 | PS-08 |
 | Certification Engine | RF-CERT/PDF | RNF-004/043 | OE-06 | PS-06 |
@@ -839,8 +839,8 @@ Referencia completa en `19_SECURITY.md`; aquí los invariantes arquitectónicos:
 | Riesgo | Impacto | Mitigación arquitectónica |
 |---|---|---|
 | Contenido hardcodeado en frontend/motor | Rompe `RNF-006` y `RNF-031`; agregar lenguaje exige deploy | Grep en CI + ensayo `RNF-006` + Content Engine como única fuente |
-| Evaluación en cliente | Fraude de XP/certificados | `RF-EVAL-006`: calificación solo en servidor; cliente nunca decide aprobación |
-| Acoplamiento entre motores | Cambio en Gamificación rompe Evaluación | Linter de grafo de imports en CI + contratos por interfaz (`RNF-030`) |
+| Evapythonción en cliente | Fraude de XP/certificados | `RF-EVAL-006`: calificación solo en servidor; cliente nunca decide aprobación |
+| Acoplamiento entre motores | Cambio en Gamificación rompe Evapythonción | Linter de grafo de imports en CI + contratos por interfaz (`RNF-030`) |
 | Publicidad bloquea aprendizaje | Viola `RF-ADS-002` y `RNF-014` | Wrapper async + degradado; test de caos con ads deshabilitados |
 | Certificados duplicados o falsos | Pérdida de confianza | ID `KODA-*` con lock + un vigente por lenguaje + verificación interna + PDF bit-a-bit |
 | Pérdida de progreso por fallo de red | Abandono | Persistencia atómica + `Idempotency-Key` + reanudación `RNF-023/044` |

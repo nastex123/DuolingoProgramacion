@@ -221,7 +221,7 @@ export type CertificateStatus = 'valid' | 'revoked' | 'obsolete';
 
 export interface Certificate {
   id: string;
-  code: string; // ej. KODA-LUA-000001
+  code: string; // ej. KODA-PY-000001
   user_id: string;
   language_id: string;
   status: CertificateStatus;

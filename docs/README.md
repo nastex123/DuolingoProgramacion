@@ -25,7 +25,7 @@ graph LR
         C3["16 Gamificación"]
         C4["23 Content Spec"]
         C5["24 Content Authoring"]
-        C6["28 Currículo Lua"]
+        C6["28 Currículo Python"]
     end
 
     subgraph D3["3. Arquitectura & Backend"]
@@ -82,12 +82,11 @@ Para optimizar el tiempo de incorporación al proyecto (*onboarding*), consulta 
 6. [`docs/adr/`](adr/README.md) — Decisiones de arquitectura formalizadas.
 7. [`apps/api/README.md`](../apps/api/README.md) — Estructura NestJS, controladores y Swagger.
 
-### ✍️ Diseñador Instruccional / Creador de Contenido (Lua / Python)
+### ✍️ Diseñador Instruccional / Creador de Contenido (Python)
 1. [`01_PROJECT_OVERVIEW.md`](01_PROJECT_OVERVIEW.md) — Filosofía de micro-lecciones atómicas (40-70 palabras, sin spoilers).
 2. [`24_CONTENT_AUTHORING_GUIDE.md`](24_CONTENT_AUTHORING_GUIDE.md) — Plantillas de redacción, taxonomía de distractores y feedback formativo.
 3. [`23_CONTENT_SPECIFICATION.md`](23_CONTENT_SPECIFICATION.md) — Estructura JSON y validación contra esquema declarativo.
-4. [`28_LUA_CURRICULUM.md`](28_LUA_CURRICULUM.md) — Currículo oficial de Lua (M01 Fundamentos y M02 Variables).
-5. [`content/README.md`](../content/README.md) — Estructura de carpetas y comandos de validación.
+4. [`content/README.md`](../content/README.md) — Estructura de carpetas y cursos declarativos de Python.
 
 ### 🚀 DevOps, Cloud & QA Engineer
 1. [`06_NON_FUNCTIONAL_REQUIREMENTS.md`](06_NON_FUNCTIONAL_REQUIREMENTS.md) — RNF-001 a RNF-045 (latencia, concurrencia, disponibilidad).
@@ -129,7 +128,6 @@ Para optimizar el tiempo de incorporación al proyecto (*onboarding*), consulta 
 | **25** | [`25_ADMIN_SYSTEM.md`](25_ADMIN_SYSTEM.md) | 1.0.0 | ✅ Aprobado | Consola de administración, publicación sin despliegue y auditoría inmutable. |
 | **26** | [`26_ANALYTICS.md`](26_ANALYTICS.md) | 1.0.0 | ✅ Aprobado | Métricas clave de producto (M-01 a M-16), privacidad por diseño y dashboards. |
 | **27** | [`27_UI_UX_SPECIFICATION.md`](27_UI_UX_SPECIFICATION.md) | 1.1.0 | ✅ Aprobado | Design System, split-screen 50/50, animaciones PixiJS Koda y atajos de teclado. |
-| **28** | [`28_LUA_CURRICULUM.md`](28_LUA_CURRICULUM.md) | 1.3.0 | ✅ Aprobado | Currículo formativo completo de Lua: M01 (90 lecciones) y M02 (100 lecciones). |
 | **ADR** | [`docs/adr/`](adr/README.md) | — | 🟢 Activo | Registro formal de Decisiones de Arquitectura (ADR-001 a ADR-006). |
 
 ---

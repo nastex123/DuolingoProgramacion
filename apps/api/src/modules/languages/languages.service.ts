@@ -5,16 +5,6 @@ import type { ProgrammingLanguage } from '@koda/types';
 export class LanguagesService {
   private readonly languages: ProgrammingLanguage[] = [
     {
-      id: 'lang_lua_01',
-      slug: 'lua',
-      name: 'Lua 5.4',
-      description: 'Aprende el lenguaje de scripting ultraligero usado en Roblox, World of Warcraft y NGINX.',
-      icon_url: '/icons/lua.svg',
-      color: '#000080',
-      total_modules: 12,
-      is_active: true,
-    },
-    {
       id: 'lang_py_01',
       slug: 'python',
       name: 'Python 3.12',
