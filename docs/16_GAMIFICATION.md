@@ -19,7 +19,7 @@ Este documento define el **Gamification Engine** (`01` §28): cómo se gana, cal
 - Configurabilidad sin despliegue (`05` RF-ADM-004, RF-XP-004).
 - Trazabilidad a RF/US y criterios de aceptación.
 
-**Fuera de alcance:** modelo de datos físico (`12_DATA_MODEL.md`), contratos OpenAPI (`13_API_SPEC.md`), UI exacta (`27_UI_DESIGN.md`) y analytics detallado (`26_ANALYTICS.md`) — aquí se referencian sin duplicarlos.
+**Fuera de alcance:** modelo de datos físico (`12_DATABASE_DESIGN.md`), contratos OpenAPI (`13_API_SPECIFICATION.md`), UI exacta (`27_UI_UX_SPECIFICATION.md`) y analytics detallado (`26_ANALYTICS.md`) — aquí se referencian sin duplicarlos.
 
 ---
 
@@ -264,20 +264,49 @@ Cuenta **una** por día, sin importar cuántas se hagan (evita farm):
 
 ---
 
-## 8. Puntos vs. XP — Distinción operativa
+## 8. Sistema de Calificación por Estrellas (1 a 3 ⭐)
 
-| Concepto | Dónde vive | Para qué sirve | Se acumula | Afecta nivel |
-|---|---|---|---|---|
-| **Puntos de evaluación** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
-| **XP** | Cuenta global + por lenguaje | Progresión y nivel | Sí, indefinidamente | Sí |
-| **% de progreso** | Módulo/Lenguaje | Visualizar avance (`RF-PROG-002`) | Sí, hasta 100% | No |
-| **Racha** | Cuenta global | Hábito | Días consecutivos | No |
+Inspirado en la mecánica de progresión de juegos tácticos y de habilidad (como *"Score!"*), las estrellas representan el **nivel de maestría formativa** alcanzado en cada unidad educativa.
 
-> Nunca se convierte puntos de examen en XP de forma proporcional; la XP de examen es fija por aprobación (evita “farmear” reprobados con 60%).
+### 8.1 Escala de Estrellas y Criterio de Otorgamiento
+
+| Estrellas | Nivel de Dominio | Criterio de Evaluación | Recompensa Visual |
+|---|---|---|---|
+| ⭐⭐⭐ **(3 Estrellas)** | **Maestría Impecable** | 100% de respuestas correctas al primer intento (0 errores cometidos). | Confeti de PixiJS + Celebración eufórica de Koda 🦊 |
+| ⭐⭐ **(2 Estrellas)** | **Buen Desempeño** | 1 error cometido y resuelto con éxito en la Ronda de Repaso (80%–99% efectividad). | Gesto positivo y guiño de Koda 🦊 |
+| ⭐ **(1 Estrella)** | **Superación con Ayuda** | 2 o más errores cometidos, superados tras repasos (60%–79% efectividad). | Gesto de apoyo y aliento de Koda 🦊 |
+| **0 Estrellas** | **No Completado** | Unidad abandonada, no intentada o con efectividad < 60%. | Candado `🔒` o nodo gris sin iluminar |
+
+### 8.2 Acumulación y Requisito de Desbloqueo de Módulos
+
+1. **Total de Estrellas por Módulo:**
+   $$\text{Estrellas}_{\text{max}}(M) = \text{Secciones}(M) \times 3$$
+   *(Ejemplo: M01 de 9 secciones = 27 estrellas máximas).*
+2. **Umbral de Desbloqueo del Módulo Siguiente:**
+   Para desbloquear el Módulo $M_{i+1}$, el estudiante debe:
+   - Completar y aprobar el 100% de las secciones del Módulo $M_i$.
+   - Aprobar el Examen Final del Módulo con $\ge 80\%$.
+   - Acumular al menos el **80% de las estrellas totales** del módulo ($\text{Estrellas}_{\text{obtenidas}} \ge \lceil 0.80 \times \text{Estrellas}_{\text{max}} \rceil$).
+   *(En un módulo de 27 estrellas, se requieren mínimo 22 estrellas para abrir el siguiente módulo).*
+3. **Rejugabilidad:** Si un usuario completa todas las secciones pero acumula solo 19 estrellas, el siguiente módulo permanece con candado (`🔒`). El usuario puede rejugar cualquier sección con 1⭐ o 2⭐ para intentar obtener las 3⭐ y desbloquear el nuevo módulo.
 
 ---
 
-## 9. Logros (Achievements)
+## 9. Puntos vs. XP vs. Estrellas — Distinción operativa
+
+| Concepto | Dónde vive | Para qué sirve | Se acumula | Afecta nivel / Desbloqueo |
+|---|---|---|---|---|
+| **Puntos de evaluación** | Quiz/Examen (0–100) | Calcular % y aprobación (70/80) | No; por intento | No |
+| **XP** | Cuenta global + por lenguaje | Progresión y nivel de maestría | Sí, indefinidamente | Sí (determina nivel) |
+| **Estrellas (⭐)** | Por Lección, Sección y Módulo | Calificar precisión y desbloquear módulos | Sí, por módulo y total global | **Sí (desbloquea módulos)** |
+| **% de progreso** | Módulo/Lenguaje | Visualizar avance (`RF-PROG-002`) | Sí, hasta 100% | No |
+| **Racha (🔥)** | Cuenta global | Forjar el hábito diario de estudio | Días consecutivos | No |
+
+> Las estrellas no sustituyen a la XP ni a los exámenes: son la llave de acceso de maestría requerida para avanzar de módulo en el Roadmap.
+
+---
+
+## 10. Logros (Achievements)
 
 ### 9.1 Reglas generales
 
@@ -387,7 +416,7 @@ Ventanas temporales que **nunca** alteran umbrales de aprobación (70/80) ni des
 | Quiz del módulo | Todas las secciones previas al quiz completadas | Quiz disponible | RF-QUIZ-001, `01` §13 |
 | Examen del módulo | Todas las secciones + quiz completados (quiz no exige aprobación para desbloquear examen, solo haberlo intentado) | Examen disponible | RF-EXAM-001 |
 | Siguiente módulo | Examen del módulo anterior **aprobado** (≥80%) o punto de entrada adaptativo validado por diagnóstico | Módulo pasa a `disponible` | RF-RUTA-004, US-019 |
-| Certificado de lenguaje | Todos los módulos del lenguaje en `aprobado` + email verificado | Certificado generable (`CQ-{LANG}-{SEQ}`) | RF-CERT-001, `04` §7 |
+| Certificado de lenguaje | Todos los módulos del lenguaje en `aprobado` + email verificado | Certificado generable (`KODA-{LANG}-{SEQ}`) | RF-CERT-001, `04` §7 |
 | Logro | Condición del catálogo §9 | Badge visible, posible XP bono | RF-LOGRO-002 |
 | Nivel | XP total ≥ umbral de nivel | Nivel incrementa, barra se actualiza | RF-XP-002 |
 | Repaso recomendado | Historial con errores/bajo rendimiento | Sesión de repaso disponible (opcional, no bloquea) | RF-REP-001 |
@@ -440,7 +469,7 @@ events: []
 
 ## 14. Modelo de datos (referencia, no DDL)
 
-> DDL definitivo en `12_DATA_MODEL.md`. Aquí solo entidades y campos mínimos para implementar este documento.
+> DDL definitivo en `12_DATABASE_DESIGN.md`. Aquí solo entidades y campos mínimos para implementar este documento.
 
 - `xp_event(id, user_id, language_id, action_id, xp_awarded, multiplier, config_version, content_version, ref_type, ref_id, created_at)`
 - `user_progress(user_id, language_id, xp_total, level, current_streak, max_streak, freeze_tokens, timezone, updated_at)`
@@ -453,7 +482,7 @@ events: []
 
 ---
 
-## 15. API y contratos (referencia para `13_API_SPEC.md`)
+## 15. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
 - `POST /v1/xp/events` — solo interno (Evaluation → Gamification); no expuesto a cliente para otorgar XP.
 - `GET /v1/users/me/gamification` — XP total, nivel, progreso al siguiente, racha actual/máxima, freezes, config_version.
@@ -531,4 +560,4 @@ Eventos a registrar (seudonimizados, RNF-040):
 
 ---
 
-*Fin de `16_GAMIFICATION.md` — cualquier cambio en valores, fórmulas o catálogo requiere actualizar este documento, `05_FUNCTIONAL_REQUIREMENTS.md` si afecta RF, `12_DATA_MODEL.md` / `13_API_SPEC.md` si afecta contratos, y `CHANGELOG.md` con fecha `America/Bogota`.*
+*Fin de `16_GAMIFICATION.md` — cualquier cambio en valores, fórmulas o catálogo requiere actualizar este documento, `05_FUNCTIONAL_REQUIREMENTS.md` si afecta RF, `12_DATABASE_DESIGN.md` / `13_API_SPECIFICATION.md` si afecta contratos, y `CHANGELOG.md` con fecha `America/Bogota`.*

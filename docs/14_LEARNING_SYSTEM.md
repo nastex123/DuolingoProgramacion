@@ -1,7 +1,7 @@
 # 14 — Sistema de Aprendizaje (Learning System)
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md` y materializa los requisitos `RF-LANG`, `RF-LVL`, `RF-DIAG`, `RF-RUTA`, `RF-MOD`, `RF-SEC`, `RF-LEC`, `RF-REP`, `RF-PROG` y `RF-EVAL` de `05_FUNCTIONAL_REQUIREMENTS.md`. Define la lógica educativa que consumen `11_SYSTEM_ARCHITECTURE.md` (Learning Engine), `12_DATA_MODEL.md`, `13_API_SPEC.md`, `15_QUIZ_EXAM_SYSTEM.md` y `16_GAMIFICATION.md`. No duplica `23_CONTENT_SPECIFICATION.md` ni `24_QUESTION_SYSTEM.md`; los referencia como fuente de formato de contenido.
+> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md` y materializa los requisitos `RF-LANG`, `RF-LVL`, `RF-DIAG`, `RF-RUTA`, `RF-MOD`, `RF-SEC`, `RF-LEC`, `RF-REP`, `RF-PROG` y `RF-EVAL` de `05_FUNCTIONAL_REQUIREMENTS.md`. Define la lógica educativa que consumen `11_SYSTEM_ARCHITECTURE.md` (Learning Engine), `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `15_QUIZ_EXAM_SYSTEM.md` y `16_GAMIFICATION.md`. No duplica `23_CONTENT_SPECIFICATION.md` ni `24_CONTENT_AUTHORING_GUIDE.md`; los referencia como fuente de formato de contenido.
 
 ---
 
@@ -49,7 +49,7 @@ Lenguaje (Language)
 | Atributo | Tipo | Regla |
 |---|---|---|
 | `id` | UUID | PK |
-| `code` | `PY`, `LUA`, `JS`, … (`04` §7) | Único, usado en `CQ-{LANG}-{SEQ}` |
+| `code` | `PY`, `LUA`, `JS`, … (`04` §7) | Único, usado en `KODA-{LANG}-{SEQ}` |
 | `nombre` | string | Ej. "Python" |
 | `descripcion` | string | Breve, visible en catálogo |
 | `estado` | `disponible` \| `proximamente` | En MVP solo `PY=disponible` (`05` RF-LANG-001) |
@@ -237,34 +237,70 @@ stateDiagram-v2
 
 ---
 
-## 4. Reglas de desbloqueo de contenido
+## 4. Reglas de desbloqueo de contenido y Sistema de Estrellas
 
-### 4.1 Regla canónica secuencial
+### 4.1 Visibilidad global del Roadmap y Progresión Secuencial
+
+En la interfaz se muestra el **Roadmap completo** (todos los módulos $M_1..M_n$ y sus secciones $S_1..S_m$) de forma visible para proveer un mapa mental claro del viaje educativo, pero con restricciones estrictas de acceso mediante candados (`🔒`):
 
 ```
-M(i) es DISPONIBLE  ⇔  M(i-1) = APROBADO
-                      ∨ i = 1
-                      ∨ M(i) = OMITIDO_POR_DIAGNOSTICO con cursado manual
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        MAPA DE RUTA COMPLETO (ROADMAP)                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ [ M01: Fundamentos ] ──(⭐⭐⭐)──▶ [ M02: Variables ] ──(🔒 Bloqueado)──▶ [ M03... ]  │
+│   ├── S01: Intro (⭐⭐⭐)                                                       │
+│   ├── S02: Chunks (⭐⭐)                                                        │
+│   ├── S03: Print (🔒 Requiere S02)                                              │
+│   └── ...                                                                       │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
-M(i) permanece BLOQUEADO  ⇔  M(i-1) ∈ {BLOQUEADO, DISPONIBLE, EN_PROGRESO, QUIZ_PENDIENTE, EXAMEN_PENDIENTE, REPROBADO}
-                              ∧ M(i) ∉ {OMITIDO_POR_DIAGNOSTICO con acceso concedido}
+1. **Sección inicial abierta:** Al iniciar un módulo, únicamente la primera sección ($S_1$) y su primera lección ($L_1$) están en estado `DISPONIBLE`.
+2. **Candados secuenciales intra-módulo:** La sección siguiente ($S_{j+1}$) permanece `BLOQUEADA` con icono de candado (`🔒`) hasta que $S_j$ haya sido completada y calificada.
+3. **Condición estricta de desbloqueo de Módulo:** No es posible acceder al módulo siguiente ($M_{i+1}$) a menos que se cumplan **dos condiciones obligatorias simultáneas**:
+   - **Condición A (Cobertura total):** Haber completado el 100% de las secciones ($S_1..S_m$) del módulo actual y aprobado el examen.
+   - **Condición B (Umbral de estrellas):** Haber acumulado un número de estrellas mayor o igual al **mínimo de estrellas exigido** para el módulo ($Estrellas(M_i) \ge Estrellas_{min}(M_i)$, inicialmente el 80% de las estrellas máximas posibles).
+
+```
+M(i) es DISPONIBLE  ⇔  ( i = 1 )
+                      ∨ ( M(i-1).todas_secciones_completadas = true 
+                          ∧ M(i-1).examen = APROBADO 
+                          ∧ M(i-1).estrellas_totales ≥ M(i-1).estrellas_minimas )
+                      ∨ ( M(i) = OMITIDO_POR_DIAGNOSTICO con cursado manual )
+
+M(i) permanece BLOQUEADO ⇔ M(i-1) no cumple Condición A o Condición B
 ```
 
 Dentro de un módulo:
-
 ```
 S(j) es DISPONIBLE  ⇔  j = 1  ∨  S(j-1) = COMPLETADA
 L(k) es DISPONIBLE  ⇔  k = 1  ∨  L(k-1) = COMPLETADA
 ```
 
-### 4.2 Excepción: salto adaptativo por diagnóstico
+### 4.2 Sistema de Calificación en Estrellas (1 a 3 ⭐)
+
+Inspirado en mecánicas de retención formativa y superación progresiva (tipo *"Score!"*), cada lección y sección evaluada otorga entre **1 y 3 estrellas** según la precisión y autonomía demostrada:
+
+| Estrellas | Rango de Precisión | Criterio Operativo Pedagógico |
+|---|---|---|
+| ⭐⭐⭐ **(3 Estrellas)** | **100% Precisión** | Acierto perfecto al primer intento en todos los ejercicios, sin recurrir a la ronda de errores. |
+| ⭐⭐ **(2 Estrellas)** | **80% – 99%** | 1 fallo cometido y subsanado con éxito en la Ronda de Repaso / Pista formativa. |
+| ⭐ **(1 Estrella)** | **60% – 79%** | 2 o más fallos cometidos, superados tras múltiples repasos formativos. |
+| **0 Estrellas** | **< 60%** | Sección o lección incompleta, abandonada o no superada. |
+
+#### 4.2.1 Rejugabilidad Formativa para Mejora de Estrellas
+- El estudiante tiene la libertad de **volver a jugar cualquier lección o sección ya completada** para perfeccionar su técnica y subir su calificación de 1 o 2 estrellas a 3 estrellas ⭐⭐⭐.
+- Si al terminar todas las secciones de un módulo el estudiante no alcanza el umbral mínimo de estrellas requerido para abrir el siguiente módulo, el sistema le indica exactamente en qué secciones obtuvo 1 o 2 estrellas, invitándolo a rejugarlas para desbloquear el nuevo módulo.
+- Al mejorar una calificación (ej. de 2⭐ a 3⭐), el progreso global y el contador de estrellas del módulo se actualizan de inmediato.
+
+### 4.3 Excepción: salto adaptativo por diagnóstico
 
 El diagnóstico puede recomendar `entry_module = E` (ver §6). Entonces:
 
 ```
-∀ i < E : M(i) ← OMITIDO_POR_DIAGNOSTICO
-M(E) ← DISPONIBLE  (aunque M(E-1) no esté APROBADO)
-∀ i > E : rige regla canónica desde E
+∀ i < E : M(i) ← OMITIDO_POR_DIAGNOSTICO (otorga 3⭐ por defecto o estado equivalente)
+M(E) ← DISPONIBLE  (aunque M(E-1) no esté APROBADO manualmente)
+∀ i > E : rige regla canónica desde E con estrellas y candados
 ```
 
 **Restricciones de la excepción:**
@@ -274,23 +310,25 @@ M(E) ← DISPONIBLE  (aunque M(E-1) no esté APROBADO)
 3. Re-diagnóstico nunca revierte `APROBADO` a otro estado (`05` RF-DIAG-004).
 4. Para certificación, todo `OMITIDO_POR_DIAGNOSTICO` debe eventualmente transitar a `APROBADO` vía examen; no existe certificación con módulos omitidos sin examen.
 
-### 4.3 Regla de aprobación
+### 4.4 Regla de aprobación y umbrales
 
 ```
-Quiz APROBADO    ⇔  porcentaje_quiz ≥ umbral_quiz_vigente_al_momento_del_intento
-Examen APROBADO  ⇔  porcentaje_examen ≥ umbral_examen_vigente_al_momento_del_intento
-Módulo APROBADO  ⇔  ∃ intento_examen del módulo : APROBADO   (no se promedia, 05 RF-EVAL glosario)
+Quiz APROBADO    ⇔  porcentaje_quiz ≥ umbral_quiz_vigente_al_momento_del_intento (70%)
+Examen APROBADO  ⇔  porcentaje_examen ≥ umbral_examen_vigente_al_momento_del_intento (80%)
+Módulo DESBLOQUEA_SIGUIENTE ⇔  Módulo.secciones_completadas = 100% 
+                               ∧ Examen = APROBADO 
+                               ∧ Módulo.estrellas_obtenidas ≥ Módulo.estrellas_minimas
 Lenguaje COMPLETADO ⇔  ∀ modulo ∈ lenguaje.modulos : modulo.estado = APROBADO
 ```
 
-Umbrales iniciales: Quiz 70%, Examen 80% (`01` §15), configurables sin despliegue (`05` RF-ADM-004, `06` RNF-017). Cada intento guarda `umbral_aplicado` y `version_contenido` (`05` RF-EVAL-003/005).
+Umbrales iniciales: Quiz 70%, Examen 80%, Estrellas mínimas por módulo 80% (`thresholds.json`), configurables sin despliegue (`05` RF-ADM-004, `06` RNF-017). Cada intento guarda `umbral_aplicado`, `estrellas_otorgadas` y `version_contenido` (`05` RF-EVAL-003/005).
 
-### 4.4 Reintentos
+### 4.5 Reintentos
 
 - **Quiz:** reintentos ilimitados, cada intento registrado, la mejor nota no oculta historial (`05` RF-QUIZ-005). No bloquea avance del módulo (el quiz es formativo).
-- **Examen:** reintentos ilimitados, cada intento registrado, el desbloqueo exige **un** intento aprobado, no promedio (`05` RF-EXAM-005). El siguiente módulo permanece `BLOQUEADO` hasta aprobar.
+- **Examen y Secciones:** reintentos ilimitados, cada intento registrado. El desbloqueo del siguiente módulo exige cumplir la totalidad de secciones, examen aprobado y el mínimo de estrellas acumuladas (`05` RF-EXAM-005).
 
-### 4.5 Publicación y versionado
+### 4.6 Publicación y versionado
 
 Publicar/ocultar contenido es inmediato o programado sin despliegue (`05` RF-ADM-003). Versionar crea nueva `version_contenido`; los intentos históricos conservan la versión con la que fueron evaluados (`06` RNF-035). Validación previa a publicar: IDs únicos, prerrequisitos sin ciclos, referencias íntegras (`05` RF-ADM-006).
 
@@ -795,9 +833,9 @@ I8: Score_repaso(c) solo se calcula para conceptos ya vistos
 15_QUIZ_EXAM_SYSTEM.md ──→ 14 (consume umbrales y estados)
 16_GAMIFICATION.md ──→ 14 (consume progreso y eventos)
 23_CONTENT_SPECIFICATION.md ──→ 14 (formato de contenido versionado)
-24_QUESTION_SYSTEM.md ──→ 14 (tipificación y banco)
-12_DATA_MODEL.md ◄── 14 (entidades y estados)
-13_API_SPEC.md  ◄── 14 (contratos de desbloqueo, diagnóstico y repaso)
+24_CONTENT_AUTHORING_GUIDE.md ──→ 14 (tipificación y banco)
+12_DATABASE_DESIGN.md ◄── 14 (entidades y estados)
+13_API_SPECIFICATION.md  ◄── 14 (contratos de desbloqueo, diagnóstico y repaso)
 ```
 
 ---

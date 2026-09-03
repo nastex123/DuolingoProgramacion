@@ -1,20 +1,30 @@
 # 13 — Especificación de API (API Specification)
 
-> **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> **Complementa a:** `01_PROJECT_OVERVIEW.md` (§5 flujo, §7 jerarquía, §24 motores), `03_OBJECTIVES.md` (OT-04 API REST versionada), `04_SCOPE.md` (§2.8 transversales MVP), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001/003/008/010/032/041), `07_USER_STORIES.md` (E01–E10) y anticipa `11_SYSTEM_ARCHITECTURE.md`, `12_DATA_MODEL.md`.
+> **Estado:** Aprobado · **Versión del documento:** 2.0.0 · **Fecha:** 2026-09-02  
+> **Complementa a:** `01_PROJECT_OVERVIEW.md` (§5 flujo, §7 jerarquía, §24 motores), `03_OBJECTIVES.md` (OT-04 API REST versionada), `04_SCOPE.md` (§2.8 transversales MVP), `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF), `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-001/003/008/010/032/041), `07_USER_STORIES.md` (E01–E10), `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md` (v2.0.0), `14_LEARNING_SYSTEM.md`, `16_GAMIFICATION.md`, `27_UI_UX_SPECIFICATION.md` y `28_LUA_CURRICULUM.md`.  
 > **Zona horaria de timestamps de API:** `America/Bogota` (UTC-5) — coherente con `19_SECURITY.md` y `CHANGELOG.md`.
 
 ---
 
 ## 1. Propósito y alcance
 
-Este documento especifica el **contrato HTTP REST** de la plataforma educativa gamificada. Define qué expone el sistema, no cómo se implementa internamente (reservado para `11` y `12`).
+Este documento especifica el **contrato HTTP REST** de la plataforma educativa gamificada. Define qué expone el sistema, los modelos de datos de entrada/salida, los códigos de estado, las reglas de negocio en cada operación y la interacción con los motores pedagógico, de gamificación, de evaluación y de contenido.
 
-**Sí incluye:** base URL y versionado, convenciones transversales, autenticación/autorización, formato estándar de errores, tabla completa de recursos, schemas JSON, detalle por endpoint (método, path, parámetros, request/response con ejemplos), y trazabilidad a `RF-*`.
+**Sí incluye:**
+- Base URL y versionado semántico (`/api/v1`).
+- Convenciones transversales de paginación, correlación (`X-Request-Id`) e idempotencia (`Idempotency-Key`).
+- Autenticación JWT stateless con rotación de refresh tokens y control de acceso RBAC.
+- Sistema de Roadmap y Candados Progresivos ($S_1 \to S_n$ y $M_{i+1}$ condicionado a 100% secciones + $\ge 80\%$ de estrellas de maestría + examen aprobado).
+- Calificación formativa en estrellas (1–3 ⭐) con rejugabilidad no punitiva y conservación de mejor marca (`max_stars_earned`).
+- Cuaderno de errores persistente (`user_mistakes_notebook`) para práctica deliberada (+5 XP de remediación formativa).
+- Ronda de repaso intra-sesión y feedback formativo anti-spoilers.
+- Soporte curricular multi-lenguaje (con Lua y Python como rutas insignias de lanzamiento).
+- Tabla completa de 44 endpoints REST, schemas JSON canónicos, ejemplos de consumo cURL y catálogo de errores de negocio.
 
-**No incluye:** modelo relacional detallado (`12`), lógica de motores (`14`–`17`), ni wireframes (`10`, `27`). Ningún endpoint fuera de este documento debe implementarse sin actualizarlo y registrar la entrada en `CHANGELOG.md` (criterio anti-scope-creep `04` §10).
-
-MVP expone **solo `/api/v1`**; la agregación de un lenguaje nuevo (`RF-LANG-004`, `RNF-006`) no añade endpoints, solo filas en `languages/modules` vía contenido.
+**No incluye:**
+- Implementación física interna de base de datos (`12_DATABASE_DESIGN.md`).
+- Algoritmos internos de inferencia del Learning Engine (`14_LEARNING_SYSTEM.md`).
+- Reglas de maquetación de componentes visuales (`27_UI_UX_SPECIFICATION.md`).
 
 ---
 
@@ -28,30 +38,33 @@ Base URL (staging): https://staging-api.duolingo-programacion.com/api/v1
 Base URL (prod):    https://api.duolingo-programacion.com/api/v1
 ```
 
-- Toda ruta está prefijada con `/api/v1` (`RNF-032`). Cambio breaking → `/api/v2` (nunca ruptura silenciosa).
-- Contrato descrito en **OpenAPI 3.0.3** (`openapi.yaml` en repo). Linter de OpenAPI en CI (`RNF-032`).
-- `Content-Type: application/json; charset=utf-8` en request y response. `Accept` idem.
+- Toda ruta está prefijada con `/api/v1` (`RNF-032`).
+- Todo cambio que rompa compatibilidad hacia atrás (breaking change) exigirá un incremento mayor a `/api/v2`.
+- `Content-Type: application/json; charset=utf-8` en peticiones y respuestas. `Accept: application/json` requerido.
 
 ### 2.2 Identificadores y formatos
 
 | Elemento | Formato | Ejemplo |
 |---|---|---|
-| ID de recurso (UUID v4) | `string(uuid)` | `0f8a1e3a-...` |
-| ID de certificado | `CQ-{LANG}-{SEQ}` (`01` §22) | `CQ-PY-000001` |
-| Fecha/hora | ISO 8601 con offset Bogotá | `2026-08-29T15:04:05-05:00` |
-| Lenguaje código | `PY`, `LUA`, `JS`… | `PY` |
-| Nivel | `BEGINNER`, `MEDIUM`, `SEMI_PROFESSIONAL`, `PROFESSIONAL` | `BEGINNER` |
-| Estado módulo | `locked`, `available`, `in_progress`, `passed`, `failed` | `in_progress` |
+| ID de recurso (UUID v4) | `string(uuid)` | `0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f70` |
+| ID de certificado | `KODA-{LANG}-{SEQ}` (`01` §22, `17`) | `KODA-LUA-000001`, `KODA-PY-000001` |
+| Fecha / Hora | ISO 8601 con offset Bogotá (UTC-5) | `2026-09-02T14:30:00-05:00` |
+| Código de Lenguaje | `LUA`, `PY`, `JS`, `RUST`… | `LUA` |
+| Estado de Candado Módulo | `locked`, `unlocked` | `unlocked` |
+| Estado de Progreso Módulo | `not_started`, `in_progress`, `completed`, `passed`, `failed` | `in_progress` |
+| Estado de Candado Sección | `locked`, `unlocked` | `unlocked` |
+| Estrellas de Sección | Entero `1` a `3` (`stars_earned`, `max_stars_earned`) | `3` (⭐⭐⭐) |
+| Porcentaje de Maestría | Decimal `0.00` a `100.00` | `85.50` |
 | Paginación | `?page=1&per_page=20` (1-indexed) | — |
 | Ordenamiento | `?sort=created_at&order=desc` | — |
-| Idempotencia | Header `Idempotency-Key: <uuid>` en POST de escritura | — |
+| Idempotencia | Header `Idempotency-Key: <uuid>` en POST de mutación/evaluación | — |
 | Correlación | Response header `X-Request-Id: <uuid>` + campo `request_id` en errores (`RNF-041`, `RNF-045`) | — |
 
 ### 2.3 Paginación, filtrado y envoltorios
 
 **Request paginado:**
-```
-GET /api/v1/languages?page=1&per_page=20
+```http
+GET /api/v1/notebook/mistakes?page=1&per_page=20&language_id=lua HTTP/1.1
 ```
 
 **Response lista (envoltorio común):**
@@ -61,193 +74,127 @@ GET /api/v1/languages?page=1&per_page=20
   "pagination": {
     "page": 1,
     "per_page": 20,
-    "total_items": 1,
+    "total_items": 4,
     "total_pages": 1
   }
 }
 ```
-Regla `RNF-003`: ninguna lista devuelve >100 ítems sin paginación; payload de lección <200 KB JSON sin assets.
 
-**Filtro y búsqueda:** `?q=`, `?status=available`, `?language_id=`, `?module_id=` según recurso.
+Regla `RNF-003`: ninguna lista devuelve >100 ítems sin paginación; payload de lección <200 KB JSON sin assets.
 
 ### 2.4 Cabeceras transversales
 
-```
-Authorization: Bearer <access_token>    // requerido salvo endpoints públicos
-Idempotency-Key: <uuid>                // recomendado en POST evaluables
-X-Request-Id: <uuid>                   // devuelto por servidor en todas las respuestas
-Cache-Control: no-store                // en respuestas autenticadas
+```http
+Authorization: Bearer <access_token>    // Requerido salvo endpoints públicos
+Idempotency-Key: <uuid>                // Requerido en POST evaluables y de progreso
+X-Request-Id: <uuid>                   // Devuelto por el servidor en todas las respuestas
+Cache-Control: no-store                // En respuestas autenticadas
 ```
 
 ---
 
 ## 3. Autenticación y Autorización
 
-### 3.1 Autenticación
+### 3.1 Autenticación JWT Stateless
 
 Mecanismo **stateless JWT** (`RNF-008`, `RNF-005`):
 
 | Token | Vida | Uso |
 |---|---|---|
-| `access_token` (JWT, HS256/RS256) | 15 min (configurable `RF-AUTH-002`) | `Authorization: Bearer` |
+| `access_token` (JWT, HS256/RS256) | 15 min (configurable `RF-AUTH-002`) | `Authorization: Bearer <token>` |
 | `refresh_token` (opaco, rotativo) | 7 días | `POST /auth/refresh` → emite par nuevo; el anterior se invalida |
 
-- Contraseñas hasheadas con función adaptativa (Argon2/bcrypt, `RNF-008`). Nunca en claro ni en logs.
-- `POST /auth/register` envía email de verificación (token un solo uso, expiración corta, `RF-AUTH-005`). Verificación **no bloquea** aprendizaje, sí emisión de certificado (`US-059`).
-- Recuperación: `POST /auth/forgot-password` (siempre 200 genérico) + `POST /auth/reset-password` con token un solo uso (`RF-AUTH-004`).
-- Logout invalida `refresh_token` en servidor (`RF-AUTH-003`).
-- `refresh` silencioso durante lección activa (`RF-AUTH-007`, `RNF-023`) sin re-login.
+- Contraseñas hasheadas con función adaptativa (`Argon2id` o `bcrypt` con costo $\ge 12$, `RNF-008`).
+- `POST /auth/register` envía email de verificación (token un solo uso, expiración 24 h, `RF-AUTH-005`). Verificación **no bloquea** el aprendizaje, pero es requisito indispensable para emitir certificados (`US-059`).
+- `refresh` silencioso durante lección activa (`RF-AUTH-007`, `RNF-023`) sin interrumpir la experiencia de usuario.
 
-**Flujo de login:**
-```
-POST /auth/register → 201 + { access_token, refresh_token, user }
-POST /auth/login    → 200 + { access_token, refresh_token, user }
-POST /auth/refresh  → 200 + { access_token, refresh_token }
-POST /auth/logout   → 204
-```
+### 3.2 Autorización RBAC
 
-### 3.2 Autorización (RBAC mínimo MVP)
-
-| Rol | Valor en `user.role` | Acceso |
+| Rol / Flag | Descripción | Alcance |
 |---|---|---|
-| `USER` | `user` | Todo lo de `/users/me/*`, aprendizaje y evaluación propios. Aislamiento estricto (`RF-USR-005`, `RF-PROG-001`, `RNF-009` IDOR). |
-| `ADMIN` | `admin` | `USER` + `POST/PATCH/DELETE /admin/*` (`RF-ADM-007`). |
-| Premium | `user.is_premium: true` | Flag derivado de suscripción (`RF-PREM-005`); no es rol, condiciona `ads` pero no permisos de contenido (`US-066`). |
-
-- Toda decisión de aprobación/XP/logros/certificación se toma en **servidor** (`RF-EVAL-006`, `RF-XP-005`).
-- Recursos filtran por `user_id` del token; intentar acceder a progreso/certificado ajeno → `403` o `404` (no revela existencia, `RNF-041`).
-
-### 3.3 Rate limiting y seguridad
-
-- `RF-AUTH-006`, `RNF-009`: límite por IP+email en `POST /auth/login` y `/auth/forgot-password` → `429 Too Many Requests` con `Retry-After`.
-- Cabeceras: `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`.
-- OWASP ASVS L1: validación/saneamiento en servidor, protección inyección/XSS/IDOR, cabeceras `Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options` (`RNF-009`).
+| `user` | Usuario estándar registrado | Acceso a sus rutas, progreso, cuaderno de errores, logros y certificados propios. |
+| `admin` | Administrador de contenido y sistema | Acceso a `/admin/*`, CRUD de módulos/preguntas, métricas agregadas y publicación sin deploy. |
+| `is_premium` | Flag booleano de suscripción | Desactiva anuncios intersticiales entre secciones (`RF-ADS-001/002`). |
 
 ---
 
-## 4. Formato estándar de respuesta y errores
+## 4. Formato estándar de errores
 
-### 4.1 Envoltorio de éxito
-
-```json
-{
-  "data": { "id": "...", "type": "language" },
-  "meta": { "request_id": "b3e1a...", "timestamp": "2026-08-29T15:04:05-05:00" }
-}
-```
-
-### 4.2 Envoltorio de error (`RNF-041`, `RNF-045`)
+Todas las respuestas de error ($4xx$ y $5xx$) devuelven un JSON canónico:
 
 ```json
 {
   "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "La solicitud contiene campos inválidos.",
-    "details": [
-      { "field": "email", "issue": "Formato de email inválido." }
-    ],
-    "request_id": "b3e1a7c2-...",
-    "timestamp": "2026-08-29T15:04:05-05:00"
+    "code": "MODULE_LOCKED",
+    "message": "El módulo se encuentra bloqueado. Debes completar el 100% de las secciones anteriores, aprobar el examen y acumular al menos el 80% de estrellas.",
+    "details": {
+      "module_id": "0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f71",
+      "required_stars_percentage": 80.00,
+      "current_stars_percentage": 66.67,
+      "missing_sections": ["sec-08", "sec-09"],
+      "exam_passed": false
+    },
+    "request_id": "550e8400-e29b-41d4-a716-446655440000",
+    "timestamp": "2026-09-02T14:30:00-05:00"
   }
 }
 ```
 
-Nunca expone stack traces ni detalles internos.
-
-### 4.3 Códigos HTTP y códigos de negocio
-
-| HTTP | `code` (negocio) | Cuándo |
-|---|---|---|
-| 200 | — | GET/POST de lectura/evaluación exitosa |
-| 201 | — | Creación (`register`, recurso admin) |
-| 204 | — | `logout`, `DELETE` sin cuerpo |
-| 400 | `VALIDATION_ERROR` | Body/query inválido (Zod/Joi) |
-| 401 | `UNAUTHORIZED` | Falta `Authorization` o token expirado/invalidado |
-| 403 | `FORBIDDEN` | Rol insuficiente o acceso a recurso ajeno (IDOR) |
-| 404 | `NOT_FOUND` | Recurso inexistente (o no visible por aislamiento) |
-| 409 | `CONFLICT` | Email ya registrado, certificado ya vigente, `Idempotency-Key` duplicado con payload distinto |
-| 422 | `UNPROCESSABLE_ENTITY` | Regla de negocio: prerrequisito no cumplido, umbral no configurable, nivel bloqueado (`RF-LVL-004`) |
-| 429 | `RATE_LIMITED` | `RF-AUTH-006` |
-| 500 | `INTERNAL_ERROR` | Error no esperado; log con `request_id` (`RNF-045`) |
-
-Catálogo completo por dominio en §8.
-
 ---
 
-## 5. Tabla completa de recursos y endpoints (vista OpenAPI conceptual)
+## 5. Tabla completa de recursos y endpoints
 
-> `Auth` = requiere `Bearer`. `Rol` mínimo. `RF` principal trazado.
+> `Auth` = requiere `Bearer <access_token>`. `Rol` mínimo. `RF` principal trazado.
 
 | # | Recurso | Método | Endpoint | Auth | Rol | Descripción | RF |
 |---|---|---|---|---|---|---|---|
-| 1 | Auth | POST | `/auth/register` | No | — | Registro con email+contraseña, envía verificación | RF-AUTH-001, RF-USR-001 |
-| 2 | Auth | POST | `/auth/login` | No | — | Login, emite `access`+`refresh` | RF-AUTH-002, RF-AUTH-006 |
-| 3 | Auth | POST | `/auth/refresh` | Sí (refresh) | — | Renueva par de tokens (rotativo) | RF-AUTH-007 |
-| 4 | Auth | POST | `/auth/logout` | Sí | USER | Invalida `refresh` vigente | RF-AUTH-003 |
-| 5 | Auth | POST | `/auth/forgot-password` | No | — | Solicita token de recuperación (respuesta genérica) | RF-AUTH-004 |
+| 1 | Auth | POST | `/auth/register` | No | — | Registro con email + contraseña | RF-AUTH-001, RF-USR-001 |
+| 2 | Auth | POST | `/auth/login` | No | — | Login, emite `access` + `refresh` | RF-AUTH-002, RF-AUTH-006 |
+| 3 | Auth | POST | `/auth/refresh` | Sí (refresh) | — | Renueva par de tokens rotativos | RF-AUTH-007 |
+| 4 | Auth | POST | `/auth/logout` | Sí | USER | Invalida `refresh_token` activo | RF-AUTH-003 |
+| 5 | Auth | POST | `/auth/forgot-password` | No | — | Solicita recuperación de contraseña | RF-AUTH-004 |
 | 6 | Auth | POST | `/auth/reset-password` | No (token) | — | Define nueva contraseña con token | RF-AUTH-004 |
-| 7 | Auth | POST | `/auth/verify-email` | No (token) | — | Verifica email | RF-AUTH-005 |
-| 8 | Users | GET | `/users/me` | Sí | USER | Perfil propio consolidado | RF-PROF-001, RF-USR-002 |
-| 9 | Users | PATCH | `/users/me` | Sí | USER | Actualiza nombre/avatar/contraseña | RF-USR-002, RF-PROF-002 |
-| 10 | Users | DELETE | `/users/me` | Sí | USER | Solicita eliminación/anonimización | RF-USR-003 |
-| 11 | Users | GET | `/users/me/progress` | Sí | USER | **Progreso agregado** por lenguaje/módulo | RF-PROG-002, RF-PROG-005 |
-| 12 | Users | GET | `/users/me/achievements` | Sí | USER | **Logros** obtenidos/pendientes | RF-LOGRO-002/003, RF-PROF-004 |
-| 13 | Users | GET | `/users/me/certificates` | Sí | USER | **Certificados** del titular | RF-PROF-005, RF-CERT-001 |
-| 14 | Users | GET | `/users/me/stats` | Sí | USER | Estadísticas de aprendizaje | RF-PROF-006 |
-| 15 | Languages | GET | `/languages` | No* | — | **Listar lenguajes** (PY disponible, resto próximamente) | RF-LANG-001 |
-| 16 | Languages | GET | `/languages/{id}` | No* | — | Detalle de lenguaje | RF-LANG-001 |
-| 17 | Languages | GET | `/languages/{id}/modules` | Sí | USER | **Módulos de un lenguaje** en orden canónico | RF-MOD-001, RF-RUTA-002 |
-| 18 | Modules | GET | `/modules/{id}` | Sí | USER | **Detalle de módulo** (objetivo, secciones, estado, requisitos) | RF-MOD-002/003/005 |
-| 19 | Modules | GET | `/modules/{id}/sections` | Sí | USER | Secciones del módulo | RF-SEC-001 |
-| 20 | Sections | GET | `/sections/{id}` | Sí | USER | Detalle de sección (teoría→ejemplo→ejercicios) | RF-SEC-002/004 |
-| 21 | Lessons | GET | `/lessons/{id}` | Sí | USER | Detalle de lección con ejercicios anclados | RF-LEC-001/004 |
-| 22 | Lessons | POST | `/lessons/{id}/complete` | Sí | USER | **Marca lección como completada** (ejercicios ya validados) | RF-SEC-003, RF-LEC-003, RF-PROG-001 |
-| 23 | Lessons | POST | `/lessons/{id}/answer` | Sí | USER | Envía respuesta a ejercicio/pregunta de lección (feedback <1 s) | RF-PREG-004/005, RF-LEC-003 |
-| 24 | Levels | POST | `/users/me/level` | Sí | USER | Declara nivel inicial | RF-LVL-001/002 |
-| 25 | Diagnostics | POST | `/diagnostics` | Sí | USER | Inicia diagnóstico por lenguaje | RF-DIAG-001 |
-| 26 | Diagnostics | POST | `/diagnostics/{id}/attempt` | Sí | USER | Envía intento de diagnóstico, devuelve puntaje por área + recomendación | RF-DIAG-002/003 |
-| 27 | Quizzes | GET | `/quizzes/{id}` | Sí | USER | Metadatos/composición de quiz | RF-QUIZ-001 |
-| 28 | Quizzes | POST | `/quiz/{id}/attempt` | Sí | USER | **Envía intento de quiz** (calificación <2 s) | RF-QUIZ-002/003/006, RF-EVAL-001 |
-| 29 | Quizzes | GET | `/quiz/{id}/attempts` | Sí | USER | Historial de intentos de quiz | RF-QUIZ-005, RF-EVAL-003 |
-| 30 | Exams | GET | `/exams/{id}` | Sí | USER | Metadatos/composición de examen | RF-EXAM-001/002 |
-| 31 | Exams | POST | `/exam/{id}/attempt` | Sí | USER | **Envía intento de examen** (bloquea/desbloquea siguiente módulo) | RF-EXAM-003/004/005/007 |
-| 32 | Exams | GET | `/exam/{id}/attempts` | Sí | USER | Historial de intentos de examen | RF-EXAM-005, RF-EVAL-003 |
-| 33 | Progress | GET | `/progress` | Sí | USER | Historial filtrable de lecciones/quizzes/exámenes | RF-PROG-005 |
-| 34 | Progress | GET | `/progress/streak` | Sí | USER | Racha actual/máxima + historial diario | RF-RACHA-003/005 |
-| 35 | Certificates | GET | `/certificates/{id}` | No* | — | Verifica certificado por ID (`CQ-PY-...`) | RF-CERT-006 |
-| 36 | Certificates | GET | `/certificates/{id}/pdf` | Sí | USER | Descarga PDF del certificado (solo titular) | RF-PDF-002/003 |
-| 37 | Certificates | POST | `/certificates/verify` | No | — | Verifica por QR payload | RF-CERT-004/006 |
-| 38 | Review | GET | `/review/recommended` | Sí | USER | Repaso priorizado (errores, bajo rendimiento, antigüedad) | RF-REP-001/002 |
-| 39 | Review | POST | `/review/attempt` | Sí | USER | Registra intento de repaso (no penaliza) | RF-REP-004 |
-| — | Admin | * | `/admin/*` CRUD | Sí | ADMIN | CRUD lenguajes/módulos/secciones/lecciones/preguntas, publicación, config umbrales/XP | RF-ADM-001–008 |
+| 7 | Auth | POST | `/auth/verify-email` | No (token) | — | Confirma email del usuario | RF-AUTH-005 |
+| 8 | Users | GET | `/users/me` | Sí | USER | Perfil consolidado del titular | RF-PROF-001, RF-USR-002 |
+| 9 | Users | PATCH | `/users/me` | Sí | USER | Actualiza datos de perfil / clave | RF-USR-002, RF-PROF-002 |
+| 10 | Users | DELETE | `/users/me` | Sí | USER | Solicita anonimización / baja | RF-USR-003 |
+| 11 | Users | GET | `/users/me/progress` | Sí | USER | Progreso agregado por lenguaje / módulo | RF-PROG-002, RF-PROG-005 |
+| 12 | Users | GET | `/users/me/achievements` | Sí | USER | Logros desbloqueados y en progreso | RF-LOGRO-002/003 |
+| 13 | Users | GET | `/users/me/certificates` | Sí | USER | Certificados emitidos al titular | RF-PROF-005, RF-CERT-001 |
+| 14 | Users | GET | `/users/me/stats` | Sí | USER | Estadísticas globales de aprendizaje | RF-PROF-006 |
+| 15 | Languages | GET | `/languages` | No* | — | Lista de lenguajes (Lua y Python disponibles) | RF-LANG-001 |
+| 16 | Languages | GET | `/languages/{id}` | No* | — | Detalle de un lenguaje de programación | RF-LANG-001 |
+| 17 | Languages | GET | `/languages/{id}/modules` | Sí | USER | Lista de módulos con progreso y candados | RF-MOD-001, RF-RUTA-002 |
+| 18 | Languages | GET | `/languages/{id}/roadmap` | Sí | USER | **Roadmap interactivo:** módulos, candados y estrellas | RF-CANDADO-001, RF-ESTRELLA-001 |
+| 19 | Modules | GET | `/modules/{id}` | Sí | USER | Detalle de módulo (objetivo, candado, % estrellas) | RF-MOD-002/003/005 |
+| 20 | Modules | GET | `/modules/{id}/sections` | Sí | USER | Secciones del módulo con candados y ⭐ | RF-SEC-001, RF-CANDADO-002 |
+| 21 | Sections | GET | `/sections/{id}` | Sí | USER | Detalle de sección con micro-lecciones y ⭐ obtenidas | RF-SEC-002/004, RF-ESTRELLA-004 |
+| 22 | Sections | POST | `/sections/{id}/complete` | Sí | USER | **Cierre y calificación de sección (1–3 ⭐)** | RF-SEC-003, RF-ESTRELLA-001–005 |
+| 23 | Sections | POST | `/sections/{id}/review-queue/answer` | Sí | USER | Responde ejercicio de la ronda de repaso intra-sección | RF-REP-002, RF-ESTRELLA-002 |
+| 24 | Lessons | GET | `/lessons/{id}` | Sí | USER | Detalle de lección con teoría, código y ejercicios | RF-LEC-001/004 |
+| 25 | Lessons | POST | `/lessons/{id}/complete` | Sí | USER | Marca micro-lección completada | RF-LEC-003, RF-PROG-001 |
+| 26 | Lessons | POST | `/lessons/{id}/answer` | Sí | USER | **Envía respuesta de ejercicio:** feedback anti-spoilers | RF-PREG-004/005, RF-CUADERNO-001 |
+| 27 | Notebook | GET | `/notebook/mistakes` | Sí | USER | **Cuaderno de errores:** lista ejercicios pendientes | RF-CUADERNO-001–004 |
+| 28 | Notebook | POST | `/notebook/mistakes/{question_id}/resolve` | Sí | USER | **Remediación en cuaderno:** valida solución (+5 XP) | RF-CUADERNO-005/006 |
+| 29 | Levels | POST | `/users/me/level` | Sí | USER | Declaración de nivel inicial | RF-LVL-001/002 |
+| 30 | Diagnostics | POST | `/diagnostics` | Sí | USER | Inicia diagnóstico por lenguaje | RF-DIAG-001 |
+| 31 | Diagnostics | POST | `/diagnostics/{id}/attempt` | Sí | USER | Envía intento de diagnóstico (evaluación y entrada) | RF-DIAG-002/003 |
+| 32 | Quizzes | GET | `/quizzes/{id}` | Sí | USER | Metadatos y composición del quiz | RF-QUIZ-001 |
+| 33 | Quizzes | POST | `/quiz/{id}/attempt` | Sí | USER | Envía intento de quiz (umbral 70%) | RF-QUIZ-002/003/006 |
+| 34 | Quizzes | GET | `/quiz/{id}/attempts` | Sí | USER | Historial de intentos de quiz | RF-QUIZ-005, RF-EVAL-003 |
+| 35 | Exams | GET | `/exams/{id}` | Sí | USER | Metadatos y composición del examen final | RF-EXAM-001/002 |
+| 36 | Exams | POST | `/exam/{id}/attempt` | Sí | USER | **Envía intento de examen (umbral 80%):** maestría | RF-EXAM-003/004/005 |
+| 37 | Exams | GET | `/exam/{id}/attempts` | Sí | USER | Historial de intentos de examen | RF-EXAM-005, RF-EVAL-003 |
+| 38 | Progress | GET | `/progress` | Sí | USER | Historial filtrable de lecciones/quizzes/exámenes | RF-PROG-005 |
+| 39 | Progress | GET | `/progress/streak` | Sí | USER | Racha actual / récord / congelamientos | RF-RACHA-003/005 |
+| 40 | Certificates | GET | `/certificates/{id}` | No* | — | Verificación pública de certificado (`KODA-LUA-...`) | RF-CERT-006 |
+| 41 | Certificates | GET | `/certificates/{id}/pdf` | Sí | USER | Descarga PDF del certificado (solo titular) | RF-PDF-002/003 |
+| 42 | Certificates | POST | `/certificates/verify` | No | — | Verificación pública por código o QR | RF-CERT-004/006 |
+| 43 | Review | GET | `/review/recommended` | Sí | USER | Sesión de repaso inteligente recomendada | RF-REP-001/002 |
+| 44 | Review | POST | `/review/attempt` | Sí | USER | Envía intento de repaso (no penaliza) | RF-REP-004 |
+| — | Admin | * | `/admin/*` | Sí | ADMIN | CRUD completo, validación, publicación y métricas | RF-ADM-001–009 |
 
-\* Lectura pública limitada; detalle de progreso/attemps siempre autenticado. Verificación de certificado es pública pero no expone PII (`RF-CERT-006`, `RNF-037`).
-
-**OpenAPI conceptual — esqueleto `openapi.yaml`:**
-```yaml
-openapi: 3.0.3
-info:
-  title: Duolingo de Programación API
-  version: 1.0.0
-  description: Plataforma educativa gamificada — MVP Python
-servers:
-  - url: https://api.duolingo-programacion.com/api/v1
-paths:
-  /auth/register:
-    post:
-      summary: Registro
-      requestBody: { $ref: '#/components/schemas/RegisterRequest' }
-      responses:
-        '201': { $ref: '#/components/responses/RegisterResponse' }
-        '400': { $ref: '#/components/responses/ValidationError' }
-        '409': { $ref: '#/components/responses/Conflict' }
-  # ... resto de paths según tabla
-components:
-  securitySchemes:
-    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
-  schemas:
-    Error: { $ref: '#/components/schemas/ErrorEnvelope' }
-```
+\* Endpoints de lectura pública o verificación sin autenticación. No exponen datos personales sensibles (PII).
 
 ---
 
@@ -260,144 +207,214 @@ components:
   "name": "Brandon",
   "email": "brandon@example.com",
   "role": "user",
-  "avatar_url": "https://cdn.example.com/avatars/b.png",
+  "avatar_url": "https://cdn.koda.app/avatars/koda.png",
   "email_verified": true,
   "is_premium": false,
-  "level": 12,
-  "xp_total": 1240,
-  "created_at": "2026-08-29T10:00:00-05:00"
+  "level": 3,
+  "xp_total": 450,
+  "created_at": "2026-09-01T10:00:00-05:00"
 }
 ```
 
 ### 6.2 Language
 ```json
 {
-  "id": "py",
-  "code": "PY",
-  "name": "Python",
-  "description": "De fundamentos a POO y proyecto final.",
+  "id": "lua",
+  "code": "LUA",
+  "name": "Lua",
+  "description": "Aprende Lua desde cero con micro-lecciones, Koda y proyectos de videojuegos.",
   "status": "available",
   "order": 1,
-  "modules_count": 12
+  "modules_count": 12,
+  "total_sections_count": 113,
+  "total_stars_possible": 339
 }
 ```
 
-### 6.3 Module
+### 6.3 Module (con Candados y Estrellas)
 ```json
 {
-  "id": "a1b2c3d4-...",
-  "language_id": "py",
-  "title": "Variables y tipos de datos",
-  "objective": "Comprender qué es una variable y sus tipos.",
-  "order": 2,
+  "id": "mod-lua-01",
+  "language_id": "lua",
+  "title": "Fundamentos de Lua",
+  "objective": "Comprender la sintaxis básica, print, comentarios y ejecución.",
+  "position": 1,
   "status": "in_progress",
-  "sections": [],
-  "requirements": { "requires_module_id": "fundamentos-id" },
-  "evaluations": { "quiz_id": "qz-...", "exam_id": "ex-..." },
-  "progress": { "completed_sections": 2, "total_sections": 5, "percent": 40 },
-  "dates": { "started_at": "2026-08-28T09:00:00-05:00", "last_activity_at": "2026-08-29T14:00:00-05:00" }
+  "is_unlocked": true,
+  "unlocked_at": "2026-09-01T10:00:00-05:00",
+  "mastered_at": null,
+  "min_stars_percentage": 80,
+  "stars_total_possible": 27,
+  "stars_earned": 22,
+  "stars_percentage": 81.48,
+  "sections_count": 9,
+  "completed_sections_count": 8,
+  "requirements": {
+    "requires_module_id": null,
+    "min_stars_percentage_required": 80,
+    "requires_exam_passed": false
+  },
+  "evaluations": {
+    "quiz_id": "qz-lua-01",
+    "exam_id": "ex-lua-01"
+  }
 }
 ```
 
-### 6.4 Question (polimórfica por `type`)
+### 6.4 Section y Calificación en Estrellas (`user_section_stars`)
 ```json
 {
-  "id": "q-001",
+  "id": "sec-lua-01-03",
+  "module_id": "mod-lua-01",
+  "language_id": "lua",
+  "title": "Tu primer print",
+  "position": 3,
+  "section_type": "example",
+  "is_unlocked": true,
+  "stars_available": 3,
+  "user_stars": {
+    "stars_earned": 3,
+    "max_stars_earned": 3,
+    "first_attempt_errors": 0,
+    "remedied_in_review": 0,
+    "attempt_count": 1,
+    "completed_at": "2026-09-02T14:15:00-05:00"
+  },
+  "lessons_count": 10
+}
+```
+
+### 6.5 Question (Polimórfica según tipo `15`)
+```json
+{
+  "id": "q-lua-01-03-01",
+  "section_id": "sec-lua-01-03",
   "type": "multiple_choice",
   "difficulty": "easy",
-  "category": "variables",
-  "prompt": "¿Qué imprime `x = 5; print(x + 5)`?",
+  "concept_id": "lua-print-string",
+  "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
+  "code_snippet": null,
   "options": [
-    { "id": "a", "text": "5" },
-    { "id": "b", "text": "10" },
-    { "id": "c", "text": "55" },
-    { "id": "d", "text": "Error" }
+    { "id": "a", "text": "print(\"Hola\")" },
+    { "id": "b", "text": "show(\"Hola\")" },
+    { "id": "c", "text": "escribir(\"Hola\")" },
+    { "id": "d", "text": "display(\"Hola\")" }
   ],
-  "explanation": "x vale 5; x+5 = 10.",
-  "points": 10
+  "points": 5
 }
 ```
 
-### 6.5 Attempt (quiz/examen/diagnóstico)
+### 6.6 LessonAnswerFeedback (Anti-Spoilers)
 ```json
 {
-  "id": "att-001",
-  "user_id": "0f8a...",
-  "quiz_id": "qz-...",
-  "score": 85,
-  "percentage": 85,
-  "passed": true,
-  "threshold_applied": 70,
-  "content_version": "2026-08-29.1",
-  "details": [
-    { "question_id": "q-001", "correct": true, "points_awarded": 10 }
-  ],
-  "created_at": "2026-08-29T15:00:00-05:00"
+  "is_correct": false,
+  "question_id": "q-lua-01-03-01",
+  "explanation": "En Lua utilizamos la función print(...) para enviar texto a la consola.",
+  "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Lua.",
+  "added_to_review_queue": true,
+  "added_to_mistakes_notebook": true
 }
 ```
 
-### 6.6 Progress agregado
+### 6.7 UserMistakesNotebookItem (Cuaderno de Errores)
 ```json
 {
-  "user_id": "0f8a...",
-  "languages": [
+  "id": "mstk-0f8a-001",
+  "question_id": "q-lua-01-03-01",
+  "module_id": "mod-lua-01",
+  "language_id": "lua",
+  "concept_id": "lua-print-string",
+  "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
+  "type": "multiple_choice",
+  "options": [
+    { "id": "a", "text": "print(\"Hola\")" },
+    { "id": "b", "text": "show(\"Hola\")" },
+    { "id": "c", "text": "escribir(\"Hola\")" },
+    { "id": "d", "text": "display(\"Hola\")" }
+  ],
+  "user_last_answer": { "selected_option_id": "b" },
+  "error_count": 2,
+  "last_failed_at": "2026-09-02T14:10:00-05:00",
+  "is_resolved": false,
+  "resolved_at": null
+}
+```
+
+### 6.8 Roadmap Completo
+```json
+{
+  "language_id": "lua",
+  "language_name": "Lua",
+  "total_stars_earned": 45,
+  "total_stars_possible": 339,
+  "global_percentage": 13.27,
+  "modules": [
     {
-      "language_id": "py",
-      "percent": 85,
-      "current_module_id": "mod-09",
-      "current_section_id": "sec-03",
-      "current_lesson_id": "les-12",
-      "modules_completed": 7,
-      "modules_total": 12
+      "id": "mod-lua-01",
+      "position": 1,
+      "title": "Fundamentos de Lua",
+      "status": "passed",
+      "is_unlocked": true,
+      "stars_earned": 26,
+      "stars_total_possible": 27,
+      "stars_percentage": 96.30,
+      "min_stars_percentage": 80,
+      "can_unlock_next": true,
+      "sections": [
+        { "id": "sec-01", "position": 1, "is_unlocked": true, "stars_earned": 3, "max_stars_earned": 3, "status": "completed" },
+        { "id": "sec-02", "position": 2, "is_unlocked": true, "stars_earned": 3, "max_stars_earned": 3, "status": "completed" },
+        { "id": "sec-09", "position": 9, "is_unlocked": true, "stars_earned": 2, "max_stars_earned": 2, "status": "completed" }
+      ]
+    },
+    {
+      "id": "mod-lua-02",
+      "position": 2,
+      "title": "Variables y tipos de datos",
+      "status": "in_progress",
+      "is_unlocked": true,
+      "stars_earned": 19,
+      "stars_total_possible": 30,
+      "stars_percentage": 63.33,
+      "min_stars_percentage": 80,
+      "can_unlock_next": false,
+      "sections": [
+        { "id": "sec-01", "position": 1, "is_unlocked": true, "stars_earned": 3, "max_stars_earned": 3, "status": "completed" },
+        { "id": "sec-07", "position": 7, "is_unlocked": true, "stars_earned": 0, "max_stars_earned": 0, "status": "in_progress" },
+        { "id": "sec-08", "position": 8, "is_unlocked": false, "stars_earned": 0, "max_stars_earned": 0, "status": "locked" }
+      ]
+    },
+    {
+      "id": "mod-lua-03",
+      "position": 3,
+      "title": "Operadores",
+      "status": "not_started",
+      "is_unlocked": false,
+      "stars_earned": 0,
+      "stars_total_possible": 27,
+      "stars_percentage": 0.00,
+      "min_stars_percentage": 80,
+      "can_unlock_next": false,
+      "sections": []
     }
-  ],
-  "global": { "lessons_completed": 54, "questions_answered": 312, "correct": 241, "incorrect": 71 }
-}
-```
-
-### 6.7 Achievement / Certificate
-```json
-// Achievement
-{ "id": "FIRST_CODE", "name": "FIRST CODE", "description": "Escribir el primer código", "unlocked_at": "2026-08-29T11:00:00-05:00", "icon_url": "https://cdn.example.com/ach/first_code.svg" }
-
-// Certificate
-{
-  "id": "CQ-PY-000001",
-  "user_id": "0f8a...",
-  "language_id": "py",
-  "language_name": "Python",
-  "holder_name": "Brandon Pérez",
-  "document_number": "CC 12345678",
-  "issued_at": "2026-08-29T16:00:00-05:00",
-  "status": "valid",
-  "qr_payload": "https://app.duolingo-programacion.com/verify/CQ-PY-000001",
-  "pdf_url": "/api/v1/certificates/CQ-PY-000001/pdf"
+  ]
 }
 ```
 
 ---
 
-## 7. Detalle por endpoint obligatorio y críticos
+## 7. Detalle de endpoints clave
 
 ### 7.1 `POST /auth/register` — Registro
 
-- **Auth:** No · **Rate limit:** Sí (IP)
-- **RF:** RF-AUTH-001, RF-USR-001 · **US:** US-001
-
-**Parámetros body:**
-
-| Campo | Tipo | Requerido | Validación |
-|---|---|---|---|
-| `name` | string | Sí | 2–50 chars, sin solo espacios |
-| `email` | string(email) | Sí | formato email, único (case-insensitive) |
-| `password` | string | Sí | ≥8 chars, ≥1 mayúscula, ≥1 número, ≥1 símbolo (OWASP) |
+- **Auth:** No · **Idempotencia:** No
+- **RF:** RF-AUTH-001, RF-USR-001 · **RNF:** RNF-008 (Argon2id/bcrypt)
 
 **Request:**
 ```json
 {
-  "name": "Brandon",
+  "name": "Brandon Pérez",
   "email": "brandon@example.com",
-  "password": "S3gura!2026"
+  "password": "PasswordSeguro!2026"
 }
 ```
 
@@ -405,37 +422,33 @@ components:
 ```json
 {
   "data": {
-    "user": { "id": "0f8a...", "name": "Brandon", "email": "brandon@example.com", "email_verified": false },
-    "access_token": "eyJhbGciOi...",
-    "refresh_token": "opaque-...",
-    "expires_in": 900
-  },
-  "meta": { "request_id": "b3e1a...", "timestamp": "2026-08-29T15:04:05-05:00" }
+    "user": {
+      "id": "0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f70",
+      "name": "Brandon Pérez",
+      "email": "brandon@example.com",
+      "role": "user",
+      "email_verified": false
+    },
+    "tokens": {
+      "access_token": "eyJhbGciOi...",
+      "refresh_token": "7a8b9c...",
+      "expires_in": 900
+    }
+  }
 }
 ```
-
-**Errores:**
-
-| HTTP | `code` | Causa |
-|---|---|---|
-| 400 | `VALIDATION_ERROR` | Email/contraseña inválidos |
-| 409 | `EMAIL_TAKEN` | Email ya existe (mensaje genérico opcional `RNF-041`: no revela existencia si se prefiere 400) |
-| 429 | `RATE_LIMITED` | Demasiados registros desde IP |
-
-> Nota: `409` solo si la política decide revelar; alternativa es `400` genérico sin distinguir.
 
 ---
 
 ### 7.2 `POST /auth/login` — Inicio de sesión
 
-- **Auth:** No · **Rate limit:** Estricto (`RF-AUTH-006`)
-- **RF:** RF-AUTH-002, RF-AUTH-006/007 · **US:** US-002
+- **Auth:** No · **RF:** RF-AUTH-002, RF-AUTH-006
 
 **Request:**
 ```json
 {
   "email": "brandon@example.com",
-  "password": "S3gura!2026"
+  "password": "PasswordSeguro!2026"
 }
 ```
 
@@ -443,461 +456,351 @@ components:
 ```json
 {
   "data": {
-    "user": { "id": "0f8a...", "name": "Brandon", "email_verified": true, "is_premium": false },
-    "access_token": "eyJhbGciOi...",
-    "refresh_token": "opaque-...",
-    "expires_in": 900
+    "user": {
+      "id": "0f8a1e3a-4b2c-4d9e-9f1a-2b3c4d5e6f70",
+      "name": "Brandon Pérez",
+      "role": "user",
+      "is_premium": false,
+      "level": 3,
+      "xp_total": 450
+    },
+    "tokens": {
+      "access_token": "eyJhbGciOi...",
+      "refresh_token": "7a8b9c...",
+      "expires_in": 900
+    }
   }
 }
 ```
 
-**Errores:**
+---
 
-| HTTP | `code` | Mensaje |
-|---|---|---|
-| 400 | `VALIDATION_ERROR` | Campos faltantes |
-| 401 | `INVALID_CREDENTIALS` | Mensaje genérico: "Credenciales inválidas." (no revela si email existe) |
-| 429 | `RATE_LIMITED` | "Demasiados intentos. Reintenta en 60 s." + `Retry-After: 60` |
+### 7.3 `GET /languages` — Listar lenguajes de programación
 
-**Cabeceras en 429:**
-```
-Retry-After: 60
-RateLimit-Remaining: 0
+- **Auth:** No (público) · **Paginación:** Sí · **RF:** RF-LANG-001
+
+**Response `200 OK`:**
+```json
+{
+  "data": [
+    {
+      "id": "lua",
+      "code": "LUA",
+      "name": "Lua",
+      "description": "Ruta interactiva de 12 módulos y micro-lecciones con Koda y proyectos de videojuegos.",
+      "status": "available",
+      "order": 1,
+      "modules_count": 12,
+      "total_stars_possible": 339
+    },
+    {
+      "id": "py",
+      "code": "PY",
+      "name": "Python",
+      "description": "Ruta interactiva de fundamentos a POO y proyecto final.",
+      "status": "available",
+      "order": 2,
+      "modules_count": 12,
+      "total_stars_possible": 360
+    }
+  ],
+  "pagination": { "page": 1, "per_page": 20, "total_items": 2, "total_pages": 1 }
+}
 ```
 
 ---
 
-### 7.3 `GET /languages` — Listar lenguajes
+### 7.4 `GET /languages/{id}/roadmap` — Roadmap Interactivo Consolidado
 
-- **Auth:** No (público) · **Paginación:** Sí
-- **RF:** RF-LANG-001 · **US:** US-013
+- **Auth:** Sí (`USER`) · **RF:** RF-CANDADO-001–004, RF-ESTRELLA-001–005, RF-RUTA-001/002
+
+**Path params:** `id` = `lua` | `py` | UUID
+
+**Response `200 OK`:**
+Retorna el schema detallado en §6.8 con todos los módulos, candados, estrellas acumuladas y secciones intra-módulo.
+
+---
+
+### 7.5 `GET /sections/{id}` — Detalle de sección y micro-lecciones
+
+- **Auth:** Sí (`USER`) · **RF:** RF-SEC-002/004, RF-ESTRELLA-004
+
+**Response `200 OK`:**
+```json
+{
+  "data": {
+    "id": "sec-lua-01-03",
+    "module_id": "mod-lua-01",
+    "language_id": "lua",
+    "title": "Tu primer print",
+    "position": 3,
+    "is_unlocked": true,
+    "stars_available": 3,
+    "user_stars": {
+      "stars_earned": 3,
+      "max_stars_earned": 3,
+      "first_attempt_errors": 0,
+      "attempt_count": 1
+    },
+    "lessons": [
+      { "id": "les-lua-01-03-01", "position": 1, "title": "¿Qué hace print?", "concept_id": "lua-print-intro", "status": "completed" },
+      { "id": "les-lua-01-03-02", "position": 2, "title": "Imprimir texto entre comillas", "concept_id": "lua-print-string", "status": "completed" }
+    ]
+  }
+}
+```
+
+---
+
+### 7.6 `POST /lessons/{id}/answer` — Enviar respuesta de ejercicio (Feedback Anti-Spoilers)
+
+- **Auth:** Sí · **Idempotencia:** Recomendada (`Idempotency-Key`)
+- **RF:** RF-PREG-004/005, RF-CUADERNO-001 · **RNF:** RNF-010 (<1 s)
+
+**Request:**
+```json
+{
+  "question_id": "q-lua-01-03-01",
+  "selected_option_id": "b",
+  "time_spent_seconds": 12
+}
+```
+
+**Response `200 OK` (Respuesta Incorrecta):**
+```json
+{
+  "data": {
+    "is_correct": false,
+    "question_id": "q-lua-01-03-01",
+    "explanation": "En Lua utilizamos la función print(...) para enviar texto a la consola.",
+    "hint": "Recuerda que print significa 'imprimir' en inglés y es la palabra estándar en Lua.",
+    "added_to_review_queue": true,
+    "added_to_mistakes_notebook": true,
+    "first_attempt_error_registered": true
+  }
+}
+```
+
+**Response `200 OK` (Respuesta Correcta):**
+```json
+{
+  "data": {
+    "is_correct": true,
+    "question_id": "q-lua-01-03-01",
+    "explanation": "¡Exacto! print(\"Hola\") muestra el texto en la consola de salida.",
+    "hint": null,
+    "xp_awarded": 5
+  }
+}
+```
+
+---
+
+### 7.7 `POST /sections/{id}/complete` — Cierre y Calificación en Estrellas (1 a 3 ⭐)
+
+- **Auth:** Sí · **Idempotencia:** Sí (`Idempotency-Key` obligatorio)
+- **RF:** RF-SEC-003, RF-ESTRELLA-001–005, RF-CANDADO-002/003, RF-XP-001
+
+**Request:**
+```json
+{
+  "time_spent_seconds": 240,
+  "first_attempt_errors": 0,
+  "remedied_in_review": 0
+}
+```
+
+**Response `200 OK`:**
+```json
+{
+  "data": {
+    "section_id": "sec-lua-01-03",
+    "module_id": "mod-lua-01",
+    "language_id": "lua",
+    "status": "completed",
+    "stars": {
+      "stars_earned": 3,
+      "max_stars_earned": 3,
+      "is_new_high_score": true,
+      "first_attempt_errors": 0,
+      "remedied_in_review": 0,
+      "attempt_count": 1
+    },
+    "rewards": {
+      "xp_awarded": 10,
+      "xp_total": 460,
+      "level": 3,
+      "level_up": false,
+      "streak": { "current": 3, "longest": 3 }
+    },
+    "unlocks": {
+      "unlocked_next_section_id": "sec-lua-01-04",
+      "module_unlocked_next": false,
+      "module_stars_percentage": 33.33,
+      "module_stars_earned": 9,
+      "module_stars_total_possible": 27
+    },
+    "ads": {
+      "show_interstitial": false,
+      "reason": "free_user_completed_section"
+    }
+  }
+}
+```
+
+---
+
+### 7.8 `GET /notebook/mistakes` — Listar Cuaderno de Errores Persistente
+
+- **Auth:** Sí (`USER`) · **RF:** RF-CUADERNO-001–004
 
 **Query params:**
 
 | Param | Tipo | Default | Descripción |
 |---|---|---|---|
-| `page` | int ≥1 | 1 | — |
-| `per_page` | int 1–100 | 20 | `RNF-003` |
-| `status` | enum | — | `available`, `coming_soon` |
-
-**Response `200 OK`:**
-```json
-{
-  "data": [
-    { "id": "py", "code": "PY", "name": "Python", "status": "available", "order": 1, "modules_count": 12, "description": "De fundamentos a proyecto final." },
-    { "id": "lua", "code": "LUA", "name": "Lua", "status": "coming_soon", "order": 2, "modules_count": 0 }
-  ],
-  "pagination": { "page": 1, "per_page": 20, "total_items": 9, "total_pages": 1 }
-}
-```
-
----
-
-### 7.4 `GET /languages/{id}/modules` — Módulos de un lenguaje
-
-- **Auth:** Sí (`USER`) · **Paginación:** No (12 módulos MVP, orden canónico)
-- **RF:** RF-MOD-001, RF-RUTA-002, RF-LANG-002 · **US:** US-018, US-023
-
-**Path params:** `id` = `py` | UUID
+| `language_id` | string | `lua` | Filtro por lenguaje |
+| `module_id` | string | null | Filtro por módulo específico |
+| `is_resolved` | boolean | `false` | `false` para errores pendientes, `true` para remediados |
+| `page` | int | 1 | Número de página |
+| `per_page` | int | 20 | Ítems por página |
 
 **Response `200 OK`:**
 ```json
 {
   "data": [
     {
-      "id": "mod-fund",
-      "language_id": "py",
-      "title": "Fundamentos",
-      "order": 1,
-      "status": "passed",
-      "objective": "Entender qué es programar.",
-      "sections_count": 5,
-      "progress": { "percent": 100, "completed_sections": 5, "total_sections": 5 },
-      "evaluations": { "quiz_id": "qz-fund", "exam_id": "ex-fund" }
-    },
-    {
-      "id": "mod-vars",
-      "language_id": "py",
-      "title": "Variables y tipos de datos",
-      "order": 2,
-      "status": "in_progress",
-      "progress": { "percent": 40, "completed_sections": 2, "total_sections": 5 }
+      "id": "mstk-01",
+      "question_id": "q-lua-01-03-01",
+      "module_id": "mod-lua-01",
+      "language_id": "lua",
+      "concept_id": "lua-print-string",
+      "prompt": "¿Qué instrucción muestra un mensaje de texto en la pantalla?",
+      "type": "multiple_choice",
+      "options": [
+        { "id": "a", "text": "print(\"Hola\")" },
+        { "id": "b", "text": "show(\"Hola\")" },
+        { "id": "c", "text": "escribir(\"Hola\")" },
+        { "id": "d", "text": "display(\"Hola\")" }
+      ],
+      "error_count": 2,
+      "last_failed_at": "2026-09-02T14:10:00-05:00",
+      "is_resolved": false
     }
   ],
-  "meta": { "language_id": "py", "total_modules": 12 }
+  "pagination": { "page": 1, "per_page": 20, "total_items": 1, "total_pages": 1 }
 }
 ```
 
-**Errores:**
-
-| HTTP | `code` | Causa |
-|---|---|---|
-| 401 | `UNAUTHORIZED` | Sin token |
-| 404 | `NOT_FOUND` | `language_id` inexistente |
-| 422 | `LANGUAGE_NOT_AVAILABLE` | Lenguaje en `coming_soon` y usuario no es admin |
-
 ---
 
-### 7.5 `GET /modules/{id}` — Detalle de módulo
+### 7.9 `POST /notebook/mistakes/{question_id}/resolve` — Remediar Error en Cuaderno (+5 XP)
 
-- **Auth:** Sí · **RF:** RF-MOD-002/003/005 · **US:** US-023
+- **Auth:** Sí · **Idempotencia:** Sí (`Idempotency-Key` obligatorio)
+- **RF:** RF-CUADERNO-005/006, RF-XP-001
+
+**Request:**
+```json
+{
+  "selected_option_id": "a",
+  "time_spent_seconds": 15
+}
+```
 
 **Response `200 OK`:**
 ```json
 {
   "data": {
-    "id": "mod-vars",
-    "language_id": "py",
-    "title": "Variables y tipos de datos",
-    "objective": "Comprender variables, asignación y tipos.",
-    "order": 2,
-    "status": "in_progress",
-    "requirements": { "requires_module_id": "mod-fund", "requires_exam_passed": true },
-    "sections": [
-      { "id": "sec-01", "title": "¿Qué es una variable?", "order": 1, "status": "completed", "type": "theory" },
-      { "id": "sec-02", "title": "Declaración y asignación", "order": 2, "status": "completed", "type": "example" },
-      { "id": "sec-03", "title": "Tipos de datos", "order": 3, "status": "in_progress", "type": "exercises" },
-      { "id": "sec-04", "title": "Modificación de variables", "order": 4, "status": "locked", "type": "exercises" },
-      { "id": "sec-05", "title": "Ejercicios", "order": 5, "status": "locked", "type": "quiz" }
-    ],
-    "evaluations": {
-      "quiz": { "id": "qz-vars", "threshold": 70, "questions_count": 10 },
-      "exam": { "id": "ex-vars", "threshold": 80, "questions_count": 20 }
-    },
-    "dates": { "started_at": "2026-08-29T10:00:00-05:00", "last_activity_at": "2026-08-29T14:30:00-05:00" }
-  }
-}
-```
-
----
-
-### 7.6 `POST /lessons/{id}/complete` — Marcar lección como completada
-
-- **Auth:** Sí · **Idempotencia:** Sí (`Idempotency-Key` recomendado)
-- **RF:** RF-SEC-003, RF-LEC-003, RF-PROG-001, RF-XP-001/005 · **US:** US-025, US-026
-
-> Precondición: todos los ejercicios/preguntas obligatorias de la lección ya fueron respondidos vía `POST /lessons/{id}/answer` y validados en servidor. Este endpoint solo consolida el avance y otorga XP de sección si aplica (`+10`).
-
-**Path:** `id` = lesson UUID
-
-**Request:** cuerpo vacío o:
-```json
-{
-  "time_spent_seconds": 180
-}
-```
-
-| Campo | Tipo | Descripción |
-|---|---|---|
-| `time_spent_seconds` | int ≥0 | Métrica interna para `26_ANALYTICS.md` (`RF-SEC-005`), no afecta XP en MVP |
-
-**Response `200 OK` (idempotente):**
-```json
-{
-  "data": {
-    "lesson_id": "les-12",
-    "section_id": "sec-03",
-    "module_id": "mod-vars",
-    "status": "completed",
-    "progress": { "section_percent": 60, "module_percent": 45 },
+    "question_id": "q-lua-01-03-01",
+    "is_correct": true,
+    "is_resolved": true,
+    "resolved_at": "2026-09-02T14:35:00-05:00",
     "rewards": {
-      "xp_awarded": 10,
-      "xp_total": 1250,
-      "level": 12,
-      "level_up": false,
-      "streak": { "current": 7, "longest": 7 }
+      "xp_awarded": 5,
+      "xp_total": 465,
+      "reason": "mistake_notebook_resolved"
     },
-    "next_lesson_id": "les-13",
-    "ads": { "show_interstitial": true, "reason": "free_user_between_sections" }
+    "explanation": "¡Excelente remediación! Dominaste el concepto 'lua-print-string'."
   }
 }
 ```
 
-**Errores:**
-
-| HTTP | `code` | Causa |
-|---|---|---|
-| 401 | `UNAUTHORIZED` | — |
-| 404 | `NOT_FOUND` | Lección inexistente |
-| 409 | `ALREADY_COMPLETED` | Ya completada (idempotencia: se devuelve `200` con mismo `rewards` si `Idempotency-Key` coincide; `409` solo si reintento sin clave y lógica de negocio lo exige) |
-| 422 | `PREREQUISITE_NOT_MET` | Lección bloqueada o ejercicios obligatorios pendientes (`RF-LEC-004`) |
-
-**Reglas de negocio:**
-- XP solo se otorga una vez por lección (`RF-XP-005`, `RNF-042`). Reenvío con mismo `Idempotency-Key` no duplica.
-- `ads.show_interstitial` = `true` solo si `!is_premium` y se completó sección (`RF-ADS-001/002`).
-
 ---
 
-### 7.7 `POST /quiz/{id}/attempt` — Enviar intento de quiz
+### 7.10 `POST /quiz/{id}/attempt` — Enviar Intento de Quiz (Umbral 70%)
 
-- **Auth:** Sí · **Idempotencia:** Sí
-- **RF:** RF-QUIZ-002/003/006, RF-EVAL-001/002/003/006 · **RNF:** RNF-012 (<2 s) · **US:** US-033
-
-**Path:** `id` = quiz UUID
+- **Auth:** Sí · **Idempotencia:** Sí (`Idempotency-Key`) · **RF:** RF-QUIZ-002/003/006, RF-EVAL-001/002
 
 **Request:**
 ```json
 {
   "answers": [
-    { "question_id": "q-001", "option_id": "b" },
-    { "question_id": "q-002", "value": "True" },
-    { "question_id": "q-003", "code": "name" },
-    { "question_id": "q-004", "ordered_ids": ["l3", "l1", "l2"] }
+    { "question_id": "q-qz-01", "selected_option_id": "b" },
+    { "question_id": "q-qz-02", "selected_option_id": "a" }
   ],
-  "time_spent_seconds": 320
+  "time_spent_seconds": 180
 }
 ```
 
-| Campo | Tipo | Descripción |
-|---|---|---|
-| `answers` | array | Uno por pregunta del quiz; tipos según `RF-PREG-001` |
-| `time_spent_seconds` | int | Métrica, no afecta calificación |
-
-**Response `201 Created`:**
+**Response `200 OK`:**
 ```json
 {
   "data": {
     "attempt_id": "att-qz-001",
-    "quiz_id": "qz-vars",
-    "score": 85,
-    "percentage": 85,
+    "quiz_id": "qz-lua-01",
+    "score": 90,
+    "percentage": 90.00,
     "passed": true,
-    "threshold_applied": 70,
-    "content_version": "2026-08-29.1",
-    "rewards": { "xp_awarded": 25, "xp_total": 1275 },
+    "threshold_applied": 70.00,
+    "rewards": {
+      "xp_awarded": 25,
+      "xp_total": 490
+    },
     "details": [
-      { "question_id": "q-001", "correct": true, "correct_option_id": "b", "explanation": "x+5 = 10." },
-      { "question_id": "q-002", "correct": false, "correct_value": "False", "explanation": "Una variable..." }
-    ],
-    "next_step": "continue_to_next_section"
+      { "question_id": "q-qz-01", "is_correct": true, "points": 10 },
+      { "question_id": "q-qz-02", "is_correct": true, "points": 10 }
+    ]
   }
 }
 ```
 
-**Errores:**
-
-| HTTP | `code` | Causa |
-|---|---|---|
-| 400 | `VALIDATION_ERROR` | Faltan respuestas, formato inválido |
-| 401 | `UNAUTHORIZED` | — |
-| 404 | `NOT_FOUND` | Quiz no existe o no pertenece al módulo desbloqueado |
-| 409 | `ALREADY_ATTEMPTED` | `Idempotency-Key` duplicado con payload distinto (idempotencia `RNF-042`) |
-| 422 | `QUIZ_NOT_AVAILABLE` | Módulo bloqueado o quiz ya no es el vigente (versionado) |
-
-Revisión de errores sin revelar banco completo: `GET /quiz/{id}/attempts/{attempt_id}` devuelve solo preguntas evaluadas.
-
 ---
 
-### 7.8 `POST /exam/{id}/attempt` — Enviar intento de examen
+### 7.11 `POST /exam/{id}/attempt` — Enviar Intento de Examen (Umbral 80% y Desbloqueo)
 
-- **Auth:** Sí · **Idempotencia:** Sí
-- **RF:** RF-EXAM-001/002/003/004/005/007, RF-EVAL-* · **US:** US-036–039
+- **Auth:** Sí · **Idempotencia:** Sí (`Idempotency-Key`) · **RF:** RF-EXAM-003/004/005, RF-CANDADO-003
 
-> Aprobación ≥80% (`RF-EXAM-003`). Bloquea/desbloquea siguiente módulo (`RF-RUTA-004`, `RF-EXAM-004`). Reintentos ilimitados, desbloqueo exige **un** intento aprobado (`RF-EXAM-005`).
-
-**Request:** igual a quiz pero con `exam_id`:
+**Request:**
 ```json
 {
   "answers": [
-    { "question_id": "q-e01", "option_id": "c" },
-    { "question_id": "q-e02", "value": "10" }
-  ]
+    { "question_id": "q-ex-01", "selected_option_id": "c" },
+    { "question_id": "q-ex-20", "selected_option_id": "a" }
+  ],
+  "time_spent_seconds": 600
 }
 ```
 
-**Response `201 Created` — Aprobado:**
+**Response `200 OK`:**
 ```json
 {
   "data": {
     "attempt_id": "att-ex-001",
-    "exam_id": "ex-vars",
-    "percentage": 82,
+    "exam_id": "ex-lua-01",
+    "module_id": "mod-lua-01",
+    "score": 85,
+    "percentage": 85.00,
     "passed": true,
-    "threshold_applied": 80,
-    "module_status": "passed",
-    "rewards": { "xp_awarded": 100, "xp_total": 1375, "module_bonus_xp": 150 },
-    "breakdown": {
-      "by_type": {
-        "multiple_choice": { "correct": 4, "total": 5 },
-        "predict_output": { "correct": 4, "total": 5 },
-        "complete_code": { "correct": 2, "total": 3 }
-      },
-      "weak_concepts": ["manejo de errores", "tipos inmutables"]
-    },
-    "next_module_id": "mod-ops",
-    "certificate_eligible": false
-  }
-}
-```
-
-**Response `201 Created` — Reprobado:**
-```json
-{
-  "data": {
-    "attempt_id": "att-ex-002",
-    "percentage": 65,
-    "passed": false,
-    "module_status": "failed",
-    "next_step": "review_errors_and_retry",
-    "review_url": "/api/v1/exam/ex-vars/attempts/att-ex-002/review"
-  }
-}
-```
-
-**Errores:** igual a quiz + `422 EXAM_PREREQUISITE_NOT_MET` si no se completaron secciones previas.
-
----
-
-### 7.9 `GET /users/me/progress` — Progreso del titular
-
-- **Auth:** Sí · **RF:** RF-PROG-002, RF-PROG-005, RF-PROF-003/006 · **US:** US-008, US-011
-
-**Query params:**
-
-| Param | Tipo | Descripción |
-|---|---|---|
-| `language_id` | string | Filtra por lenguaje (ej. `py`). Sin param → todos |
-| `include` | string | `stats`, `streak`, `history` (comma-separated) |
-
-**Response `200 OK`:**
-```json
-{
-  "data": {
-    "user_id": "0f8a...",
-    "languages": [
-      {
-        "language_id": "py",
-        "language_name": "Python",
-        "percent": 58,
-        "current": { "module_id": "mod-vars", "section_id": "sec-03", "lesson_id": "les-12" },
-        "modules": [
-          { "id": "mod-fund", "status": "passed", "percent": 100 },
-          { "id": "mod-vars", "status": "in_progress", "percent": 40 }
-        ],
-        "stats": { "lessons_completed": 12, "questions_answered": 84, "correct": 61, "incorrect": 23 }
-      }
-    ],
-    "streak": { "current": 7, "longest": 12, "last_activity_at": "2026-08-29T14:30:00-05:00" },
-    "history": [
-      { "type": "lesson_completed", "lesson_id": "les-12", "at": "2026-08-29T14:30:00-05:00", "xp": 10 },
-      { "type": "quiz_attempt", "quiz_id": "qz-vars", "percentage": 85, "passed": true, "at": "2026-08-29T13:00:00-05:00" }
-    ]
-  },
-  "pagination": { "page": 1, "per_page": 20, "total_items": 42, "total_pages": 3 }
-}
-```
-
----
-
-### 7.10 `GET /users/me/achievements` — Logros
-
-- **Auth:** Sí · **RF:** RF-LOGRO-002/003, RF-PROF-004 · **US:** US-010, US-046–048
-
-**Response `200 OK`:**
-```json
-{
-  "data": {
-    "unlocked": [
-      { "id": "FIRST_CODE", "name": "FIRST CODE", "description": "Escribir el primer código", "unlocked_at": "2026-08-29T11:00:00-05:00", "icon_url": "https://cdn.example.com/ach/first_code.svg" },
-      { "id": "ON_FIRE", "name": "ON FIRE", "description": "Racha de 7 días", "unlocked_at": "2026-08-29T14:30:00-05:00" }
-    ],
-    "locked": [
-      { "id": "CODE_MASTER", "name": "CODE MASTER", "description": "Completar todos los módulos de un lenguaje", "progress": { "current": 7, "total": 12 } }
-    ],
-    "total_unlocked": 2,
-    "total_available": 12
-  }
-}
-```
-
-Regla `RF-LOGRO-005`: un logro se otorga una sola vez; reintentos no duplican.
-
----
-
-### 7.11 `GET /users/me/certificates` — Certificados del titular
-
-- **Auth:** Sí · **RF:** RF-CERT-001/002/003, RF-PROF-005 · **US:** US-054, US-060
-
-**Response `200 OK`:**
-```json
-{
-  "data": [
-    {
-      "id": "CQ-PY-000001",
-      "language_id": "py",
-      "language_name": "Python",
-      "status": "valid",
-      "issued_at": "2026-08-29T16:00:00-05:00",
-      "holder_name": "Brandon Pérez",
-      "pdf_url": "/api/v1/certificates/CQ-PY-000001/pdf",
-      "verify_url": "/api/v1/certificates/CQ-PY-000001"
+    "threshold_applied": 80.00,
+    "module_mastered": true,
+    "next_module_unlocked": true,
+    "unlocked_module_id": "mod-lua-02",
+    "rewards": {
+      "xp_awarded": 100,
+      "xp_total": 590
     }
-  ]
-}
-```
-
-**Errores:**
-
-| HTTP | `code` | Causa |
-|---|---|---|
-| 401 | `UNAUTHORIZED` | — |
-| 403 | `EMAIL_NOT_VERIFIED` | No verificado y sin certificados previos (`RF-AUTH-005`, `US-059`) — lista vacía con aviso, no 403 duro según UX; se documenta como `meta.warning` |
-
----
-
-### 7.12 Endpoints complementarios (resumen con ejemplos clave)
-
-#### `POST /auth/refresh`
-```json
-// Request: { "refresh_token": "opaque-..." }
-// Response 200: { "data": { "access_token": "eyJ...", "refresh_token": "opaque-new...", "expires_in": 900 } }
-// 401 INVALID_REFRESH si rotado/expirado
-```
-
-#### `GET /users/me`
-```json
-{
-  "data": {
-    "id": "0f8a...", "name": "Brandon", "email": "b@example.com",
-    "level": 12, "xp_total": 1375, "streak": { "current": 7, "longest": 12 },
-    "avatar_url": "https://...", "is_premium": false, "email_verified": true
   }
 }
 ```
-
-#### `PATCH /users/me`
-```json
-// Request: { "name": "Brandon P.", "current_password": "old", "new_password": "New!2026" }
-// Response 200: { "data": { "user": { "name": "Brandon P." } } }
-// 422 INVALID_CURRENT_PASSWORD si no coincide (RF-USR-002)
-```
-
-#### `POST /diagnostics/{id}/attempt`
-```json
-// Request: { "answers": [ { "question_id": "d-01", "option_id": "b" } ] }
-// Response 201: { "data": { "score": 72, "by_area": { "variables": 80, "condicionales": 60 }, "recommended_entry": { "module_id": "mod-ops", "section_id": "sec-01", "reason": "Dominas fundamentos pero fallas en condicionales." } } }
-```
-
-#### `GET /certificates/{id}` (verificación pública)
-```json
-// GET /certificates/CQ-PY-000001 → 200
-{
-  "data": {
-    "id": "CQ-PY-000001",
-    "status": "valid",
-    "language_name": "Python",
-    "holder_name": "B. P.",
-    "issued_at": "2026-08-29T16:00:00-05:00",
-    "holder_document_masked": "CC ***678"
-  }
-}
-// 404 CERTIFICATE_NOT_FOUND si ID no existe
-// 200 con status "obsolete" si invalidado por cambio de contenido (RF-CERT-005)
-```
-
-#### `GET /certificates/{id}/pdf`
-- **Auth:** Sí (solo titular, `RF-PDF-002`) → `200` con `Content-Type: application/pdf` y `Content-Disposition: attachment; filename="CQ-PY-000001.pdf"`
-- **Errores:** `401`, `403 NOT_CERTIFICATE_OWNER`, `404`
 
 ---
 
@@ -905,186 +808,132 @@ Regla `RF-LOGRO-005`: un logro se otorga una sola vez; reintentos no duplican.
 
 | Dominio | HTTP | `code` | Mensaje (es) | RF / RNF |
 |---|---|---|---|---|
-| Auth | 400 | `VALIDATION_ERROR` | Campos inválidos. | RF-AUTH-001 |
-| Auth | 401 | `INVALID_CREDENTIALS` | Credenciales inválidas. | RF-AUTH-002, RNF-041 |
-| Auth | 401 | `INVALID_REFRESH` | Refresh inválido o expirado. | RF-AUTH-007 |
-| Auth | 401 | `EMAIL_NOT_VERIFIED` | Verifica tu email para emitir certificado. | RF-AUTH-005 |
-| Auth | 409 | `EMAIL_TAKEN` | El email ya está registrado. | RF-AUTH-001 |
-| Auth | 422 | `WEAK_PASSWORD` | La contraseña no cumple fortaleza mínima. | RF-AUTH-001 |
-| Auth | 429 | `RATE_LIMITED` | Demasiados intentos. Reintenta en {s}s. | RF-AUTH-006 |
-| Users | 403 | `FORBIDDEN` | No tienes permiso para este recurso. | RF-USR-005, RNF-009 |
-| Users | 404 | `USER_NOT_FOUND` | Usuario no encontrado. | RF-USR-004 |
-| Levels | 422 | `LEVEL_LOCKED` | Nivel bloqueado tras iniciar aprendizaje; realiza re-diagnóstico. | RF-LVL-004 |
-| Diagnostics | 422 | `DIAGNOSTIC_ALREADY_VALIDATED` | Progreso ya validado por exámenes; diagnóstico no borra aprobaciones. | RF-DIAG-004 |
-| Languages | 422 | `LANGUAGE_NOT_AVAILABLE` | Lenguaje próximamente, sin acceso. | RF-LANG-001 |
-| Modules | 422 | `PREREQUISITE_NOT_MET` | Debes aprobar el examen del módulo anterior. | RF-RUTA-004, RF-EXAM-004 |
-| Lessons | 422 | `LESSON_LOCKED` | Lección bloqueada. Completa prerrequisitos. | RF-LEC-004 |
-| Lessons | 409 | `ALREADY_COMPLETED` | Lección ya completada (idempotencia). | RF-XP-005 |
-| Questions | 422 | `INVALID_ANSWER_TYPE` | Tipo de respuesta no corresponde al tipo de pregunta. | RF-PREG-001 |
-| Quiz/Exam | 400 | `INCOMPLETE_ANSWERS` | Faltan respuestas para preguntas obligatorias. | RF-QUIZ-002, RF-EXAM-001 |
-| Quiz/Exam | 422 | `THRESHOLD_NOT_CONFIGURED` | Umbral no configurado para este módulo. | RF-EVAL-005 |
-| Quiz/Exam | 409 | `IDEMPOTENCY_CONFLICT` | Mismo `Idempotency-Key` con payload distinto. | RNF-042 |
-| Progress | 404 | `PROGRESS_NOT_FOUND` | Sin progreso para el filtro indicado. | RF-PROG-002 |
-| Certificates | 403 | `NOT_CERTIFICATE_OWNER` | Solo el titular puede descargar el PDF. | RF-PDF-002 |
-| Certificates | 404 | `CERTIFICATE_NOT_FOUND` | Certificado no encontrado. | RF-CERT-006 |
-| Certificates | 422 | `CERTIFICATE_NOT_ELIGIBLE` | Debes aprobar todos los módulos y verificar email. | RF-CERT-001, RF-AUTH-005 |
-| Certificates | 410 | `CERTIFICATE_OBSOLETE` | Certificado obsoleto por cambio de contenido. Revalida. | RF-CERT-005 |
-| Admin | 403 | `ADMIN_REQUIRED` | Requiere rol administrador. | RF-ADM-007 |
-| Admin | 422 | `CONTENT_VALIDATION_FAILED` | IDs duplicados, ciclo en prerrequisitos o referencia rota. | RF-ADM-006 |
+| **Auth** | 400 | `VALIDATION_ERROR` | Campos de registro o credenciales con formato inválido. | RF-AUTH-001 |
+| **Auth** | 401 | `INVALID_CREDENTIALS` | Credenciales incorrectas. | RF-AUTH-002, RNF-041 |
+| **Auth** | 401 | `INVALID_REFRESH` | Refresh token inválido, reutilizado o expirado. | RF-AUTH-007 |
+| **Auth** | 409 | `EMAIL_TAKEN` | El correo electrónico ya se encuentra registrado. | RF-AUTH-001 |
+| **Auth** | 429 | `RATE_LIMITED` | Demasiadas solicitudes. Reintenta en {s} segundos. | RF-AUTH-006 |
+| **Roadmap** | 422 | `MODULE_LOCKED` | Módulo bloqueado. Requiere 100% de secciones del módulo anterior, examen aprobado y $\ge 80\%$ de estrellas. | RF-CANDADO-003, RF-RUTA-004 |
+| **Roadmap** | 422 | `SECTION_LOCKED` | Sección bloqueada. Debes completar la sección inmediatamente anterior. | RF-CANDADO-002, RF-SEC-004 |
+| **Roadmap** | 422 | `INSUFFICIENT_STARS` | Estrellas insuficientes en el módulo actual para abrir el siguiente módulo. | RF-ESTRELLA-003, RF-MOD-004 |
+| **Notebook** | 404 | `QUESTION_NOT_IN_MISTAKES` | La pregunta indicada no existe en tu cuaderno de errores activos. | RF-CUADERNO-003 |
+| **Notebook** | 409 | `ALREADY_RESOLVED` | El error ya fue remediado previamente en el cuaderno. | RF-CUADERNO-005 |
+| **Lessons** | 422 | `LESSON_LOCKED` | Micro-lección bloqueada. Completa las anteriores. | RF-LEC-004 |
+| **Lessons** | 409 | `ALREADY_COMPLETED` | Lección o sección ya completada (idempotencia garantizada). | RF-XP-005 |
+| **Quiz/Exam**| 400 | `INCOMPLETE_ANSWERS` | Faltan respuestas para preguntas obligatorias de la evaluación. | RF-QUIZ-002, RF-EXAM-001 |
+| **Quiz/Exam**| 409 | `IDEMPOTENCY_CONFLICT` | Mismo `Idempotency-Key` enviado con payload diferente. | RNF-042 |
+| **Certificates**| 403 | `NOT_CERTIFICATE_OWNER` | Solo el titular registrado puede descargar el PDF oficial. | RF-PDF-002 |
+| **Certificates**| 404 | `CERTIFICATE_NOT_FOUND` | Certificado no encontrado para el código proporcionado. | RF-CERT-006 |
+| **Certificates**| 422 | `CERTIFICATE_NOT_ELIGIBLE` | Debes completar y aprobar los 12 módulos y verificar tu correo. | RF-CERT-001, RF-AUTH-005 |
+| **Admin** | 403 | `ADMIN_REQUIRED` | Se requieren privilegios de administrador. | RF-ADM-007 |
+| **Admin** | 422 | `CONTENT_VALIDATION_FAILED` | Error de validación semántica o pedagógica en el contenido. | RF-ADM-006 |
 
 ---
 
-## 9. Autenticación en OpenAPI y ejemplos de consumo
+## 9. Ejemplos de consumo cURL (Flujo Integral de Aprendizaje)
 
-**Security scheme en OpenAPI:**
-```yaml
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-security:
-  - bearerAuth: []
-```
-
-**Ejemplo cURL — flujo completo MVP:**
 ```bash
-# 1. Registro
-curl -X POST https://api.duolingo-programacion.com/api/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Brandon","email":"brandon@example.com","password":"S3gura!2026"}'
-
-# 2. Login
+# 1. Login y obtención de tokens
 curl -X POST https://api.duolingo-programacion.com/api/v1/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"brandon@example.com","password":"S3gura!2026"}'
-# → { access_token, refresh_token }
+  -d '{"email":"brandon@example.com","password":"PasswordSeguro!2026"}'
 
-# 3. Listar lenguajes (público)
-curl https://api.duolingo-programacion.com/api/v1/languages
-
-# 4. Módulos de Python
-curl https://api.duolingo-programacion.com/api/v1/languages/py/modules \
+# 2. Consultar Roadmap de Lua con Candados y Estrellas
+curl https://api.duolingo-programacion.com/api/v1/languages/lua/roadmap \
   -H "Authorization: Bearer $ACCESS"
 
-# 5. Detalle de módulo
-curl https://api.duolingo-programacion.com/api/v1/modules/mod-vars \
-  -H "Authorization: Bearer $ACCESS"
-
-# 6. Completar lección (idempotente)
-curl -X POST https://api.duolingo-programacion.com/api/v1/lessons/les-12/complete \
+# 3. Enviar respuesta a ejercicio interactivo (Feedback Anti-Spoilers)
+curl -X POST https://api.duolingo-programacion.com/api/v1/lessons/les-lua-01-03-01/answer \
   -H "Authorization: Bearer $ACCESS" \
-  -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000" \
   -H "Content-Type: application/json" \
-  -d '{"time_spent_seconds":180}'
+  -d '{"question_id":"q-lua-01-03-01","selected_option_id":"b","time_spent_seconds":15}'
 
-# 7. Intentar quiz
-curl -X POST https://api.duolingo-programacion.com/api/v1/quiz/qz-vars/attempt \
+# 4. Completar sección y calificar con 3 Estrellas (Idempotente)
+curl -X POST https://api.duolingo-programacion.com/api/v1/sections/sec-lua-01-03/complete \
   -H "Authorization: Bearer $ACCESS" \
   -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440001" \
-  -d '{"answers":[{"question_id":"q-001","option_id":"b"}]}'
+  -H "Content-Type: application/json" \
+  -d '{"time_spent_seconds":240,"first_attempt_errors":0,"remedied_in_review":0}'
 
-# 8. Intentar examen
-curl -X POST https://api.duolingo-programacion.com/api/v1/exam/ex-vars/attempt \
-  -H "Authorization: Bearer $ACCESS" \
-  -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440002" \
-  -d '{"answers":[{"question_id":"q-e01","option_id":"c"}]}'
-
-# 9. Progreso agregado
-curl https://api.duolingo-programacion.com/api/v1/users/me/progress?language_id=py \
+# 5. Consultar Cuaderno de Errores pendientes
+curl https://api.duolingo-programacion.com/api/v1/notebook/mistakes?language_id=lua&is_resolved=false \
   -H "Authorization: Bearer $ACCESS"
 
-# 10. Logros y certificados
-curl https://api.duolingo-programacion.com/api/v1/users/me/achievements -H "Authorization: Bearer $ACCESS"
-curl https://api.duolingo-programacion.com/api/v1/users/me/certificates -H "Authorization: Bearer $ACCESS"
+# 6. Remediar error en el Cuaderno (+5 XP)
+curl -X POST https://api.duolingo-programacion.com/api/v1/notebook/mistakes/q-lua-01-03-01/resolve \
+  -H "Authorization: Bearer $ACCESS" \
+  -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440002" \
+  -H "Content-Type: application/json" \
+  -d '{"selected_option_id":"a","time_spent_seconds":10}'
 
-# 11. Verificar certificado (público)
-curl https://api.duolingo-programacion.com/api/v1/certificates/CQ-PY-000001
+# 7. Enviar Intento de Examen de Módulo (Compuerta de Maestría >=80%)
+curl -X POST https://api.duolingo-programacion.com/api/v1/exam/ex-lua-01/attempt \
+  -H "Authorization: Bearer $ACCESS" \
+  -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440003" \
+  -H "Content-Type: application/json" \
+  -d '{"answers":[{"question_id":"q-ex-01","selected_option_id":"c"}],"time_spent_seconds":550}'
+
+# 8. Verificar Certificado Público (Sin PII)
+curl https://api.duolingo-programacion.com/api/v1/certificates/KODA-LUA-000001
 ```
 
 ---
 
-## 10. Trazabilidad RF → Endpoint
+## 10. Matriz de Trazabilidad RF → Endpoints
 
-| RF | Endpoint(s) | Validación |
+| Código RF | Endpoint(s) REST | Historias de Usuario (US) |
 |---|---|---|
-| RF-AUTH-001/005 | `POST /auth/register`, `POST /auth/verify-email` | US-001, US-005 |
-| RF-AUTH-002/006/007 | `POST /auth/login`, `POST /auth/refresh` | US-002 |
-| RF-AUTH-003 | `POST /auth/logout` | US-003 |
-| RF-AUTH-004 | `POST /auth/forgot-password`, `POST /auth/reset-password` | US-004 |
-| RF-USR-002 | `PATCH /users/me` | US-006 |
-| RF-USR-003 | `DELETE /users/me` | US-007 |
-| RF-PROF-001/003/006/007 | `GET /users/me`, `GET /users/me/progress` | US-008 |
-| RF-LANG-001/002 | `GET /languages`, `GET /languages/{id}/modules` | US-013 |
-| RF-MOD-001/002/003 | `GET /languages/{id}/modules`, `GET /modules/{id}` | US-018, US-023 |
-| RF-SEC-003, RF-LEC-003 | `POST /lessons/{id}/complete`, `POST /lessons/{id}/answer` | US-025, US-026 |
-| RF-PREG-004/005 | `POST /lessons/{id}/answer` | US-032 |
-| RF-QUIZ-001/002/003/006 | `GET /quizzes/{id}`, `POST /quiz/{id}/attempt` | US-033 |
-| RF-EXAM-001/002/003/007 | `GET /exams/{id}`, `POST /exam/{id}/attempt` | US-036 |
-| RF-EVAL-001/002/003/006 | `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` (cálculo en servidor) | US-040 |
-| RF-PROG-001/002 | `POST /lessons/{id}/complete`, `GET /users/me/progress`, `GET /progress` | US-020, US-026 |
-| RF-XP-001/005, RF-RACHA-001 | `POST /lessons/{id}/complete`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` (rewards) | US-041 |
-| RF-LOGRO-002/003 | `GET /users/me/achievements` | US-047, US-048 |
-| RF-REP-001/002 | `GET /review/recommended`, `POST /review/attempt` | US-050 |
-| RF-CERT-001/002/003/006 | `GET /users/me/certificates`, `GET /certificates/{id}`, `POST /certificates/verify` | US-054, US-055 |
-| RF-PDF-002 | `GET /certificates/{id}/pdf` | US-056 |
-| RF-ADM-001–008 | `/admin/*` | US-067–072 |
-
-Regla `05` §7: cada `RF` tiene ≥1 endpoint y ≥1 test en `20`; cada endpoint mapea a ≥1 `RF`.
+| `RF-AUTH-001–007` | `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/verify-email` | US-001–US-005 |
+| `RF-USR-001–005` | `GET/PATCH/DELETE /users/me` | US-006, US-007 |
+| `RF-PROF-001–007` | `GET /users/me`, `GET /users/me/progress`, `GET /users/me/stats` | US-008, US-011 |
+| `RF-LANG-001–004` | `GET /languages`, `GET /languages/{id}`, `GET /languages/{id}/modules` | US-013, US-014 |
+| `RF-RUTA-001–004` | `GET /languages/{id}/roadmap`, `GET /languages/{id}/modules` | US-015–US-018 |
+| `RF-CANDADO-001–004` | `GET /languages/{id}/roadmap`, `GET /modules/{id}`, `GET /sections/{id}` | US-016, US-019 |
+| `RF-ESTRELLA-001–005` | `POST /sections/{id}/complete`, `GET /sections/{id}`, `GET /languages/{id}/roadmap` | US-020, US-021 |
+| `RF-CUADERNO-001–006` | `GET /notebook/mistakes`, `POST /notebook/mistakes/{question_id}/resolve`, `POST /lessons/{id}/answer` | US-022, US-023 |
+| `RF-MOD-001–005` | `GET /modules/{id}`, `GET /modules/{id}/sections` | US-023, US-024 |
+| `RF-SEC-001–005` | `GET /sections/{id}`, `POST /sections/{id}/complete` | US-025, US-026 |
+| `RF-LEC-001–004` | `GET /lessons/{id}`, `POST /lessons/{id}/complete`, `POST /lessons/{id}/answer` | US-027–US-030 |
+| `RF-PREG-001–006` | `POST /lessons/{id}/answer`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` | US-031, US-032 |
+| `RF-QUIZ-001–006` | `GET /quizzes/{id}`, `POST /quiz/{id}/attempt`, `GET /quiz/{id}/attempts` | US-033–US-035 |
+| `RF-EXAM-001–007` | `GET /exams/{id}`, `POST /exam/{id}/attempt`, `GET /exam/{id}/attempts` | US-036–US-039 |
+| `RF-EVAL-001–006` | Evaluador en servidor en `POST /lessons/{id}/answer`, `POST /quiz/{id}/attempt`, `POST /exam/{id}/attempt` | US-040 |
+| `RF-XP-001–005` | Motor de XP en `/sections/{id}/complete`, `/quiz/{id}/attempt`, `/exam/{id}/attempt`, `/notebook/mistakes/{id}/resolve` | US-041–US-043 |
+| `RF-RACHA-001–005` | `GET /progress/streak`, `GET /users/me/progress` | US-044, US-045 |
+| `RF-LOGRO-001–005` | `GET /users/me/achievements` | US-046–US-048 |
+| `RF-REP-001–005` | `GET /review/recommended`, `POST /review/attempt`, `POST /sections/{id}/review-queue/answer` | US-049–US-051 |
+| `RF-CERT-001–006` | `GET /users/me/certificates`, `GET /certificates/{id}`, `POST /certificates/verify` | US-054–US-058 |
+| `RF-PDF-001–004` | `GET /certificates/{id}/pdf` | US-056, US-060 |
+| `RF-ADM-001–009` | `/admin/*` | US-067–US-072 |
 
 ---
 
-## 11. Consideraciones no funcionales aplicadas a la API
+## 11. Consideraciones no funcionales (RNF)
 
-| RNF | Aplicación en API |
+| Requisito | Garantía en Contrato de API |
 |---|---|
-| RNF-001, RNF-010, RNF-012 | p95 lectura <300 ms, envío ejercicio <500 ms, feedback <1 s, calificación quiz/examen <2 s; APM por endpoint en `21`. |
-| RNF-003 | Paginación obligatoria, límite 100 ítems, payload lección <200 KB. |
-| RNF-008, RNF-009, RNF-041 | Hash adaptativo, JWT expiración corta + refresh rotativo, validación en servidor, IDOR protegido, errores con `request_id` sin stack. |
-| RNF-014 | Fallo de email/ads/PDF no bloquea `POST /lessons/{id}/answer` ni `POST /quiz/{id}/attempt` (degradado). |
-| RNF-032 | Versionado `/api/v1` + OpenAPI linteado en CI; breaking → nueva versión. |
-| RNF-033, RNF-042 | Persistencia transaccional + `Idempotency-Key` en todos los POST evaluables. |
-| RNF-037, RNF-039 | Minimización PII; verificación de certificado enmascara documento; sin PII en logs ni URLs. |
+| **RNF-001** | Tiempo de respuesta p95: lecturas `<300 ms`, envío de ejercicios `<500 ms`, calificación de quiz/examen `<2 s`. |
+| **RNF-003** | Paginación por defecto en todas las colecciones; payload máximo de lección `<200 KB`. |
+| **RNF-008 / RNF-009** | Cifrado en tránsito TLS 1.3, hashing adaptativo Argon2id/bcrypt, RBAC y aislamiento multi-inquilino por `user_id`. |
+| **RNF-010** | Feedback formativo de ejercicios devuelto en tiempo real ($<1\text{ s}$). |
+| **RNF-014** | Degradado elegante: si el servicio de email o generación de PDF se retrasa, el avance y la calificación no se bloquean. |
+| **RNF-032** | Versionado explícito en path `/api/v1` y validación estricta de esquemas OpenAPI 3.0.3 en pipeline CI. |
+| **RNF-033 / RNF-042** | Idempotencia garantizada en todas las transacciones de XP, intentos de examen y completitud de sección vía `Idempotency-Key`. |
+| **RNF-037 / RNF-039** | Privacidad por diseño: enmascaramiento de números de documento en endpoints públicos de verificación (`CC ***678`) y cero PII en logs. |
 
 ---
 
-## 12. Versionado, evolución y compatibilidad
+## 12. Checklist de conformidad por endpoint
 
-- **SemVer del contrato:** `1.0.0` (MVP). `MAJOR` = breaking (elimina/cambia campo requerido), `MINOR` = aditivo compatible, `PATCH` = clarificación sin cambio de validación.
-- **Deprecación:** header `Deprecation: true` + `Sunset: <date>` con ≥30 días de aviso; alternativa documentada en `CHANGELOG.md`.
-- **Cambios de umbrales/XP** (`RF-EVAL-005`, `RF-XP-004`) no requieren nueva versión de API: son **datos de configuración versionados** leídos por `threshold_applied` en cada `attempt`.
-- **Versionado de contenido** (`RF-PREG-006`, `RF-ADM-005`): cada `attempt` guarda `content_version`; el contrato de API no cambia por editar una pregunta.
+Cada endpoint REST en backend debe satisfacer el siguiente checklist previo a su pase a producción:
 
----
-
-## 13. Checklist de implementación por endpoint
-
-Cada endpoint se considera **terminado** solo si:
-
-- [ ] Está en `openapi.yaml` y pasa linter en CI (`RNF-032`).
-- [ ] Tiene validación de entrada en servidor (no confía en cliente).
-- [ ] Respeta aislamiento por `user_id` del token (`RNF-009`, `RF-USR-005`).
-- [ ] Usa `Idempotency-Key` donde corresponde y es atómico (`RNF-033`).
-- [ ] Registra auditoría donde aplica (`RF-AUTH-008`, `RF-ADM-008`).
-- [ ] Devuelve `X-Request-Id` y log estructurado (`RNF-045`).
-- [ ] Tiene test en `20` (unit/integration/API) y mapea a `RF` y `US`.
-- [ ] Está trazado en §10 y en `12_DATA_MODEL.md` (migración).
+- [ ] Contrato documentado e integrado en `openapi.yaml` (pasa linter `spectral` sin advertencias).
+- [ ] Validación de payload con esquema Zod / Joi en servidor (rechaza campos no tipados).
+- [ ] Aislamiento estricto de usuario autenticado contra `user_id` del token JWT (prevención IDOR).
+- [ ] Implementación de `Idempotency-Key` en operaciones de escritura financiera/gamificada/evaluativa.
+- [ ] Registro estructurado de trazas en JSON con `request_id`, método, ruta y código HTTP.
+- [ ] Pruebas automatizadas unitarias y de integración en `20_TESTING.md` con cobertura $\ge 70\%$.
 
 ---
 
-## 14. Referencias cruzadas
-
-| Documento | Relación |
-|---|---|
-| `01_PROJECT_OVERVIEW.md` §7, §24–§29 | Jerarquía y motores que la API orquesta |
-| `05_FUNCTIONAL_REQUIREMENTS.md` | 128 RF origen de cada endpoint |
-| `06_NON_FUNCTIONAL_REQUIREMENTS.md` | RNF de rendimiento, seguridad, integridad y versionado que la API debe cumplir |
-| `07_USER_STORIES.md` | 72 US validadas contra endpoints (§10) |
-| `12_DATA_MODEL.md` (futuro) | Tablas `users`, `languages`, `modules`, `sections`, `lessons`, `questions`, `attempts`, `progress`, `certificates` |
-| `19_SECURITY.md` (futuro) | Detalle de hash, JWT, rate limiting y OWASP |
-| `20_TESTING.md` (futuro) | Pirámide de pruebas por endpoint |
-
----
-
-*Fin de `13_API_SPECIFICATION.md` — cualquier adición de endpoint, cambio de schema o regla de autenticación requiere ADR si es breaking, actualización de `openapi.yaml`, `12_DATA_MODEL.md`, `08_USE_CASES.md` y entrada en `CHANGELOG.md` con fecha `America/Bogota`.*
+*Fin de `13_API_SPECIFICATION.md` v2.0.0 — Cualquier modificación a contratos existentes requiere registro en `CHANGELOG.md` y versionado semántico.*

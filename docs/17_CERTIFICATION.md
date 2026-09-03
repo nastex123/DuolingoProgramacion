@@ -11,14 +11,14 @@ Este documento es la **fuente de verdad de certificación**. Define bajo qué co
 
 **Dentro del alcance:**
 - Condiciones de elegibilidad, porcentaje mínimo y módulos/exámenes requeridos.
-- Datos incluidos, identificador `CQ-PY-000001`, generación de PDF y almacenamiento.
+- Datos incluidos, identificador `KODA-PY-000001`, generación de PDF y almacenamiento.
 - Verificación interna por ID/QR, código QR, estados y transiciones.
 - Reglas anti-duplicado y anti-falsificación.
 - Naturaleza del certificado (finalización de plataforma, no título profesional oficial).
 - Contratos de API, modelo de datos y trazabilidad RF/RNF.
 
 **Fuera del alcance:**
-- Calificación de quizzes/exámenes (ver `15`), cálculo de progreso adaptativo (ver `14`), pagos/premium (ver `11` §14) y diseño visual fino (ver `27_UI_DESIGN.md`). La verificación pública externa es Post-MVP (`04` §3).
+- Calificación de quizzes/exámenes (ver `15`), cálculo de progreso adaptativo (ver `14`), pagos/premium (ver `11` §14) y diseño visual fino (ver `27_UI_UX_SPECIFICATION.md`). La verificación pública externa es Post-MVP (`04` §3).
 
 **Principio rector:** el certificado acredita **comprensión verificada en servidor**. Nunca se emite por tiempo en plataforma, por pago, ni por diagnóstico (`05` RF-DIAG-006); solo por exámenes aprobados con trazabilidad de versión y umbral.
 
@@ -28,7 +28,7 @@ Este documento es la **fuente de verdad de certificación**. Define bajo qué co
 
 | Referencia | Qué aporta |
 |---|---|
-| `01` §21–§22, §5 paso 16–17 | Campos mínimos del certificado y formato `CQ-PY-000001` con QR opcional |
+| `01` §21–§22, §5 paso 16–17 | Campos mínimos del certificado y formato `KODA-PY-000001` con QR opcional |
 | `04` §6–§7 | Límites educativos y de certificación: un certificado por lenguaje, no equivale a título profesional |
 | `05` RF-CERT-001–006, RF-PDF-001–004 | Requisitos verificables de emisión, datos, ID, QR, re-emisión, verificación y PDF |
 | `11` §12, §6–§17 | Certification Engine, flujo `¿Todos los exámenes aprobados? → Email verificado → ID+QR → PDF → Storage` |
@@ -48,7 +48,7 @@ Este documento es la **fuente de verdad de certificación**. Define bajo qué co
 | Qué acredita | Que el titular completó y aprobó todos los módulos y exámenes de un lenguaje dentro de la plataforma, conforme a `14` y `15`. |
 | Qué no acredita | Equivalencia a título universitario, técnico, ni certificación profesional oficial de terceros (`04` §6). |
 | Validez | Interna a la plataforma; verificable por ID/QR dentro de la plataforma. Verificación pública externa es Post-MVP. |
-| Texto obligatorio en PDF y verificación | *"Certificado de finalización emitido por [Nombre de la Plataforma]. No constituye título profesional oficial ni certificación académica externa. Verificable en [url_verificacion] con código CQ-..."* |
+| Texto obligatorio en PDF y verificación | *"Certificado de finalización emitido por Koda. No constituye título profesional oficial ni certificación académica externa. Verificable en https://koda.app/verificar/{code} con código KODA-..."* |
 | Uso recomendado | Portafolio personal, perfil, LinkedIn como evidencia de finalización; no como credencial regulada. |
 
 Esta aclaración debe aparecer **siempre** en el PDF (§10) y en la vista de verificación (§11), y nunca puede omitirse por configuración de plantilla.
@@ -119,7 +119,7 @@ Lenguaje Python, 12 módulos. Usuario con 11 exámenes en 85% y 1 examen en 79.9
 
 ```
 11 módulos APROBADO, 1 módulo REPROBADO → Lenguaje ≠ COMPLETADO → C-04 falla → 422
-Si reintenta ese examen y obtiene 81.00% → 12/12 APROBADO → C-04 pasa → emite CQ-PY-000042
+Si reintenta ese examen y obtiene 81.00% → 12/12 APROBADO → C-04 pasa → emite KODA-LUA-000042
 ```
 
 ---
@@ -164,11 +164,11 @@ Todo certificado persiste un `metadata` JSONB snapshot inmutable y lo renderiza 
 | `lenguaje_nombre` | `programming_languages.name` | Python | Sí |
 | `lenguaje_code` | `programming_languages.code` | PY | Sí |
 | `fecha_finalizacion` | `certificates.issued_at` en `America/Bogota` | 2026-08-29 | Sí |
-| `identificador_unico` | `certificates.code` | CQ-PY-000001 | Sí |
-| `plataforma_nombre` | Config `platform.name` (ej. CodeQuest) | CodeQuest | Sí |
+| `identificador_unico` | `certificates.code` | KODA-PY-000001 | Sí |
+| `plataforma_nombre` | Config `platform.name` (ej. Koda) | Koda | Sí |
 | `estado` | `certificates.status` | VÁLIDO | Sí |
 | `version_contenido_lenguaje` | `certificates.language_content_version` | 3 | Sí (trazabilidad) |
-| `qr_payload` | `certificates.qr_payload` (URL de verificación) | https://.../verificar/CQ-PY-000001 | Sí |
+| `qr_payload` | `certificates.qr_payload` (URL de verificación) | https://.../verificar/KODA-PY-000001 | Sí |
 | `texto_aclaratorio_no_oficial` | Fijo (§3) | "Certificado de finalización..." | Sí |
 
 ### 7.2 Datos opcionales incluidos en `metadata`
@@ -177,15 +177,15 @@ Todo certificado persiste un `metadata` JSONB snapshot inmutable y lo renderiza 
 
 ---
 
-## 8. Identificador único — formato `CQ-PY-000001`
+## 8. Identificador único — formato `KODA-PY-000001`
 
 ### 8.1 Gramática
 
 ```
-CODE = "CQ-" + LANG_CODE + "-" + SEQ_6
+CODE = "KODA-" + LANG_CODE + "-" + SEQ_6
 
 donde:
-  "CQ"        = prefijo fijo de la plataforma (CodeQuest) (`01` §22)
+  "KODA"      = prefijo fijo de la plataforma (Koda) (`01` §22)
   LANG_CODE   = programming_languages.code en mayúsculas, [A-Z0-9_]+, ej. PY, JS, LUA, GO
   SEQ_6       = correlativo por lenguaje, 6 dígitos con ceros a la izquierda, 000001..999999
 ```
@@ -193,7 +193,7 @@ donde:
 **Regex de validación (BD + API):**
 
 ```
-^CQ-[A-Z0-9_]+-[0-9]{6}$   (en BD `12` §6.17: '^CQ-[A-Z]+-[0-9]{6}$' — ampliar a [A-Z0-9_]+ si se usan códigos con guion bajo)
+^KODA-[A-Z0-9_]+-[0-9]{6}$   (en BD `12` §6.17: '^KODA-[A-Z]+-[0-9]{6}$' — ampliar a [A-Z0-9_]+ si se usan códigos con guion bajo)
 ```
 
 ### 8.2 Generación correlativa por lenguaje
@@ -207,12 +207,12 @@ UPDATE certificate_sequences
  WHERE language_id = $1
 RETURNING last_seq;  -- ej. 42
 
-code = 'CQ-' || lang_code || '-' || LPAD(last_seq::text, 6, '0');
--- ej. CQ-PY-000042
+code = 'KODA-' || lang_code || '-' || LPAD(last_seq::text, 6, '0');
+-- ej. KODA-PY-000042
 INSERT INTO certificates (id, user_id, language_id, code, ...) VALUES (...);
 ```
 
-- Correlativo **por lenguaje**: `CQ-PY-000001` y `CQ-JS-000001` coexisten.
+- Correlativo **por lenguaje**: `KODA-PY-000001` y `KODA-JS-000001` coexisten.
 - Sin huecos visibles intencionales; un rollback de transacción puede dejar hueco y es aceptable (no se recicla).
 - Concurrencia: `UPDATE ... RETURNING` con lock de fila garantiza unicidad sin duplicados.
 
@@ -220,10 +220,10 @@ INSERT INTO certificates (id, user_id, language_id, code, ...) VALUES (...);
 
 | Lenguaje | Secuencia | Código |
 |---|---|---|
-| Python | 1 | `CQ-PY-000001` |
-| Python | 42 | `CQ-PY-000042` |
-| JavaScript | 1 | `CQ-JS-000001` |
-| Lua | 7 | `CQ-LUA-000007` |
+| Python | 1 | `KODA-PY-000001` |
+| Python | 42 | `KODA-PY-000042` |
+| JavaScript | 1 | `KODA-JS-000001` |
+| Lua | 7 | `KODA-LUA-000007` |
 
 ---
 
@@ -246,7 +246,7 @@ stateDiagram-v2
     [*] --> NO_ELEGIBLE : usuario no cumple C-01..C-04
     NO_ELEGIBLE --> ELEGIBLE : todos los exámenes aprobados\n+ email verificado
     ELEGIBLE --> EMITIENDO : POST /certificates:issue\n(Idempotency-Key, transacción atómica)
-    EMITIENDO --> VALIDO : INSERT certificates\ncode CQ-{LANG}-{SEQ}\nPDF renderizado → Storage
+    EMITIENDO --> VALIDO : INSERT certificates\\ncode KODA-{LANG}-{SEQ}\\nPDF renderizado → Storage
     VALIDO --> REVOCADO : admin revoca\n(fraude, sanción, solicitud)\nrevoked_at = now()
     VALIDO --> OBSOLETO : contenido del lenguaje\ncambia significativamente\n(content_version bump mayor)\nrevoked_at = now()
     OBSOLETO --> EMITIENDO : revalidación\n(usuario aprueba delta)\n→ nuevo código correlativo\nVALIDEZ anterior no se reutiliza
@@ -273,7 +273,7 @@ stateDiagram-v2
 | Origen | Evento | Guarda | Destino | Efecto colateral |
 |---|---|---|---|---|
 | `NO_ELEGIBLE` | `cumplir C-01..C-04` | `∀ módulo APROBADO + email verificado` | `ELEGIBLE` | CTA "Generar certificado" habilitado |
-| `ELEGIBLE` | `issue` | `Idempotency-Key` único + `certificate_sequences` lock | `VALIDO` | `code` asignado, `issued_at=now()`, `language_content_version` congelada, `qr_payload` y `pdf_object_key` generados |
+| `ELEGIBLE` | `issue` | `Idempotency-Key` único + `certificate_sequences` lock | `VALIDO` | `code` asignado, `issued_at=now()`, `language_content_version` congelada, `qr_payload` y `google_drive_file_id` generados |
 | `VALIDO` | `revoke` | Solo `admin` (`RF-ADM-007`), motivo obligatorio, auditado (`RF-ADM-008`) | `REVOCADO` | `revoked_at=now()`, PDF marcado, verificación responde REVOCADO |
 | `VALIDO` | `content_major_bump` | `languages.content_version` incrementa por cambio significativo (ver §9.4) | `OBSOLETO` | `revoked_at=now()`, se notifica al titular, CTA revalidación |
 | `OBSOLETO` | `revalidate` | Usuario aprueba exámenes delta del nuevo contenido | `EMITIENDO→VALIDO` | Nuevo `code` con siguiente `SEQ`, `language_content_version` nueva, anterior permanece `obsolete` |
@@ -286,44 +286,82 @@ stateDiagram-v2
 
 ---
 
-## 10. Generación de PDF
+## 10. Generación de PDF y Almacenamiento en Google Drive
 
-### 10.1 Pipeline (RF-PDF-001–004)
+### 10.1 Pipeline 100% Backend (NestJS CertificationModule, RF-PDF-001–004)
+
+Por motivos de seguridad e integridad criptográfica, **el frontend NUNCA genera el archivo PDF ni tiene acceso a las credenciales de almacenamiento**. Todo el ciclo de validación, renderizado, almacenamiento y entrega se realiza exclusivamente en el backend (NestJS):
 
 ```
-Certification Engine (server)
-  → 1. Validar C-01..C-07 + idempotencia
-  → 2. Reservar SEQ (certificate_sequences) + INSERT certificates (valid)
-  → 3. Render PDF con plantilla versionada (pdf_version) + datos congelados + QR
-  → 4. Calcular SHA-256 del PDF + upload a Object Storage (S3-compatible) → pdf_object_key
-  → 5. UPDATE certificates SET pdf_object_key, pdf_version, qr_payload
-  → 6. Retornar 201 { code, pdf_url firmada temporal }
+                                  [Usuario solicita PDF]
+                                             │
+                                             ▼
+                          [GET /api/v1/certificates/{id}/pdf]
+                                             │
+                                             ▼
+                           ┌───────────────────────────────────┐
+                           │ ¿Ya existe certificado 'valid'    │
+                           │ con google_drive_file_id en BD?   │
+                           └─────────────────┬─────────────────┘
+                                             │
+                       ┌─────────────────────┴─────────────────────┐
+                       ▼ SÍ (Caché / Pre-existente)                ▼ NO (Primera emisión)
+       ┌───────────────────────────────────────┐   ┌───────────────────────────────────────┐
+       │ 1. Descargar stream de Google Drive   │   │ 1. Validar C-01..C-07 en Supabase     │
+       │    (drive.files.get alt='media')      │           │ 2. Reservar SEQ atómico (KODA-LUA-000001)
+       │ 2. Pipe directo a HTTP Response       │   │ 3. Renderizar PDF + QR en Node.js     │
+       │    (Descarga inmediata en <200 ms)    │   │ 4. Subir a Google Drive (Service Acc) │
+       └───────────────────────────────────────┘   │ 5. Guardar google_drive_file_id y SHA │
+                                                   │ 6. Pipe del binario a HTTP Response   │
+                                                   └───────────────────────────────────────┘
 ```
 
-- **Plantilla versionada:** cada `pdf_version` es un artefacto versionado (`RF-PDF-001`); el PDF guarda `pdf_version` para trazabilidad. Cambiar plantilla no re-renderiza PDFs ya emitidos salvo re-emisión.
-- **Fidelidad bit-a-bit:** `RF-PDF-003` — el PDF descargado corresponde exactamente a `certificates.metadata + code + issued_at + language_content_version + qr_payload` del registro `valid`. Test de certificación compara `SHA-256(pdf_bytes) == metadata.pdf_sha256`.
-- **Almacenamiento abstracto:** interfaz `StorageAdapter` S3-compatible (`11` §5.4, `05` RF-PDF-004); sin hardcodear proveedor. `pdf_object_key` ej. `certs/py/CQ-PY-000001_v1.pdf`.
-- **Descarga autenticada:** solo titular (`user_id` del certificado) o admin; URL firmada con TTL corto (ej. 10 min). Verificación pública no descarga PDF, solo confirma datos (§11).
+### 10.2 Reglas de Caché e Idempotencia (Sin Re-generación)
 
-### 10.2 Contenido del PDF
+1. **Detección Previa de PDF:** Antes de renderizar cualquier PDF, el servicio `CertificationService` consulta en Supabase:
+   ```sql
+   SELECT id, code, google_drive_file_id, status 
+   FROM certificates 
+   WHERE id = $1 AND user_id = $2 AND status = 'valid';
+   ```
+2. **Reutilización Inmediata:** Si el registro ya posee un `google_drive_file_id` válido, se omite por completo el proceso de renderizado con `@react-pdf/renderer` o `pdfkit` y la llamada de subida a Drive. El backend únicamente solicita el stream de lectura a Google Drive API v3 y lo transmite al cliente.
+3. **Ahorro de Recursos:** Garantiza 0 duplicados de archivos en Google Drive y latencia de respuesta mínima ($< 200\text{ ms}$).
+
+### 10.3 Integración con Google Drive API v3 (Service Account)
+
+- **Autenticación del Servidor:** Se utiliza una Cuenta de Servicio (*Google Cloud Service Account*) con permisos limitados sobre una carpeta raíz designada (`GOOGLE_DRIVE_ROOT_FOLDER_ID`).
+- **Estructura de Carpetas:**
+  ```
+  Google Drive: Koda_Certificados/
+  ├── lua/
+  │   ├── KODA-LUA-000001_v1.pdf
+  │   └── KODA-LUA-000002_v1.pdf
+  └── python/
+      ├── KODA-PY-000001_v1.pdf
+      └── KODA-PY-000002_v1.pdf
+  ```
+- **Metadatos en Supabase:** Se almacena `google_drive_file_id`, el hash `pdf_sha256` y `storage_provider = 'google_drive'`.
+- **Descarga Autenticada:** El endpoint `GET /api/v1/certificates/{id}/pdf` exige `Authorization: Bearer <token>` y valida que `user_id == req.user.id` (salvo administradores). No se expone ningún enlace público de Google Drive al cliente.
+
+### 10.4 Contenido del PDF
 
 Todo PDF incluye (§7.1 + §3):
 
-- Encabezado: nombre de la plataforma + logo.
+- Encabezado: nombre de la plataforma + logo oficial de Koda.
 - Título: "Certificado de Finalización".
 - Cuerpo: "Se certifica que **[titular_nombre]** (Documento: [documento]) completó y aprobó todos los módulos del lenguaje **[lenguaje_nombre]** el **[fecha_finalizacion America/Bogota]**.".
-- Identificador: `CQ-PY-000001` destacado.
+- Identificador: `KODA-LUA-000001` / `KODA-PY-000001` destacado.
 - Estado: VÁLIDO.
-- Código QR (ver §12) + URL de verificación.
-- Aclaración no oficial (§3) en pie de página.
-- Firma/ sello de la plataforma (imagen) + `pdf_version` y `language_content_version`.
-- Metadatos PDF: `Title`, `Author=Plataforma`, `Subject=lenguaje`, `Keywords=code`.
+- Código QR (ver §12) con URL de verificación interna (`https://koda.app/verificar/KODA-...`).
+- Aclaración normativa no oficial (§3) en pie de página.
+- Sello y firma digital de la plataforma + `pdf_version` y `language_content_version`.
+- Metadatos del documento: `Title`, `Author=Koda`, `Subject=Certificado [Lenguaje]`, `Keywords=code, lua, python`.
 
 ### 10.3 Ejemplo de PDF (representación textual)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  ███ CodeQuest — Plataforma de Aprendizaje                      │
+│  ███ Koda — Plataforma de Aprendizaje                      │
 │                                                                 │
 │              CERTIFICADO DE FINALIZACIÓN                        │
 │                                                                 │
@@ -338,21 +376,21 @@ Todo PDF incluye (§7.1 + §3):
 │                                                                 │
 │  el 29 de agosto de 2026 (America/Bogota).                      │
 │                                                                 │
-│  Código:  CQ-PY-000042                    Estado: VÁLIDO       │
+│  Código:  KODA-PY-000042                    Estado: VÁLIDO       │
 │  Versión de contenido: 3                  Plantilla: v1         │
 │                                                                 │
 │  ┌──────────┐  Verificación:                                     │
-│  │ ▄▄▄▄▄▄▄▄ │  https://codequest.example/verificar/CQ-PY-000042 │
+│  │ ▄▄▄▄▄▄▄▄ │  https://koda.app/verificar/KODA-PY-000042 │
 │  │ █ QR   █ │  Escanea para verificar dentro de la plataforma   │
 │  │ ▀▀▀▀▀▀▀▀ │                                                    │
 │  └──────────┘                                                    │
 │                                                                 │
 │  ─────────────────────────────────────────────────────────────   │
-│  Certificado de finalización emitido por CodeQuest.             │
+│  Certificado de finalización emitido por Koda.             │
 │  No constituye título profesional oficial ni certificación      │
 │  académica externa. Verificable en la URL/QR indicados.         │
 │                                                                 │
-│  [Sello CodeQuest]                     [Firma digital plataforma]│
+│  [Sello Koda]                     [Firma digital plataforma]│
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -366,19 +404,19 @@ Disponible sin autenticación para confirmar titularidad mínima sin exponer PII
 
 | Endpoint | Método | Auth | Descripción |
 |---|---|---|---|
-| `/v1/certificates/verify/{code}` | `GET` | No (público interno) | Verifica por código `CQ-PY-000001` |
+| `/v1/certificates/verify/{code}` | `GET` | No (público interno) | Verifica por código `KODA-PY-000001` |
 | `/v1/certificates/verify?qr={payload}` | `GET` | No | Verifica por payload de QR (URL o código) |
 
 **Respuesta — VÁLIDO (200):**
 
 ```json
 {
-  "code": "CQ-PY-000042",
+  "code": "KODA-PY-000042",
   "status": "valid",
   "language": { "code": "PY", "name": "Python" },
   "holder": { "display_name": "B. Quiroz" },
   "issued_at": "2026-08-29T14:30:00-05:00",
-  "platform": "CodeQuest",
+  "platform": "Koda",
   "language_content_version": 3,
   "pdf_version": 1,
   "holder_document_masked": "CC ***7890"
@@ -388,7 +426,7 @@ Disponible sin autenticación para confirmar titularidad mínima sin exponer PII
 **Respuesta — REVOCADO (200 con status):**
 
 ```json
-{ "code": "CQ-PY-000042", "status": "revoked", "revoked_at": "2026-09-01T10:00:00-05:00", "reason": "content_obsolete" }
+{ "code": "KODA-PY-000042", "status": "revoked", "revoked_at": "2026-09-01T10:00:00-05:00", "reason": "content_obsolete" }
 ```
 
 **Respuesta — No existe (404):**
@@ -414,8 +452,8 @@ Post-MVP (`04` §3). El diseño ya deja hook: `qr_payload` es URL estable (`/ver
 | Atributo | Valor |
 |---|---|
 | Estándar | QR Code ISO 18004, nivel de corrección `M` o `Q` |
-| Payload | **URL de verificación** `https://{platform_domain}/verificar/{code}` — ej. `https://codequest.example/verificar/CQ-PY-000042` |
-| Alternativa offline | Si no hay dominio, `code` puro `CQ-PY-000042` es válido y la app lo resuelve a `/verify/{code}` |
+| Payload | **URL de verificación** `https://{platform_domain}/verificar/{code}` — ej. `https://koda.app/verificar/KODA-PY-000042` |
+| Alternativa offline | Si no hay dominio, `code` puro `KODA-PY-000042` es válido y la app lo resuelve a `/verify/{code}` |
 | Tamaño en PDF | ≥ 2×2 cm, con margen quiet zone |
 | Generación | En servidor al emitir, librería configurable (ej. `qrcode` con `errorCorrectionLevel: M`); se versiona con `pdf_version` |
 | Persistencia | `certificates.qr_payload` (`12` §6.17) guarda la URL exacta renderizada |
@@ -423,10 +461,10 @@ Post-MVP (`04` §3). El diseño ya deja hook: `qr_payload` es URL estable (`/ver
 ### 12.2 Validación de QR
 
 ```
-QR escaneado → GET /verificar/CQ-PY-000042 → 302 a /v1/certificates/verify/CQ-PY-000042 → JSON de §11.1
+QR escaneado → GET /verificar/KODA-PY-000042 → 302 a /v1/certificates/verify/KODA-PY-000042 → JSON de §11.1
 ```
 
-Un QR que no resuelve a un `code` con regex `^CQ-[A-Z0-9_]+-[0-9]{6}$` se rechaza como `CERT_INVALID_FORMAT`.
+Un QR que no resuelve a un `code` con regex `^KODA-[A-Z0-9_]+-[0-9]{6}$` se rechaza como `CERT_INVALID_FORMAT`.
 
 ---
 
@@ -451,7 +489,7 @@ Un QR que no resuelve a un `code` con regex `^CQ-[A-Z0-9_]+-[0-9]{6}$` se rechaz
 | QR verificable solo por plataforma | QR contiene URL de la plataforma; cualquier copia del PDF sin registro en BD responde `CERT_NOT_FOUND` al verificar | `05` RF-CERT-004/006 |
 | Inmutabilidad de intentos | `attempts` inmutable tras `graded` (`12` §6.12); no se puede fabricar un examen aprobado editando historial | `06` RNF-033–035 |
 | Versionado y auditoría | `certificates.language_content_version`, `pdf_version`, `issued_at`, `revoked_at`, `audit_log` con quién/qué/cuándo (`05` RF-ADM-008) | `12` §6.17, `05` RF-ADM-008 |
-| Storage no enumerable | `pdf_object_key` no predecible sin `code`; URLs firmadas con TTL; descarga exige ser titular | `05` RF-PDF-002/004 |
+| Storage no enumerable | `google_drive_file_id` no adivinable sin `code`; enlace firmado de Drive con TTL; descarga exige ser titular | `05` RF-PDF-002/004 |
 | Rate limit y no enumeración | Verificación con rate limit por IP, sin listar certificados de terceros, mensajes `404` genéricos | `06` RNF-009, `05` RF-AUTH-006 patrón |
 | Revocación visible | `revoked`/`obsolete` se muestran como no válidos en verificación; el PDF de un revocado sigue existiendo pero la verificación lo marca | `05` RF-CERT-005 |
 
@@ -480,7 +518,7 @@ Aprendizaje → Exámenes aprobados → ELEGIBLE → EMITIENDO → VALIDO
 
 ---
 
-## 15. API y contratos (referencia para `13_API_SPEC.md`)
+## 15. API y contratos (referencia para `13_API_SPECIFICATION.md`)
 
 ### 15.1 Endpoints
 
@@ -489,7 +527,7 @@ Aprendizaje → Exámenes aprobados → ELEGIBLE → EMITIENDO → VALIDO
 | `POST` | `/v1/certificates:issue` | JWT (titular) | Emite si C-01..C-07; body `{ language_id }` + `Idempotency-Key` | RF-CERT-001, RNF-042 |
 | `GET` | `/v1/users/me/certificates` | JWT | Lista certificados del titular con `code, language, issued_at, status, pdf_url` | RF-PROF-005 |
 | `GET` | `/v1/certificates/{code}` | JWT (titular/admin) | Detalle completo del certificado | RF-CERT-002 |
-| `GET` | `/v1/certificates/{code}/pdf` | JWT (titular/admin) | Redirect a URL firmada del PDF (`pdf_object_key`) | RF-PDF-002 |
+| `GET` | `/v1/certificates/{code}/pdf` | JWT (titular/admin) | Redirect a enlace firmado de Google Drive del PDF | RF-PDF-002 |
 | `GET` | `/v1/certificates/verify/{code}` | No | Verificación interna (§11.1) | RF-CERT-006 |
 | `GET` | `/verificar/{code}` | No | Página/redirect de QR (§12.2) | RF-CERT-004 |
 | `POST` | `/v1/admin/certificates/{code}:revoke` | RBAC admin | Revoca con `{ reason }` | RF-CERT-005 |
@@ -504,7 +542,7 @@ Aprendizaje → Exámenes aprobados → ELEGIBLE → EMITIENDO → VALIDO
 | `CERT_EMAIL_NOT_VERIFIED` | 403 | C-02 falla |
 | `CERT_NOT_FOUND` | 404 | `code` no existe |
 | `CERT_REVOKED` | 200* | Verificación de revocado (no es error, es estado) |
-| `CERT_INVALID_FORMAT` | 400 | `code` no matchea `^CQ-[A-Z0-9_]+-[0-9]{6}$` |
+| `CERT_INVALID_FORMAT` | 400 | `code` no matchea `^KODA-[A-Z0-9_]+-[0-9]{6}$` |
 
 ---
 
@@ -516,12 +554,12 @@ certificates (
   id UUID PK,
   user_id UUID FK → users.id NOT NULL,
   language_id UUID FK → programming_languages.id NOT NULL,
-  code VARCHAR(20) UNIQUE NOT NULL CHECK (code ~ '^CQ-[A-Z]+-[0-9]{6}$'),
+  code VARCHAR(20) UNIQUE NOT NULL CHECK (code ~ '^KODA-[A-Z]+-[0-9]{6}$'),
   status VARCHAR(20) NOT NULL CHECK (status IN ('valid','revoked','obsolete')) DEFAULT 'valid',
   language_content_version INTEGER NOT NULL,
   issued_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   revoked_at TIMESTAMPTZ NULL,
-  pdf_object_key VARCHAR(512) NULL,
+  google_drive_file_id VARCHAR(512) NULL,
   pdf_version INTEGER NOT NULL DEFAULT 1,
   qr_payload VARCHAR(512) NOT NULL,
   metadata JSONB NOT NULL DEFAULT '{}',
@@ -545,9 +583,9 @@ certificate_sequences (
 
 | Clave | Tipo | Default | Descripción |
 |---|---|---|---|
-| `platform.name` | string | CodeQuest | Nombre mostrado en certificado y verificación |
-| `platform.domain` | string | codequest.example | Dominio para `qr_payload` URL |
-| `certificate.code_prefix` | string | CQ | Prefijo del código |
+| `platform.name` | string | Koda | Nombre mostrado en certificado y verificación |
+| `platform.domain` | string | koda.app | Dominio para `qr_payload` URL |
+| `certificate.code_prefix` | string | KODA | Prefijo del código |
 | `certificate.seq_digits` | int | 6 | Dígitos de SEQ (padding) |
 | `pdf.template_version` | int | 1 | Versión de plantilla PDF |
 | `pdf.signed_url_ttl_seconds` | int | 600 | TTL de URL firmada de descarga |
@@ -565,8 +603,7 @@ Cambios versionados y auditados (`05` RF-ADM-005/008).
 | Porcentaje mínimo 80% por examen | RF-EXAM-003, RF-EVAL-002/005 | — | `15` §8–§9 |
 | Módulos/exámenes requeridos (12/12) | RF-CERT-001, RF-MOD-003, RF-EXAM-001 | — | `14` §10.2 |
 | Datos incluidos | RF-CERT-002 | RNF-037 | `12` §6.17 `metadata` |
-| ID `CQ-PY-000001` correlativo | RF-CERT-003 | — | `12` §6.17 `certificate_sequences` |
-| Generación PDF | RF-PDF-001–004 | RNF-004 | `11` §12 |
+| ID `KODA-PY-000001` correlativo | RF-CERT-003 | — | `12` §6.17 `certificate_sequences` || Generación PDF | RF-PDF-001–004 | RNF-004 | `11` §12 |
 | Verificación interna | RF-CERT-006 | RNF-009/037 | `11` §12 |
 | Código QR | RF-CERT-004 | — | `11` §12 |
 | Estados valid/revoked/obsolete | RF-CERT-005 | — | `12` §6.17 |
@@ -580,7 +617,7 @@ Cambios versionados y auditados (`05` RF-ADM-005/008).
 - [ ] No se puede emitir certificado si falta un examen aprobado o el email no está verificado (test de guardas C-01..C-07).
 - [ ] El porcentaje se calcula como `round(P_obt/P_max*100,2)` y se compara con `≥ threshold_applied` del intento; umbrales versionados no re-califican historial.
 - [ ] Un certificado por lenguaje vigente (`UNIQUE WHERE valid` pasa bajo concurrencia con `certificate_sequences`).
-- [ ] Código siempre `CQ-{LANG}-{SEQ6}` validado por regex en BD y API.
+- [ ] Código siempre `KODA-{LANG}-{SEQ6}` validado por regex en BD y API.
 - [ ] PDF incluye todos los datos de `RF-CERT-002` + QR + aclaración no oficial + `pdf_version`; `SHA-256` coincide con `metadata.pdf_sha256`.
 - [ ] Verificación por `code` y por QR retorna `valid/revoked/obsolete` sin exponer PII completa; `rate limit` y `404` genérico funcionan.
 - [ ] Revocación y obsolescencia por bump mayor cambian verificación y conservan historial.
@@ -598,7 +635,7 @@ Cambios versionados y auditados (`05` RF-ADM-005/008).
 | PDF desincronizado del registro | `RF-PDF-003` + test `sha256`; plantilla versionada |
 | Falsificación por edición de PDF | Verificación por `code`/QR contra BD es la única verdad; PDF sin registro no verifica |
 | Enumeración de certificados | Verificación sin listado, `rate limit`, `404` genérico, `holder_document_masked` |
-| Pérdida de PDFs | Storage S3 con versionado y backup (`06` RNF-043); `pdf_object_key` recuperable |
+| Pérdida de PDFs | Storage Google Drive con copias de seguridad (`06` RNF-043); `google_drive_file_id` recuperable |
 
 ---
 

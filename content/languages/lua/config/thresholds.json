@@ -1,4 +1,10 @@
 {
   "quiz": 70,
-  "exam": 80
+  "exam": 80,
+  "stars": {
+    "star_3_min_accuracy": 100,
+    "star_2_min_accuracy": 80,
+    "star_1_min_accuracy": 60,
+    "module_min_stars_ratio": 0.80
+  }
 }

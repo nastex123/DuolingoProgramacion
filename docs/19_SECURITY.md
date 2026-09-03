@@ -201,7 +201,7 @@ sequenceDiagram
 - **Validación estricta:** `exp`, `nbf`, `iss`, `aud` verificados; algoritmo no confía en `alg` del cliente (`alg` whitelisted).
 - **Revocación:** `refresh_token` revocado va a lista con TTL = `exp - now()`; `access_token` corto no requiere lista (expira en 15 min). Si se exige revocación inmediata de access, usar KV con `jti` y TTL 15 min.
 - **Transporte:** toda cookie con `Secure` (solo HTTPS), `httpOnly` (no JS), `SameSite=Lax` (mitiga CSRF sin romper navegación). CSRF token adicional solo si se usan cookies para mutaciones `POST/PUT/DELETE`; con `Bearer` no aplica.
-- **QR de certificado:** `qr_payload = https://app.duolingo-programacion.com/verify/CQ-PY-000001`; no contiene PII; verificación pública enmascara documento (§12).
+- **QR de certificado:** `qr_payload = https://koda.app/verificar/KODA-LUA-000001`; no contiene PII; verificación pública enmascara documento (§12).
 
 ### 7.3 Amenazas y mitigaciones
 
@@ -259,7 +259,7 @@ sequenceDiagram
 |---|---|---|
 | **Tránsito** | TLS 1.2+ obligatorio en `prod` y `staging`; `Strict-Transport-Security` (HSTS) con `max-age ≥ 31536000` + `includeSubDomains`; redirección HTTP→HTTPS | Obligatorio (RNF-009) |
 | **Reposo (BD)** | Cifrado a nivel de volumen/BD gestionado por proveedor; `document_number` opcionalmente cifrado a nivel de columna con `pgp_sym_encrypt` + clave en KMS/Vault (ver §14) | Recomendado; obligatorio si auditoría lo exige |
-| **Reposo (Object Storage)** | SSE-S3 o SSE-KMS para `pdf_object_key` y `avatar_object_key` | Recomendado |
+| **Reposo (Object Storage)** | Cifrado en reposo de Google Drive para PDFs; SSE-S3 o SSE-KMS para `avatar_object_key` | Recomendado |
 | **Reposo (Backups)** | Backups cifrados con clave distinta a la de BD; rotación de claves documentada | Obligatorio (§16) |
 | **Secretos** | Variables de entorno o Vault; nunca en repo ni en `openapi.yaml`; rotación sin deploy | Obligatorio (RNF-008) |
 
@@ -382,14 +382,14 @@ Referencia normativa: `13_API_SPECIFICATION.md` §3–§4, §8, §11. Aquí cont
 
 ### 14.1 Datos incluidos (RF-CERT-002, `01` §21)
 
-`certificates` contiene: `user_id`, `language_id`, `code CQ-{LANG}-{SEQ}`, `status (valid/revoked/obsolete)`, `language_content_version`, `issued_at`, `pdf_object_key`, `qr_payload`, `metadata` (snapshot con nombre, documento, plataforma, estado). `PDF` con plantilla versionada + QR (`RF-PDF-001/003`).
+`certificates` contiene: `user_id`, `language_id`, `code KODA-{LANG}-{SEQ}`, `status (valid/revoked/obsolete)`, `language_content_version`, `issued_at`, `google_drive_file_id`, `qr_payload`, `metadata` (snapshot con nombre, documento, plataforma, estado). `PDF` con plantilla versionada + QR (`RF-PDF-001/003`).
 
 ### 14.2 Controles
 
 | Aspecto | Control | RF/RNF |
 |---|---|---|
 | Emisión | Solo si todos los módulos del lenguaje están `APROBADOS` + `email_verified_at IS NOT NULL` (RF-AUTH-005); transacción con `SELECT ... FOR UPDATE` en `certificate_sequences` para correlativo sin huecos | RF-CERT-001, `12` §6.17 |
-| Identificador | `CQ-{LANG}-{SEQ}` con `CHECK (code ~ '^CQ-[A-Z]+-[0-9]{6}$')` + `UNIQUE (code)` + `UNIQUE (user_id, language_id) WHERE status='valid'` (un vigente por lenguaje) | RF-CERT-003 |
+| Identificador | `KODA-{LANG}-{SEQ}` con `CHECK (code ~ '^KODA-[A-Z]+-[0-9]{6}$')` + `UNIQUE (code)` + `UNIQUE (user_id, language_id) WHERE status='valid'` (un vigente por lenguaje) | RF-CERT-003 |
 | QR | URL interna `https://app.../verify/{code}`; no contiene PII; `qr_payload` regenerable si cambia dominio | RF-CERT-004 |
 | Verificación pública | `GET /certificates/{id}` y `POST /certificates/verify` públicos pero **enmascaran** PII: `holder_name = "B. P."`, `holder_document_masked = "CC ***678"`; nunca email completo ni documento completo | RF-CERT-006, RNF-037 |
 | Re-emisión / obsolescencia | Cambio significativo de contenido → `status='obsolete'` + `revoked_at`; no se duplican vigentes; PDF bit-a-bit fiel al certificado vigente con `pdf_version` | RF-CERT-005, RF-PDF-003 |
@@ -399,7 +399,7 @@ Referencia normativa: `13_API_SPECIFICATION.md` §3–§4, §8, §11. Aquí cont
 
 | # | Amenaza | Mitigación | Verificación |
 |---|---|---|---|
-| CE-01 | Certificado falso / ID adivinado | `code` correlativo con lock optimista + verificación por QR firmada; sin validación pública que acepte cualquier `code` sin existir | Test `GET /certificates/CQ-PY-999999` inexistente → `404` |
+| CE-01 | Certificado falso / ID adivinado | `code` correlativo con lock optimista + verificación por QR firmada; sin validación pública que acepte cualquier `code` sin existir | Test `GET /certificates/KODA-LUA-999999` inexistente → `404` |
 | CE-02 | Fuga de PII en verificación pública | Enmascaramiento + nunca `document_number` completo en endpoint público; titular ve completo solo en PDF autenticado | Test que inspecciona respuesta de verificación y falla si aparece documento completo |
 | CE-03 | PDF desincronizado del certificado | `pdf_version` + `metadata` snapshot; regeneración obligatoria si `certificate` cambia; `RF-PDF-003` | Test que compara hash de PDF con `metadata` |
 
@@ -678,7 +678,7 @@ Checklist específico por entrega:
 - [ ] `C-07`: `GET /users/me/progress` con token ajeno → `403/404`; sin token → `401`.
 - [ ] `C-09`: 6º login en 1 min → `429` con `Retry-After` y `RateLimit-*`.
 - [ ] `C-10`: doble `POST /quiz/{id}/attempt` con mismo `Idempotency-Key` y mismo body → `200` idempotente; con distinto body → `409`.
-- [ ] `C-13`: `GET /certificates/CQ-PY-000001` público muestra `***678`, no documento completo.
+- [ ] `C-13`: `GET /certificates/KODA-LUA-000001` público muestra `***678`, no documento completo.
 - [ ] `C-15`: `DELETE /users/me` anonimiza `email`/`document_number`; export incluye datos del titular en ≤30d.
 - [ ] `C-17`: `500` genera log JSON con `request_id` y `America/Bogota` sin PII.
 - [ ] `C-18`: ensayo de restore en `staging` con `RTO ≤ 4h` reportado en `21`.

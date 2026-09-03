@@ -9,7 +9,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento define **cómo se despliega, opera, observa y recupera** la plataforma educativa gamificada del MVP (Python) y su evolución multi-lenguaje. Es la referencia para:
+Este documento define **cómo se despliega, opera, observa y recupera** la plataforma educativa gamificada del MVP (Lua) y su evolución multi-lenguaje. Es la referencia para:
 
 - Reproducir entornos idénticos (`dev`/`staging`/`prod`) sin deriva.
 - Desplegar backend, frontend, BD y objetos estáticos de forma atómica y reversible.
@@ -44,7 +44,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 | Entorno | Propósito | Datos | Acceso | Deploy | Dominio / URL |
 |---|---|---|---|---|---|
-| **`dev`** | Desarrollo local y CI. Iteración rápida. | Sintéticos + seed de Python; se puede borrar sin aviso. | Solo equipo dev. | `docker compose up` local; CI en cada PR. | `https://api.duolingo-programacion.local` (local), frontend `http://localhost:5173` |
+| **`dev`** | Desarrollo local y CI. Iteración rápida. | Sintéticos + seed de Lua; se puede borrar sin aviso. | Solo equipo dev. | `docker compose up` local; CI en cada PR. | `https://api.duolingo-programacion.local` (local), frontend `http://localhost:3000` |
 | **`staging`** | Pre-producción idéntica a `prod`. Validación de RNF, carga, seguridad y contenido antes de release. | Snapshot anonimizado de `prod` (semanal) o sintético a escala (100k intentos para `RNF-007`). | Equipo + QA + revisores de contenido. | Automático al merge a `main`; imagen promovible a `prod`. | `https://staging.duolingo-programacion.com` · API `https://staging-api.duolingo-programacion.com/api/v1` |
 | **`prod`** | Producción para usuarios reales. Solo artefactos probados en `staging`. | Datos reales; PII minimizada (`06` RNF-037); retención documentada. | Público (web) + admin RBAC. | Manual con aprobación; ventana comunicada; rolling con health checks. | `https://duolingo-programacion.com` · API `https://api.duolingo-programacion.com/api/v1` |
 
@@ -55,14 +55,15 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 | Réplicas app | 1 | 2 (prueba `RNF-005` 1→2) | 2–3 (HPA opcional Post-MVP) |
 | BD | PostgreSQL en contenedor, sin réplica | PostgreSQL gestionado o contenedor con backup diario | PostgreSQL gestionado con standby + backup diario + PITR si el proveedor lo ofrece |
 | KV / Cache | Redis en contenedor | Redis gestionado o contenedor | Redis gestionado / KV externo |
-| Object Storage | MinIO local | Bucket `staging` (S3-compatible) | Bucket `prod` (S3-compatible) con versionado |
+| Storage Certificados | Google Drive (Service Account local) | Google Drive (Service Account) | Google Drive (Service Account) con carpetas estructuradas |
+| Object Storage (Avatars/Assets) | MinIO local | Bucket `staging` (S3-compatible) | Bucket `prod` (S3-compatible) con versionado |
 | TLS | Self-signed / mkcert local | Let's Encrypt staging o cert válido | Let's Encrypt prod / cert gestionado por proxy/CDN |
 | Logs | stdout local + archivo | Agregados en Loki/ELK de staging | Agregados en Loki/ELK de prod con retención ≥ 30 días |
 | Métricas / APM | Opcional local | APM + uptime sintético cada 1 min | APM + RUM + uptime sintético + alertas |
 | Rate limiting | Relajado | Igual que `prod` | Estricto (`05` RF-AUTH-006) |
 | Anuncios / Pagos | Mocks (`mock` provider) | Mocks + sandbox de pasarela si existe | Proveedores reales tras interfaz abstracta (`11` §13–14) |
 
-> **Regla de paridad:** `staging` debe poder ejecutar las mismas pruebas de carga/pico/volumen que `prod` (`06` §5.1). Si `staging` usa un sustituto (ej. MinIO en lugar de S3 real), se documenta en ADR y se prueba la interfaz S3-compatible, no el proveedor.
+> **Regla de paridad:** `staging` debe poder ejecutar las mismas pruebas de carga/pico/volumen que `prod` (`06` §5.1). Si `staging` usa un sustituto (ej. MinIO en lugar de S3 real para avatares), se documenta en ADR y se prueba la interfaz S3-compatible, no el proveedor. Para certificados, el Service Account de Google Drive se usa en todos los entornos (distinta carpeta raíz por env).
 
 ---
 
@@ -70,20 +71,19 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 > Ninguna elección se asume. Cada fila propone una opción para MVP y exige ADR si es arquitectónica (`11` §19). La alternativa queda documentada para no re-decidir sin evidencia.
 
-| Capa | Opciones evaluadas | Recomendación MVP | Justificación | ADR requerido |
+| Capa | Opciones evaluadas | Decisión Oficial Koda | Justificación | ADR Vinculante |
 |---|---|---|---|---|
-| **Contenedores** | Docker + Compose / Podman / sin contenedores | **Docker + Compose** | Artefacto inmutable (P-02), paridad `dev`≈`staging`≈`prod`, `Dockerfile` multi-stage cacheable; evita deriva de "funciona en mi máquina". Sin contenedores se pierde reproducibilidad. | No (ya decidido por P-02) |
-| **Orquestación MVP** | Compose en VM / Kubernetes (k3s/EKS/GKE) / PaaS (Fly/Render) | **Compose en VM (1–2 nodos) + reverse proxy** | Menor costo operativo en MVP con 100 concurrentes (`06` RNF-001); cumple `RNF-005` con 2 réplicas tras balanceador sin la complejidad de K8s. K8s se adopta solo si `26` muestra necesidad de HPA o si un motor se extrae a servicio (`11` §2.1). | Sí si se elige K8s en MVP |
-| **Reverse proxy / TLS** | Caddy / Nginx / Traefik | **Caddy o Nginx** (el equipo elige uno) | Terminación TLS, `Cache-Control`/`ETag`, cabeceras de seguridad y balanceo a réplicas. Caddy gestiona Let's Encrypt automático; Nginx es alternativa madura. Se exige uno, no ambos. | Sí (elección) |
-| **Runtime backend** | Node.js (NestJS) / Python (FastAPI) | **Uno de los dos, a elegir con ADR** (`11` §4.2) | Ambos generan OpenAPI, validan DTOs y cumplen p95 < 300 ms con 100 concurrentes. La elección se justifica por contratación y cobertura ≥70% (`06` RNF-016), no por preferencia. | Sí |
-| **Frontend build** | Vite / Next.js / CRA | **Vite + SPA con code-splitting por ruta** (`11` §3.2) | Carga inicial < 1,5 s en 4G (`06` RNF-011); SSR solo si SEO lo exige. | No |
-| **BD** | PostgreSQL ≥15 / MySQL 8 | **PostgreSQL ≥15** (`11` §5.2, `12` §3) | FKs, `JSONB`, `GIN`, `EXCLUDE`, `TIMESTAMPTZ`, `pgcrypto`; cubre `RNF-033`–`RNF-036` sin extensiones exóticas. MySQL válido con ADR y adaptación de `12` §10. | Sí si se elige MySQL |
-| **Migraciones** | Flyway / Liquibase / Prisma Migrate / Knex | **Una de ellas, versionada** | Migraciones reproducibles `V{YYYYMMDD}_{NNN}__*.sql` (`12` §2.1); ninguna herramienta se impone aquí. | No |
-| **KV / Cache** | Redis / Memcached / KV embebido | **Redis (o equivalente KV)** (`11` §5.2) | Rate limit, refresh rotativo, cache de `content_version` y ` streak grace`. Memcached válido si el equipo lo opera. | Sí |
-| **Object Storage** | S3 / R2 / GCS / MinIO | **Interfaz S3-compatible** (`11` §5.2) | PDFs y avatares fuera de BD (`05` RF-PDF-004, `06` RNF-004); en `dev` MinIO, en `staging`/`prod` bucket S3/R2. Abstraído por adapter, sin hardcodeo de proveedor. | Sí (elección de proveedor) |
-| **Imágenes / build** | `node:20-alpine` / `python:3.11-slim` multi-stage | **Multi-stage** | Imagen final sin toolchain; `npm ci --omit=dev` o `pip install --no-cache`. Reduce superficie y tiempo de pull. | No |
-| **CI/CD** | GitHub Actions / GitLab CI / Jenkins | **GitHub Actions (o el forge del repo)** | Pipeline declarativo (lint → test → build → scan → push → deploy). Cualquier CI que ejecute el mismo `workflow.yaml` es válido. | No |
-| **CDN estático** | Cloudflare / CloudFront / sin CDN en MVP | **Sin CDN obligatorio en MVP; `Cache-Control` + `ETag` sí** (`06` RNF-004) | `RNF-004` es recomendación; CDN se añade Post-MVP si `staging` muestra TTFB > 300 ms. | Sí si se añade CDN en MVP |
+| **Contenedores** | Docker + Compose / Podman / sin contenedores | **Docker + Compose** | Artefacto inmutable (P-02), paridad `dev`≈`staging`≈`prod`, `Dockerfile` multi-stage cacheable; evita deriva de "funciona en mi máquina". | Decidido por P-02 |
+| **Orquestación MVP** | Compose en VM / Kubernetes (k3s/EKS/GKE) / PaaS | **Compose en VM (1–2 nodos) + reverse proxy** | Menor costo operativo en MVP con 100 concurrentes (`06` RNF-001); cumple `RNF-005` con 2 réplicas tras balanceador. | No requiere K8s en MVP |
+| **Reverse proxy / TLS** | Caddy / Nginx / Traefik | **Caddy o Nginx** | Terminación TLS, `Cache-Control`/`ETag`, cabeceras de seguridad y balanceo a réplicas. Caddy gestiona Let's Encrypt automático. | Operativo |
+| **Runtime backend** | Node.js (NestJS) / Python (FastAPI) | **Node.js (NestJS Modular Monolith)** | Monolito de 9 motores desacoplados, contratos compartidos `@koda/types`, OpenAPI Swagger v2.0.0 nativo y compatibilidad multi-core. | [`ADR-001`](adr/ADR-001-monorepo-pnpm-workspaces.md) || **Frontend build** | Vite / Next.js 15 / CRA | **Next.js 15 (App Router + React 19)** | SSG/ISR para páginas de verificación pública de certificados (`/verificar/[code]`), SEO optimizado y soporte para PixiJS v7. | [`ADR-001`](adr/ADR-001-monorepo-pnpm-workspaces.md) |
+| **BD** | PostgreSQL ≥15 / MySQL 8 | **Supabase (PostgreSQL 15+)** | Triggers PL/pgSQL transaccionales para recálculo de estrellas y candados ($\ge 80\%$), JSONB indexable y RLS. | [`ADR-002`](adr/ADR-002-persistencia-supabase-postgresql.md) |
+| **Migraciones** | Flyway / Liquibase / Supabase Migrations | **Migraciones SQL versionadas (`V*.sql`)** | Migraciones reproducibles `V{YYYYMMDD}_{NNN}__*.sql` (`12` §2.1) gestionadas con Supabase CLI o script de arranque. | [`ADR-002`](adr/ADR-002-persistencia-supabase-postgresql.md) |
+| **KV / Cache** | Redis / Memcached / KV embebido | **Redis (o equivalente KV)** | Rate limit por ventana deslizante, tokens rotativos, caché de progreso e idempotencia. | Aprobado (`11` §5.2) |
+| **Storage de Certificados** | S3 / R2 / Google Drive API | **Google Drive API v3 (Service Account)** | Emisión 100% en backend, sin egress fees en MVP, carpetas estructuradas y deduplicación por `pdf_sha256`. | [`ADR-003`](adr/ADR-003-certificados-backend-google-drive-storage.md) |
+| **Motor Gráfico Mascotas** | CSS / Three.js / PixiJS | **PixiJS v7 (WebGL 2D Acelerado)** | 60 FPS estables para Koda 🦊, física de flotación continua, expresiones emocionales en tiempo real y emisión de confeti. | [`ADR-004`](adr/ADR-004-motor-grafico-pixijs-mascota-koda.md) |
+| **Imágenes / build** | `node:20-alpine` multi-stage | **Multi-stage (`node:20-alpine`)** | Imagen final sin toolchain de desarrollo; `pnpm prune --prod`. Reduce superficie y tiempo de pull. | No |
+| **CI/CD** | GitHub Actions / GitLab CI | **GitHub Actions** | Pipeline declarativo (lint → test → build → scan → push → deploy) con pnpm cacheado. | Operativo |
 
 ---
 
@@ -104,7 +104,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 | `TZ` | Zona horaria del proceso para logs | Sí | No | `America/Bogota` | `America/Bogota` | `America/Bogota` |
 | `PORT` | Puerto interno del backend | Sí | No | `3000` | `3000` | `3000` |
 | `API_BASE_URL` | URL pública de la API | Sí | No | `http://localhost:3000/api/v1` | `https://staging-api.duolingo-programacion.com/api/v1` | `https://api.duolingo-programacion.com/api/v1` |
-| `WEB_BASE_URL` | URL pública del frontend | Sí | No | `http://localhost:5173` | `https://staging.duolingo-programacion.com` | `https://duolingo-programacion.com` |
+| `WEB_BASE_URL` | URL pública del frontend | Sí | No | `http://localhost:3000` | `https://staging.duolingo-programacion.com` | `https://duolingo-programacion.com` |
 | `DATABASE_URL` | DSN PostgreSQL (con pool) | Sí | **Sí** | `postgres://app:***@db:5432/app_dev` | `postgres://app:***@db-staging:5432/app_staging` | `postgres://app:***@db-prod:5432/app` |
 | `DATABASE_POOL_SIZE` | Conexiones por réplica | No | No | `10` | `20` | `20` |
 | `REDIS_URL` | DSN Redis/KV | Sí | **Sí** | `redis://redis:6379/0` | `redis://***@redis-staging:6379/0` | `redis://***@redis-prod:6379/0` |
@@ -112,12 +112,8 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 | `JWT_EXPIRES_IN` | Vida del access token | Sí | No | `15m` | `15m` | `15m` |
 | `REFRESH_TOKEN_TTL` | Vida del refresh rotativo | Sí | No | `7d` | `7d` | `7d` |
 | `BCRYPT_ROUNDS` / `ARGON2_PARAMS` | Factor de hash adaptativo | Sí | No | `10` / `m=19456,t=2,p=1` | `12` | `12` |
-| `S3_ENDPOINT` | Endpoint S3-compatible | Sí | No | `http://minio:9000` | `https://s3.amazonaws.com` | `https://s3.amazonaws.com` |
-| `S3_BUCKET` | Bucket de objetos | Sí | No | `app-dev` | `app-staging` | `app-prod` |
-| `S3_REGION` | Región del bucket | Sí | No | `us-east-1` | `us-east-1` | `us-east-1` |
-| `S3_ACCESS_KEY_ID` | Credencial S3 | Sí | **Sí** | `minioadmin` | `***` | `***` |
-| `S3_SECRET_ACCESS_KEY` | Credencial S3 | Sí | **Sí** | `minioadmin` | `***` | `***` |
-| `S3_PUBLIC_BASE_URL` | URL pública para PDFs/avatars (CDN si existe) | No | No | `http://localhost:9000/app-dev` | `https://cdn-staging.duolingo-programacion.com` | `https://cdn.duolingo-programacion.com` |
+| `GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY` | JSON de credenciales de Service Account para Google Drive API | Sí | **Sí** | `{"type":"service_account",...}` | `***` | `***` |
+| `GOOGLE_DRIVE_ROOT_FOLDER_ID` | ID de carpeta raíz en Google Drive para certificados | Sí | No | `1abc...dev` | `1abc...staging` | `1abc...prod` |
 | `EMAIL_PROVIDER` | `mock` / `resend` / `ses` / `sendgrid` | Sí | No | `mock` | `mock` o `ses` | `ses` (o elegido) |
 | `EMAIL_API_KEY` | Credencial del proveedor | Si no es `mock` | **Sí** | — | `***` | `***` |
 | `EMAIL_FROM` | Remitente verificado | Sí | No | `noreply@local.test` | `noreply@staging.duolingo-programacion.com` | `noreply@duolingo-programacion.com` |
@@ -125,7 +121,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 | `ADS_SLOT_ID` | Slot de anuncios | Si no es `mock` | No | — | — | `slot-prod-001` |
 | `PAYMENT_PROVIDER` | `mock` / `stripe` / `paypal` | Sí | No | `mock` | `mock` | `stripe` (o elegido) |
 | `PAYMENT_WEBHOOK_SECRET` | Secreto de webhook | Si no es `mock` | **Sí** | — | `***` | `***` |
-| `CORS_ALLOWED_ORIGINS` | Orígenes permitidos | Sí | No | `http://localhost:5173` | `https://staging.duolingo-programacion.com` | `https://duolingo-programacion.com` |
+| `CORS_ALLOWED_ORIGINS` | Orígenes permitidos | Sí | No | `http://localhost:3000` | `https://staging.duolingo-programacion.com` | `https://duolingo-programacion.com` |
 | `RATE_LIMIT_WINDOW_MS` | Ventana de rate limit | No | No | `60000` | `60000` | `60000` |
 | `RATE_LIMIT_MAX` | Máx requests por ventana | No | No | `100` | `60` | `30` (auth más estricto) |
 | `LOG_LEVEL` | `debug` / `info` / `warn` / `error` | Sí | No | `debug` | `info` | `info` |
@@ -140,16 +136,17 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 > ```dotenv
 > NODE_ENV=development
 > TZ=America/Bogota
-> PORT=3000
+> PORT=4000
 > DATABASE_URL=postgres://user:pass@host:5432/db
 > REDIS_URL=redis://host:6379/0
 > JWT_SECRET=change-me-32-chars-min
-> S3_ENDPOINT=http://minio:9000
-> S3_BUCKET=app-dev
+> GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY={"type":"service_account",...}
+> GOOGLE_DRIVE_ROOT_FOLDER_ID=your-root-folder-id
+> NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 > EMAIL_PROVIDER=mock
 > PAYMENT_PROVIDER=mock
 > ADS_PROVIDER=mock
-> CORS_ALLOWED_ORIGINS=http://localhost:5173
+> CORS_ALLOWED_ORIGINS=http://localhost:3000
 > ```
 
 ---
@@ -170,7 +167,7 @@ Este documento define **cómo se despliega, opera, observa y recupera** la plata
 
 | Entorno | Cómo se despliega | Origen de datos |
 |---|---|---|
-| `dev` | `docker compose up db` con `postgres:15-alpine`; volumen `pgdata_dev`; migraciones al arrancar (`npm run db:migrate`). | `seed:dev` con 1 lenguaje (Python), 12 módulos, preguntas de ejemplo y usuario admin `admin@local.test / Admin!2026`. |
+| `dev` | `docker compose up db` con `postgres:15-alpine`; volumen `pgdata_dev`; migraciones al arrancar (`npm run db:migrate`). | `seed:dev` con 1 lenguaje (Lua), 2 módulos, preguntas de ejemplo y usuario admin `admin@local.test / Admin!2026`. |
 | `staging` | Servicio gestionado (ej. RDS/Neon/Supabase) o contenedor con volumen persistente; migraciones como job `migrate` previo al rolling. | Snapshot anonimizado de `prod` semanal (PII reemplazada) o dataset sintético a escala para pruebas de volumen. |
 | `prod` | Servicio gestionado con **standby** y **PITR** si el proveedor lo ofrece; disco cifrado en reposo; `max_connections` calibrado. | Datos reales; sin seeds; solo migraciones. |
 
@@ -204,7 +201,7 @@ npm run db:seed:dev       # solo en dev
 
 ### 7.1 Artefacto
 
-- **Imagen Docker multi-stage** (ejemplo Node.js; equivalente para FastAPI):
+- **Imagen Docker multi-stage** (NestJS backend):
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -238,7 +235,7 @@ CMD ["node", "dist/main.js"]
 
 | Entorno | Cómo corre | Escalado | Health checks |
 |---|---|---|---|
-| `dev` | `docker compose up api` con `watch` y `env_file: .env.dev` | 1 réplica | `GET /api/v1/health` (liveness) + `GET /api/v1/ready` (migraciones aplicadas + Redis + S3 accesible) |
+| `dev` | `docker compose up api` con `watch` y `env_file: .env.dev` | 1 réplica | `GET /api/v1/health` (liveness) + `GET /api/v1/ready` (migraciones aplicadas + Redis + Google Drive accesible) |
 | `staging` | `docker compose up -d --no-deps api` tras `migrate`; 2 réplicas tras Caddy/Nginx | 2 réplicas | Igual; rolling espera `healthy` antes de detener la anterior |
 | `prod` | Igual que `staging` con 2–3 réplicas; `restart: unless-stopped`; deploy manual con aprobación | 2–3 réplicas; HPA Post-MVP | Igual; ventana de 5 min post-deploy con `0` 5xx (`06` RNF-015) |
 
@@ -247,7 +244,7 @@ CMD ["node", "dist/main.js"]
 | Endpoint | Auth | Propósito |
 |---|---|---|
 | `GET /api/v1/health` | No | Liveness: proceso arriba. |
-| `GET /api/v1/ready` | No | Readiness: BD + Redis + S3 + migraciones al día. Usado por proxy para routing. |
+| `GET /api/v1/ready` | No | Readiness: BD + Redis + Google Drive + migraciones al día. Usado por proxy para routing. |
 | `GET /api/v1/version` | No | `{ git_sha, content_version, thresholds, deployed_at: "2026-08-29T15:04:05-05:00" }` para trazabilidad. |
 
 **Reglas transversales** (`13` §6.4): `request_id` (UUID) en cada request/response, `Idempotency-Key` obligatorio en `POST /intentos`/`/quizzes/*/enviar`/`/examenes/*/enviar`, `Cache-Control` + `ETag` en `GET /lecciones` y `GET /languages` por `content_version`.
@@ -258,16 +255,16 @@ CMD ["node", "dist/main.js"]
 
 ### 8.1 Artefacto
 
-- **Build estático:** `npm run build` → `dist/` (HTML/CSS/JS con hash por chunk). `Vite` con `code-splitting` por ruta (`11` §3.2) para `RNF-011` (carga inicial < 1,5 s en 4G, transición lección→siguiente < 500 ms p95 cacheado).
-- **Imagen opcional para `staging`/`prod`:** `nginx:alpine` o `caddy:alpine` sirviendo `dist/` con `try_files` para SPA + `Cache-Control` por tipo de asset. Alternativa: servir desde Object Storage + CDN (ver §9) sin contenedor de frontend.
+- **Build:** `npm run build` → `.next/` (Next.js 15 App Router con SSG/ISR para páginas públicas y SPA en `/app/*`). Optimización de código por ruta para `RNF-011` (carga inicial < 1,5 s en 4G, transición lección→siguiente < 500 ms p95 cacheado).
+- **Imagen opcional para `staging`/`prod`:** `node:20-alpine` sirviendo la app Next.js con `next start` en puerto 3000. Alternativa: despliegue en Vercel o plataforma PaaS con soporte nativo para Next.js (sin contenedor de frontend).
 
 ### 8.2 Despliegue por entorno
 
 | Entorno | Cómo se sirve | Variables inyectadas | Cache |
 |---|---|---|---|
-| `dev` | `npm run dev` (Vite) en `http://localhost:5173` con proxy a `API_BASE_URL` | `.env.dev` con `VITE_API_BASE_URL=http://localhost:3000/api/v1` | Sin cache |
-| `staging` | Build `dist/` desplegado a `staging` (Nginx/Caddy o bucket `staging-web` + CDN) | `VITE_API_BASE_URL=https://staging-api.duolingo-programacion.com/api/v1`, `VITE_ENV=staging` | `index.html: no-cache`; chunks `immutable` 1 año |
-| `prod` | Igual que `staging` en bucket `prod-web` o imagen `web` | `VITE_API_BASE_URL=https://api.duolingo-programacion.com/api/v1`, `VITE_ENV=production` | Igual; invalidación de `index.html` en cada deploy |
+| `dev` | `npm run dev` (Next.js) en `http://localhost:3000` con proxy a `API_BASE_URL` | `.env.dev` con `NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1` | Sin cache |
+| `staging` | `next build && next start` o imagen `web` en `staging` | `NEXT_PUBLIC_API_URL=https://staging-api.duolingo-programacion.com/api/v1`, `NEXT_PUBLIC_ENV=staging` | `index.html: no-cache`; chunks `immutable` 1 año |
+| `prod` | Igual que `staging` en imagen `web` o Vercel/PaaS | `NEXT_PUBLIC_API_URL=https://api.duolingo-programacion.com/api/v1`, `NEXT_PUBLIC_ENV=production` | Igual; revalidación de ISR en cada deploy |
 
 **Reglas:**
 
@@ -283,32 +280,33 @@ CMD ["node", "dist/main.js"]
 
 | Tipo | Origen | Destino | RF/RNF |
 |---|---|---|---|
-| PDFs de certificados (plantilla versionada, QR) | `Certification Engine` | `s3://{S3_BUCKET}/certificates/{CQ-{LANG}-{SEQ}}.pdf` | `05` RF-PDF-001/002/003/004 |
+| PDFs de certificados (plantilla versionada, QR) | `Certification Engine` | Google Drive API v3 → `Koda_Certificados/{lang}/KODA-{LANG}-{SEQ}_v{N}.pdf` (vía Service Account) | `05` RF-PDF-001/002/003/004 |
 | Avatares | `PATCH /users/me` | `s3://{S3_BUCKET}/avatars/{user_id}/{uuid}.webp` | `05` RF-PROF-002 |
 | Assets de lecciones (imágenes, opcional) | Contenido versionado (`23`) | `s3://{S3_BUCKET}/content/{language}/{module}/{asset}` o CDN | `06` RNF-004 |
-| Frontend `dist/` (si se usa bucket para web) | Pipeline | `s3://{S3_BUCKET_WEB}/` + CDN | `06` RNF-004/011 |
+| Frontend (si se usa bucket para web) | Pipeline | `s3://{S3_BUCKET_WEB}/` + CDN | `06` RNF-004/011 |
 
-### 9.2 Estrategia por entorno
+### 9.2 Estrategia por entorno (avatares y assets estáticos)
 
 | Entorno | Proveedor | Configuración |
 |---|---|---|
 | `dev` | **MinIO** (`minio:RELEASE` + `minio/mc`) en `docker-compose.yml`; bucket `app-dev` creado al arrancar | `S3_ENDPOINT=http://minio:9000`, credenciales `minioadmin`, sin TLS |
 | `staging` | Bucket `app-staging` en proveedor S3-compatible (S3/R2/GCS) | Versionado habilitado; lifecycle: `DELETE` de objetos con `deleted_at` tras 30 días; CORS para `https://staging.duolingo-programacion.com` |
-| `prod` | Bucket `app-prod` en mismo proveedor con **versionado + cifrado en reposo + bloqueo de acceso público** | Lifecycle: retención de PDFs 7 años (certificados); avatares con `Cache-Control: public, max-age=31536000, immutable`; replicación opcional a segunda región Post-MVP |
+| `prod` | Bucket `app-prod` en mismo proveedor con **versionado + cifrado en reposo + bloqueo de acceso público** | Lifecycle: avatares con `Cache-Control: public, max-age=31536000, immutable`; replicación opcional Post-MVP |
 
-**Adapter S3-compatible** (`11` §5.2, `12` §2.3):
+**Adapter S3-compatible** (avatares y assets, `11` §5.2):
 
 ```ts
 interface StorageAdapter {
   put(key: string, body: Buffer, contentType: string): Promise<void>
   get(key: string): Promise<Buffer>
   delete(key: string): Promise<void>
-  presignedGet(key: string, ttl: number): Promise<string> // para descarga autenticada de PDF
+  presignedGet(key: string, ttl: number): Promise<string>
 }
 ```
 
-- En `dev` la implementación apunta a MinIO; en `staging`/`prod` al SDK del proveedor sin cambiar código de negocio (`05` RF-PDF-004).
-- PDFs se sirven vía **URL firmada** con TTL 5 min y `Content-Disposition: attachment; filename="CQ-PY-000001.pdf"`; solo el titular autenticado (`13` §7.11) puede obtenerla (`05` RF-PDF-002).
+- En `dev` la implementación apunta a MinIO; en `staging`/`prod` al SDK del proveedor sin cambiar código de negocio.
+- Los PDFs de certificados **no** pasan por este adapter — usan `GoogleDriveAdapter` exclusivamente.
+- PDFs se sirven vía enlace firmado de Google Drive con TTL controlado; solo el titular autenticado (`13` §7.11) puede obtenerlo (`05` RF-PDF-002).
 
 ### 9.3 CDN (Post-MVP opcional)
 
@@ -325,11 +323,11 @@ interface StorageAdapter {
 Progress Engine: ¿todos los exámenes del lenguaje aprobados? (RNF-034, 04 §7)
   → Auth: ¿email verificado? (05 RF-AUTH-005)
   → Certification Engine: UPDATE certificate_sequences SET last_seq = last_seq+1 ... RETURNING
-  → code = CQ-{LANG}-{SEQ} (ej. CQ-PY-000001) con LPAD(6)
+  → code = KODA-{LANG}-{SEQ} (ej. KODA-LUA-000001) con LPAD(6)
   → QR payload = https://{WEB_BASE_URL}/verificar/{code}
   → Render PDF con plantilla versionada (pdf_version) + QR + metadata { nombre, documento, lenguaje, fecha, plataforma, estado }
-  → StorageAdapter.put(certificates/{code}.pdf)  (S3-compatible)
-  → INSERT certificates (status='valid', pdf_object_key, pdf_version, qr_payload, language_content_version)
+  → GoogleDriveAdapter.upload(Koda_Certificados/{lang}/{code}_v{N}.pdf)
+  → INSERT certificates (status='valid', google_drive_file_id, pdf_version, qr_payload, language_content_version)
   → Verificación interna: GET /api/v1/certificates/{code} (público sin PII) y GET /api/v1/certificates/{code}/pdf (solo titular)
 ```
 
@@ -376,7 +374,8 @@ Progress Engine: ¿todos los exámenes del lenguaje aprobados? (RNF-034, 04 §7)
 | Recurso | Frecuencia | Retención | RPO | RTO | Cifrado |
 |---|---|---|---|---|---|
 | **BD (`prod`)** | Diario automatizado + WAL/PITR si el proveedor lo ofrece | ≥ 7 días (recomendado 30 días) | ≤ 24 h | ≤ 4 h | En reposo y en tránsito |
-| **Object Storage (`prod`)** | Versionado del bucket + replicación opcional | PDFs 7 años; avatares 30 días tras `deleted_at` | ≤ 24 h | ≤ 4 h | SSE-S3 / SSE-KMS |
+| **Object Storage (`prod`)** | Versionado del bucket + replicación opcional | Avatares 30 días tras `deleted_at`; assets indefinidos | ≤ 24 h | ≤ 4 h | SSE-S3 / SSE-KMS |
+| **Google Drive (PDFs certificados)** | Carpetas versionadas por entorno; retención permanente | PDFs 7 años mínimo (normativa) | ≤ 24 h | ≤ 4 h | Cifrado en reposo de Google |
 | **KV (Redis)** | No crítico para `RNF-014`; snapshot diario opcional | 7 días | N/A (reconstruible) | < 1 h | En tránsito |
 | **Config / secretos** | Versionados en gestor de secretos con historial | Indefinida | — | — | Vault/Doppler |
 
@@ -531,7 +530,7 @@ echo "[$(TZ=America/Bogota date +'%Y-%m-%d %H:%M')] [Fixed] Rollback $ENV $CURR_
 
 - Toda migración que no sea aditiva debe incluir `down` o documentar que requiere restore; de lo contrario se considera defecto de diseño (`12` §2.3).
 - El `Object Storage` con versionado no necesita rollback de código: los PDFs ya emitidos son inmutables; solo se revierte la plantilla si la nueva está rota.
-- El frontend se revierte redeplegando `dist/` del `PREV_SHA` y invalidando `index.html` en CDN (si existe).
+- El frontend se revierte redeplegando el build `PREV_SHA` (o apuntando Vercel/PaaS al deployment anterior) e invalidando la caché del proxy/CDN si existe.
 
 ### 14.3 Matriz de rollback por componente
 
@@ -539,7 +538,7 @@ echo "[$(TZ=America/Bogota date +'%Y-%m-%d %H:%M')] [Fixed] Rollback $ENV $CURR_
 |---|---|---|---|
 | Backend (imagen) | `up -d` a `PREV_SHA` | No (si migración aditiva) | < 5 min |
 | BD (migración) | Down-migration o `pg_restore` | Restore pre-migración | < 30 min (RTO ≤ 4 h) |
-| Frontend (`dist`) | Redeploy `PREV_SHA` + invalidación CDN | No | < 5 min |
+| Frontend (Next.js) | Redeploy `PREV_SHA` + invalidación CDN/proxy | No | < 5 min |
 | Contenido (`content_version`) | `POST /admin/content/publish --version=N-1` | No (versiones conservadas) | < 5 min |
 | Certificados (plantilla) | `pdf_version N-1` | No (PDFs inmutables) | < 5 min |
 
@@ -553,7 +552,7 @@ flowchart TB
     CDN["CDN / Caddy / Nginx\nTLS (Let's Encrypt)\nCache-Control + ETag\nWAF opcional"]
 
     subgraph Frontend["Frontend"]
-        WEB["Web SPA\nVite + dist/\nBucket S3 o Nginx"]
+        WEB["Web — Next.js 15\nApp Router + SSG/ISR\nnext start :3000"]
     end
 
     subgraph Edge["Edge / API"]
@@ -562,14 +561,15 @@ flowchart TB
     end
 
     subgraph App["App — Réplicas stateless"]
-        API1["api-1\n:3000\nHEALTH / READY"]
-        API2["api-2\n:3000\nHEALTH / READY"]
+        API1["api-1\n:4000\nHEALTH / READY"]
+        API2["api-2\n:4000\nHEALTH / READY"]
     end
 
     subgraph Data["Datos"]
         DB[("PostgreSQL ≥15\nRDS / gestionado\n+ Standby + PITR")]
         KV[("Redis / KV\nRate limit\nRefresh · Cache")]
-        OBJ[("Object Storage\nS3-compatible\nPDFs / Avatars")]
+        OBJ[("Object Storage\nS3-compatible\nAvatars / Assets")]
+        GDrive[("Google Drive API v3\nKoda_Certificados/\nPDFs certificados")]
         BuckBack[("Bucket backups\nDB dumps + sync objects")]
     end
 
@@ -587,11 +587,12 @@ flowchart TB
 
     User --> CDN --> WEB
     WEB --> GW --> AuthMW --> API1 & API2
-    API1 & API2 --> DB & KV & OBJ
+    API1 & API2 --> DB & KV & OBJ & GDrive
     API1 & API2 --> Email & Ads & Pay
     API1 & API2 -.-> Logs & Metrics & Uptime
     DB -.-> BuckBack
     OBJ -.-> BuckBack
+    GDrive -.-> BuckBack
     CDN -.-> WEB
 
     classDef user fill:#e3f2fd,stroke:#1565c0
@@ -602,7 +603,7 @@ flowchart TB
     class User user
     class CDN,GW,AuthMW edge
     class API1,API2 app
-    class DB,KV,OBJ,BuckBack data
+    class DB,KV,OBJ,GDrive,BuckBack data
     class Logs,Metrics,Uptime obs
 ```
 
@@ -610,11 +611,12 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    DevUser["localhost:5173"] --> CaddyDev["Caddy (dev)\n:80"]
-    CaddyDev --> APIdev["api:3000\n1 réplica"]
+    DevUser["localhost:3000"] --> CaddyDev["Caddy (dev)\n:80"]
+    CaddyDev --> APIdev["api:4000\n1 réplica"]
     APIdev --> DBdev[("db:5432\npostgres:15-alpine")]
     APIdev --> KVdev[("redis:6379")]
-    APIdev --> MinIO[("minio:9000\nbucket app-dev")]
+    APIdev --> MinIO[("minio:9000\nbucket app-dev\navatars/assets")]
+    APIdev --> GDrive2[("Google Drive API\nKoda_Certificados/\nSA key local")]
 ```
 
 ---
@@ -704,7 +706,7 @@ services:
 | Backend (imagen, health, rolling) | RF-EVAL-006, RF-XP-005 | RNF-001/002/005/015/018/033/042 | OT-04 | `11` §4, `13` |
 | Frontend (build, cache, SPA) | RF-SEC-004, RF-LEC-001 | RNF-004/011/024–028/032 | — | `10`, `11` §3 |
 | Archivos estáticos (S3, CDN) | RF-PDF-002/004, RF-PROF-002 | RNF-004 | — | `11` §5, `12` §6.17 |
-| Certificados (PDF + QR) | RF-CERT-001–006, RF-PDF-001–004, RF-AUTH-005 | RNF-014/035 | OE-06 | `17` (futuro) |
+| Google Drive (certificados PDF) | RF-PDF-001/002/003/004, RF-CERT-001–006 | RNF-014/035 | OE-06 | `17`, `ADR-003` |
 | Logs (request_id, PII) | RF-AUTH-008, RF-ADM-008 | RNF-018/037/041/045 | — | `11` §22, `19` |
 | Backups (RPO/RTO) | RF-PROG-004, RF-PDF-002 | RNF-043 | — | `12` |
 | Actualizaciones (pipeline, rolling) | RF-ADM-003/004 | RNF-015/017/032 | OT-09 | `11` §20, `13` §12 |
@@ -718,7 +720,7 @@ services:
 |---|---|
 | `01_PROJECT_OVERVIEW.md` §24–§31 | Motores y principio de contenido desacoplado que el despliegue debe preservar. |
 | `03_OBJECTIVES.md` OT-09 | Objetivo de despliegue por entornos con rollback que este doc implementa. |
-| `04_SCOPE.md` §2.8/§5/§9 | Transversales MVP y dependencias externas (email, S3, ads, pagos) desplegables. |
+| `04_SCOPE.md` §2.8/§5/§9 | Transversales MVP y dependencias externas (email, Google Drive, ads, pagos) desplegables. |
 | `05_FUNCTIONAL_REQUIREMENTS.md` | 128 RF origen de cada artefacto desplegable (ver §19). |
 | `06_NON_FUNCTIONAL_REQUIREMENTS.md` | 45 RNF con métrica y verificación que condicionan cada decisión de §4–§14. |
 | `11_SYSTEM_ARCHITECTURE.md` | Topología modular, estilo monolito con fronteras y procedimiento de agregar lenguaje sin tocar el núcleo (§18) que el pipeline respeta. |
@@ -736,7 +738,7 @@ services:
 |---|---|---|---|
 | D-01 | ¿Orquestación en `prod` con Compose o K8s? | A: Compose en VM (actual MVP). B: K8s (k3s/EKS) con HPA y `blue-green`. | B habilita HPA y `blue-green` nativo pero exige gestión de cluster y `09-decisions/` completo. |
 | D-02 | ¿CDN para frontend y assets? | A: Sin CDN en MVP (actual). B: Cloudflare/CloudFront en MVP. | B mejora TTFB global pero añade costo y configuración de invalidación. |
-| D-03 | ¿Proveedor S3 y BD gestionada? | A: AWS (S3+RDS) · B: Cloudflare R2+Neon · C: Hetzner+MinIO | Cambia `S3_ENDPOINT` y `DATABASE_URL` pero no el código gracias al adapter S3-compatible. |
+| D-03 | ¿Proveedor S3 (avatares) y BD gestionada? | A: AWS (S3+RDS) · B: Cloudflare R2+Neon · C: Hetzner+MinIO | Cambia `S3_ENDPOINT` y `DATABASE_URL` pero no el código gracias al adapter S3-compatible. No afecta certificados (Google Drive). |
 | D-04 | ¿Worker async para PDFs/emails? | A: Síncrono en MVP (actual, con degradado). B: Cola BullMQ/SQS desde MVP. | B aísla `RNF-014` pero añade infra de cola. |
 
 ---

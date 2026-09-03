@@ -733,7 +733,7 @@ El Content Engine rechaza la publicación si detecta:
 | `15_QUIZ_EXAM_SYSTEM.md` §3–§5/§12/§13/§15 | Tipos, dificultades, cantidades, selección, feedback y anti-trivialidad. |
 | `23_CONTENT_SPECIFICATION.md` | **Formato declarativo y almacenamiento** del contenido; este documento (`24`) es su norma de redacción. |
 | `25_ADMIN_SYSTEM.md` | Flujos de publicación, auditoría y configuración sin despliegue (`RF-ADM-004`). |
-| `27_UI_DESIGN.md` | Sistema visual y responsive que presenta explicaciones/ejemplos sin romper layout a 200% zoom. |
+| `27_UI_UX_SPECIFICATION.md` | Sistema visual y responsive que presenta explicaciones/ejemplos sin romper layout a 200% zoom. |
 
 ---
 

@@ -7,7 +7,7 @@
 
 ## 1. Propósito y alcance
 
-Este documento especifica **cómo se componen, seleccionan, califican y aprueban** los quizzes intermedios y exámenes finales por módulo. Es la referencia para `11_SYSTEM_ARCHITECTURE.md` (Evaluation Engine), `12_DATA_MODEL.md`, `13_API_SPEC.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
+Este documento especifica **cómo se componen, seleccionan, califican y aprueban** los quizzes intermedios y exámenes finales por módulo. Es la referencia para `11_SYSTEM_ARCHITECTURE.md` (Evaluation Engine), `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
 
 **Dentro del alcance:** tipos de pregunta, dificultades, cantidad, selección, puntuación, porcentajes, aprobación, reintentos, penalizaciones, retroalimentación, caracterización de quiz vs. examen, aleatorización/banco/ponderación anti-trivialidad, ejemplos de cálculo y reglas de negocio.
 

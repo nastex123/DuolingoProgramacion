@@ -2,13 +2,13 @@
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
 > **Zona horaria:** America/Bogota (UTC-5)
-> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md` y `07_USER_STORIES.md`. No duplica su contenido; lo materializa en flujos navegables. Cada flujo traza a ≥1 `RF-*` (`05`), ≥1 `UC-*` (`08` previsto) y ≥1 `US-*` (`07`). Los contratos de API se detallan en `13_API_SPEC.md` y el modelo de datos en `12_DATA_MODEL.md`.
+> Complementa a `01_PROJECT_OVERVIEW.md`, `02_PROBLEM_STATEMENT.md`, `03_OBJECTIVES.md`, `04_SCOPE.md`, `05_FUNCTIONAL_REQUIREMENTS.md`, `06_NON_FUNCTIONAL_REQUIREMENTS.md` y `07_USER_STORIES.md`. No duplica su contenido; lo materializa en flujos navegables. Cada flujo traza a ≥1 `RF-*` (`05`), ≥1 `UC-*` (`08` previsto) y ≥1 `US-*` (`07`). Los contratos de API se detallan en `13_API_SPECIFICATION.md` y el modelo de datos en `12_DATABASE_DESIGN.md`.
 
 ---
 
 ## 1. Propósito y alcance
 
-Este documento define **cómo navega el usuario** por la plataforma, paso a paso, con decisiones, estados y diagramas verificables. Es la referencia para diseño de UI (`10_INFORMATION_ARCHITECTURE.md`, `27_UI_DESIGN.md`), implementación de motores (`11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`) y pruebas E2E (`20_TESTING.md`).
+Este documento define **cómo navega el usuario** por la plataforma, paso a paso, con decisiones, estados y diagramas verificables. Es la referencia para diseño de UI (`10_INFORMATION_ARCHITECTURE.md`, `27_UI_UX_SPECIFICATION.md`), implementación de motores (`11_SYSTEM_ARCHITECTURE.md`, `14_LEARNING_SYSTEM.md`) y pruebas E2E (`20_TESTING.md`).
 
 **Fuera de alcance:** especificación de endpoints (`13`), esquema de BD (`12`), lógica interna de calificación (`15_QUIZ_EXAM_SYSTEM.md`) y analítica (`26_ANALYTICS.md`) — aquí solo se referencian.
 
@@ -58,7 +58,7 @@ Este documento define **cómo navega el usuario** por la plataforma, paso a paso
 
 ## 3. Mapa general de flujos
 
-Vista integrada del recorrido MVP (Python) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
+Vista integrada del recorrido MVP (Lua) desde primer inicio hasta certificado. Los flujos `F-01` a `F-15` son recortes de este mapa.
 
 ```mermaid
 flowchart TD
@@ -777,7 +777,7 @@ flowchart TD
 - **Objetivo:** Generar, verificar y exportar el certificado de finalización con ID único, QR y PDF.
 - **Actores:** UCert, UC
 - **Precondiciones:** Lenguaje `completado`, email verificado (`RF-AUTH-005`, `US-059`), datos mínimos de certificado disponibles (`RF-CERT-002`).
-- **Postcondiciones:** Certificado `emitido` con `CQ-{LANG}-{SEQ}` (`RF-CERT-003`), QR interno, PDF almacenado y verificación habilitada.
+- **Postcondiciones:** Certificado `emitido` con `KODA-{LANG}-{SEQ}` (`RF-CERT-003`), QR interno, PDF almacenado y verificación habilitada.
 - **Disparador:** Usuario selecciona "Obtener/Descargar certificado".
 - **Referencias:** UC-012, UC-013 (UC-CERT-01/02/03/04) · RF-CERT-001 a RF-CERT-006, RF-PDF-001 a RF-PDF-004, RF-AUTH-005, RF-PROF-005 · US-054, US-055, US-056, US-057, US-060 · RNF-014
 
@@ -785,7 +785,7 @@ flowchart TD
 
 1. Usuario solicita certificado → sistema verifica: lenguaje `completado`, email `verificado`, datos (nombre, documento, lenguaje, fecha, plataforma, estado — `RF-CERT-002`). Si falta verificación → CTA verificar email (`US-059`).
 2. Sistema verifica que no exista certificado `vigente` duplicado para el mismo lenguaje (`RF-CERT-005`, `US-058`).
-3. Sistema genera certificado con ID `CQ-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `CQ-PY-000001`, `01` §22).
+3. Sistema genera certificado con ID `KODA-{LANG}-{SEQ}` correlativo por lenguaje (`RF-CERT-003`, ej. `KODA-LUA-000001`, `01` §22).
 4. Sistema genera QR para verificación interna (`RF-CERT-004`) y plantilla PDF versionada (`RF-PDF-001`).
 5. Sistema almacena PDF de forma recuperable vía interfaz S3-compatible (`RF-PDF-002/004`) y garantiza correspondencia bit-a-bit con datos del certificado vigente (`RF-PDF-003`).
 6. Sistema permite descarga autenticada solo al titular (`RF-PDF-002`) y exposición en perfil (`RF-PROF-005`, `US-060`).
@@ -814,7 +814,7 @@ flowchart TD
     D -->|No| E[Mostrar faltantes]
     D -->|Sí| F{¿Duplicado vigente?<br/>RF-CERT-005}
     F -->|Sí| G[Mantener existente<br/>US-058]
-    F -->|No| H[Generar ID CQ-LANG-SEQ<br/>RF-CERT-003]
+    F -->|No| H[Generar ID KODA-LANG-SEQ<br/>RF-CERT-003]
     H --> I[Generar QR<br/>RF-CERT-004]
     I --> J[Generar PDF<br/>RF-PDF-001]
     J --> K[Almacenar S3-compatible<br/>RF-PDF-002/004]
@@ -1024,7 +1024,7 @@ stateDiagram-v2
     state "Certificado" as cert {
         [*] --> no_aplicable
         no_aplicable --> generable: F-12 todos aprobados
-        generable --> emitido: F-13 genera CQ-LANG-SEQ
+        generable --> emitido: F-13 genera KODA-LANG-SEQ
         emitido --> obsoleto: RF-CERT-005 cambio contenido
         obsoleto --> emitido: revalidación
     }
@@ -1061,7 +1061,7 @@ stateDiagram-v2
 - `06_NON_FUNCTIONAL_REQUIREMENTS.md` — RNF-001..045, verificación §5
 - `07_USER_STORIES.md` — 72 US, épicas E01–E10, trazabilidad §5
 - `08_USE_CASES.md` — pendiente (UC previstos en `05`/`07`)
-- `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATA_MODEL.md`, `13_API_SPEC.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md` — detalle de implementación de cada flujo
+- `10_INFORMATION_ARCHITECTURE.md`, `11_SYSTEM_ARCHITECTURE.md`, `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md` — detalle de implementación de cada flujo
 
 ---
 

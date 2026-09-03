@@ -1,7 +1,7 @@
 # 11 — Arquitectura del Sistema
 
 > **Estado:** En planificación · **Versión del documento:** 1.0.0 · **Fecha:** 2026-08-29
-> Complementa a `01_PROJECT_OVERVIEW.md` §24–§31, `03_OBJECTIVES.md` §6 (OT-01 a OT-04), `04_SCOPE.md` §5 y §9, `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF) y `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-005/006/030–032). No duplica su contenido; lo materializa en decisiones, componentes y flujos verificables. El detalle de datos, API y cada motor se expande en `12_DATA_MODEL.md`, `13_API_SPEC.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
+> Complementa a `01_PROJECT_OVERVIEW.md` §24–§31, `03_OBJECTIVES.md` §6 (OT-01 a OT-04), `04_SCOPE.md` §5 y §9, `05_FUNCTIONAL_REQUIREMENTS.md` (128 RF) y `06_NON_FUNCTIONAL_REQUIREMENTS.md` (RNF-005/006/030–032). No duplica su contenido; lo materializa en decisiones, componentes y flujos verificables. El detalle de datos, API y cada motor se expande en `12_DATABASE_DESIGN.md`, `13_API_SPECIFICATION.md`, `14_LEARNING_SYSTEM.md`, `15_QUIZ_EXAM_SYSTEM.md`, `16_GAMIFICATION.md`, `17_CERTIFICATION.md`, `18_MONETIZATION.md`, `23_CONTENT_SPECIFICATION.md` y `25_ADMIN_SYSTEM.md`.
 
 ---
 
@@ -192,38 +192,34 @@ sequenceDiagram
 
 ### 3.1 Responsabilidad
 
-Renderizar la experiencia de aprendizaje, perfil, ruta y administración. **No contiene lógica de evaluación ni de certificación**; toda decisión de aprobación/XP se toma en servidor (`05` RF-EVAL-006, `06` RNF-033/034).
+Renderizar la experiencia de aprendizaje, catálogo, perfil, ruta, verificación pública y administración. **No contiene lógica de evaluación ni de certificación**; toda decisión de aprobación/XP se toma en servidor (`05` RF-EVAL-006, `06` RNF-033/034).
 
-### 3.2 Decisiones justificadas
+### 3.2 Decisiones justificadas (Stack Oficial)
 
-| Aspecto | Opciones | Recomendación MVP | Por qué |
+| Aspecto | Tecnología Seleccionada | Justificación |
+|---|---|---|
+| **Framework** | **Next.js (App Router, TypeScript)** | Monorepo PNPM Workspaces con contratos `@koda/types`. Ofrece SEO nativo con SSG/ISR para el catálogo y verificación de certificados (`/verificar/[code]`) con OpenGraph dinámico para compartir en LinkedIn/redes, y componentes interactivos (`"use client"`) para lecciones. |
+| **Render** | **Híbrido (SSG/ISR en páginas públicas + SPA en `/app/*`)** | Carga inicial $< 1.5\text{ s}$ en 4G (`RNF-011`); renderizado SEO optimizado en landing, catálogo de lenguajes y verificación de certificados. |
+| **Estado y Caché** | **Zustand (local UI) + TanStack Query (Server Cache)** | Gestión ligera de modales, racha y stepper con Zustand; sincronización, revalidación y caché de lecciones y progreso con TanStack Query. |
+| **Estilos & UI** | **Tailwind CSS + Shadcn UI** | Sistema de diseño basado en *tokens* cromáticos y tipográficos (`27_UI_UX_SPECIFICATION.md`), foco accesible y cumplimiento WCAG 2.1 AA (`RNF-026`). |
+| **Interactividad y Mascota** | **PixiJS (v7 WebGL)** | Mascota interactiva (**🦊 Koda**), reacciones emocionales en tiempo real y partículas de confeti aceleradas por hardware sin penalizar el hilo principal. |
+| **Editor de Código Multi-Lenguaje** | **Monaco Editor / CodeMirror 6** | Soporte universal nativo de resaltado, auto-completado y sintaxis para **+50 lenguajes** (Lua, Python, Rust, C, C++, C#, Go, JS/TS, SQL, etc.). |
+| **Ejecución de Código en Cliente** | **WebAssembly (wasmoon para Lua, Pyodide para Python, Workers)** | Ejecución de scripts en el navegador con latencia $< 15\text{ ms}$ y coste de cómputo en servidor $0. |
+
+### 3.3 Módulos del frontend (Plantilla Universal Dinámica)
+
+| Módulo | Ruta Next.js | RF principal | Notas |
 |---|---|---|---|
-| Framework | React / Vue / Svelte / Angular | **React o Vue** (el equipo elige uno) | Ecosistema maduro, SSR/SSG disponible, accesibilidad probada, mobile-first sencillo. No se impone uno en este doc; se exige que el elegido cumpla `RNF-024`–`RND-028` y tenga ADR. |
-| Render | SPA + SSR opcional | **SPA con code-splitting por ruta** | Carga inicial < 1,5 s en 4G (`RNF-011`); SSR se añade solo si SEO/analytics lo exige. |
-| Estado | Zustand / Pinia / Redux | **Store ligero + React Query / TanStack Query** | Cache de lecciones y progreso con revalidación; evita estado global innecesario. |
-| Estilos | Tailwind / CSS Modules / UI kit | **Design system propio + tokens** | Garantiza contraste AA y foco visible (`RNF-026`); documentado en `27_UI_DESIGN.md`. |
-| Offline | PWA / nada en MVP | **Nada en MVP** (`04` §4) | Sincronización añade complejidad; se diseña el hook pero no se implementa. |
-| Ads | Iframe / SDK abstracto | **Wrapper abstracto async** | Cumple `RF-ADS-003` (no bloquea) y `RNF-014` (degradado). |
-
-### 3.3 Módulos del frontend
-
-| Módulo | Ruta | RF principal | Notas |
-|---|---|---|---|
-| Auth | `/login`, `/registro`, `/recuperar`, `/verificar` | RF-AUTH-* | Mensajes `RNF-022`, rate limit visible |
+| Auth | `/login`, `/registro`, `/recuperar`, `/verificar` | RF-AUTH-* | Mensajes accesibles `RNF-022`, rate limit visible |
 | Onboarding | `/lenguajes`, `/nivel`, `/diagnostico` | RF-LANG/LVL/DIAG | Recomendación explicada (`RF-DIAG-003`) |
-| Ruta | `/ruta/:lang` | RF-RUTA/MOD | Estados bloqueado/disponible/aprobado + % |
-| Aprendizaje | `/aprender/:mod/:sec/:lec` | RF-SEC/LEC/PREG | Breadcrumb `RNF-021`, reanudable `RNF-023` |
-| Evaluación | `/quiz/:id`, `/examen/:id`, `/revision/:id` | RF-QUIZ/EXAM/EVAL | Calificación < 2 s (`RNF-012`), revisión sin banco completo |
-| Perfil | `/perfil`, `/perfil/logros`, `/perfil/certificados` | RF-PROF/PROG/RACHA/LOGRO | Visual sin tutorial (`RNF-023` OUX-05) |
-| Certificado | `/certificados/:id`, `/verificar/:id` | RF-CERT/PDF | QR interno, descarga autenticada |
+| Ruta (Roadmap) | `/ruta/[lang]` | RF-RUTA/MOD, RF-CANDADO-* | Plantilla universal `<RoadmapView />` que dibuja módulos, candados y estrellas dinámicamente |
+| Aprendizaje | `/aprender/[mod]/[sec]/[lec]` | RF-SEC/LEC/PREG, RF-ESTRELLA-* | Espacio de trabajo dividido 50/50, selector stepper de 10 píldoras y feedback anti-spoilers |
+| Cuaderno Errores | `/cuaderno` | RF-CUADERNO-* | Práctica deliberada de errores persistentes con remediación (+5 XP) |
+| Evaluación | `/quiz/[id]`, `/examen/[id]` | RF-QUIZ/EXAM/EVAL | Calificación < 2 s (`RNF-012`), compuerta de maestría ($\ge 80\%$) |
+| Perfil | `/perfil`, `/perfil/logros`, `/perfil/certificados` | RF-PROF/PROG/RACHA/LOGRO | Estadísticas, racha con Koda y listado de diplomas oficiales |
+| Certificado | `/certificados/[id]`, `/verificar/[id]` | RF-CERT/PDF | Verificación pública SSG/ISR con metadatos OpenGraph y descarga autenticada |
 | Admin | `/admin/*` | RF-ADM-* | RBAC, auditoría, validación `RF-ADM-006` |
-| Monetización | Intersticial entre secciones | RF-ADS/PREM | Nunca intra-ejercicio (`RF-ADS-002`) |
-
-### 3.4 Reglas
-
-- Todo contenido (título, explicación, ejemplo, pregunta) viene de `Content Engine` vía API; **grep en CI falla si hay literales de contenido hardcodeados** (`RNF-031`).
-- Reintentos usan `Idempotency-Key` (`RNF-042`).
-- Publicidad se carga async y su fallo nunca bloquea `Siguiente sección` (`RNF-014`).
+| Monetización | Intersticial entre secciones | RF-ADS/PREM | Wrapper abstracto async; nunca intra-ejercicio (`RF-ADS-002`) |
 
 ---
 
@@ -231,70 +227,71 @@ Renderizar la experiencia de aprendizaje, perfil, ruta y administración. **No c
 
 ### 4.1 Responsabilidad
 
-Exponer la API, orquestar motores, aplicar reglas de negocio y persistir de forma atómica.
+Exponer la API REST `/api/v1`, orquestar los 9 motores desacoplados, aplicar reglas pedagógicas/gamificadas y persistir de forma atómica en Supabase PostgreSQL.
 
-### 4.2 Decisiones justificadas
+### 4.2 Decisiones justificadas (Stack Oficial)
 
-| Aspecto | Opciones | Recomendación MVP | Por qué |
-|---|---|---|---|
-| Lenguaje/Runtime | Node.js (NestJS/Express) / Python (FastAPI/Django) / Go / Java (Spring) | **Node.js (NestJS) o Python (FastAPI)** — el equipo elige uno | Ambos tienen validación declarativa, OpenAPI auto-generado y ORMs maduros. Se exige ADR que justifique la elección con criterios: contratación, rendimiento p95 < 300 ms (`RNF-001`) y cobertura ≥ 70% (`RNF-016`). No se asume uno aquí. |
-| Arquitectura interna | Monolito modular / Microservicios | **Monolito modular** (ver §2.1) | Menor costo operativo en MVP; fronteras por motor permiten extraer servicios sin reescribir. |
-| Validación | Zod / Joi / Pydantic / class-validator | **Validación declarativa en DTOs + validación en BD (FKs)** | Cumple `RNF-009` y `RNF-036` (doble capa). |
-| Autenticación | JWT + refresh / Sesión en BD | **JWT corto (15 min) + refresh rotativo en httpOnly cookie** | Stateless para `RNF-005`; refresh rotativo mitiga robo de token (`19_SECURITY.md`). |
-| Concurrencia | Transacciones / colas | **Transacciones ACID para intentos + cola async para email/PDF** | `RNF-033` exige atomicidad; email y PDF no bloquean feedback (`RNF-010`). |
+| Aspecto | Tecnología Seleccionada | Justificación |
+|---|---|---|
+| **Lenguaje / Runtime** | **Node.js (NestJS con TypeScript)** | Arquitectura modular nativa con inyección de dependencias (`@Module()`), tipado 100% compartido con Next.js vía monorepo PNPM Workspaces (`@koda/types`), y OpenAPI generado automáticamente. |
+| **Arquitectura interna** | **Monolito modular desacoplado** | Los 9 motores funcionan como módulos independientes con límites estrictos de importación; escalable horizontalmente y extraíble a microservicios si se requiere. |
+| **Validación y DTOs** | **Zod / class-validator + DTOs estrictos** | Validación estricta en servidor de entradas antes de llegar a los motores (`RNF-009`, `RNF-036`). |
+| **Autenticación** | **JWT Stateless (15 min) + Refresh rotativo en HttpOnly Cookie** | Stateless para escalabilidad (`RNF-005`); refresh rotativo con detección de reuso mitiga robo de token (`19_SECURITY.md`). |
+| **Motor de Ejecución Multi-Lenguaje** | **Interfaz `ICodeRunner` (Wasm + Sandbox Judge0/Piston)** | Ejecución cliente (Wasm) para Lua/Python/JS; delegación a sandbox seguro (Judge0 / Piston en Docker) para lenguajes compilados (Rust, C, C++, C#, Go). |
+| **Concurrencia y Transacciones** | **Transacciones ACID en Supabase PostgreSQL + Colas Async** | Integridad absoluta en otorgamiento de XP y estrellas (`RNF-033`); tareas pesadas de subida a Google Drive no bloquean la respuesta HTTP. |
 
-### 4.3 Estructura de carpetas (backend monolito modular)
+### 4.3 Estructura de carpetas (backend NestJS monolito modular)
 
 ```
 src/
 ├── modules/
-│   ├── auth/               # RF-AUTH/USR — hash, tokens, RBAC
-│   ├── users/              # RF-USR/PROF — perfil, avatar
-│   ├── languages/          # RF-LANG — catálogo, selección
-│   ├── learning/           # RF-LVL/DIAG/RUTA/MOD/SEC/LEC
-│   ├── questions/          # RF-PREG — banco, versionado
-│   ├── evaluation/         # RF-EVAL/QUIZ/EXAM — calificación
-│   ├── progress/           # RF-PROG — progreso atómico
-│   ├── gamification/       # RF-XP/RACHA/LOGRO + repaso RF-REP
-│   ├── certification/      # RF-CERT/PDF
+│   ├── auth/               # RF-AUTH/USR — hash Argon2id, tokens JWT, RBAC
+│   ├── users/              # RF-USR/PROF — perfil, avatar, preferencias
+│   ├── languages/          # RF-LANG — catálogo de lenguajes (Lua, Python, etc.)
+│   ├── learning/           # RF-LVL/DIAG/RUTA/MOD/SEC/LEC — candados y roadmap
+│   ├── questions/          # RF-PREG — banco versionado (11 tipos polimórficos)
+│   ├── evaluation/         # RF-EVAL/QUIZ/EXAM — evaluador determinista en servidor
+│   ├── progress/           # RF-PROG, RF-ESTRELLA-* — estrellas y desbloqueos
+│   ├── notebook/           # RF-CUADERNO-* — cuaderno de errores persistente
+│   ├── gamification/       # RF-XP/RACHA/LOGRO — economía XP, niveles y rachas
+│   ├── certification/      # RF-CERT/PDF — generación PDF + Google Drive API
+│   ├── runner/             # ICodeRunner — integración Judge0 / Piston / Wasm
 │   ├── monetization/       # RF-ADS/PREM — Ads/Pay adapters
-│   └── content/            # RF-ADM — Content Engine (ver §15)
+│   └── content/            # RF-ADM — Content Engine y validación declarativa
 ├── common/
-│   ├── dto/                # Validación + OpenAPI decorators
-│   ├── guards/             # Auth, RBAC, rate limit
-│   ├── interceptors/       # request_id, logging, Idempotency-Key
-│   └── config/             # Umbrales, XP, feature flags versionados
+│   ├── dto/                # DTOs compartidos (@koda/types)
+│   ├── guards/             # AuthGuard, RolesGuard, RateLimitGuard
+│   ├── interceptors/       # RequestIdInterceptor, IdempotencyInterceptor
+│   └── config/             # Configuración versionada de umbrales y XP
 ├── infra/
-│   ├── db/                 # Migraciones, entidades, índices
-│   ├── storage/            # Adapter S3-compatible
-│   ├── email/              # Adapter intercambiable
-│   ├── ads/                # Adapter abstracto
-│   ├── payments/           # Adapter abstracto
-│   └── cache/              # KV para rate limit / sesiones
+│   ├── db/                 # Supabase PostgreSQL (Prisma / Drizzle ORM)
+│   ├── storage/            # GoogleDriveStorageService (Service Account)
+│   ├── email/              # EmailAdapter (Resend / SendGrid)
+│   ├── ads/                # AdsAdapter abstracto
+│   └── cache/              # Redis (rate limiting y caché de contenido)
 └── main.ts / app.module.ts
 ```
 
-> Regla de dependencia (`06` RNF-030): un import de `gamification` hacia `evaluation` está **prohibido**. `evaluation → progress → gamification` es el flujo permitido. Un linter de grafo de imports en CI debe fallar si se viola.
+> Regla de dependencia (`06` RNF-030): un import directo de `gamification` hacia `evaluation` está **prohibido**. El flujo canónico es `evaluation → progress → gamification`.
 
 ---
 
-## 5. Base de datos
+## 5. Base de datos y Almacenamiento
 
 ### 5.1 Responsabilidad
 
-Persistencia autoritativa (source of truth) de usuarios, contenido versionado, progreso, intentos, XP, rachas, logros y certificados.
+Persistencia autoritativa (source of truth) de usuarios, progreso, estrellas, candados, intentos, XP, cuaderno de errores y diplomas oficiales.
 
 ### 5.2 Decisiones justificadas
 
-| Aspecto | Opciones | Recomendación MVP | Por qué |
-|---|---|---|---|
-| Motor | PostgreSQL / MySQL / SQLite | **PostgreSQL** | FKs, transacciones, JSONB para metadatos de pregunta, índices parciales, `EXPLAIN ANALYZE` para `RNF-007`; maduro y S3-compatible en hosting. Alternativa MySQL es válida si el equipo la domina — se exige ADR. SQLite solo para tests. |
-| Migraciones | Versionadas / auto-sync | **Migraciones versionadas** (`12_DATA_MODEL.md`) | Trazabilidad y rollback (`RNF-019`, `RNF-043`). |
-| Versionado de contenido | Tabla de versiones / event sourcing | **Tabla `content_versions` + FK por intento** | Cumple `RNF-035` (intento guarda versión evaluada) sin complejidad de event sourcing en MVP. |
-| Archivos | BD / Object Storage | **Object Storage S3-compatible para PDFs/avatars; solo referencia en BD** | `RF-PDF-004`; evita bloat de BD y permite CDN futuro (`RNF-004`). |
-| Cache | Redis / Memcached / en memoria | **Redis o equivalente KV** | Rate limit, sesiones de refresh y cache de contenido publicado. No es crítico para lecciones en degradado (`RNF-014`). |
+| Aspecto | Tecnología Seleccionada | Justificación |
+|---|---|---|
+| **Base de Datos Principal** | **Supabase (PostgreSQL 15+)** | Soporte nativo de transacciones ACID, tipos `JSONB` para preguntas polimórficas, triggers PL/pgSQL para recálculo de maestría y desbloqueo de módulos, e índices para consultas $p95 < 100\text{ ms}$ (`RNF-007`). |
+| **ORM / Acceso a Datos** | **Prisma ORM o Drizzle ORM** | Tipado estricto end-to-end con TypeScript, migraciones versionadas y consultas optimizadas. |
+| **Almacenamiento de Certificados (PDF)** | **Google Drive API v3 (Service Account)** | Guardado automático 100% en backend en carpetas organizadas (`Koda_Certificados/{lang}/`). Caching por `google_drive_file_id` para evitar re-generaciones y entrega mediante streaming autenticado. |
+| **Caché y Rate Limiting** | **Redis** | Rate limit en ventanas deslizantes y caché de contenido publicado sin sobrecargar la base de datos. |
 
-### 5.3 Entidades principales (resumen — detalle en `12_DATA_MODEL.md`)
+### 5.3 Entidades principales (resumen — detalle en `12_DATABASE_DESIGN.md`)
 
 ```
 users ──< user_languages ──> languages ──< modules ──< sections ──< lessons
@@ -305,7 +302,7 @@ users ──< user_languages ──> languages ──< modules ──< sections 
   │              └─< xp_events (usuario, acción, XP, ref, fecha)
   │              └─< streak_days (usuario, fecha, actividad)
   │              └─< user_achievements (usuario×logro, fecha)
-  │              └─< certificates (usuario×lenguaje, ID CQ-*, versión, estado)
+  │              └─< certificates (usuario×lenguaje, ID KODA-*, versión, estado)
   │              └─< subscriptions (usuario, estado activa/expirada/cancelada)
   └─< audit_log (quién, qué, cuándo, versión anterior/nueva)  ← RF-ADM-008
 ```
@@ -336,7 +333,7 @@ Contrato estable entre frontend y backend. Versionada, autenticada y documentada
 | Paginación | offset / cursor | **Cursor para historiales; offset para catálogos pequeños** | `RNF-003` — ningún listado > 100 ítems sin paginación. |
 | Errores | Envelope estándar | **Envelope `{ code, message, request_id, details? }`** | `RNF-041` — nunca stack traces al cliente. |
 
-### 6.3 Grupos de endpoints (resumen — detalle en `13_API_SPEC.md`)
+### 6.3 Grupos de endpoints (resumen — detalle en `13_API_SPECIFICATION.md`)
 
 | Grupo | Prefijo | Auth | RF principal |
 |---|---|---|---|
@@ -519,16 +516,32 @@ Preguntas (versión) → Respuestas del usuario → Evaluation Engine
 
 | Función | Detalle | RF |
 |---|---|---|
-| Condición | Todos los módulos/exámenes del lenguaje aprobados con umbral vigente | RF-CERT-001, `04` §7 |
-| Datos | Nombre, documento, lenguaje, fecha, ID único, plataforma, estado (`01` §21) | RF-CERT-002 |
-| ID | `CQ-{LANG}-{SEQ}` ej. `CQ-PY-000001`, correlativo por lenguaje con lock optimista | RF-CERT-003 |
-| QR | Código QR con URL de verificación interna | RF-CERT-004 |
-| Verificación | Por ID/QR: validez, lenguaje, fecha, titular (sin PII de terceros) | RF-CERT-006 |
-| Re-emisión | Cambio significativo de contenido → certificado obsoleto; revalidación requerida; nunca dos vigentes por lenguaje | RF-CERT-005 |
-| PDF | Plantilla versionada, QR incluido, bit-a-bit fiel al certificado vigente; storage S3-compatible; descarga autenticada solo titular | RF-PDF-001/002/003/004 |
-| Requisito previo | Email verificado antes de emitir | RF-AUTH-005 |
+| **Condición** | 12/12 módulos aprobados con examen $\ge 80\%$, umbral de estrellas y email verificado | RF-CERT-001, `04` §7 |
+| **Datos Oficiales** | Titular, documento, lenguaje, fecha America/Bogota, ID correlativo `KODA-{LANG}-{SEQ}`, código QR y aclaración normativa | RF-CERT-002 |
+| **ID Correlativo** | `KODA-{LANG}-{SEQ}` ej. `KODA-LUA-000001`, `KODA-PY-000001` generado atómicamente con lock en Supabase | RF-CERT-003 |
+| **Generación 100% Backend** | Renderizado PDF server-side en NestJS (`@react-pdf/renderer` o `pdfkit` + `qrcode`) con sello y firma digital de la plataforma | RF-PDF-001 |
+| **Detección Previa y Caching** | El backend verifica si ya existe un certificado emitido con `google_drive_file_id`. Si ya existe, **no se re-genera**; se sirve directamente por streaming | RF-PDF-003 |
+| **Almacenamiento en Google Drive** | Subida automática mediante Google Drive API v3 con Cuenta de Servicio (*Service Account*) en carpeta `Koda_Certificados/{lang}/` | RF-PDF-004 |
+| **Descarga Autenticada y Streaming** | Endpoint `GET /api/v1/certificates/{id}/pdf` exclusivo para el titular; transmite el binario por streaming seguro desde Google Drive | RF-PDF-002 |
+| **Verificación Pública** | Por ID/QR (`/verificar/{code}`): valida autenticidad, lenguaje y fecha enmascarando documento (`CC ***678`) sin exponer PII | RF-CERT-006 |
+| **Re-emisión por Contenido** | Cambio significativo de contenido marca el certificado como `obsolete`; exige revalidación y genera nuevo correlativo | RF-CERT-005 |
 
-**Estados:** `vigente` → `obsoleto` (por contenido) → `revalidado` (nuevo vigente).
+```
+Flujo de Certificación en Backend (NestJS CertificationModule):
+
+1. Solicitud del usuario (GET /certificates/{id}/pdf o POST /certificates:issue)
+2. Validar elegibilidad (C-01..C-07 en Supabase PostgreSQL)
+3. ¿Ya existe certificado 'valid' con google_drive_file_id en Supabase?
+   ├── SÍ (Caché activo):
+   │     └── Obtener stream de Google Drive API (files.get alt=media) → Pipe a HTTP Response (Descarga directa <200ms)
+   └── NO (Primera emisión):
+          ├── Asignar correlativo atómico en Supabase (KODA-LUA-000001)
+         ├── Renderizar PDF + QR code en servidor Node.js
+         ├── Subir binario a Google Drive API v3 vía Service Account
+         ├── Obtener google_drive_file_id y calcular SHA-256
+         ├── Guardar registro en Supabase (certificates)
+         └── Pipe del PDF generado a HTTP Response
+```
 
 ---
 
@@ -627,7 +640,7 @@ content/
 | **Evaluation Engine** | Calificar, umbrales, desglose, conceptos débiles | Persistir progreso, XP | Question, Content |
 | **Progress Engine** | Persistencia atómica, % por lenguaje/módulo, historial | Calificar, gamificar | BD |
 | **Gamification Engine** | XP, niveles, rachas, logros | Calificar, certificar | Progress, Config |
-| **Certification Engine** | Condición, ID `CQ-*`, QR, PDF, verificación | Enseñar, evaluar | Progress, Storage |
+| **Certification Engine** | Condición, ID `KODA-*`, QR, PDF, verificación | Enseñar, evaluar | Progress, Storage |
 | **Monetization** | Ads (gratuito) / Premium (sin ads) + pagos abstractos | Contenido, evaluación | Ads/Pay providers |
 | **Content Engine** | CRUD, versionado, validación, publicación, config | Calificar, progresar | BD, KV |
 
@@ -674,7 +687,7 @@ Quiz/Examen compuesto (Content config + Question Engine)
 ```
 ¿Todos los exámenes aprobados? (Progress Engine)
   → ¿Email verificado? (Auth)
-  → Certification Engine genera ID CQ-{LANG}-{SEQ} + QR
+  → Certification Engine genera ID KODA-{LANG}-{SEQ} + QR
   → Render PDF (plantilla versionada) → Object Storage
   → Verificación interna por ID/QR (pública Post-MVP)
 ```
@@ -746,19 +759,19 @@ flowchart LR
 
 ## 19. Decisiones justificadas — tabla consolidada
 
-| Decisión | Opción A (recomendada MVP) | Opción B (Post-MVP / alternativa) | Criterio de elección | ADR requerido |
-|---|---|---|---|---|
-| Estilo arquitectónico | Monolito modular | Microservicios por motor | Operación simple en MVP; extraer solo si un motor es cuello de botella aislado | Sí |
-| Lenguaje backend | NestJS **o** FastAPI (elegir uno) | Go / Spring | Contratación + p95 < 300 ms + cobertura ≥ 70% | Sí |
-| BD | PostgreSQL | MySQL | JSONB, índices parciales, tooling; MySQL válido con ADR | Sí |
-| Frontend | React **o** Vue (elegir uno) | Svelte / Angular | Ecosistema + WCAG + mobile-first | Sí |
-| API | REST `/v1` + OpenAPI | GraphQL | Cacheable, simple; GraphQL solo si analytics lo exige | No (ya decidido en `03` OT-04) |
-| Auth | JWT corto + refresh rotativo | Sesión en BD | Stateless para `RNF-005` | No |
-| Storage | S3-compatible (MinIO / AWS S3 / R2) | Almacenamiento en BD | PDFs fuera de BD, CDN futuro | Sí (elección de proveedor) |
-| Cache/KV | Redis | Memcached / KV embebido | Rate limit + refresh + cache de contenido | Sí |
-| Ads | Wrapper async abstracto | SDK hardcodeado | `RNF-014` degradado + `RF-ADS-005` | No |
-| Pagos | Interfaz abstracta | Stripe hardcodeado | `RF-PREM-004`, `04` §4 | Sí (al elegir proveedor) |
-| Contenido | JSON/YAML declarativo + `content_versions` | CMS headless externo | Simplicidad MVP; CMS solo si `25` lo justifica | Sí si se adopta CMS |
+| Decisión | Elección Oficial Koda | Alternativa evaluada | Justificación y Ventajas |
+|---|---|---|---|
+| **Estilo arquitectónico** | **Monolito modular desacoplado** | Microservicios distribuidos | Menor sobrecarga operativa en MVP; fronteras limpias por motor permiten extraer módulos independientes si la carga lo demanda. |
+| **Frontend** | **Next.js 14+/15 (App Router, TypeScript)** | React Vite SPA puro | SEO nativo / OpenGraph para catálogo y verificación pública de diplomas (`/verificar/[code]`) + componentes interactivos `"use client"` para lecciones. |
+| **Backend** | **NestJS (TypeScript)** | FastAPI / Django / Go | TypeScript end-to-end con monorepo PNPM Workspaces (`@koda/types`), arquitectura `@Module()` nativa para los 9 motores desacoplados y OpenAPI automático. |
+| **Base de Datos** | **Supabase (PostgreSQL 15+)** | PostgreSQL auto-hospedado / MySQL | Transacciones ACID, tipos `JSONB` polimórficos, triggers PL/pgSQL de candados y plataforma gestionada de alta disponibilidad. |
+| **Editor de Código** | **Monaco Editor / CodeMirror 6** | PrismJS | Soporte universal nativo de sintaxis, auto-completado y coloreado para +50 lenguajes de programación. |
+| **Ejecución de Código** | **Híbrida: Wasm (Lua/Python/JS) + Judge0/Piston Sandbox** | Solo servidor | Wasm en navegador para cero latencia y costo $0 en scripting; sandbox seguro en backend para lenguajes compilados (Rust, C, C++, C#, Go). |
+| **Almacenamiento PDFs** | **Google Drive API v3 (Service Account)** | S3 / MinIO / BD Blobs | Generación 100% server-side en NestJS, almacenamiento persistente en Drive y caché por `google_drive_file_id` para descarga instantánea sin re-generar. |
+| **API REST** | **REST `/api/v1` + OpenAPI 3.0.3** | GraphQL | Cacheable con ETag, estándar universal para integraciones y validación por contratos en CI/CD. |
+| **Auth** | **JWT Stateless (15 min) + Refresh rotativo en HttpOnly Cookie** | Sesión en BD | Escalabilidad horizontal sin estado en backend (`RNF-005`) y protección anti-XSS/CSRF. |
+| **Cache / Rate Limit** | **Redis** | Memcached | Ventana deslizante para rate limiting y caché de lecciones publicadas. |
+| **Contenido** | **JSON/YAML desacoplado + `content_versions`** | CMS headless | Incorporación de nuevos lenguajes como plantilla universal sin modificar código de motores ni frontend. |
 
 > **Regla de no-asunción (`06` §2.4):** ninguna de estas elecciones se da por sentada. Cada fila con "ADR requerido = Sí" debe tener un ADR en `09-decisions/` antes de implementarse. Este documento propone, no impone.
 
@@ -829,7 +842,7 @@ Referencia completa en `19_SECURITY.md`; aquí los invariantes arquitectónicos:
 | Evaluación en cliente | Fraude de XP/certificados | `RF-EVAL-006`: calificación solo en servidor; cliente nunca decide aprobación |
 | Acoplamiento entre motores | Cambio en Gamificación rompe Evaluación | Linter de grafo de imports en CI + contratos por interfaz (`RNF-030`) |
 | Publicidad bloquea aprendizaje | Viola `RF-ADS-002` y `RNF-014` | Wrapper async + degradado; test de caos con ads deshabilitados |
-| Certificados duplicados o falsos | Pérdida de confianza | ID `CQ-*` con lock + un vigente por lenguaje + verificación interna + PDF bit-a-bit |
+| Certificados duplicados o falsos | Pérdida de confianza | ID `KODA-*` con lock + un vigente por lenguaje + verificación interna + PDF bit-a-bit |
 | Pérdida de progreso por fallo de red | Abandono | Persistencia atómica + `Idempotency-Key` + reanudación `RNF-023/044` |
 | Elección tecnológica prematura | Deuda y re-trabajo | ADRs obligatorios; este doc propone opciones, no impone stack |
 
